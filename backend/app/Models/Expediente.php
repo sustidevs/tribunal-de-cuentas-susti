@@ -78,7 +78,7 @@ class Expediente extends Model
 
         return $array;
     }
-    
+
     public static function index()
     {
         $cuerpos = Cuerpo::all();
@@ -109,7 +109,7 @@ class Expediente extends Model
 
     public static function filtrarExpedientes($user_id,$estado,$bandeja,$array_cuerpo)
     {
-        
+
         //return $user;
         //$cuerpos = Cuerpo::all();
         //$array_cuerpo = collect([]);
@@ -132,7 +132,7 @@ class Expediente extends Model
 
         // }
 
-        
+
         $user = User::findOrFail($user_id);
         //BANDEJA DE ENTRADA
         if ($bandeja == 1)
@@ -145,7 +145,7 @@ class Expediente extends Model
                     $array->push([
                         'prioridad'=>$cuerpo->caratula->expediente->prioridadExpediente->descripcion,
                         'nro_expediente'=>$cuerpo->caratula->expediente->nro_expediente,
-                        //'extracto'=>$cuerpo->caratula->extracto->descripcion,
+                        //'extracto'=>$cuerpo->caratula->extracto->descripcion,W
                         //'fecha_creacion'=>$cuerpo->caratula->expediente->created_at->format('d-m-Y'),
                         //'tramite'=>$cuerpo->caratula->expediente->tipoExpediente->descripcion,
                         //'cuerpos'=>$cuerpo->caratula->cuerpos()->count('id'),
@@ -187,7 +187,7 @@ class Expediente extends Model
                         "estado"=>$cuerpo->estado,
                     ]);
                 }
-                
+
             }
 
             $array = $array->where('area_id',$user->area_id)
@@ -219,7 +219,7 @@ class Expediente extends Model
                         "user_id"=>$cuerpo->estadoActual()->user_id,
                     ]);
                 }
-                
+
             }
 
             $array = $array->where('area_id',$user->area_id)
@@ -291,7 +291,7 @@ class Expediente extends Model
                     //"estado"=>$cuerpo->estadoActual()->estado,
                 ]);
             }
-            
+
         }
         return $array_expediente;
     }
@@ -302,23 +302,23 @@ class Expediente extends Model
     public static function buscarPor($valor,$busqueda)
     {
         $lista_expedientes = Collect([]);
-        switch ($busqueda) 
+        switch ($busqueda)
         {
             case "1": //Busca por nro_expediente
                 $expediente = Expediente::where('nro_expediente', $valor)->get()->first();//Deberia retornar solo un expediente
-                if ($expediente != null) 
+                if ($expediente != null)
                 {
                     $lista_expedientes->push($expediente->getDatos());
                 }
                 break;
-                
+
             case "2": //Busca por cuit iniciador
                 $iniciador = Iniciador::where('cuit',$valor)->get()->first();
-            
-                if ($iniciador != null) 
+
+                if ($iniciador != null)
                 {
                     //Recorro las caratulas del iniciador para obtener los expedientes
-                    foreach ($iniciador->caratulas as $caratula) 
+                    foreach ($iniciador->caratulas as $caratula)
                     {
                         $lista_expedientes->push($caratula->expediente->getDatos());
                     }
@@ -326,7 +326,7 @@ class Expediente extends Model
                 break;
             case "3"://Busca por nro_cheque o nro_transaccion
                 $pago = Pago::where('nro', $valor)->get()->first();//Deberia retornar solo un expediente
-                if ($pago != null) 
+                if ($pago != null)
                 {
                     $lista_expedientes->push($pago->expediente->getDatos());
                 }
@@ -334,7 +334,7 @@ class Expediente extends Model
             case "4"://Busca por id de iniciador
                 $iniciador = Iniciador::findOrFail($valor);
                 //Recorro las caratulas del iniciador para obtener los expedientes
-                foreach ($iniciador->caratulas as $caratula) 
+                foreach ($iniciador->caratulas as $caratula)
                 {
                     $lista_expedientes->push($caratula->expediente->getDatos());
                 }
@@ -342,5 +342,5 @@ class Expediente extends Model
         }
         return $lista_expedientes;
     }
-    
+
 }

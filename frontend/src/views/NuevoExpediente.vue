@@ -1,6 +1,5 @@
 <template>
   <div class="mb-12">
-
     <form @submit.prevent="storeExpe()" >
       <v-row class="pt-5">
         <v-col>
@@ -92,7 +91,20 @@
       </v-row>
 
         <label-input texto="Pase a:"/>
-        <autocomplete-field v-model="expe.area_id" nombre="nombre" :data="areas"/>
+
+      <v-autocomplete
+          class="Montserrat-Regular text-justify"
+          color="amber accent-4"
+          outlined
+          item-value="idd"
+          single-line
+          return-object
+          item-color="amber accent-4"
+          :items="this.$store.getters.get_areas_all"
+          item-text="nombre"
+          v-model="area_destino"
+      >
+      </v-autocomplete>
 
 
       <v-row no-gutters justify="center" class="mt-8">
@@ -134,6 +146,7 @@ export default {
     agregarIniciador: [{texto: "Agregar Iniciador", imagen: "./img/cards/ver-todos.svg",}],
     motivo: [],
     showDetalle: false,
+    area_destino: [],
     expe:{
       iniciador_id: '',
       nro_fojas: '',
@@ -159,7 +172,7 @@ export default {
         prioridad: this.expe.prioridad,
         tipo_exp_id: this.expe.tipo_exp_id,
         descripcion_extracto: this.extracto,
-        area_id : this.expe.area_id,
+        area_id : this.area_destino.id,
         tipo_entidad: 1
       }
       this.storeExpediente(expediente);
@@ -185,7 +198,7 @@ export default {
       'getTipoUsuario',
       'motivoConExtracto',
       'getIdUser',
-      'areas',
+      'get_areas_all',
     'descripcion_extracto_error',
     'iniciador_id_error',
     'nro_fojas_error',
