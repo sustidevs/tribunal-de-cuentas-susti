@@ -17,7 +17,7 @@ class HistorialController extends Controller
 {
     public function create(Request $request)
     {
-        $expediente = Expediente::findOrFail($request->expediente_id);
+        $expediente = Expediente::findOrFail($request->id);
         //$cuerpos_pase = Collect([]);
         //$cuerpos_pase = $request->cuerpos;
         //$nro_cuerpos = count($request->cuerpos);
@@ -28,12 +28,13 @@ class HistorialController extends Controller
         //    $fojas = $fojas + $c["fojas"];
         //} 
         $area_destino = Area::all_areas();
-        $fecha = Carbon::now()->format('Y-m-d');
+        $fecha = Carbon::now()->format('d-m-Y');
         $hora = Carbon::now()->format('h:i');
+        $horario = [$fecha,$hora];
         //$user = User::findOrFail($c["user_id"]);
         //$agente = [$user->persona->nombre, $user->persona->apellido, $user->id];
         //$pase = [$fojas,$fecha,$hora,$agente,$cuerpos_pase,$areaDestino];
-        $pase = [$expediente, $area_destino, $fecha, $hora];
+        $pase = [$expediente, $area_destino, $horario];
         return response()->json($pase, 200);
     }
 
