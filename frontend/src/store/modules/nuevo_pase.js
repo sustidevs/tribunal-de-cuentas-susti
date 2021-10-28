@@ -18,16 +18,16 @@ const actions = {
     getNuevoPase ({ commit }, expediente )  {
         axios.post(process.env.VUE_APP_API_URL+ '/api/historial', expediente)
             .then(response => {
-                commit('set_expedientes', response.data[3])
-                commit('set_fecha',response.data[0])
-                commit('set_areas',response.data[2])
+                commit('set_expedientes', response.data[0])
+                commit('set_fecha',response.data[2])
+                commit('set_areas',response.data[1])
             })
     },
 
     storePase ({ commit }, expediente) {
         axios.post(process.env.VUE_APP_API_URL+ '/api/historial-expediente', expediente).
         then(response => {
-            console.log("ola juan carls")
+            console.log(response)
             commit('save_newPase', response.data)
             commit('set_creado', true)
         })
