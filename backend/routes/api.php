@@ -6,6 +6,7 @@ use App\Http\Controllers\api\UserController;
 use App\Http\Controllers\api\LoginController;
 use App\Http\Controllers\Api\HistorialController;
 use App\Http\Controllers\api\ExpedienteController;
+use App\Http\Controllers\api\IniciadorController;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,6 +37,9 @@ Route::post('/indexExpArea',  [ExpedienteController::class, 'indexPorAreas']);
 Route::post('/buscar-expediente',  [ExpedienteController::class, 'buscarExpediente']);
 Route::get('/all-expedientes',  [ExpedienteController::class, 'AllExpedientes']);
 ////////////////////////////////////////////////////////////////////////////////////
+/// NUEVO INICIADOR
+Route::get('/createTipoEntidad',      [IniciadorController::class, 'create']);
+Route::post('/storeIniciador',      [IniciadorController::class, 'store']);
 
 ////////////////////////////////////////////////////////////////////////////////////
 Route::post('/ListadoExp',       [ExpedienteController::class, 'bandeja']);

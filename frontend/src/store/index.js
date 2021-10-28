@@ -8,6 +8,7 @@ import usuarios from "./modules/usuarios";
 import areas from "./modules/areas";
 import nuevo_expediente from "./modules/nuevo_expediente";
 import nuevo_pase from "./modules/nuevo_pase"
+import iniciador from "./modules/iniciadores"
 
 Vue.use(Vuex)
 
@@ -21,6 +22,7 @@ export default new Vuex.Store({
         usuarios,
         areas,
         nuevo_expediente,
-        nuevo_pase
+        nuevo_pase,
+        iniciador,
     },
 })
