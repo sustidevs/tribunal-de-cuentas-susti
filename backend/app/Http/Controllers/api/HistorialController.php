@@ -112,9 +112,11 @@ class HistorialController extends Controller
                 
                 $ultimo_cuerpo = Expediente::findOrFail($request->expediente_id)->caratula->cuerpos->last();//Cuerpo
                 $ultimo_cuerpo->cantidad_fojas = Cuerpo::CANTIDAD_FOJAS;
+                $ultimo_cuerpo->estado = 1;
                 $ultimo_cuerpo->save();
                 $act_historial = $ultimo_cuerpo->estadoActual();//Historial
                 $act_historial->fojas = $ultimo_cuerpo->cantidad_fojas;
+                $act_historial->estado =1;
                 $act_historial->save();
                 //SE ACTUALIZO EL NUMERO DE FOJAS DEL ULTIMO CUERPO Y DEL ULTIMO HISTORIAL DE ESE CUERPO
 
@@ -288,12 +290,12 @@ class HistorialController extends Controller
             $historial->user_id = $user->id;
             $historial->area_origen_id = $user->area_id;
             $historial->area_origen_type = $user->area_type;
-            $historial->area_destino_id = $user->area_id;;
+            $historial->area_destino_id = $user->area_id;
             $historial->area_destino_type = $user->area_type;
             $historial->fojas = $cuerpo->cantidad_fojas;
             $historial->fecha = Carbon::now()->format('Y-m-d');
             $historial->hora = Carbon::now()->format('h:i');
-            $historial->motivo = "";
+            $historial->motivo = "cambio estado";
             $historial->estado = $request->estado_expediente;
 
             /*
