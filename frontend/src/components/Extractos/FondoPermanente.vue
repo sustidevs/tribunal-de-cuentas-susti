@@ -104,7 +104,7 @@
 </template>
 
 <script>
-import {mapActions,mapGetters} from "vuex";
+import {mapActions, mapGetters} from "vuex";
 
 export default {
   name: 'FondoPermanente',
@@ -129,7 +129,7 @@ export default {
     this.cargariniciador()
   },
 
-    methods: {
+  methods: {
     cargaExtracto() {
       this.isEditing = !this.isEditing
       this.hasSaved = true
@@ -137,11 +137,11 @@ export default {
       this.extracto(extracto)
     },
 
-      cargariniciador(){
-        let nombrei = this.allIniciadores.find( item => item.id === this.get_iniciadorSelected)
-        console.log(nombrei.nombre)
-        this.nombreIniciador = nombrei.nombre
-      },
+    cargariniciador(){
+      let nombrei = this.allIniciadores.find( item => item.id === this.get_iniciadorSelected)
+      console.log(nombrei.nombre)
+      this.nombreIniciador = nombrei.nombre
+    },
 
     ...mapActions([
       'extracto',
