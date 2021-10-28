@@ -67,6 +67,7 @@ export default {
         {text: 'Trámite', value: 'tramite'},
         {text: 'Cuerpo', value: 'cant_cuerpos'},
         {text: 'Fojas', value: 'fojas'},
+        {text: 'Area Origen', value:'area_origen'}
       ],
       search: '',
     }
