@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use Carbon\Carbon;
 use App\Models\Area;
+use App\Models\SubArea;
 use App\Models\User;
 use App\Models\Cuerpo;
 use App\Models\Historial;
@@ -26,7 +27,7 @@ class HistorialController extends Controller
         //{
         //    $c = $request->cuerpos[$x];
         //    $fojas = $fojas + $c["fojas"];
-        //} 
+        //}
         $area_destino = Area::all_areas();
         $fecha = Carbon::now()->format('d-m-Y');
         $hora = Carbon::now()->format('h:i');
@@ -76,8 +77,9 @@ class HistorialController extends Controller
         {
             $ultimo_cuerpo = Expediente::findOrFail($request->expediente_id)->caratula->cuerpos->last();//Cuerpo
             $ultimo_cuerpo->cantidad_fojas = $fojas_total;
+            $ultimo_cuerpo->estado = 1;
             $ultimo_cuerpo->save();
-            $act_historial = $ultimo_cuerpo->estadoActual();//Historial
+            /*$act_historial = $ultimo_cuerpo->estadoActual();//Historial
             $act_historial->fojas = $fojas_total;
             $act_historial->area_origen_id = $user->area_id;
             $act_historial->area_origen_type = $user->area_type;
@@ -88,28 +90,38 @@ class HistorialController extends Controller
             $act_historial->motivo = $request->motivo;
             $act_historial->archivo = $request->archivos;
             $act_historial->estado = 1;
-            $act_historial->save();
+            $act_historial->save();*/
 
-            // $historial = new Historial;
-            // $historial->cuerpo_id = $ultimo_cuerpo->cuerpo_id;
-            // $historial->user_id = $user->id;
-            // $historial->fojas = $fojas_total;
-            // $historial->area_origen_id = $user->area_id;
-            // $historial->area_origen_type = $user->area_type;
-            // $historial->area_destino_id = $request->area_destino_id;
-            // $historial->area_destino_type = $request->area_destino_type;
-            // $historial->fecha = Carbon::now()->format('Y-m-d');
-            // $historial->hora = Carbon::now()->format('h:i');
-            // $historial->motivo = $request->motivo;
-            // $historial->archivo = $request->archivos;
-            // $historial->estado = 1;//pendiente para la bandeja del area destino, enviado para la bandeja origen
-            // $historial->save();
+             $historial = new Historial;
+             $historial->cuerpo_id = $ultimo_cuerpo->id;
+             $historial->user_id = $user->id;
+             $historial->fojas = $request->nro_fojas;
+             $historial->area_origen_id = $user->area_id;
+             $historial->area_origen_type = $user->area_type;
+             //$historial->area_destino_id = $request->area_destino_id;
+             //$historial->area_destino_type = $request->area_destino_type;
+             $historial->fecha = Carbon::now()->format('Y-m-d');
+             $historial->hora = Carbon::now()->format('h:i');
+             $historial->motivo = $request->motivo;
+             $historial->archivo = $request->archivos;
+             $historial->estado = 1;//pendiente para la bandeja del area destino, enviado para la bandeja origen
+            if ($request->area_destino_type == "Area")
+            {
+                $area = Area::findOrFail($request->area_destino_id);
+                $area_type = Area::class;
+            } else
+            {
+                $area = SubArea::findOrFail($request->area_destino_id);
+                $area_type = SubArea::class;
+            }
+            $historial->area_destino_id = $area->id;//TODO revisar como viene del front el dato (Areas::all_datos)
+            $historial->area_destino_type = $area_type;
+             $historial->save();
         }
         else
         {
             do
             {
-                
                 $ultimo_cuerpo = Expediente::findOrFail($request->expediente_id)->caratula->cuerpos->last();//Cuerpo
                 $ultimo_cuerpo->cantidad_fojas = Cuerpo::CANTIDAD_FOJAS;
                 $ultimo_cuerpo->estado = 1;
@@ -161,13 +173,23 @@ class HistorialController extends Controller
                         $historial->fojas = $dif;
                         $historial->area_origen_id = $user->area_id;
                         $historial->area_origen_type = $user->area_type;
-                        $historial->area_destino_id = $request->area_destino_id;
-                        $historial->area_destino_type = $request->area_destino_type;
+
                         $historial->fecha = Carbon::now()->format('Y-m-d');
                         $historial->hora = Carbon::now()->format('h:i');
                         $historial->motivo = $request->motivo;
                         $historial->archivo = $request->archivos;
                         $historial->estado = 1;//pendiente para la bandeja del area destino, enviado para la bandeja origen
+                        if ($request->area_destino_type == "Area")
+                        {
+                            $area = Area::findOrFail($request->area_destino_id);
+                            $area_type = Area::class;
+                        } else
+                        {
+                            $area = SubArea::findOrFail($request->area_destino_id);
+                            $area_type = SubArea::class;
+                        }
+                        $historial->area_destino_id = $area->id;//TODO revisar como viene del front el dato (Areas::all_datos)
+                        $historial->area_destino_type = $area_type;
                         $historial->save();
                     }
                 }
@@ -199,7 +221,8 @@ class HistorialController extends Controller
             while($dif>= 201);
         }
         $test = ['holas'];
-        return response()->json($test, 200);
+        $detalle_pase = Expediente::findOrFail($request->expediente_id)->datosExpediente();
+        return response()->json($detalle_pase, 200);
      }
 
         // foreach($cuerpos as $cuerpo)
@@ -211,7 +234,7 @@ class HistorialController extends Controller
         //     $historial->area_destino_id = $request->area_destino_id;
         //     $historial->area_orirgen_type = $cuerpo->area_type;
         //     $historial->area_destino_type = $request->area_destino_type;
-        //     $historial->fojas = 
+        //     $historial->fojas =
         // }
         //$historial = new Historial;
         //$historial->cuerpo_id = $request->cuerpo_id;
@@ -226,7 +249,7 @@ class HistorialController extends Controller
         //$historial->motivo = $request->motivo;
         //$historial->estado = $request->estado;
         //$historial->archivos = $request->archivos;
-        //$historial->save();       
+        //$historial->save();
 
         //$fojas_total = $cuerpo->cantidad_fojas + $request->fojas;
 
@@ -250,10 +273,10 @@ class HistorialController extends Controller
         //         {
         //             $nuevo_cuerpo->cantidad_fojas = $fojas_total;
         //             $fojas_total -= Cuerpo::CANTIDAD_FOJAS;
-        //         }                
+        //         }
         //         $nuevo_cuerpo->caratula_id = $cuerpo->caratula_id;
         //         $nuevo_cuerpo->estado = 1;
-        //         $nuevo_cuerpo->save();                              
+        //         $nuevo_cuerpo->save();
         //     }
         // }
         // else
@@ -274,15 +297,15 @@ class HistorialController extends Controller
         $data = Cuerpo::listadoExpedientes();//Metodo de Agustin
 
         $request = new Request;
-        $request->estado_expediente = '2'; // 1-Enviado/Pendiente, 2-Aceptado, 3-Asignado, 4-Recuperado 
+        $request->estado_expediente = '2'; // 1-Enviado/Pendiente, 2-Aceptado, 3-Asignado, 4-Recuperado
         */
 
         /*
-        * Recorre los cuerpos del expediente. (puede cambiar depende de como retorne los datos $request->expediente) 
+        * Recorre los cuerpos del expediente. (puede cambiar depende de como retorne los datos $request->expediente)
         */
         foreach ($request->cuerpos as $c) {
             $user = User::findOrFail($request->user_id);//$user = Auth::user();
-            //obtendo el cuerpo, actualizo su estado y creo un historial 
+            //obtendo el cuerpo, actualizo su estado y creo un historial
             $cuerpo = Cuerpo::findOrFail($c["id_cuerpo"]);
             $cuerpo->estado = $request->estado_expediente;
             $historial = new Historial;
@@ -299,25 +322,25 @@ class HistorialController extends Controller
             $historial->estado = $request->estado_expediente;
 
             /*
-            * Si el estado al que cambia es 3 (mis expediente), Actualizo el area actual del cuerpo. 
+            * Si el estado al que cambia es 3 (mis expediente), Actualizo el area actual del cuerpo.
             */
             if ($request->estado_expediente == 3) {
                 $cuerpo->area_id = $user->area_id;
                 $cuerpo->area_type = $user->area_type;
-                $cuerpo->update();  
+                $cuerpo->update();
             }
             else{
-                $cuerpo->update(); 
+                $cuerpo->update();
             }
-            
+
             $historial->save();
         }
-    
+
         $estado = $request->estado;//parametro
         $bandeja = $request->bandeja;
         $user_id = $request->user_id;
         $listado_expedientes = Expediente::listadoExpedientes($user_id,$estado,$bandeja);
-        return response()->json($listado_expedientes,200);     
+        return response()->json($listado_expedientes,200);
     }
     /*
     *   Trae el historial completo de un expediente.
