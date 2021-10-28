@@ -272,7 +272,6 @@ class Expediente extends Model
             if ($cuerpos_bandeja->count() > 0)
             {
                 $array_expediente->push([
-                    'id'=>$exp->id,
                     'prioridad'=>$exp->prioridadExpediente->descripcion,
                     'nro_expediente'=>$exp->nro_expediente,
                     'extracto'=>$exp->caratula->extracto->descripcion,
