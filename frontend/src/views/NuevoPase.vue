@@ -24,19 +24,21 @@
 
                 <label-input texto="Pase a:"/>
 
+
                 <v-autocomplete
                     class="Montserrat-Regular text-justify"
                     color="amber accent-4"
                     outlined
-                    item-value="id"
+                    item-value="idd"
                     single-line
+                    return-object
                     item-color="amber accent-4"
-                    v-model="area"
                     :items="get_areas"
                     item-text="nombre"
-                    return-object
+                    v-model="area"
                 >
                 </v-autocomplete>
+                
                 <label-input texto="A efectos de:"/>
                 <text-field v-model="pase.motivo"/>
 

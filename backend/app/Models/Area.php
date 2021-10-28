@@ -10,7 +10,7 @@ class Area extends Model
     use HasFactory;
 
     //Relacion uno a muchos polimorfica
-    public function historiales() 
+    public function historiales()
     {
         return $this->morphMany('App\Models\Historial', 'area');
     }
@@ -20,7 +20,7 @@ class Area extends Model
         return $this->morphOne('App\Models\User', 'area');
     }
 
-    public function expedientes() 
+    public function expedientes()
     {
         return $this->morphMany('App\Models\Expediente', 'area_actual');
     }
@@ -29,7 +29,7 @@ class Area extends Model
         $arrray_areas = collect([]);
         $areas = Area::all();
         $subareas= SubArea::all();
-        
+
         foreach ($areas as $area) {
             $arrray_areas->push(['idd' => $area->id.'.'.$area->descripcion,
                                  'id' => $area->id,
