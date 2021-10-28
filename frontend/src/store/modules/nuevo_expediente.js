@@ -5,7 +5,7 @@ const state = {
     fecha: '',
     motivoSinExtracto: [],
     motivoConExtracto: [],
-    areas: [],
+    areas_nuevo: [],
     prioridad: [],
     iniciadorSelected: 0,
     creado: false,
@@ -26,7 +26,7 @@ const getters = {
     motivoConExtracto: state => state.motivoConExtracto,
     prioridad: state => state.prioridad,
     get_iniciadorSelected: state => state.iniciadorSelected,
-    areas: state => state.areas,
+    get_areas_all: state => state.areas_nuevo,
     creado: state => state.creado,
 
     descripcion_extracto_error: state => state.descripcion_extractoerror,
@@ -45,6 +45,7 @@ const actions = {
     getCreate ({ commit })  {
         axios.get(process.env.VUE_APP_API_URL+ '/api/createExp')
             .then(response => {
+                console.log(response)
                 let fec= response.data[0];
                 commit('set_fecha', fec)
 
@@ -66,7 +67,7 @@ const actions = {
     },
 
     storeExpediente ({ commit }, expediente) {
-        axios.post(process.env.VUE_APP_API_URL+ '/api/historial-expediente', expediente).
+        axios.post(process.env.VUE_APP_API_URL+ '/api/storeExp', expediente).
         then(response => {
                 commit('saveNewExp', response.data)
                 commit('set_creado', true)
@@ -89,7 +90,7 @@ const mutations = {
     set_motivoConExt: (state, motivoConExtracto) => state.motivoConExtracto = motivoConExtracto,
     set_prioridad: (state, prioridad) => state.prioridad = prioridad,
     set_iniciadorSelected: (state, iniciadorSelected) => state.iniciadorSelected = iniciadorSelected,
-    set_area: (state, area) => state.areas = area,
+    set_area: (state, areas_nuevo) => state.areas_nuevo = areas_nuevo,
     saveNewExp: (state, expediente) => state.expediente = expediente,
     set_creado: (state, creado) => state.creado = creado,
 
