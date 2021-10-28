@@ -285,10 +285,10 @@ class ExpedienteController extends Controller
 
     public function contadorBandejaEntrada(Request $request)
     {
-        $historiales = Historial::All();
+        $cuerpos = Cuerpo::All();
         $user_area = $request->area_id;
-        $contador = $historiales->where('estado', 1)
-                                ->where('area_destino_id', $user_area)->count();
+        $contador = $cuerpos->where('estado', 1)
+                            ->where('area_id', $user_area)->count();
         return response()->json($contador, 200);
     }
 
