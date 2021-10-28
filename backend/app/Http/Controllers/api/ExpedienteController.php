@@ -41,7 +41,7 @@ class ExpedienteController extends Controller
         $fecha = Carbon::now()->format('d-m-Y');
         //Es necesario agregar para saber el area_destino al que se va a realizar el pase.
         $areas = Area::all_areas();
-        $create_exp = [$fecha, $iniciador, $motivoAll, $motivo, $prioridad,$areas]; 
+        $create_exp = [$fecha, $iniciador, $motivoAll, $motivo, $prioridad,$areas];
         //$create_exp = [$fecha, $iniciador, $motivoAll, $motivo, $prioridad];
         return response()->json($create_exp,200);
     }
@@ -111,7 +111,7 @@ class ExpedienteController extends Controller
                             $cuerpo->area_id = $expediente->area_actual_id;
                             $cuerpo->area_type = $expediente->area_actual_type;
                             $cuerpo->save();
-                            
+
                                 $user = User::findOrFail($request->user_id);
                                 $cuerpo_id = $cuerpo->id;
                                 $historial = new Historial;
@@ -128,7 +128,7 @@ class ExpedienteController extends Controller
                                 $historial->estado = 1;
                                 //$historial->archivos = $request->archivos;
                                 $historial->save();
-                            
+
                             $expediente->fojas = $expediente->fojas - Cuerpo::CANTIDAD_FOJAS;
 
                             if ($expediente->fojas <= Cuerpo::CANTIDAD_FOJAS)
@@ -140,7 +140,7 @@ class ExpedienteController extends Controller
                                 $cuerpo->area_id = $expediente->area_actual_id;
                                 $cuerpo->area_type = $expediente->area_actual_type;
                                 $cuerpo->save();
-                                
+
                                     $user = User::findOrFail($request->user_id);
                                     $cuerpo_id = $cuerpo->id;
                                     $historial = new Historial;
@@ -157,7 +157,7 @@ class ExpedienteController extends Controller
                                     $historial->estado = 1;
                                     //$historial->archivos = $request->archivos;
                                     $historial->save();
-                                
+
                             }
                         }
                         else if ($expediente->fojas <= Cuerpo::CANTIDAD_FOJAS)
@@ -185,14 +185,14 @@ class ExpedienteController extends Controller
                             $historial->estado = 1;
                             //$historial->archivos = $request->archivos;
                             $historial->save();
-                            
+
                         }
                     }
                     while ( ($expediente->fojas > Cuerpo::CANTIDAD_FOJAS) );
                 }
                 /* Realiza el pase de los cuerpos
-                * Recorro todos los cuerpos del exp. creados y los muevo al area destino incidado  
-                */ 
+                * Recorro todos los cuerpos del exp. creados y los muevo al area destino incidado
+                */
                 foreach ($expediente->caratula->cuerpos as $cuerpo) {
                     $cuerpo->estado = "1";//Enviado (estado actual del cuerpo)
                     $cuerpo->update();//TODO ver si es necesario actualizar el cuerpo, (si el exp es nuevo el estado ya deberia estar actualizado)
@@ -201,12 +201,12 @@ class ExpedienteController extends Controller
                     $historial->user_id = $request->user_id;
                     $historial->area_origen_id = $user->area_id;
                     $historial->area_origen_type = $user->area_type;
-                    
-                    if ($request->tipo_area == "Area") 
+
+                    if ($request->tipo_area == "Area")
                     {
                         $area = Area::findOrFail($request->area_id);
                         $area_type = Area::class;
-                    } else 
+                    } else
                     {
                         $area = SubArea::findOrFail($request->area_id);
                         $area_type = SubArea::class;
@@ -217,7 +217,7 @@ class ExpedienteController extends Controller
                     $historial->fojas = $cuerpo->cantidad_fojas;
                     $historial->fecha = Carbon::now()->format('Y-m-d');
                     $historial->hora = Carbon::now()->format('h:i');
-                    $historial->motivo = "";
+                    $historial->motivo = "pase";
                     $historial->estado = "1";//Enviado
                     $historial->save();
                 }
@@ -225,7 +225,7 @@ class ExpedienteController extends Controller
                 $datos = [$expediente->fecha,$caratula->iniciador->nombre,$extracto->descripcion,$estado_actual];
                 return response()->json($datos,200);
             }
-           
+
         }
         return response()->json('Error',200);
     }
