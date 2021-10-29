@@ -11,6 +11,7 @@ import NuevoPase from '../views/NuevoPase.vue'
 import Seguimientos from '../views/Seguimientos.vue'
 import VerSeguimientos from '../views/VerSeguimientos.vue'
 import NuevoIniciador from '../views/NuevoIniciador.vue'
+import CaratulaPdf from '../views/CaratulaPdf.vue'
 import layout from '../layout/Layout'
 
 Vue.use(VueRouter)
@@ -89,6 +90,12 @@ const routes = [
     name: 'LoginGeneral',
     component: LoginGeneral,
     meta: { title: 'Ingresar' }
+  },
+  {
+    path: '/caratula',
+    name: 'CaratulaPdf',
+    component: CaratulaPdf,
+    meta: { title: 'Carátula' }
   },
 
 ]
