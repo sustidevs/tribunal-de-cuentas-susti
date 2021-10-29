@@ -1,6 +1,7 @@
 <template>
   <div v-if="$vuetify.breakpoint.mdOnly || $vuetify.breakpoint.lgOnly || $vuetify.breakpoint.xlOnly" >
     <v-footer
+        absolute
         color="#393B44">
       <v-row
           align="center"
