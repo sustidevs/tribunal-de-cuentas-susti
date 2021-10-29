@@ -24,7 +24,7 @@
               mdi-check-bold
             </v-icon>
             <div class="">
-              Imprimir caratula
+              Imprimir Pase
             </div>
           </v-btn>
         </v-col>
