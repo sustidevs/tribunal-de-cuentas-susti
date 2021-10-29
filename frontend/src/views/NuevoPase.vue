@@ -82,7 +82,7 @@
             <v-stepper-content step="2">
 
               <modal-detalle-pase :data="this.pase" :dataArea="this.area"/>
-              <v-row justify="center" class="ma-8">
+              <v-row  justify="center" class="ma-8">
                 <v-btn @click="e1 = 1" class="Montserrat-SemiBold" color="black" text>
                   Volver
                 </v-btn>
