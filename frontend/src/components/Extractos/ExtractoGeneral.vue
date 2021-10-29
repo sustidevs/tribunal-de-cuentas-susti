@@ -27,7 +27,7 @@
                 <v-row class="tex" justify="start">
                     <v-col cols="12" sm="12" lg="6" class="px-5">
                         <div class="d-flex column d-flex-sm row">
-                            <p class="pt-5">INICIADOR: ---</p>
+                            <p class="pt-5">INICIADOR: {{ nombreIniciador }}</p>
                         </div>
                     </v-col>
 
@@ -78,36 +78,48 @@
 </template>
 
 <script>
-import {mapActions} from "vuex";
+import {mapActions, mapGetters} from "vuex";
 
 export default {
-  name: 'ExtractoGeneral',
-  
-  data () {
-    return {
-        hasSaved: false,
-        isEditing: true,
-        input1: '',
-        input2: '',
-        input3: '',
-    }
-  },
-
-  methods: {
-    cargaExtracto() {
-      const extracto = this.input1 + this.input2 + "    EXTRACTO N° " + this.input3
-      this.extracto(extracto)
+    name: 'ExtractoGeneral',
+    
+    data () {
+        return {
+            hasSaved: false,
+            isEditing: true,
+            input1: '',
+            input2: '',
+            input3: '',
+            nombreIniciador: '',
+        }
     },
 
-    ...mapActions([
-      'extracto',
-    ]),
-
-    save () {
-        this.isEditing = !this.isEditing
-        this.hasSaved = true
+    computed: {
+        ... mapGetters(['get_iniciadorSelected','allIniciadores']),
     },
-  },
+
+    mounted(){
+        this.cargariniciador()
+    },
+
+    methods: {
+        cargaExtracto() {
+            this.isEditing = !this.isEditing
+            this.hasSaved = true
+            const extracto = this.input1 + this.input2 + "    EXTRACTO N° " + this.input3
+            this.extracto(extracto)
+        },
+
+        cargariniciador(){
+            let nombrei = this.allIniciadores.find( item => item.id === this.get_iniciadorSelected)
+            console.log(nombrei.nombre)
+            this.nombreIniciador = nombrei.nombre
+        },
+
+        ...mapActions([
+            'extracto',
+        ]),
+    },
 
 }
 </script>

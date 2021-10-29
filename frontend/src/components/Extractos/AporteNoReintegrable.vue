@@ -3,9 +3,9 @@
         <v-card color="#FACD89">
             <div class="pt-8 px-8">
                 <v-row class="tex" justify="start">
-                    <v-col cols="12" sm="12" lg="6" class="px-5">
+                    <v-col cols="12" sm="12" lg="8" class="px-5">
                         <div class="d-flex column d-flex-sm row">
-                            <p class="pt-5 pr-3">E/REND.CTAS.APORTE NO REINTEGRABLE. GTOS</p>
+                            <p class="pt-5 pr-3">E/REND. CTAS. APORTE NO REINTEGRABLE. GTOS</p>
                             <v-text-field
                                 :disabled="!isEditing"
                                 color="amber accent-4"
@@ -13,7 +13,7 @@
                             ></v-text-field>
                         </div>
                     </v-col>
-                    <v-col cols="12" sm="12" lg="6" class="px-5">
+                    <v-col cols="12" sm="12" lg="4" class="px-5">
                         <div class="d-flex column d-flex-sm row">
                             <p class="pt-5 pr-3">DCTO: </p>
                             <v-text-field

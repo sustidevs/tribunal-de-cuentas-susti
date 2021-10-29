@@ -62,7 +62,7 @@
                 <v-row class="tex" justify="start">
                     <v-col cols="12" sm="12" lg="6" class="px-5">
                         <div class="d-flex column d-flex-sm row">
-                            <p class="pt-5">INICIADOR: ---</p>
+                            <p class="pt-5">INICIADOR: {{ nombreIniciador }}</p>
                         </div>
                     </v-col>
 
@@ -113,7 +113,7 @@
 </template>
 
 <script>
-import {mapActions} from "vuex";
+import {mapActions, mapGetters} from "vuex";
 
 export default {
     name: 'Acordada08-05',
@@ -126,23 +126,35 @@ export default {
         input3: '',
         input4: '',
         input5: '',
+        nombreIniciador: '',
       }
+    },
+
+    computed: {
+        ... mapGetters(['get_iniciadorSelected','allIniciadores']),
+    },
+
+    mounted(){
+        this.cargariniciador()
     },
 
     methods: {
         cargaExtracto() {
+            this.isEditing = !this.isEditing
+            this.hasSaved = true
             const extracto = "  E/REND.CTAS.ACORDADA N° 08/05. LIBRAMIENTO DE ENTREGA. MES:  " + this.input1 + "  AÑO:  " + this.input2 + "  GTOS:  " + this.input3 + "  NORMA LEGAL:  " + this. input4 +  "  IMPORTE: $  " + this. input5 +  "  ACORDADA N° 08/2005  "
             this.extracto(extracto)
+        },
+
+        cargariniciador(){
+            let nombrei = this.allIniciadores.find( item => item.id === this.get_iniciadorSelected)
+            console.log(nombrei.nombre)
+            this.nombreIniciador = nombrei.nombre
         },
 
         ...mapActions([
             'extracto',
         ]),
-
-        save () {
-            this.isEditing = !this.isEditing
-            this.hasSaved = true
-        },
     },
 }
 </script>

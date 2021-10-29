@@ -3,7 +3,7 @@
         <v-card color="#FACD89">
             <div class="pt-8 px-8">
                 <v-row class="tex" justify="start">
-                    <v-col cols="12" sm="12" lg="6" class="px-5">
+                    <v-col cols="12" sm="12" lg="7" class="px-5">
                         <div class="d-flex column d-flex-sm row">
                             <p class="pt-5 pr-3">E/REND.CTAS.ACORDADA N° 32/2001. MES:</p>
                             <v-text-field
@@ -14,7 +14,7 @@
                         </div>
                     </v-col>
 
-                    <v-col cols="12" sm="12" lg="6" class="px-5">
+                    <v-col cols="12" sm="12" lg="5" class="px-5">
                         <div class="d-flex column d-flex-sm row">
                             <p class="pt-5 pr-3">AÑO:</p>
                             <v-text-field
@@ -40,7 +40,7 @@
                 <v-row class="tex" justify="start">
                     <v-col cols="12" sm="12" lg="6" class="px-5">
                         <div class="d-flex column d-flex-sm row">
-                            <p class="pt-5">INICIADOR: ---</p>
+                            <p class="pt-5">INICIADOR: {{ nombreIniciador }}</p>
                         </div>
                     </v-col>
 
@@ -90,7 +90,7 @@
 </template>
 
 <script>
-import {mapActions} from "vuex";
+import {mapActions, mapGetters} from "vuex";
 
 export default {
     name: 'Acordada32-01Espontanea',
@@ -102,23 +102,35 @@ export default {
         input1: '',
         input2: '',
         input3: '',
+        nombreIniciador: '',
       }
+    },
+
+    computed: {
+        ... mapGetters(['get_iniciadorSelected','allIniciadores']),
+    },
+
+    mounted(){
+        this.cargariniciador()
     },
 
     methods: {
         cargaExtracto() {
+            this.isEditing = !this.isEditing
+            this.hasSaved = true
             const extracto = "E/REND.CTAS.ACORDADA N° 32/2001. MES:  "+ this.input1 + "   AÑO:  " + this.input2 + "   IMPORTE: $  " + this.input3 + "   ACORDADA 32/01 ESPONTÁNEA"
             this.extracto(extracto)
+        },
+
+        cargariniciador(){
+            let nombrei = this.allIniciadores.find( item => item.id === this.get_iniciadorSelected)
+            console.log(nombrei.nombre)
+            this.nombreIniciador = nombrei.nombre
         },
 
         ...mapActions([
             'extracto',
         ]),
-
-        save () {
-            this.isEditing = !this.isEditing
-            this.hasSaved = true
-        },
     },
 
 }

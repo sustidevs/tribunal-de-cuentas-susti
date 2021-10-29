@@ -79,7 +79,7 @@
                 <v-row class="tex" justify="start">
                     <v-col cols="12" sm="12" lg="6" class="px-5">
                         <div class="d-flex column d-flex-sm row">
-                            <p class="pt-5">INICIADOR: ---</p>
+                            <p class="pt-5">INICIADOR: {{ nombreIniciador }}</p>
                         </div>
                     </v-col>
 
@@ -129,12 +129,12 @@
 </template>
 
 <script>
-import {mapActions} from "vuex";
+import {mapActions, mapGetters} from "vuex";
 
 export default {
-  name: 'CedulaAcordada32-01',
+    name: 'CedulaAcordada32-01',
 
-  data () {
+    data () {
       return {
         hasSaved: false,
         isEditing: true,
@@ -144,24 +144,36 @@ export default {
         input4: '',
         input5: '',
         input6: '',
+        nombreIniciador: '',
       }
-  },
-
-  methods: {
-    cargaExtracto() {
-        const extracto = "E/JUICIO DE CTAS.DE OFICIO A:  "+ this.input1 + "  ||  MES:  " + this.input2 + "  ||  AÑO:  " + this.input3 + "ACORDADA N° 32/2001.  ||  IMPORTE: $  " + this. input4 + "  ||  N° DE RECLAMO:  " + this.input5 + "  ||  DISPOSICIÓN:  " + this.input6 + "  ||  CÉDULA ACORDADA 32/01"
-        this.extracto(extracto)
     },
 
-    ...mapActions([
-        'extracto',
-    ]),
-
-    save () {
-        this.isEditing = !this.isEditing
-        this.hasSaved = true
+    computed: {
+        ... mapGetters(['get_iniciadorSelected','allIniciadores']),
     },
-  },
+
+    mounted(){
+        this.cargariniciador()
+    },
+
+    methods: {
+        cargaExtracto() {
+            this.isEditing = !this.isEditing
+            this.hasSaved = true
+            const extracto = "E/JUICIO DE CTAS.DE OFICIO A:  "+ this.input1 + "  ||  MES:  " + this.input2 + "  ||  AÑO:  " + this.input3 + "ACORDADA N° 32/2001.  ||  IMPORTE: $  " + this. input4 + "  ||  N° DE RECLAMO:  " + this.input5 + "  ||  DISPOSICIÓN:  " + this.input6 + "  ||  CÉDULA ACORDADA 32/01"
+            this.extracto(extracto)
+        },
+
+        cargariniciador(){
+            let nombrei = this.allIniciadores.find( item => item.id === this.get_iniciadorSelected)
+            console.log(nombrei.nombre)
+            this.nombreIniciador = nombrei.nombre
+        },
+
+        ...mapActions([
+            'extracto',
+        ]),
+    },
 }
 </script>
 
