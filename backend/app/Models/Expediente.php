@@ -64,6 +64,16 @@ class Expediente extends Model
 
     public function datosExpediente()
     {
+
+        if($this->caratula->cuerpos->last()->historiales->last()->area_origen_type == 'App\\Models\\Area')
+        {
+            $area_origen = Area::findOrFail($this->caratula->cuerpos->last()->historiales->last()->area_origen_id);
+        }
+        else
+        {
+            $area_origen = SubArea::findOrFail($this->caratula->cuerpos->last()->historiales->last()->area_origen_id);
+        }
+
         $array = Collect(['id'=>$this->id,
                           'prioridad'=>$this->prioridadExpediente->descripcion,
                           'nro_expediente'=>$this->nro_expediente,
@@ -74,7 +84,9 @@ class Expediente extends Model
                           'caratula'=>$this->caratula->id,
                           'fojas'=>$this->caratula->expediente->fojas,
                           'area_actual' => $this->area->descripcion,
-                          'area_actual_type' => $this->area_actual_type]);
+                          'area_actual_type' => $this->area_actual_type,
+                          'area_origen'=>$area_origen->descripcion
+            ]);
 
         return $array;
     }
@@ -142,6 +154,15 @@ class Expediente extends Model
             {
                 if ($cuerpo->estadoActual() != null)
                 {
+                    if($cuerpo->historiales->last()->area_origen_type == 'App/Models/Area')
+                    {
+                        $area_origen = Area::findOrFail($cuerpo->historiales->last()->area_origen_id);
+                    }
+                    else
+                    {
+                        $area_origen = SubArea::findOrFail($cuerpo->historiales->last()->area_origen_id);
+                    }
+
                     $array->push([
                         'prioridad'=>$cuerpo->caratula->expediente->prioridadExpediente->descripcion,
                         'nro_expediente'=>$cuerpo->caratula->expediente->nro_expediente,
@@ -155,6 +176,7 @@ class Expediente extends Model
                         "area_destino_type"=>$cuerpo->estadoActual()->area_destino_type,
                         "estado"=>$cuerpo->estadoActual()->estado,
                         'caratula'=>$cuerpo->caratula_id,
+                        'area_origen'=>$area_origen->descripcion,
                     ]);
             }
 
@@ -271,7 +293,18 @@ class Expediente extends Model
             //return $cuerpos_bandeja->count();
             if ($cuerpos_bandeja->count() > 0)
             {
+
+                if($exp->caratula->cuerpos->last()->historiales->last()->area_origen_type == 'App\\Models\\Area')
+                {
+                    $area_origen = Area::findOrFail($exp->caratula->cuerpos->last()->historiales->last()->area_origen_id);
+                }
+                else
+                {
+                    $area_origen = SubArea::findOrFail($exp->caratula->cuerpos->last()->historiales->last()->area_origen_id);
+                }
+
                 $array_expediente->push([
+                    'area_origen'=>$area_origen->descripcion,
                     'id'=>$exp->id,
                     'prioridad'=>$exp->prioridadExpediente->descripcion,
                     'nro_expediente'=>$exp->nro_expediente,

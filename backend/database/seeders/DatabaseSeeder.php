@@ -23,7 +23,7 @@ class DatabaseSeeder extends Seeder
             EstadoExpedienteSeeder::class,
             PermissionSeeder::class,
             UserSeeder::class,
-            DatosPruebasSeeder::class,
+          //  DatosPruebasSeeder::class,
         ]);
     }
 }
