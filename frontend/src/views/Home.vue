@@ -8,8 +8,10 @@
 
       <titulo-inicio texto="Expedientes" class="my-6"/>
       <div class="d-flex flex-row">
-        <div class="pr-5">
-          <ButtonBig texto="Nuevo" link="/nuevo-expediente" :imagen="'./img/cards/nuevoexpediente.png'"/>
+        <div v-if="getArea == 'Dpto. MESA DE ENTRADAS Y SALIDAS'">
+          <div class="pr-5">
+            <ButtonBig texto="Nuevo" link="/nuevo-expediente" :imagen="'./img/cards/nuevoexpediente.png'"/>
+          </div>
         </div>
         <div class="mx-5">
           <v-hover v-slot="{ hover }" >
@@ -195,7 +197,7 @@ import {mapActions, mapGetters} from "vuex";
     }
   },
 
-    computed: mapGetters(['getTipoUsuario']),
+    computed: mapGetters(['getTipoUsuario','getArea']),
 
   methods:{
     ...mapActions([ 'getSubArea','getUser', 'getBandejaEntrada']),

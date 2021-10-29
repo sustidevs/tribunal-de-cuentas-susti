@@ -4,6 +4,8 @@ const state = {
     expedientes:[] ,
     fecha: '',
     areas: [],
+    expediente: '',
+    exitopase: false,
 };
 
 const getters = {
@@ -11,6 +13,8 @@ const getters = {
     idExpedientePase: state => state.expedientes.id,
     get_areas: state => state.areas,
     fechaPase: state => state.fecha,
+    expediente_exito: state => state.expediente,
+    creado_exito:state => state.exitopase
  };
 
 const actions = {
@@ -43,6 +47,7 @@ const mutations = {
     set_fecha: (state, fecha) => state.fecha = fecha,
     set_areas: (state, areas) => state.areas = areas,
     save_newPase: (state, expediente) => state.expediente = expediente,
+    set_creado: (state, exitopase) => state.exitopase = exitopase,
 };
 
 export default {

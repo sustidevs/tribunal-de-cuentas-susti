@@ -173,6 +173,7 @@ export default {
         tipo_exp_id: this.expe.tipo_exp_id,
         descripcion_extracto: this.extracto,
         area_id : this.area_destino.id,
+        tipo_area: this.area_destino.tipo_area,
         tipo_entidad: 1
       }
       this.storeExpediente(expediente);
