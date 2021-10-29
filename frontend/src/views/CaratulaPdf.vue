@@ -87,7 +87,7 @@
 </script>
 <style>
     .textHere{
-        font-size: 37px;
+        font-size: 32px;
     }
     .textHereBig{
         font-size: 22px;

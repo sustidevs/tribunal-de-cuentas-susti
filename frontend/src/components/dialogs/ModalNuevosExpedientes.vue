@@ -20,6 +20,18 @@
       <div class="Montserrat-Regular mb-6 text-justify sizeDM">{{ dato[3].descripcion }}</div>
 
       <v-row no-gutters justify="center" class="py-4">
+
+        <v-col cols="12" lg="6" class="px-sm-2 py-5">
+          <v-btn target="_blank" to="/caratula" type="submit" class="pa-5 color Montserrat-SemiBold" height="55" elevation="0" color="#FACD89" block>
+            <v-icon class="px-5">
+              mdi-check-bold
+            </v-icon>
+            <div class="">
+              Imprimir caratula
+            </div>
+          </v-btn>
+        </v-col>
+
         <v-col cols="12" lg="6" class="px-sm-2 py-5">
           <Button link="/nuevo-expediente" texto="Nuevo expediente" icono="mdi-text-box-plus"/>
         </v-col>
