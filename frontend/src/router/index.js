@@ -112,7 +112,7 @@ const routes = [
     meta: { title: 'Carátula' }
   },
   {
-    path: '/pase',
+    path: '/imprimir-pase',
     name: 'PasePdf',
     component: PasePdf,
     meta: { title: 'Pase' }
