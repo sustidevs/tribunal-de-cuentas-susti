@@ -3,7 +3,7 @@
     <v-card class="px-7 pt-1">
 
       <div class="py-8 Montserrat-Bold  tituloModal">
-        Se realizo con exito el pase del expediente N° {{ dato.nro_expediente}}
+        Se realizó con éxito el pase del expediente N° {{ dato.nro_expediente}}
       </div>
       <v-divider color="#393B44"></v-divider>
 
@@ -13,7 +13,7 @@
       <div class="Montserrat-Bold mb-2 sizeTM"> Extracto:</div>
       <div class="Montserrat-Regular mb-6 text-justify sizeDM">{{ dato.extracto }}</div>
 
-      <div class=" Montserrat-Bold mb-2 sizeTM"> Se derivo al Area:</div>
+      <div class=" Montserrat-Bold mb-2 sizeTM"> Se derivó al Área:</div>
       <div class="Montserrat-Regular mb-6 text-justify sizeDM">{{ dato.area_actual}}</div>
 
       <v-row no-gutters justify="center" class="py-4">

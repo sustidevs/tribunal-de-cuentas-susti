@@ -12,6 +12,7 @@ import Seguimientos from '../views/Seguimientos.vue'
 import VerSeguimientos from '../views/VerSeguimientos.vue'
 import NuevoIniciador from '../views/NuevoIniciador.vue'
 import CaratulaPdf from '../views/CaratulaPdf.vue'
+import PasePdf from '../views/PasePdf.vue'
 import layout from '../layout/Layout'
 import Expedientes from "../views/Expedientes";
 
@@ -109,6 +110,12 @@ const routes = [
     name: 'CaratulaPdf',
     component: CaratulaPdf,
     meta: { title: 'Carátula' }
+  },
+  {
+    path: '/pase',
+    name: 'PasePdf',
+    component: PasePdf,
+    meta: { title: 'Pase' }
   },
 
 ]
