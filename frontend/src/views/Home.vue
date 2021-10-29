@@ -34,13 +34,10 @@
               </div>
             </v-btn>
           </v-hover>
-          <modal-consultar-nro-exp :show="showModalConsultarNroExp" @close="closeModalConsultarNroExp"/>
+                <modal-consultar-nro-exp :show="showModalConsultarNroExp" @close="closeModalConsultarNroExp"/>
         </div>
         <div class="mx-5">
           <ButtonBig texto="Realizar Pase" link="/mis-expedientes" :imagen="'./img/cards/nuevopase.png'"/>
-        </div>
-        <div class="mx-5"> 
-          <ButtonBig texto="Recuperar" link="/recuperar-expediente" :imagen="'./img/cards/recuperar.png'"/>
         </div>
       </div>
 
@@ -54,12 +51,13 @@
         <div class="mx-5">
           <ButtonBig texto="Mis Expedientes" link="/mis-expedientes"  :imagen="'./img/cards/misexpediente.png'"/>
         </div>
+        <!--
         <div class="mx-5">
           <ButtonBig texto="Expedientes" link="/expedientes"  :imagen="'./img/cards/expedientes.png'"/>
         </div>
         <div class="mx-5">
           <ButtonBig texto="Historiales"  link="/historial"  :imagen="'./img/cards/historial.png'"/>
-        </div>
+        </div>-->
       </div>
 
       <div v-if="this.getTipoUsuario === 'Administrador Area'">

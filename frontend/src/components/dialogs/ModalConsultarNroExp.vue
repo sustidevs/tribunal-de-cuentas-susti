@@ -17,13 +17,14 @@
         </v-row>
         <v-divider color="#393B44" class="mt-2"></v-divider>
 
+        <form @submit.prevent="consultar()" >
         <div class="d-flex column Montserrat-Semibold mt-4">
-          <v-btn-toggle v-model="buscador" group class="justify-space-around">
-              <v-btn value="2" x-large class="px-sm-12">
+          <v-btn-toggle v-model="busqueda.buscar_por" group class="justify-space-around">
+              <v-btn value="1" x-large class="px-sm-12">
                   <v-icon color="amber accent-4" class="pr-2"> mdi-circle-slice-8 </v-icon>
                   N° de expediente
               </v-btn>
-              <v-btn value="1" x-large class="px-sm-12">
+              <v-btn value="2" x-large class="px-sm-12">
                   <v-icon color="amber accent-4" class="pr-2"> mdi-circle-slice-8 </v-icon>
                   CUIL DEL INICIADOR
               </v-btn>
@@ -31,41 +32,26 @@
         </div>
 
         <div>
-          <div v-show="this.buscador">
             <v-row no-gutters class="text mt-6" justify="center">
-              <v-col cols="12">
-                <div v-if="this.buscador == 1">
                   <div class="d-flex justify-space-between my-4">
                       <v-text-field
                           class="Montserrat-Regular text-justify"
                           color="amber accent-4"
                           outlined
-                          v-model="resultados"
+                          v-model="busqueda.valor"
                           label="Por ejemplo: 27-41789321-8, ..."
                       ></v-text-field>
                   </div>
-                </div>
-                <div v-else>
-                  <div class="d-flex justify-space-between my-4">
-                      <v-text-field
-                          class="Montserrat-Regular text-justify"
-                          color="amber accent-4"
-                          outlined
-                          v-model="resultados"
-                          label="Por ejemplo: 27-41789321-8, ..."
-                      ></v-text-field>
-                  </div>
-                </div>
-              </v-col>
             </v-row>
             <v-row justify="center" class="pb-6">
-              <v-btn class="pa-5 color Montserrat-SemiBold" height="45" color="#FACD89">
+              <v-btn type="submit" class="pa-5 color Montserrat-SemiBold" height="45" color="#FACD89">
                 <v-icon class="pr-4"> mdi-text-box-search-outline </v-icon>
                 Buscar
               </v-btn>
             </v-row>
           </div>
-        </div>
+
+        </form>
 
         <div v-if="this.resultados">
           <v-row no-gutters class="text mt-4" justify="start">
@@ -96,6 +82,7 @@
 <script>
 import LabelInput from "../LabelInput"
 import CardExtractoPase from '../CardExtractoPase.vue'
+import {mapActions} from "vuex";
 
 export default {
   name: 'ModalConsultarNroExp',
@@ -109,6 +96,11 @@ export default {
       buscador: null,
       resultados: null,
 
+      busqueda: {
+        buscar_por: '',
+        valor: '',
+      },
+
       states: [
           { name: 'Con resultados'},
           { name: 'Sin resultados'},
@@ -116,7 +108,17 @@ export default {
     }
   },
 
+
   methods: {
+
+    ...mapActions([
+      'consultar',
+    ]),
+
+    consultar () {
+      this.resultados = true
+    },
+
     close() {
       this.$emit("close")
     },

@@ -12,6 +12,7 @@ const state = {
     user_id:  JSON.parse(localStorage.getItem('user.id') || "{}" ),
     cantidad_pendientes: 0,
     finalizado: true,
+    busquedaExp : '',
 
 };
 
@@ -28,9 +29,18 @@ const getters = {
     get_cantPendientes: state => state.cantidad_pendientes,
     recuperado: state => state.recuperado,
     get_finalizado: state => state.finalizado,
+    get_busquedaExp: state => state.busquedaExp
 };
 
 const actions = {
+
+    consultarExpediente ({ commit }, busqueda) {
+        axios.post(process.env.VUE_APP_API_URL+ '/buscar-expediente', busqueda)
+            .then(response => {
+                console.log(response.data)
+                commit('set_resultadosExp', response.data)
+            })
+    },
 
     getCantidadPendientes ({ commit }, usuario) {
         axios.post(process.env.VUE_APP_API_URL+ '/api/contarExp', usuario)
@@ -38,7 +48,6 @@ const actions = {
                 console.log(response.data)
                 commit('set_cantPendientes', response.data)
             })
-
     },
 
     getExpedientes ({ commit }, expediente)  {
@@ -107,6 +116,7 @@ const mutations = {
     recuperado: (state, recuperado) => state.recuperado = recuperado,
     set_finalizado: (state, finalizado) => state.finalizado = finalizado,
     set_bandejaEntrada: (state,expediente_bandeja) => state.expediente_bandeja = expediente_bandeja,
+    set_resultadosExp: (state,busquedaExp) => state.busquedaExp = busquedaExp
 };
 
 export default {

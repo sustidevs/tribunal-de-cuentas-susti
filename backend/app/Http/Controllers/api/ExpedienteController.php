@@ -306,10 +306,11 @@ class ExpedienteController extends Controller
     */
     public function buscarExpediente(Request $request)
     {
-        //$buscar_por = $request->buscar_por;//1-iniciador, 2-nro_cheque, 3-nro_expediente
+        $buscar_por = $request->buscar_por;//1-iniciador, 2-nro_cheque, 3-nro_expediente
         $valor = $request->valor;
-        $listado_expedientes = Expediente::buscarPor($valor);
-        return response()->json($listado_expedientes,200);
+        $listado_expedientes = Expediente::buscarPor($valor,$buscar_por);
+       // return response()->json($listado_expedientes,200);
+        return $buscar_por;
     }
 
     /*
