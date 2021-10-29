@@ -61,7 +61,7 @@
                 <v-row class="tex" justify="start">
                     <v-col cols="12" sm="12" lg="6" class="px-5">
                         <div class="d-flex column d-flex-sm row">
-                            <p class="pt-5">INICIADOR: ---</p>
+                            <p class="pt-5">INICIADOR: {{ nombreIniciador }}</p>
                         </div>
                     </v-col>
 
@@ -111,7 +111,7 @@
 </template>
 
 <script>
-import {mapActions} from "vuex";
+import {mapActions, mapGetters} from "vuex";
 
 export default {
   name: 'AcordadasEnGeneral',
@@ -125,24 +125,36 @@ export default {
         input3: '',
         input4: '',
         input5: '',
+        nombreIniciador: '',
       }
-  },
-
-  methods: {
-    cargaExtracto() {
-        const extracto = "E/REND.CTAS.ACORDADA:  "+ this.input1 + "  MES:  " + this.input2 + "   AÑO:  " + this.input3 + "   NORMAL LEGAL:  " + this. input4 + "   IMPORTE: $  " +  this.input5 + "    ACORDADAS EN GENERAL"
-        this.extracto(extracto)
     },
 
-    ...mapActions([
-        'extracto',
-    ]),
-
-    save () {
-        this.isEditing = !this.isEditing
-        this.hasSaved = true
+    computed: {
+        ... mapGetters(['get_iniciadorSelected','allIniciadores']),
     },
-  },
+
+    mounted(){
+        this.cargariniciador()
+    },
+
+    methods: {
+        cargaExtracto() {
+            this.isEditing = !this.isEditing
+            this.hasSaved = true
+            const extracto = "E/REND.CTAS.ACORDADA:  "+ this.input1 + "  MES:  " + this.input2 + "   AÑO:  " + this.input3 + "   NORMAL LEGAL:  " + this. input4 + "   IMPORTE: $  " +  this.input5 + "    ACORDADAS EN GENERAL"
+            this.extracto(extracto)
+        },
+
+        cargariniciador(){
+            let nombrei = this.allIniciadores.find( item => item.id === this.get_iniciadorSelected)
+            console.log(nombrei.nombre)
+            this.nombreIniciador = nombrei.nombre
+        },
+
+        ...mapActions([
+            'extracto',
+        ]),
+    },
 
 }
 </script>
