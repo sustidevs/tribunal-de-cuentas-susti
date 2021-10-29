@@ -13,6 +13,7 @@ import VerSeguimientos from '../views/VerSeguimientos.vue'
 import NuevoIniciador from '../views/NuevoIniciador.vue'
 import CaratulaPdf from '../views/CaratulaPdf.vue'
 import layout from '../layout/Layout'
+import Expedientes from "../views/Expedientes";
 
 Vue.use(VueRouter)
 
@@ -34,6 +35,12 @@ const routes = [
         name: 'Nuevo',
         component: NuevoExpediente,
         meta: { title: 'Nuevo Expediente' }
+      },
+      {
+        path: '/expedientes',
+        name: 'Expedientes',
+        component: Expedientes,
+        meta: { title: 'Expedientes' }
       },
       {
         path: '/expedientes-pendientes',
@@ -82,6 +89,12 @@ const routes = [
         name: 'NuevoIniciador',
         component: NuevoIniciador,
         meta: { title: 'Nuevo Iniciador' }
+      },
+      {
+        path: '/expedientes',
+        name: 'Expedientes',
+        component: Expedientes,
+        meta: { title: 'Nueva Reunion' }
       },
     ]
   },

@@ -1,14 +1,17 @@
 <template>
   <div>
-    <v-data-table
-        :headers="headers"
-        :items="datos"
-        :items-per-page="5"
-        disable-sort
-        mobile-breakpoint="300"
-        class="elevation-1 mytable"
-    >
-    </v-data-table>
+    <a>
+      <v-data-table
+          :headers="headers"
+          :items="datos"
+          :items-per-page="5"
+          disable-sort
+          mobile-breakpoint="300"
+          class="elevation-1 mytable"
+          @click:row="verHistorial"
+      >
+      </v-data-table>
+    </a>
   </div>
 </template>
 
@@ -33,5 +36,11 @@ export default {
       ],
     }
   },
+
+  methods: {
+    verHistorial () {
+      this.$router.push('/ver-historiales')
+    }
+  }
 }
 </script>

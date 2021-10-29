@@ -51,15 +51,15 @@
         <div class="mx-5">
           <ButtonBig texto="Mis Expedientes" link="/mis-expedientes"  :imagen="'./img/cards/misexpediente.png'"/>
         </div>
-        <!--
         <div class="mx-5">
           <ButtonBig texto="Expedientes" link="/expedientes"  :imagen="'./img/cards/expedientes.png'"/>
         </div>
         <div class="mx-5">
           <ButtonBig texto="Historiales"  link="/historial"  :imagen="'./img/cards/historial.png'"/>
-        </div>-->
+        </div>
       </div>
 
+      <!--
       <div v-if="this.getTipoUsuario === 'Administrador Area'">
         <v-divider color="#393B44" class="my-8"></v-divider>
         <titulo-inicio texto="Acciones de Administrador" class="my-6"/>
@@ -68,7 +68,7 @@
             <ButtonBig texto="Nuevo iniciador" link="/nuevo-iniciador" :imagen="'./img/cards/iniciador.png'"/>
           </div>
         </div>
-      </div>
+      </div>-->
 
       <!--<v-row>
         <v-col cols="12" sm="6" lg="3">

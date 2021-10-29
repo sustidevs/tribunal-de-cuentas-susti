@@ -18,22 +18,40 @@
         <v-divider color="#393B44" class="mt-2"></v-divider>
 
         <form @submit.prevent="consultar()" >
-        <div class="d-flex column Montserrat-Semibold mt-4">
+        <div class="d-flex justify-center column Montserrat-Semibold mt-4">
+
+          <v-radio-group  row v-model="busqueda.buscar_por">
+            <v-radio
+                class="textRadio"
+                color="orange"
+                value="n"
+                label="N° de expediente"
+            >
+            </v-radio>
+
+            <v-radio
+                class="textRadio"
+                color="orange"
+                label="Cuil del iniciador"
+            >
+            </v-radio>
+          </v-radio-group>
+
+          <!--
           <v-btn-toggle v-model="busqueda.buscar_por" group class="justify-space-around">
               <v-btn value="1" x-large class="px-sm-12">
-                  <v-icon color="amber accent-4" class="pr-2"> mdi-circle-slice-8 </v-icon>
+                  <v-icon color="amber accent-4" class="pr-2"> </v-icon>
                   N° de expediente
               </v-btn>
               <v-btn value="2" x-large class="px-sm-12">
-                  <v-icon color="amber accent-4" class="pr-2"> mdi-circle-slice-8 </v-icon>
+                  <v-icon color="amber accent-4" class="pr-2">  </v-icon>
                   CUIL DEL INICIADOR
               </v-btn>
-          </v-btn-toggle>
+          </v-btn-toggle>-->
         </div>
 
         <div>
-            <v-row no-gutters class="text mt-6" justify="center">
-                  <div class="d-flex justify-space-between my-4">
+                  <div class="d-flex my-4">
                       <v-text-field
                           class="Montserrat-Regular text-justify"
                           color="amber accent-4"
@@ -42,7 +60,6 @@
                           label="Por ejemplo: 27-41789321-8, ..."
                       ></v-text-field>
                   </div>
-            </v-row>
             <v-row justify="center" class="pb-6">
               <v-btn type="submit" class="pa-5 color Montserrat-SemiBold" height="45" color="#FACD89">
                 <v-icon class="pr-4"> mdi-text-box-search-outline </v-icon>
@@ -137,15 +154,10 @@ h2{
   font-size: 26px;
   color: #393B44;
 }
-.tex{
-    font-family: Montserrat-Regular;
-    font-size: 18px;
+
+.textRadio{
+  font-family: Montserrat-Bold;
+  font-size: 34px !important;
 }
-.round {
-  border-radius: 30px;
-}
-.boton{
-  font-family: "Montserrat-Semibold";
-  color: #393b44;
-}
+
 </style>
