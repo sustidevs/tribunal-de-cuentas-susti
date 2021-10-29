@@ -22,6 +22,7 @@ const actions = {
     getNuevoPase ({ commit }, expediente )  {
         axios.post(process.env.VUE_APP_API_URL+ '/api/historial', expediente)
             .then(response => {
+                console.log(response)
                 commit('set_expedientes', response.data[0])
                 commit('set_fecha',response.data[2])
                 commit('set_areas',response.data[1])
