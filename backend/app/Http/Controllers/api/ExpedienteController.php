@@ -62,7 +62,7 @@ class ExpedienteController extends Controller
         $expediente->fecha = Carbon::now()->format('Y-m-d');
         $expediente->prioridad = $request->prioridad;
         $expediente->tipo_expediente = $request->tipo_exp_id;
-        $expediente->estado_expediente = '2';
+        $expediente->estado_expediente = '1';
         $expediente->area_actual_id = '6';
         $expediente->area_actual_type = 'App\Models\SubArea';
         $expediente->monto = '3';//$request->monto;     TODO confirmar si monto va en nuevo expediente o en pase.
@@ -211,6 +211,7 @@ class ExpedienteController extends Controller
                         $area = SubArea::findOrFail($request->area_id);
                         $area_type = SubArea::class;
                     }
+
                     $historial->area_destino_id = $area->id;//TODO revisar como viene del front el dato (Areas::all_datos)
                     $historial->area_destino_type = $area_type;
 
@@ -285,10 +286,18 @@ class ExpedienteController extends Controller
 
     public function contadorBandejaEntrada(Request $request)
     {
-        $cuerpos = Cuerpo::All();
+        //$cuerpos = Cuerpo::All();
         $user_area = $request->area_id;
-        $contador = $cuerpos->where('estado', 1)
+        /*$contador = $cuerpos->where('estado', 1)
                             ->where('area_id', $user_area)->count();
+
+        $contador = $cuerpos->where('estado', 1)
+                    ->where('area_id', $user_area)->count();
+
+        foreach ($cuerpos as $cuerpo){
+            $cuerpo->historiales()-
+        }*/
+       $contador = Expediente::listadoExpedientes($request->user_id,1,1)->count();
         return response()->json($contador, 200);
     }
 

@@ -95,10 +95,11 @@
                 </v-btn>
 
               </v-row>
-
             </v-stepper-content>
           </v-stepper-items>
         </v-stepper>
+
+        <modal-exito-pase :show="creado_exito" :dato="expediente_exito"/>
       </form>
     </template>
   </div>
@@ -112,6 +113,7 @@ import TextField from "../components/TextField";
 import {mapActions, mapGetters} from "vuex";
 import FileInputs from "../components/FileInputs";
 import ModalDetallePase from "../components/dialogs/ModalDetallePase";
+import ModalExitoPase from "../components/dialogs/ModalExitoPase";
 /**
 
 
@@ -124,7 +126,7 @@ import InputFile from '../components/InputFile.vue'**/
 export default {
     name: 'Nuevo Pase',
    /** components: {InputDate, Button, Titulo, LabelInput,, SecondaryButton, CardExtractoPase, InputFile},**/
-    components: {FileInputs, Titulo,LabelInput, TextField, ModalDetallePase},
+    components: {FileInputs, Titulo,LabelInput, TextField, ModalDetallePase,ModalExitoPase},
     data: () => ({
       files: [],
       e1: 1,
@@ -137,7 +139,7 @@ export default {
     }),
 
   computed: {
-    ... mapGetters(['get_areas','fecha','getIdUser','expedientePase','idExpedientePase'])
+    ... mapGetters(['creado_exito','expediente_exito','get_areas','fecha','getIdUser','expedientePase','idExpedientePase'])
   },
 
   methods: {
