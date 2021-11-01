@@ -24,6 +24,7 @@ class CreatePagosTable extends Migration
             $table->string('titular')->nullable();
             $table->string('banco')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

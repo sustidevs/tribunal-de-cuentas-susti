@@ -13,8 +13,7 @@ class Historial extends Model
 
     public function area() 
     {
-        return $this->morphTo();
-        //return $this->hasOne('App\Models\Area');
+        return $this->hasOne('App\Models\Area');
     }
 
     public function user() 
@@ -22,8 +21,8 @@ class Historial extends Model
         return $this->hasOne('App\Models\User');
     }
 
-    public function cuerpo() 
+    public function expediente() 
     {
-        return $this->hasOne('App\Models\Cuerpo', 'id');
+        return $this->hasOne('App\Models\Expediente', 'id');
     }
 }

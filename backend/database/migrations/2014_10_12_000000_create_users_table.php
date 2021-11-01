@@ -14,11 +14,12 @@ class CreateUsersTable extends Migration
     public function up()
     {
         Schema::create('users', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('persona_id');
-            $table->foreignId('tipo_user_id')->constrained('tipo_users');
+            $table->bigIncrements('id');
+            //$table->unsignedBigInteger('persona_id');//->constrained('personas');
+            $table->foreignId('persona_id')->constrained('personas');
             $table->unsignedBigInteger('area_id');
-            $table->string('area_type');
+            $table->foreignId('tipo_user_id')->constrained('tipo_users');
+            //$table->unsignedBigInteger('area_id');
             $table->unsignedBigInteger('cuil')->unique();
             $table->string('password');
             $table->timestamp('email_verified_at')->nullable();

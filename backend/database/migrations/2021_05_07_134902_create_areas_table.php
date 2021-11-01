@@ -16,7 +16,6 @@ class CreateAreasTable extends Migration
         Schema::create('areas', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('descripcion');
-            $table->foreignId('admin_area')->constrained('users');//admin de area.
             $table->timestamps();
         });
     }
