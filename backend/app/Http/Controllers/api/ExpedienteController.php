@@ -64,7 +64,7 @@ class ExpedienteController extends Controller
         $expediente->tipo_expediente = $request->tipo_exp_id;
         $expediente->estado_expediente_id = '1';
         $expediente->area_actual_id = '6';
-        $expediente->monto = '3';//$request->monto;     TODO confirmar si monto va en nuevo expediente o en pase.
+        $expediente->monto = $request->monto;
         //return response()->json($request,200);
         //ARCHIVOS/////////////////////////////////////////////////
         /*$zip = new ZipArchive;
@@ -91,27 +91,25 @@ class ExpedienteController extends Controller
             $extracto->descripcion = $request->descripcion_extracto;
             $extracto->save();
 
-            if($request->iniciador_id != null)//TODO validar que no venga null y sacar este if
+            $caratula = new Caratula;
+            $caratula->expediente_id = $expediente->id;
+            $caratula->iniciador_id = $request->iniciador_id;
+            $caratula->extracto_id = $extracto->id;
+            if($caratula->save())
             {
-                $caratula = new Caratula;
-                $caratula->expediente_id = $expediente->id;
-                $caratula->iniciador_id = $request->iniciador_id;
-                $caratula->extracto_id = $extracto->id;
-                if($caratula->save())
-                {
-                    $user = User::findOrFail($request->user_id);
-                    $historial = new Historial;
-                    $historial->expediente_id = $expediente->id;
-                    $historial->user_id = $user->id;
-                    $historial->area_origen_id = 6;
-                    $historial->area_destino_id = 6;
-                    $historial->fojas = $request->nro_fojas;
-                    $historial->fecha = Carbon::now()->format('Y-m-d');
-                    $historial->hora = Carbon::now()->format('h:i');
-                    $historial->motivo = "created";
-                    $historial->estado = 1;
-                    //$historial->archivos = $request->archivos;
-                    $historial->save();
+                $user = User::findOrFail($request->user_id);
+                $historial = new Historial;
+                $historial->expediente_id = $expediente->id;
+                $historial->user_id = $user->id;
+                $historial->area_origen_id = 6;
+                $historial->area_destino_id = 6;
+                $historial->fojas = $request->nro_fojas;
+                $historial->fecha = Carbon::now()->format('Y-m-d');
+                $historial->hora = Carbon::now()->format('h:i');
+                $historial->motivo = "created";
+                $historial->estado = 1;
+                //$historial->archivos = $request->archivos;
+                $historial->save();
                 /* 
                 * Cuando Realiza el pase
                 */
@@ -130,8 +128,8 @@ class ExpedienteController extends Controller
                 $estado_actual = Area::findOrFail($request->area_id);
                 $datos = [$expediente->fecha,$caratula->iniciador->nombre,$extracto->descripcion,$estado_actual];
                 return response()->json($datos,200);
-                } 
-            }
+            } 
+            
         }
         return response()->json('Error',200);
 
