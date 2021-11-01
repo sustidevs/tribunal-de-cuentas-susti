@@ -17,7 +17,8 @@ class CreateUsersTable extends Migration
             $table->bigIncrements('id');
             //$table->unsignedBigInteger('persona_id');//->constrained('personas');
             $table->foreignId('persona_id')->constrained('personas');
-            $table->unsignedBigInteger('area_id');
+            $table->foreignId('area_id')->constrained('areas');
+            //$table->unsignedBigInt('area_id');
             $table->foreignId('tipo_user_id')->constrained('tipo_users');
             //$table->unsignedBigInteger('area_id');
             $table->unsignedBigInteger('cuil')->unique();
