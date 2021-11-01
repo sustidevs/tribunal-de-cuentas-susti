@@ -39,9 +39,8 @@ class Expediente extends Model
 
     public function area()
     {
-        //return $this->morphTo();
-        return $this->morphTo(__FUNCTION__, 'area_actual_type', 'area_actual_id');
-        //return $this->hasOne('App\Models\Area');
+        //return $this->morphTo(__FUNCTION__, 'area_actual_type', 'area_actual_id');
+        return $this->hasOne('App\Models\Area');
     }
 
     /*

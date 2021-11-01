@@ -15,9 +15,9 @@ class CreateTipoExpedientesTable extends Migration
     {
         Schema::create('tipo_expedientes', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('nro_tipo_exp');
             $table->string('descripcion');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

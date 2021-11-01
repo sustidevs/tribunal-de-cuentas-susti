@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Area extends Model
 {
@@ -12,12 +12,12 @@ class Area extends Model
     //Relacion uno a muchos polimorfica
     public function historiales()
     {
-        return $this->morphMany('App\Models\Historial', 'area');
+        return $this->hasMany('App\Models\Historial');
     }
 
-    public function user()
+    public function users()
     {
-        return $this->morphOne('App\Models\User', 'area');
+        return $this->hasMany('App\Models\User');
     }
 
     public function expedientes()

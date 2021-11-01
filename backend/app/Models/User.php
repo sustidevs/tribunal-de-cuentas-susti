@@ -2,10 +2,11 @@
 
 namespace App\Models;
 
+use App\Models\Area;
 use Illuminate\Support\Str;
 use Laravel\Sanctum\HasApiTokens;
-use Spatie\Permission\Traits\HasRoles;
 use Laravel\Jetstream\HasProfilePhoto;
+use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Laravel\Fortify\TwoFactorAuthenticatable;
@@ -66,7 +67,7 @@ class User extends Authenticatable
 
     public function area()
     {
-        return $this->morphTo();
+        return $this->belongsTo(Area::class);
     }
 
     public function persona() 
