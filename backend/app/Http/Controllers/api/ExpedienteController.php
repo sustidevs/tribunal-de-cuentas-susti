@@ -6,8 +6,6 @@ use ZipArchive;
 use Carbon\Carbon;
 use App\Models\Area;
 use App\Models\User;
-use App\Models\Cuerpo;
-use App\Models\SubArea;
 use App\Models\Caratula;
 use App\Models\Extracto;
 use App\Models\Historial;

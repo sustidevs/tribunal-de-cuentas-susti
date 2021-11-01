@@ -28,7 +28,7 @@ class Expediente extends Model
 
     public function prioridadExpediente()
     {
-        return $this->hasOne('App\Models\PrioridadExpediente','id','prioridad');
+        return $this->hasOne('App\Models\PrioridadExpediente','id','prioridad_id');
         //$this->hasOne(Phone::class, 'foreign_key', 'local_key');
     }
 
@@ -92,23 +92,24 @@ class Expediente extends Model
 
     public static function index()
     {
-        $cuerpos = Cuerpo::all();
-        $array_cuerpo = collect([]);
-        foreach ($cuerpos as $cuerpo)
+        $expedientes = Expediente::all();
+        $array_expediente = collect([]);
+        foreach ($expedientes as $exp)
         {
-            $array_cuerpo->push([
-                                'id'=>$cuerpo->caratula->expediente->id,
-                                'prioridad'=>$cuerpo->caratula->expediente->prioridadExpediente->descripcion,
-                                'nro_expediente'=>$cuerpo->caratula->expediente->nro_expediente,
-                                'extracto'=>$cuerpo->caratula->extracto->descripcion,
-                                'fecha_creacion'=>$cuerpo->caratula->expediente->created_at->format('d-m-Y'),
-                                'tramite'=>$cuerpo->caratula->expediente->tipoExpediente->descripcion,
-                                'cuerpos'=>$cuerpo->caratula->cuerpos()->count('id'),
-                                'caratula'=>$cuerpo->caratula_id,
-                                'fojas'=>$cuerpo->caratula->expediente->fojas,
+            $cant_cuerpos = ceil($exp->fojas/200);
+            $array_expediente->push([
+                                'id'=>$exp->id,
+                                'prioridad'=>$exp->prioridadExpediente->descripcion,
+                                'nro_expediente'=>$exp->nro_expediente,
+                                'extracto'=>$exp->caratula->extracto->descripcion,
+                                'fecha_creacion'=>$exp->created_at->format('d-m-Y'),
+                                'tramite'=>$exp->tipoExpediente->descripcion,
+                                'cuerpos'=>$cant_cuerpos,
+                                'caratula'=>$exp->caratula->id,
+                                'fojas'=>$exp->fojas,
                             ]);
         }
-        return $array_cuerpo;
+        return $array_expediente;
     }
 
     public static function nroExpediente($fecha_exp, $año_exp)
