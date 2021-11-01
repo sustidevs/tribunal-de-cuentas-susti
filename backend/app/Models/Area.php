@@ -28,21 +28,12 @@ class Area extends Model
     public static function all_areas(){
         $arrray_areas = collect([]);
         $areas = Area::all();
-        $subareas= SubArea::all();
-
         foreach ($areas as $area) {
             $arrray_areas->push(['idd' => $area->id.'.'.$area->descripcion,
                                  'id' => $area->id,
-                                 'nombre' => $area->descripcion,
-                                 'tipo_area' => 'Area']);
+                                 'nombre' => $area->descripcion]);
         }
-
-        foreach ($subareas as $subarea) {
-            $arrray_areas->push(['idd' => $subarea->id.'.'.$subarea->descripcion,
-                                 'id' => $subarea->id,
-                                 'nombre' => $subarea->descripcion,
-                                 'tipo_area' => 'Subarea']);
-        }
+        
         return $arrray_areas;
     }
 }
