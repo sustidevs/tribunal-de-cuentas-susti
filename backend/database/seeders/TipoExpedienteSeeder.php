@@ -8,7 +8,7 @@ use Illuminate\Database\Seeder;
 class TipoExpedienteSeeder extends Seeder
 {
     
-    private $arrayTipoExpedientes = array(
+    private $arrayTipoExpedientesNro = array(
         array('descripcion' => 'FONDO PERMANENTE','numero' => '1000'),
         array('descripcion' => 'CANCELACIÓN','numero' => '2000'),
         array('descripcion' => 'SUBSIDIO','numero' => '3000'),
@@ -34,12 +34,38 @@ class TipoExpedienteSeeder extends Seeder
         array('descripcion' => 'CEDULAS DE REGISTRACIONES','numero' => '23000'),
     );
 
+    private $arrayTipoExpedientes = array(
+        array('descripcion' => 'FONDO PERMANENTE'),
+        array('descripcion' => 'CANCELACIÓN'),
+        array('descripcion' => 'SUBSIDIO'),
+        array('descripcion' => 'APORTE NO REINTEGRABLE'),
+        array('descripcion' => 'BALANCES'),
+        array('descripcion' => 'MEMORIAS'),
+        array('descripcion' => 'ACORDADA Nº32/2001'),
+        array('descripcion' => 'ACORDADA Nº17/2003'),
+        array('descripcion' => 'ACORDADA 08/2005'),
+        array('descripcion' => 'ACORDADA 12/2005'),
+        array('descripcion' => 'NOTAS'),
+        array('descripcion' => 'CUENTA DE INVERSION'),
+        array('descripcion' => 'ACORDADA 222/2011'),
+        array('descripcion' => 'ARANCELAMIENTO'),
+        array('descripcion' => 'ACORDADA 229/2011'),
+        array('descripcion' => 'FONDO FEDERAL SOLIDARIO'),
+        array('descripcion' => 'REQUERIMIENTO'),
+        array('descripcion' => 'OFICIO'),
+        array('descripcion' => 'FO.E.SE'),
+        array('descripcion' => 'ACORDADA 404/2016'),
+        array('descripcion' => 'ACORDADA 222/2011'),
+        array('descripcion' => 'SUELDOS'),
+        array('descripcion' => 'CEDULAS DE REGISTRACIONES'),
+    );
+
     public function run()
     {
         foreach($this->arrayTipoExpedientes as $tipo){
             $t = new TipoExpediente();
             $t->descripcion = $tipo['descripcion'];
-            $t->nro_tipo_exp = $tipo['numero'];
+            //$t->nro_tipo_exp = $tipo['numero'];
             $t->save();
         }
     }
