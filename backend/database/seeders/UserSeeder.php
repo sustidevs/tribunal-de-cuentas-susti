@@ -31,7 +31,6 @@ class UserSeeder extends Seeder
             'cuil'=>'20'.$persona->dni.'4',
             'tipo_user_id' => 1,
             'area_id' => 2,
-            'area_type' => 'App\Models\Area',
             'email_verified_at' => now(),
             'password' => Hash::make('password'), // password
             'remember_token' => Str::random(10),
@@ -53,7 +52,6 @@ class UserSeeder extends Seeder
             'cuil'=>'20'.$persona->dni.'0',
             'tipo_user_id' => 1,
             'area_id' => 2,
-            'area_type' => 'App\Models\Area',
             'email_verified_at' => now(),
             'password' => Hash::make('password'), // password
             'remember_token' => Str::random(10),
@@ -74,7 +72,6 @@ class UserSeeder extends Seeder
             'cuil'=>'27'.$persona->dni.'2',
             'tipo_user_id' => 2,
             'area_id' => 6,
-            'area_type' => 'App\Models\SubArea',
             'email_verified_at' => now(),
             'password' => Hash::make('password'), // password
             'remember_token' => Str::random(10),
@@ -95,7 +92,6 @@ class UserSeeder extends Seeder
         'cuil'=>'20'.$persona->dni.'4',
         'tipo_user_id' => 2,
         'area_id' => 8,
-        'area_type' => 'App\Models\SubArea',
         'email_verified_at' => now(),
         'password' => Hash::make('password'), // password
         'remember_token' => Str::random(10),

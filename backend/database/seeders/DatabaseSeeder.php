@@ -18,7 +18,7 @@ class DatabaseSeeder extends Seeder
             TipoUserSeeder::class,
             IniciadorSeeder::class,
             TipoExpedienteSeeder::class,
-            SubAreaSeeder::class,
+            AreaSeeder::class,
             PrioridadExpedienteSeeder::class,
             EstadoExpedienteSeeder::class,
             PermissionSeeder::class,
