@@ -4,9 +4,8 @@ namespace Database\Factories;
 
 use App\Models\Area;
 use App\Models\User;
-use App\Models\Cuerpo;
-use App\Models\SubArea;
 use App\Models\Historial;
+use App\Models\Expediente;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class HistorialFactory extends Factory
@@ -28,12 +27,10 @@ class HistorialFactory extends Factory
         $areaOrigen = Area::factory();
         $areaDestino = Area::factory();
         return [
-            'cuerpo_id'         => Cuerpo::factory(),
+            'expediente_id'     => Expediente::factory(),  
             'user_id'           => User::factory(),
-            'area_origen_id'    => SubArea::factory(),
+            'area_origen_id'    => Area::factory(),
             'area_destino_id'   => Area::factory(),
-            'area_origen_type'  => $this->faker->randomElement(['App\Models\SubArea']),
-            'area_destino_type' => $this->faker->randomElement(['App\Models\Area']),
             'fojas'             => $this->faker->numberBetween(1, 1000),
             'fecha'             => $this->faker->date(),
             'hora'              => $this->faker->time(),
