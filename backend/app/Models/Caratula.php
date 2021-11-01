@@ -19,11 +19,6 @@ class Caratula extends Model
         return $this->hasOne('App\Models\Responsable');
     }
 
-    public function cuerpos() 
-    {
-        return $this->hasMany('App\Models\Cuerpo');
-    }
-
     public function extracto() 
     {
         return $this->hasOne('App\Models\Extracto','id','extracto_id');
