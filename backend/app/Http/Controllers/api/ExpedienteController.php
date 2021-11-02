@@ -66,11 +66,11 @@ class ExpedienteController extends Controller
         $expediente->area_actual_id = '6';
         $expediente->monto = $request->monto;
         //return response()->json($request,200);
-        //ARCHIVOS/////////////////////////////////////////////////
-        /*$zip = new ZipArchive;
-        $fileName =  'Documentacion '.$expediente->nro_expediente.'.zip';
-        $path = storage_path()."/app/public/archivos_formularios/" . $fileName;
-        if(!is_null($request->archivos[0]))
+        //ARCHIVOS/////////////////////////////////////////////
+        $zip = new ZipArchive;
+        $fileName = $request->nro_expediente.'.zip';
+        $path = storage_path()."/app/public/archivos_expedientes/" . $fileName;
+        if(isset($request->archivos[0]))
         {
             if($zip->open($path,ZipArchive::CREATE) === true)
             {
@@ -82,8 +82,8 @@ class ExpedienteController extends Controller
                 $zip->close();
             }
             $expediente->archivos = $fileName;
-        }*/
-        //////////////////////////////////////////////////////////
+        }
+        ////////////////////////////////////////////////////////
         if ($request->validated())
         {
             $expediente->save();
