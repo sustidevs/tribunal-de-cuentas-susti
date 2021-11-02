@@ -40,7 +40,17 @@ class Expediente extends Model
     public function area()
     {
         //return $this->morphTo(__FUNCTION__, 'area_actual_type', 'area_actual_id');
-        return $this->hasOne('App\Models\Area');
+        return $this->hasOne('App\Models\Area','id','area_actual_id');
+    }
+
+    public function historiales()
+    {
+        return $this->hasMany('App\Models\Historial');
+    }
+
+    public function cantidadCuerpos()
+    {
+        return ceil($this->fojas/200);
     }
 
     /*
@@ -63,28 +73,17 @@ class Expediente extends Model
 
     public function datosExpediente()
     {
-
-        if($this->caratula->cuerpos->last()->historiales->last()->area_origen_type == 'App\\Models\\Area')
-        {
-            $area_origen = Area::findOrFail($this->caratula->cuerpos->last()->historiales->last()->area_origen_id);
-        }
-        else
-        {
-            $area_origen = SubArea::findOrFail($this->caratula->cuerpos->last()->historiales->last()->area_origen_id);
-        }
-
         $array = Collect(['id'=>$this->id,
                           'prioridad'=>$this->prioridadExpediente->descripcion,
                           'nro_expediente'=>$this->nro_expediente,
                           'extracto'=>$this->caratula->extracto->descripcion,
                           'fecha_creacion'=>$this->created_at->format('d-m-Y'),
                           'tramite'=>$this->tipoExpediente->descripcion,
-                          'cuerpos'=>$this->caratula->cuerpos()->count('id'),
+                          'cuerpos'=>$this->cantidadCuerpos(),
                           'caratula'=>$this->caratula->id,
-                          'fojas'=>$this->caratula->expediente->fojas,
+                          'fojas'=>$this->fojas,
                           'area_actual' => $this->area->descripcion,
-                          'area_actual_type' => $this->area_actual_type,
-                          'area_origen'=>$area_origen->descripcion
+                          'area_origen'=>$this->historiales->last()->areaOrigen->descripcion
             ]);
 
         return $array;
@@ -96,7 +95,6 @@ class Expediente extends Model
         $array_expediente = collect([]);
         foreach ($expedientes as $exp)
         {
-            $cant_cuerpos = ceil($exp->fojas/200);
             $array_expediente->push([
                                 'id'=>$exp->id,
                                 'prioridad'=>$exp->prioridadExpediente->descripcion,
@@ -104,7 +102,7 @@ class Expediente extends Model
                                 'extracto'=>$exp->caratula->extracto->descripcion,
                                 'fecha_creacion'=>$exp->created_at->format('d-m-Y'),
                                 'tramite'=>$exp->tipoExpediente->descripcion,
-                                'cuerpos'=>$cant_cuerpos,
+                                'cuerpos'=>$exp->cantidadCuerpos(),
                                 'caratula'=>$exp->caratula->id,
                                 'fojas'=>$exp->fojas,
                             ]);
