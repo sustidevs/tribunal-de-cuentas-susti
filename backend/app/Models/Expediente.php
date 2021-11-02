@@ -284,6 +284,88 @@ class Expediente extends Model
     public static function listadoExpedientes($user_id,$estado,$bandeja)
     {
         $Expedientes = Expediente::all();
+        $user = User::findOrFail($user_id);
+        $array_expediente = collect([]);
+        
+    
+        foreach ($Expedientes as $exp)
+        {
+            switch ($bandeja)
+            {
+                case "1": #BANDEJA DE ENTRADA
+                    $area_destino_id = $exp->historiales->last()->areaDestino->id;
+                    $area_destino = $exp->historiales->last()->areaDestino->descripcion;
+                    $estado = $exp->historiales->last()->estado;
+                    break;
+                case "2": #BANDEJA DEL AREA
+                    $area_destino_id = $exp->area_actual_id;
+                    $area_destino = $exp->area->descripcion;
+                    $estado = $exp->estado_expediente_id;
+                    break;
+                case "3": #MI EXPEDIENTE
+                    $area_destino_id = $exp->area_actual_id;
+                    $area_destino = $exp->area->descripcion;
+                    $estado = $exp->estado_expediente_id;
+                    break;
+            }
+
+            $array_expediente->push([
+                'id'=>$exp->id,
+                'prioridad'=>$exp->prioridadExpediente->descripcion,
+                'nro_expediente'=>$exp->nro_expediente,
+                'extracto'=>$exp->caratula->extracto->descripcion,
+                'fecha_creacion'=>$exp->created_at->format('d-m-Y'),
+                'tramite'=>$exp->tipoExpediente->descripcion,
+                'cant_cuerpos'=>$exp->cantidadCuerpos(),
+                'fojas'=>$exp->fojas,
+                'iniciador'=>$exp->caratula->iniciador->nombre,
+                'cuit_iniciador'=>$exp->caratula->iniciador->cuit,
+                'area_origen_id'=>$exp->historiales->last()->areaOrigen->id,
+                'area_origen'=>$exp->historiales->last()->areaOrigen->descripcion,
+                'area_destino_id'=>$area_destino_id,
+                'area_destino'=>$area_destino,
+                //'area_actual_id'=>$exp->area_actual_id,
+                //'area_actual'=>$exp->area->descripcion,
+                'estado'=>$estado,
+                'user_id'=>$exp->historiales->last()->user_id
+            ]);
+            
+        }
+        /*
+        * Filtro los Exp. por bandeja
+        */
+
+        #BANDEJA DE ENTRADA
+        if ($bandeja == 1) {
+            return $array_expediente->where('area_destino_id',$user->area_id)
+            ->where('estado',$estado);
+        }
+        
+        #BANDEJA DEL AREA
+        if ($bandeja == 2) {
+            return $array_expediente->where('area_destino_id',$user->area_id)
+                                    ->where('estado',$estado);
+        }
+
+        #MI EXPEDIENTE
+        if ($bandeja == 3) {
+            return $array_expediente->where('area_destino_id',$user->area_id)
+                                    ->where('user_id',$user->id)
+                                    ->where('estado',$estado);
+        }
+
+        #ENVIADOS
+        if ($bandeja == 4) {
+            return $array_expediente->where('area_origen_id',$user->area_id)
+                                    ->where('user_id',$user->id)
+                                    ->where('estado',$estado);
+        }
+        //return $array_expediente;
+    }
+
+    public static function listadoExpedientes2($user_id,$estado,$bandeja)
+    {
+        $Expedientes = Expediente::all();
         $array_expediente = collect([]);
         foreach ($Expedientes as $exp)
         {
