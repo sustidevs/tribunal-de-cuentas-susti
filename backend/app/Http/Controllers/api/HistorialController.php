@@ -4,7 +4,6 @@ namespace App\Http\Controllers\api;
 
 use Carbon\Carbon;
 use App\Models\Area;
-use App\Models\SubArea;
 use App\Models\User;
 use App\Models\Historial;
 use App\Models\Iniciador;
@@ -17,55 +16,30 @@ class HistorialController extends Controller
 {
     public function create(Request $request)
     {
-        $expediente = Expediente::findOrFail($request->id);
+        $expediente = Expediente::findOrFail($request->expediente_id);
         $area_destino = Area::All();
         $fecha = Carbon::now()->format('d-m-Y');
         $hora = Carbon::now()->format('h:i');
         $horario = [$fecha,$hora];
         //$user = User::findOrFail($c["user_id"]);
         //$agente = [$user->persona->nombre, $user->persona->apellido, $user->id];
-        //$pase = [$fojas,$fecha,$hora,$agente,$cuerpos_pase,$areaDestino];
-        $pase = [$expediente, $area_destino, $horario];
-        return response()->json($pase, 200);
+        $historial = [$expediente, $area_destino, $horario];
+        return response()->json($historial, 200);
     }
-
-    /*ejemplo con dos cuerpos, para el postman
-    {
-        "cuerpos": {
-          "1": {
-            "prioridad": "media",
-            "fojas": 100,
-            "id": 12,
-            "area_id": 6,
-            "area_type": "App\\Models\\SubArea",
-            "estado": 3,
-            "user_id": 22
-          },
-          "2": {
-            "prioridad": "media",
-            "fojas": 100,
-            "id": 12,
-            "area_id": 6,
-            "area_type": "App\\Models\\SubArea",
-            "estado": 3,
-            "user_id": 22
-          }
-        }
-    }
-    */
     
     /*
     Recibe datos para registrar el pase de un cuerpo a otra área
     */
     public function store(Request $request)
     {
-        $user = User::findOrFail(1);//User::Auth(); // TODO REEMPLAZAR
+        $user = Auth::User(); 
+        $expediente = Expediente::findOrFail($request->expediente_id);
         $historial = new Historial;
         $historial->user_id = $user->id;
-        $historial->expediente_id = $request->expediente_id;
-        $historial->fojas = $request->fojas;
+        $historial->expediente_id = $expediente->id;
         $historial->area_origen_id = $user->area_id;
         $historial->area_destino_id = $request->area_destino_id;
+        $historial->fojas = $request->fojas;
         $historial->fecha = Carbon::now()->format('Y-m-d');
         $historial->hora = Carbon::now()->format('h:i');
         $historial->motivo = $request->motivo;
@@ -74,21 +48,6 @@ class HistorialController extends Controller
         $historial->save();
         return response()->json($historial, 200);
     }
-        //$historial = new Historial;
-        //$historial->cuerpo_id = $request->cuerpo_id;
-        //$historial->user_id = $user->id;
-        //$historial->area_origen_id = $user->area_id;
-        //$historial->area_destino_id = $request->area_destino_id;
-        //$historial->fojas = $request->fojas;
-        //$historial->fecha = Carbon::now()->format('Y-m-d');
-        //$historial->hora = Carbon::now()->format('h:i');
-        //$historial->motivo = $request->motivo;
-        //$historial->estado = $request->estado;
-        //$historial->archivos = $request->archivos;
-        //$historial->save();
-
-        //return response()->json($test, 200);
-    //}
 
      /*
     * Cambia el estado de los cuerpos de un expediente y guarda registro del mismo en el historial.
