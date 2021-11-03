@@ -26,7 +26,18 @@ class HistorialController extends Controller
         $historial = [$expediente, $area_destino, $horario];
         return response()->json($historial, 200);
     }
-    
+
+    /*   Datos de prueba
+    {
+        "expediente_id": 1,
+        "user_id" : 1,
+        "area_origen_id": 3,
+        "area_destino_id" : 5,
+        "fojas": 10,
+        "motivo": "asd"
+    }
+    */
+
     /*
     Recibe datos para registrar el pase de un cuerpo a otra área
     */
