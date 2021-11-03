@@ -43,7 +43,7 @@ class HistorialController extends Controller
     */
     public function store(Request $request)
     {
-        $user = User::findOrFail(1); //Auth::User(); 
+        $user = Auth::User();
         $expediente = Expediente::findOrFail($request->expediente_id);
         $historial = new Historial;
         $historial->user_id = $user->id;
@@ -57,7 +57,6 @@ class HistorialController extends Controller
         $historial->nombre_archivo = $request->archivo;
         $historial->estado = 1;//pendiente para la bandeja del area destino, enviado para la bandeja origen
         $expediente->fojas += $historial->fojas;
-        $expediente->area_actual_id = $request->area_destino_id;
         $expediente->save();
         $historial->save();
         return response()->json($historial, 200);
