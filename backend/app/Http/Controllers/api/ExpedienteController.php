@@ -61,7 +61,7 @@ class ExpedienteController extends Controller
         $expediente->prioridad_id = $request->prioridad;
         $expediente->tipo_expediente = $request->tipo_exp_id;
         $expediente->estado_expediente_id = '1';
-        $expediente->area_actual_id = '6';
+        $expediente->area_actual_id = '13';
         $expediente->monto = $request->monto;
         //return response()->json($request,200);
         //ARCHIVOS/////////////////////////////////////////////////
