@@ -2,8 +2,6 @@
 
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ExpedienteController;
-use App\Http\Controllers\PaseExpedienteController;
 use Inertia\Inertia;
 
 /*
@@ -29,12 +27,3 @@ Route::get('/', function () {
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->name('dashboard');
-
-Route::get('/expediente', [ExpedienteController::Class, 'create']);
-Route::post('/expediente', [ExpedienteController::Class, 'store']);
-
-///Pruebas
-Route::get('/expediente2', [ExpedienteController::Class, 'store']);//para pruebas
-Route::get('/pase2', [PaseExpedienteController::Class, 'store']);
-
-
