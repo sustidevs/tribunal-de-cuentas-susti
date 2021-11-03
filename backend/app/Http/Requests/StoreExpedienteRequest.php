@@ -28,7 +28,8 @@ class StoreExpedienteRequest extends FormRequest
             'prioridad' => 'required',
             //'monto'     => 'required|integer',
             'descripcion_extracto' => 'required',
-            'iniciador_id' => 'required'
+            'iniciador_id' => 'required',
+            'archivos' => 'mimes:docx, txt, pdf, jpg, jpeg, xlsx, xls|file|size:25600'
         ];
     }
 
@@ -42,7 +43,9 @@ class StoreExpedienteRequest extends FormRequest
             // 'monto.required'        => 'Ingrese un monto',
             // 'monto.integer'         => 'Solo puede ingresar números',
             'descripcion_extracto.required' => 'Descripción del extracto requerida',
-            'iniciador_id.required' => 'Seleccione un iniciador'
+            'iniciador_id.required' => 'Seleccione un iniciador',
+            'archivos.mimes'        => 'Seleccione un archivo con la extensión correcta.',
+            'archivos.size'         => 'El archivo es demasiado pesado.'
         ];
     }
 }
