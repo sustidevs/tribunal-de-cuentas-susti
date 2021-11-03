@@ -43,18 +43,18 @@ class HistorialController extends Controller
     */
     public function store(Request $request)
     {
-        $user = Auth::User();
+        $user = User::findOrFail($request->user_id);
         $expediente = Expediente::findOrFail($request->expediente_id);
         $historial = new Historial;
-        $historial->user_id = $user->id;
         $historial->expediente_id = $expediente->id;
+        $historial->user_id = $request->user_id;
         $historial->area_origen_id = $user->area_id;
         $historial->area_destino_id = $request->area_destino_id;
         $historial->fojas = $request->fojas;
         $historial->fecha = Carbon::now()->format('Y-m-d');
         $historial->hora = Carbon::now()->format('h:i');
         $historial->motivo = $request->motivo;
-        $historial->nombre_archivo = $request->archivo;
+        $historial->nombre_archivo = $request->nombre_archivo;
         $historial->estado = 1;//pendiente para la bandeja del area destino, enviado para la bandeja origen
         $expediente->fojas += $historial->fojas;
         $expediente->save();
