@@ -22,6 +22,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\StoreExpedienteRequest;
 use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Database\Eloquent\Relations\Relation;
+use Illuminate\Support\Facades\Storage;
 
 class ExpedienteController extends Controller
 {
@@ -69,11 +70,15 @@ class ExpedienteController extends Controller
         //ARCHIVOS/////////////////////////////////////////////
         $zip = new ZipArchive;
         $fileName = $request->nro_expediente.'.zip';
-        $path = storage_path()."/app/public/archivos_expedientes/" . $fileName;
-        if(isset($request->archivos[0]))
+        
+        $path = storage_path()."\\app\\public\\archivos_expedientes\\" . $fileName;
+        //return ($path);
+        if(!is_null($request->Archivos[0]))
         {
+            //$zip->open($path,ZipArchive::CREATE);
             if($zip->open($path,ZipArchive::CREATE) === true)
             {
+                
                 foreach ($request->archivos as $key => $value)
                 {
                     $relativeNameInZipFile = $value->getClientOriginalName();
@@ -82,11 +87,21 @@ class ExpedienteController extends Controller
                 $zip->close();
             }
             $expediente->archivos = $fileName;
+            
+            $expediente->save();
         }
+
+
+
+        else
+        {
+            $expediente->save();
+        }
+        //$expediente->save();
         ////////////////////////////////////////////////////////
         if ($request->validated())
         {
-            $expediente->save();
+            //$expediente->save();
             $extracto = new Extracto;
             $extracto->descripcion = $request->descripcion_extracto;
             $extracto->save();

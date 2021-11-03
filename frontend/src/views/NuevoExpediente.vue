@@ -106,6 +106,8 @@
       >
       </v-autocomplete>
 
+      <input-field v-model="expe.archivos"/>
+
 
       <v-row no-gutters justify="center" class="mt-8">
         <v-col cols="12" sm="6" md="6" lg="6" class="py-6 px-sm-2">
@@ -135,11 +137,12 @@ import TextField from "../components/TextField";
 import AutocompleteField from "../components/AutocompleteField";
 import ModalNuevosExpedientes from "../components/dialogs/ModalNuevosExpedientes"
 import LabelError from "../components/LabelError"
+import InputField from "../components/InputFile.vue"
 
 
 export default {
   name: 'Home',
-  components: {AutocompleteField, TextField, InputDate, LabelInput,Extractos,ModalNuevosExpedientes,LabelError},
+  components: {AutocompleteField, TextField, InputDate, LabelInput,Extractos,ModalNuevosExpedientes,LabelError, InputField},
   data: () => ({
     radioGroup: 1,
     toggle_none: null,
@@ -154,6 +157,7 @@ export default {
       tipo_exp_id: 0,
       descripcion_extracto: '',
       area_id: '',
+      archivos: '',
     }
   }),
 
@@ -174,7 +178,8 @@ export default {
         descripcion_extracto: this.extracto,
         area_id : this.area_destino.id,
         tipo_area: this.area_destino.tipo_area,
-        tipo_entidad: 1
+        tipo_entidad: 1,
+        archivos: this.expe.archivos
       }
       this.storeExpediente(expediente);
     },
