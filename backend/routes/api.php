@@ -4,7 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\api\UserController;
 use App\Http\Controllers\api\LoginController;
-use App\Http\Controllers\Api\HistorialController;
+use App\Http\Controllers\api\HistorialController;
 use App\Http\Controllers\api\ExpedienteController;
 
 /*
@@ -37,7 +37,7 @@ Route::post('/buscar-expediente',  [ExpedienteController::class, 'buscarExpedien
 Route::get('/all-expedientes',  [ExpedienteController::class, 'AllExpedientes']);
 ////////////////////////////////////////////////////////////////////////////////////
 
-////////////////////////////////////////////////////////////////////////////////////
+//BANDEJAS//////////////////////////////////////////////////////////////////////////////////
 Route::post('/ListadoExp',       [ExpedienteController::class, 'bandeja']);
 Route::post('/contarExp',         [ExpedienteController::class, 'contadorBandejaEntrada']);
 ///////////////////////////////////////////////////////////////////////////////////

@@ -1,12 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\api;
 
 use Carbon\Carbon;
 use App\Models\Area;
-use App\Models\SubArea;
 use App\Models\User;
-use App\Models\Cuerpo;
 use App\Models\Historial;
 use App\Models\Iniciador;
 use App\Models\Expediente;
@@ -18,49 +16,25 @@ class HistorialController extends Controller
 {
     public function create(Request $request)
     {
-        $expediente = Expediente::findOrFail($request->id);
-        //$cuerpos_pase = Collect([]);
-        //$cuerpos_pase = $request->cuerpos;
-        //$nro_cuerpos = count($request->cuerpos);
-        //$fojas = 0;
-        //for ($x=1;$x<=$nro_cuerpos; $x++)
-        //{
-        //    $c = $request->cuerpos[$x];
-        //    $fojas = $fojas + $c["fojas"];
-        //}
-        $area_destino = Area::all_areas();
+        $expediente = Expediente::findOrFail($request->expediente_id);
+        $area_destino = Area::All();
         $fecha = Carbon::now()->format('d-m-Y');
         $hora = Carbon::now()->format('h:i');
         $horario = [$fecha,$hora];
         //$user = User::findOrFail($c["user_id"]);
         //$agente = [$user->persona->nombre, $user->persona->apellido, $user->id];
-        //$pase = [$fojas,$fecha,$hora,$agente,$cuerpos_pase,$areaDestino];
-        $pase = [$expediente, $area_destino, $horario];
-        return response()->json($pase, 200);
+        $historial = [$expediente, $area_destino, $horario];
+        return response()->json($historial, 200);
     }
 
-    /*ejemplo con dos cuerpos, para el postman
+    /*   Datos de prueba
     {
-        "cuerpos": {
-          "1": {
-            "prioridad": "media",
-            "fojas": 100,
-            "id": 12,
-            "area_id": 6,
-            "area_type": "App\\Models\\SubArea",
-            "estado": 3,
-            "user_id": 22
-          },
-          "2": {
-            "prioridad": "media",
-            "fojas": 100,
-            "id": 12,
-            "area_id": 6,
-            "area_type": "App\\Models\\SubArea",
-            "estado": 3,
-            "user_id": 22
-          }
-        }
+        "expediente_id": 1,
+        "user_id" : 1,
+        "area_origen_id": 3,
+        "area_destino_id" : 5,
+        "fojas": 10,
+        "motivo": "asd"
     }
     */
 
@@ -69,224 +43,24 @@ class HistorialController extends Controller
     */
     public function store(Request $request)
     {
-        $user = User::findOrFail($request->user_id); // TODO REEMPLAZAR
-        $ultimo_cuerpo = Expediente::findOrFail($request->expediente_id)->caratula->cuerpos->last()->estadoActual();
-        $fojas_ultimo_cuerpo = $ultimo_cuerpo->fojas;
-        $fojas_total = $fojas_ultimo_cuerpo + $request->fojas;
-        if ($fojas_total <= Cuerpo::CANTIDAD_FOJAS)
-        {
-            $ultimo_cuerpo = Expediente::findOrFail($request->expediente_id)->caratula->cuerpos->last();//Cuerpo
-            $ultimo_cuerpo->cantidad_fojas = $fojas_total;
-            $ultimo_cuerpo->estado = 1;
-            $ultimo_cuerpo->save();
-            /*$act_historial = $ultimo_cuerpo->estadoActual();//Historial
-            $act_historial->fojas = $fojas_total;
-            $act_historial->area_origen_id = $user->area_id;
-            $act_historial->area_origen_type = $user->area_type;
-            $act_historial->area_destino_id = $request->area_destino_id;
-            $act_historial->area_destino_type = $request->area_destino_type;
-            $act_historial->fecha = Carbon::now()->format('Y-m-d');
-            $act_historial->hora = Carbon::now()->format('h:i');
-            $act_historial->motivo = $request->motivo;
-            $act_historial->archivo = $request->archivos;
-            $act_historial->estado = 1;
-            $act_historial->save();*/
-
-             $historial = new Historial;
-             $historial->cuerpo_id = $ultimo_cuerpo->id;
-             $historial->user_id = $user->id;
-             $historial->fojas = $request->nro_fojas;
-             $historial->area_origen_id = $user->area_id;
-             $historial->area_origen_type = $user->area_type;
-             //$historial->area_destino_id = $request->area_destino_id;
-             //$historial->area_destino_type = $request->area_destino_type;
-             $historial->fecha = Carbon::now()->format('Y-m-d');
-             $historial->hora = Carbon::now()->format('h:i');
-             $historial->motivo = $request->motivo;
-             $historial->archivo = $request->archivos;
-             $historial->estado = 1;//pendiente para la bandeja del area destino, enviado para la bandeja origen
-            if ($request->area_destino_type == "Area")
-            {
-                $area = Area::findOrFail($request->area_destino_id);
-                $area_type = Area::class;
-            } else
-            {
-                $area = SubArea::findOrFail($request->area_destino_id);
-                $area_type = SubArea::class;
-            }
-            $historial->area_destino_id = $area->id;//TODO revisar como viene del front el dato (Areas::all_datos)
-            $historial->area_destino_type = $area_type;
-             $historial->save();
-        }
-        else
-        {
-            do
-            {
-                $ultimo_cuerpo = Expediente::findOrFail($request->expediente_id)->caratula->cuerpos->last();//Cuerpo
-                $ultimo_cuerpo->cantidad_fojas = Cuerpo::CANTIDAD_FOJAS;
-                $ultimo_cuerpo->estado = 1;
-                $ultimo_cuerpo->save();
-                $act_historial = $ultimo_cuerpo->estadoActual();//Historial
-                $act_historial->fojas = $ultimo_cuerpo->cantidad_fojas;
-                $act_historial->estado =1;
-                $act_historial->save();
-                //SE ACTUALIZO EL NUMERO DE FOJAS DEL ULTIMO CUERPO Y DEL ULTIMO HISTORIAL DE ESE CUERPO
-
-                $dif = $fojas_total - Cuerpo::CANTIDAD_FOJAS;
-
-                if($dif > Cuerpo::CANTIDAD_FOJAS)
-                {
-                    $cuerpo = new Cuerpo;
-                    $cuerpo->caratula_id = $ultimo_cuerpo->caratula_id;
-                    $cuerpo->estado = 1;//pendiente para la bandeja del area destino, enviado para la bandeja origen
-                    $cuerpo->area_id = $ultimo_cuerpo->area_id;
-                    $cuerpo->area_type = $ultimo_cuerpo->area_type;
-                    $cuerpo->cantidad_fojas = Cuerpo::CANTIDAD_FOJAS;
-                    $cuerpo->save();
-                    $historial = new Historial;
-                    $historial->cuerpo_id = $cuerpo->id;
-                    $historial->user_id = $user->id;
-                    $historial->fojas = Cuerpo::CANTIDAD_FOJAS;
-                    $historial->area_origen_id = $user->area_id;
-                    $historial->area_origen_type = $user->area_type;
-                    $historial->area_destino_id = $request->area_destino_id;
-                    $historial->area_destino_type = $request->area_destino_type;
-                    $historial->fecha = Carbon::now()->format('Y-m-d');
-                    $historial->hora = Carbon::now()->format('h:i');
-                    $historial->motivo = $request->motivo;
-                    $historial->archivo = $request->archivos;
-                    $historial->estado = 1;//pendiente para la bandeja del area destino, enviado para la bandeja origen
-                    $historial->save();
-                    $dif = $dif - Cuerpo::CANTIDAD_FOJAS;
-                    if($dif <= Cuerpo::CANTIDAD_FOJAS)
-                    {
-                        $cuerpo = new Cuerpo;
-                        $cuerpo->caratula_id = $ultimo_cuerpo->caratula_id;
-                        $cuerpo->estado = 1;//pendiente para la bandeja del area destino, enviado para la bandeja origen
-                        $cuerpo->area_id = $ultimo_cuerpo->area_id;
-                        $cuerpo->area_type = $ultimo_cuerpo->area_type;
-                        $cuerpo->cantidad_fojas = $dif;
-                        $cuerpo->save();
-                        $historial = new Historial;
-                        $historial->cuerpo_id = $cuerpo->id;
-                        $historial->user_id = $user->id;
-                        $historial->fojas = $dif;
-                        $historial->area_origen_id = $user->area_id;
-                        $historial->area_origen_type = $user->area_type;
-
-                        $historial->fecha = Carbon::now()->format('Y-m-d');
-                        $historial->hora = Carbon::now()->format('h:i');
-                        $historial->motivo = $request->motivo;
-                        $historial->archivo = $request->archivos;
-                        $historial->estado = 1;//pendiente para la bandeja del area destino, enviado para la bandeja origen
-                        if ($request->area_destino_type == "Area")
-                        {
-                            $area = Area::findOrFail($request->area_destino_id);
-                            $area_type = Area::class;
-                        } else
-                        {
-                            $area = SubArea::findOrFail($request->area_destino_id);
-                            $area_type = SubArea::class;
-                        }
-                        $historial->area_destino_id = $area->id;//TODO revisar como viene del front el dato (Areas::all_datos)
-                        $historial->area_destino_type = $area_type;
-                        $historial->save();
-                    }
-                }
-                else if ($dif <= Cuerpo::CANTIDAD_FOJAS)
-                {
-                    $cuerpo = new Cuerpo;
-                    $cuerpo->cantidad_fojas = $dif;//probar con $fojas_total
-                    $cuerpo->caratula_id = $ultimo_cuerpo->caratula_id;//Cuerpo::findOrFail($ultimo_cuerpo->cuerpo_id)->caratula->id;//$ultimo_cuerpo->cuerpo->caratula_id;
-                    $cuerpo->estado = 1;//pendiente para la bandeja del area destino, enviado para la bandeja origen
-                    $cuerpo->area_id = $ultimo_cuerpo->area_id;
-                    $cuerpo->area_type = $ultimo_cuerpo->area_type;
-                    $cuerpo->save();
-                    $historial = new Historial;
-                    $historial->cuerpo_id = $cuerpo->id;
-                    $historial->user_id = $user->id;
-                    $historial->fojas = $dif;
-                    $historial->area_origen_id = $user->area_id;
-                    $historial->area_origen_type = $user->area_type;
-                    $historial->area_destino_id = $request->area_destino_id;
-                    $historial->area_destino_type = $request->area_destino_type;
-                    $historial->fecha = Carbon::now()->format('Y-m-d');
-                    $historial->hora = Carbon::now()->format('h:i');
-                    $historial->motivo = $request->motivo;
-                    $historial->archivo = $request->archivos;
-                    $historial->estado = 1;//pendiente para la bandeja del area destino, enviado para la bandeja origen
-                    $historial->save();
-                }
-            }
-            while($dif>= 201);
-        }
-        $test = ['holas'];
-        $detalle_pase = Expediente::findOrFail($request->expediente_id)->datosExpediente();
-        return response()->json($detalle_pase, 200);
-     }
-
-        // foreach($cuerpos as $cuerpo)
-        // {
-        //     $historial = new Historial;
-        //     $historial->cuerpo_id = $cuerpo->id;
-        //     $historial->user_id = $user->id;
-        //     $historial->area_origen_id = $cuerpo->area_id;
-        //     $historial->area_destino_id = $request->area_destino_id;
-        //     $historial->area_orirgen_type = $cuerpo->area_type;
-        //     $historial->area_destino_type = $request->area_destino_type;
-        //     $historial->fojas =
-        // }
-        //$historial = new Historial;
-        //$historial->cuerpo_id = $request->cuerpo_id;
-        //$historial->user_id = $user->id;
-        //$historial->area_origen_id = $user->area_id;
-        //$historial->area_destino_id = $request->area_destino_id;
-        //$historial->area_origen_type = $user->area_type;
-        //$historial->area_destino_type = $request->area_destino_type;
-        //$historial->fojas = $request->fojas;
-        //$historial->fecha = Carbon::now()->format('Y-m-d');
-        //$historial->hora = Carbon::now()->format('h:i');
-        //$historial->motivo = $request->motivo;
-        //$historial->estado = $request->estado;
-        //$historial->archivos = $request->archivos;
-        //$historial->save();
-
-        //$fojas_total = $cuerpo->cantidad_fojas + $request->fojas;
-
-        //if($fojas_total > Cuerpo::CANTIDAD_FOJAS)
-        //{
-        //    if($cuerpo->cantidad_fojas < Cuerpo::CANTIDAD_FOJAS)
-        //    {
-        //        $fojas_total -= Cuerpo::CANTIDAD_FOJAS;
-        //        $cuerpo->cantidad_fojas = Cuerpo::CANTIDAD_FOJAS;
-        //        $cuerpo->update();
-        //    }
-        //    while($fojas_total > 0)
-        //    {
-        //        $nuevo_cuerpo = new Cuerpo;
-        //        if($fojas_total > Cuerpo::CANTIDAD_FOJAS)
-        //        {
-        //             $nuevo_cuerpo->cantidad_fojas = Cuerpo::CANTIDAD_FOJAS;
-        //             $fojas_total -= Cuerpo::CANTIDAD_FOJAS;
-        //         }
-        //         else
-        //         {
-        //             $nuevo_cuerpo->cantidad_fojas = $fojas_total;
-        //             $fojas_total -= Cuerpo::CANTIDAD_FOJAS;
-        //         }
-        //         $nuevo_cuerpo->caratula_id = $cuerpo->caratula_id;
-        //         $nuevo_cuerpo->estado = 1;
-        //         $nuevo_cuerpo->save();
-        //     }
-        // }
-        // else
-        // {
-        //     $cuerpo->cantidad_fojas = $fojas_total;
-        //     $cuerpo->update();
-        // }
-        //$test = ['holas'];
-        //return response()->json($test, 200);
-    //}
+        $user = User::findOrFail($request->user_id);
+        $expediente = Expediente::findOrFail($request->expediente_id);
+        $historial = new Historial;
+        $historial->expediente_id = $expediente->id;
+        $historial->user_id = $request->user_id;
+        $historial->area_origen_id = $user->area_id;
+        $historial->area_destino_id = $request->area_destino_id;
+        $historial->fojas = $request->fojas;
+        $historial->fecha = Carbon::now()->format('Y-m-d');
+        $historial->hora = Carbon::now()->format('h:i');
+        $historial->motivo = $request->motivo;
+        $historial->nombre_archivo = $request->nombre_archivo;
+        $historial->estado = 1;//pendiente para la bandeja del area destino, enviado para la bandeja origen
+        $expediente->fojas += $historial->fojas;
+        $expediente->save();
+        $historial->save();
+        return response()->json($historial, 200);
+    }
 
      /*
     * Cambia el estado de los cuerpos de un expediente y guarda registro del mismo en el historial.
