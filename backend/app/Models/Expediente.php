@@ -142,7 +142,7 @@ class Expediente extends Model
             }
 
             $array_expediente->push([
-                'id_expediente'=>$exp->id,
+                'expediente_id'=>$exp->id,
                 'prioridad'=>$exp->prioridadExpediente->descripcion,
                 'nro_expediente'=>$exp->nro_expediente,
                 'extracto'=>$exp->caratula->extracto->descripcion,
