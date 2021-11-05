@@ -17,24 +17,34 @@
         </v-row>
         <v-divider color="#393B44" class="mt-2"></v-divider>
 
-        <form @submit.prevent="consultar()" >
+        <form @submit.prevent="consultarExpediente(busqueda)" >
         <div class="d-flex justify-center column Montserrat-Semibold mt-4">
 
           <v-radio-group  row v-model="busqueda.buscar_por">
             <v-radio
                 class="textRadio"
                 color="orange"
-                value="n"
+                value="1"
                 label="N° de expediente"
             >
             </v-radio>
 
             <v-radio
+                value="2"
                 class="textRadio"
                 color="orange"
                 label="Cuil del iniciador"
             >
             </v-radio>
+
+            <v-radio
+                value="3"
+                class="textRadio"
+                color="orange"
+                label="Nro de transaccion"
+            >
+            </v-radio>
+
           </v-radio-group>
 
           <!--
@@ -129,12 +139,8 @@ export default {
   methods: {
 
     ...mapActions([
-      'consultar',
+      'consultarExpediente',
     ]),
-
-    consultar () {
-      this.resultados = true
-    },
 
     close() {
       this.$emit("close")
