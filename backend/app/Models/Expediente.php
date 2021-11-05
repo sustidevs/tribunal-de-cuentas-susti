@@ -188,7 +188,7 @@ class Expediente extends Model
                                     ->where('user_id',$user->id)
                                     ->where('estado',$estado)->values();
         }
-        //return $array_expediente;
+        return $array_expediente;
     }
 
     /*
