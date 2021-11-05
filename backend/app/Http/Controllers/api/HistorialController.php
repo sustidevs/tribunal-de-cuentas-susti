@@ -118,16 +118,11 @@ class HistorialController extends Controller
     */
     public function historialExpediente(Request $request)
     {
-        $historiales = Historial::All();
+        $expediente = Expediente::findOrFail($request->id);
         $array = collect([]);
-        foreach ($historiales as $historial)
+        foreach ($expediente->historiales as $historial)
         {
-            if($historial->cuerpo->caratula->expediente->nro_expediente == $request->nro_expediente)
-            {
-                $array->push([
-                    'data' => $historial->cuerpo->caratula->expediente->nro_expediente
-                ]);
-            }
+                $array->push($historial->getHistorial());
         }
         return response()->json($array, 200);
     }
