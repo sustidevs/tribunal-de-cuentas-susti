@@ -65,41 +65,9 @@ class ExpedienteController extends Controller
         $expediente->area_actual_id = '13';
         $expediente->monto = $request->monto;
         //return response()->json($request,200);
-        //ARCHIVOS/////////////////////////////////////////////
-        $zip = new ZipArchive;
-        $fileName = $request->nro_expediente.'.zip';
-        
-        $path = storage_path()."\\app\\public\\archivos_expedientes\\" . $fileName;
-        //return ($path);
-        if(!is_null($request->Archivos[0]))
-        {
-            //$zip->open($path,ZipArchive::CREATE);
-            if($zip->open($path,ZipArchive::CREATE) === true)
-            {
-                
-                foreach ($request->archivos as $key => $value)
-                {
-                    $relativeNameInZipFile = $value->getClientOriginalName();
-                    $zip->addFile($value, $relativeNameInZipFile);
-                }
-                $zip->close();
-            }
-            $expediente->archivos = $fileName;
-            
-            $expediente->save();
-        }
-
-
-
-        else
-        {
-            $expediente->save();
-        }
-        //$expediente->save();
-        ////////////////////////////////////////////////////////
         if ($request->validated())
         {
-            //$expediente->save();
+            $expediente->save();
             $extracto = new Extracto;
             $extracto->descripcion = $request->descripcion_extracto;
             $extracto->save();
@@ -139,11 +107,35 @@ class ExpedienteController extends Controller
                 $historial->save();
 
                 $estado_actual = Area::findOrFail($request->area_id);
-                $datos = [$expediente->fecha,$caratula->iniciador->nombre,$extracto->descripcion,$estado_actual];
+                
+                //ARCHIVOS/////////////////////////////////////////////
+                $zip = new ZipArchive;
+                $fileName = $request->nro_expediente.'.zip';
+                $storage_path = storage_path();
+                $path =$storage_path. "\\" .$fileName;//;."/app/public/archivos_formularios/".$fileName;
+                //"/app/public/archivos_formularios/"
+                $array_archivos = [$request->archivo1, $request->archivo2];
+                if(!is_null($array_archivos[0]))
+                {
+                    if($zip->open($path,ZipArchive::CREATE) === true)
+                    {
+                        foreach ($array_archivos as $key => $value)
+                        {
+                            $relativeNameInZipFile = $value->getClientOriginalName();
+                            $zip->addFile($value, $relativeNameInZipFile);
+                        }
+                        $zip->close();
+                    }
+                    $expediente->archivos = $fileName;
+                    $expediente->save();
+                }
+                ////////////////////////////////////////////////////////
+                $datos = [$expediente->fecha,$caratula->iniciador->nombre,$extracto->descripcion,$estado_actual,$path];
                 return response()->json($datos,200);
             } 
             
         }
+        
         return response()->json('Error',200);
 
         /*Ejemplo para el postman
