@@ -39,7 +39,7 @@ class HistorialController extends Controller
     */
 
     /*
-    Recibe datos para registrar el pase de un cuerpo a otra área
+    * Recibe datos para registrar el pase de un expediente a otra área
     */
     public function store(Request $request)
     {
@@ -67,55 +67,52 @@ class HistorialController extends Controller
     */
     public function updateEstado(Request $request)
     {
+        # 1-Enviado/Pendiente, 3-Aceptado, 4-Recuperado
+        $user = User::findOrFail($request->user_id);//$user = Auth::user();
+        $expediente = Expediente::findOrFail($request->expediente_id);
+
+        $historial = new Historial;
+        $historial->expediente_id = $expediente->id;
+        $historial->user_id = $user->id;
+        $historial->area_origen_id = $user->area_id;
+        $historial->area_destino_id = $user->area_id;
+        $historial->fojas = $expediente->fojas;
+        $historial->fecha = Carbon::now()->format('Y-m-d');
+        $historial->hora = Carbon::now()->format('h:i');
+        $historial->motivo = "cambio estado";
+        $historial->estado = $request->estado_expediente;
+        $expediente->estado_expediente_id = $request->estado_expediente;
         /*
-        $data = Cuerpo::listadoExpedientes();//Metodo de Agustin
-
-        $request = new Request;
-        $request->estado_expediente = '2'; // 1-Enviado/Pendiente, 2-Aceptado, 3-Asignado, 4-Recuperado
+        * Si el estado al que cambia es 3 (mis expediente), Actualizo el area actual del expediente.
         */
-
-        /*
-        * Recorre los cuerpos del expediente. (puede cambiar depende de como retorne los datos $request->expediente)
-        */
-        foreach ($request->cuerpos as $c) {
-            $user = User::findOrFail($request->user_id);//$user = Auth::user();
-            //obtendo el cuerpo, actualizo su estado y creo un historial
-            $cuerpo = Cuerpo::findOrFail($c["id_cuerpo"]);
-            $cuerpo->estado = $request->estado_expediente;
-            $historial = new Historial;
-            $historial->cuerpo_id = $cuerpo->id;
-            $historial->user_id = $user->id;
-            $historial->area_origen_id = $user->area_id;
-            $historial->area_origen_type = $user->area_type;
-            $historial->area_destino_id = $user->area_id;
-            $historial->area_destino_type = $user->area_type;
-            $historial->fojas = $cuerpo->cantidad_fojas;
-            $historial->fecha = Carbon::now()->format('Y-m-d');
-            $historial->hora = Carbon::now()->format('h:i');
-            $historial->motivo = "cambio estado";
-            $historial->estado = $request->estado_expediente;
-
-            /*
-            * Si el estado al que cambia es 3 (mis expediente), Actualizo el area actual del cuerpo.
-            */
-            if ($request->estado_expediente == 3) {
-                $cuerpo->area_id = $user->area_id;
-                $cuerpo->area_type = $user->area_type;
-                $cuerpo->update();
-            }
-            else{
-                $cuerpo->update();
-            }
-
-            $historial->save();
+        if ($request->estado_expediente == 3) {
+            $expediente->area_actual_id = $user->area_id;
+            $expediente->update();
         }
+        else
+        {
+            $expediente->update();
+        }
+
+        $historial->save();
 
         $estado = $request->estado;//parametro
         $bandeja = $request->bandeja;
         $user_id = $request->user_id;
         $listado_expedientes = Expediente::listadoExpedientes($user_id,$estado,$bandeja);
         return response()->json($listado_expedientes,200);
+
+        /*   Datos de prueba
+        {
+            "expediente_id": 1,
+            "user_id" : 1,
+            "estado_expediente": 3,
+            "estado" : 3,
+            "bandeja": 3
+        }
+        */
     }
+
     /*
     *   Trae el historial completo de un expediente.
     */
