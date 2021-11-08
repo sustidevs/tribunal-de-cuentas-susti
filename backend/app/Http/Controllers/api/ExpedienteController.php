@@ -20,6 +20,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\StoreExpedienteRequest;
 use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Database\Eloquent\Relations\Relation;
+use Illuminate\Support\Facades\Storage;
 
 class ExpedienteController extends Controller
 {
@@ -54,99 +55,105 @@ class ExpedienteController extends Controller
 
     public function store(StoreExpedienteRequest $request)
     {
-        $expediente = new Expediente;
-        $expediente->nro_expediente = $request->nro_expediente;
-        $expediente->fojas = $request->nro_fojas;
-        $expediente->fecha = Carbon::now()->format('Y-m-d');
-        $expediente->prioridad_id = $request->prioridad;
-        $expediente->tipo_expediente = $request->tipo_exp_id;
-        $expediente->estado_expediente_id = '1';
-        $expediente->area_actual_id = '13';
-        $expediente->monto = $request->monto;
-        //return response()->json($request,200);
-        //ARCHIVOS/////////////////////////////////////////////////
-        /*$zip = new ZipArchive;
-        $fileName =  'Documentacion '.$expediente->nro_expediente.'.zip';
-        $path = storage_path()."/app/public/archivos_formularios/" . $fileName;
-        if(!is_null($request->archivos[0]))
-        {
-            if($zip->open($path,ZipArchive::CREATE) === true)
-            {
-                foreach ($request->archivos as $key => $value)
-                {
-                    $relativeNameInZipFile = $value->getClientOriginalName();
-                    $zip->addFile($value, $relativeNameInZipFile);
-                }
-                $zip->close();
-            }
-            $expediente->archivos = $fileName;
-        }*/
-        //////////////////////////////////////////////////////////
         if ($request->validated())
         {
-            $expediente->save();
-            $extracto = new Extracto;
-            $extracto->descripcion = $request->descripcion_extracto;
-            $extracto->save();
-
-            $caratula = new Caratula;
-            $caratula->expediente_id = $expediente->id;
-            $caratula->iniciador_id = $request->iniciador_id;
-            $caratula->extracto_id = $extracto->id;
-            if($caratula->save())
+            $expediente = new Expediente;
+            $expediente->nro_expediente = $request->nro_expediente;
+            $expediente->nro_expediente_ext = $request->nro_expediente_ext;
+            $expediente->fojas = $request->nro_fojas;
+            $expediente->fecha = Carbon::now()->format('Y-m-d');
+            $expediente->prioridad_id = $request->prioridad_id;
+            $expediente->tipo_expediente = $request->tipo_exp_id;
+            $expediente->estado_expediente_id = '1';
+            $expediente->area_actual_id = '13';
+            $expediente->monto = $request->monto;
+            if($expediente->save());
             {
-                $user = User::findOrFail($request->user_id);
-                $historial = new Historial;
-                $historial->expediente_id = $expediente->id;
-                $historial->user_id = $user->id;
-                $historial->area_origen_id = 6;
-                $historial->area_destino_id = 6;
-                $historial->fojas = $request->nro_fojas;
-                $historial->fecha = Carbon::now()->format('Y-m-d');
-                $historial->hora = Carbon::now()->format('h:i');
-                $historial->motivo = "created";
-                $historial->estado = 1;
-                //$historial->archivos = $request->archivos;
-                $historial->save();
-                /* 
-                * Cuando Realiza el pase
-                */
-                $historial = new Historial;
-                $historial->expediente_id = $expediente->id;
-                $historial->user_id = $request->user_id;
-                $historial->area_origen_id = $user->area_id;
-                $historial->area_destino_id = $request->area_id;
-                $historial->fojas = $request->nro_fojas;
-                $historial->fecha = Carbon::now()->format('Y-m-d');
-                $historial->hora = Carbon::now()->format('h:i');
-                $historial->motivo = "pase";
-                $historial->estado = "1";//Enviado
-                $historial->save();
-
-                $estado_actual = Area::findOrFail($request->area_id);
-                $datos = [$expediente->fecha,$caratula->iniciador->nombre,$extracto->descripcion,$estado_actual];
-                return response()->json($datos,200);
-            } 
-            
+                $extracto = new Extracto;
+                $extracto->descripcion = $request->descripcion_extracto;
+                if($extracto->save());
+                {
+                    $caratula = new Caratula;
+                    $caratula->expediente_id = $expediente->id;
+                    $caratula->iniciador_id = $request->iniciador_id;
+                    $caratula->extracto_id = $extracto->id;
+                    if($caratula->save())
+                    {
+                        $user = User::findOrFail($request->user_id);
+                        $historial = new Historial;
+                        $historial->expediente_id = $expediente->id;
+                        $historial->user_id = $user->id;
+                        $historial->area_origen_id = 6;
+                        $historial->area_destino_id = 6;
+                        $historial->fojas = $request->nro_fojas;
+                        $historial->fecha = Carbon::now()->format('Y-m-d');
+                        $historial->hora = Carbon::now()->format('h:i');
+                        $historial->motivo = "created";
+                        $historial->estado = 1;
+                        if($historial->save())
+                        {
+                            /*
+                            * Cuando Realiza el pase
+                            */
+                            $historial = new Historial;
+                            $historial->expediente_id = $expediente->id;
+                            $historial->user_id = $request->input("user_id");
+                            $historial->area_origen_id = $user->area_id;
+                            $historial->area_destino_id = $request->area_id;
+                            $historial->fojas = $request->nro_fojas;
+                            $historial->fecha = Carbon::now()->format('Y-m-d');
+                            $historial->hora = Carbon::now()->format('h:i');
+                            $historial->motivo = "pase";
+                            $historial->estado = "1";//Enviado
+                            if($historial->save())
+                            {
+                                $estado_actual = Area::findOrFail($request->area_id);
+                                //ARCHIVOS/////////////////////////////////////////////////////////////////////////////
+                                if(!is_null($request->allFiles()))
+                                {                 
+                                    $zip = new ZipArchive;
+                                    $fileName = $request->nro_expediente;
+                                    $fileName = str_replace("/","-",$fileName).'.zip';
+                                    $path =storage_path()."/app/public/archivos_expedientes/".$fileName. ".zip";
+                                    if($zip->open($path ,ZipArchive::CREATE) === true)
+                                    {
+                                        foreach ($request->allFiles() as $key => $value)
+                                        {
+                                            $relativeNameInZipFile = $value->getClientOriginalName();
+                                            $zip->addFile($value, $relativeNameInZipFile);
+                                        }
+                                        $zip->close();
+                                    }
+                                    $expediente->archivos = $fileName;
+                                    $expediente->save();
+                                }
+                                ///////////////////////////////////////////////////////////////////////////////////////
+                                $datos = [$expediente->fecha,$caratula->iniciador->nombre,$extracto->descripcion,$estado_actual,$path];
+                                return response()->json($datos,200);
+                            }
+                        }
+                    }
+                }
+            }
         }
-        return response()->json('Error',200);
-
-        /*Ejemplo para el postman
-         {   
-            "nro_expediente" : "02221-2510-123122023/2021",
-            "nro_fojas" : "250",
-            "prioridad" : "1",
-            "fecha" : "2021-10-25 21:21:57",
-            "tipo_exp_id" : "1",
-            "area_actual_id" : "6",
-            "monto" : "100",
-            "user_id" : "1",
-            "area_id" : "1",
-            "iniciador_id": "1",
-            "descripcion_extracto": "Extracto"
-         }
-        */
+        return response()->json('Error',400);
     }
+    /*Ejemplo para el postman
+    {
+        "nro_expediente" : "02221-2510-123122023/2021",
+        "nro_fojas" : "250",
+        "prioridad" : "1",
+        "fecha" : "2021-10-25 21:21:57",
+        "tipo_exp_id" : "1",
+        "area_actual_id" : "6",
+        "monto" : "100",
+        "user_id" : "1",
+        "area_id" : "1",
+        "iniciador_id": "1",
+        "descripcion_extracto": "Extracto"
+    }
+    */
+    
 
     public function show(Request $request)
     {

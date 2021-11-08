@@ -71,7 +71,7 @@ class UserSeeder extends Seeder
             'persona_id' => $persona->id,
             'cuil'=>'27'.$persona->dni.'2',
             'tipo_user_id' => 2,
-            'area_id' => 6,
+            'area_id' => 13,
             'email_verified_at' => now(),
             'password' => Hash::make('password'), // password
             'remember_token' => Str::random(10),
