@@ -44,7 +44,7 @@ Route::post('/contarExp',         [ExpedienteController::class, 'contadorBandeja
 
 Route::post('/historial',                [HistorialController::class, 'create']);
 Route::post('/historial-expediente',     [HistorialController::class, 'store']);
-Route::post('/update-estado-cuerpo',     [HistorialController::class, 'updateEstado']);
+Route::post('/update-estado',     [HistorialController::class, 'updateEstado']);
 Route::post('/historialExp',     [HistorialController::class, 'historialExpediente']);
 
 Route::get('/indexUser', [UserController::class, 'index']);
