@@ -73,14 +73,14 @@ export default {
 }
 
 .Montserrat-Regular{
-  font-family: "Montserrat-Regular";
+  font-family: "Montserrat-Regular",serif;
 }
 
 .Montserrat-SemiBold {
-  font-family: "Montserrat-SemiBold";
+  font-family: "Montserrat-SemiBold",serif;
 }
 
 .Montserrat-Bold {
-  font-family: "Montserrat-Bold";
+  font-family: "Montserrat-Bold",serif;
 }
 </style>
