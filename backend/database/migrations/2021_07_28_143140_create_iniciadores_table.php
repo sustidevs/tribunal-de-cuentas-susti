@@ -17,7 +17,12 @@ class CreateIniciadoresTable extends Migration
             $table->bigIncrements('id');
             $table->foreignId('id_tipo_entidad')->constrained('tipos_entidad');
             $table->string('nombre');
+            $table->string('apellido')->nullable();
+            $table->string('dni')->nullable();
             $table->bigInteger('cuit')->nullable();
+            $table->string('telefono')->nullable();
+            $table->string('email')->nullable();
+            $table->string('direccion')->nullable();
             $table->string('area_reparticiones')->nullable();
             $table->string('prefijo');
             $table->timestamps();
