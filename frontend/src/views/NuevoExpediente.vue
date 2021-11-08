@@ -173,7 +173,7 @@ export default {
         iniciador_id: this.expe.iniciador_id,
         nro_fojas: this.expe.nro_fojas,
         nro_expediente: this.nroExpediente.toString(),
-        prioridad: this.expe.prioridad,
+        prioridad_id: this.expe.prioridad,
         tipo_exp_id: this.expe.tipo_exp_id,
         descripcion_extracto: this.extracto,
         area_id : this.area_destino.id,
