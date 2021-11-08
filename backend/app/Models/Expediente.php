@@ -2,7 +2,10 @@
 
 namespace App\Models;
 
+use App\Models\Caratula;
+use App\Models\Historial;
 use App\Models\Iniciador;
+use App\Models\EstadoExpediente;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -13,7 +16,7 @@ class Expediente extends Model
 
     public function caratula()
     {
-        return $this->hasOne('App\Models\Caratula', 'id');
+        return $this->hasOne(Caratula::class);
     }
 
     public function tipoExpediente()
@@ -23,7 +26,7 @@ class Expediente extends Model
 
     public function estadoExpediente()
     {
-        return $this->hasOne('App\Models\EstadoExpediente');
+        return $this->hasOne(EstadoExpediente::class);
     }
 
     public function prioridadExpediente()
@@ -45,7 +48,7 @@ class Expediente extends Model
 
     public function historiales()
     {
-        return $this->hasMany('App\Models\Historial');
+        return $this->hasMany(Historial::class);
     }
 
     public function cantidadCuerpos()
@@ -58,16 +61,14 @@ class Expediente extends Model
     */
     public function getDatos()
     {
-        $array = Collect(["id" => $this->id,
+        $array = Collect(["expediente_id" => $this->id,
                           //"nro_expediente" => $this->nroExpediente($this->caratula->iniciador->prefijo, date("d-m",strtotime($this->fecha)),date("Y",strtotime($this->fecha))),
                           "nro_expediente" => $this->nro_expediente,
                           "fecha" =>  date("d-m-Y", strtotime($this->fecha)),
                           "iniciador" => $this->caratula->iniciador->nombre,
                           "cuit" => $this->caratula->iniciador->cuit,
                           "extracto" => $this->caratula->extracto->descripcion,
-                          "area_actual" => $this->area->descripcion,
-                          "area_actual_type" => $this->area_actual_type]);
-
+                          "area_actual" => $this->area->descripcion]);
         return $array;
     }
 
@@ -187,7 +188,7 @@ class Expediente extends Model
                                     ->where('user_id',$user->id)
                                     ->where('estado',$estado)->values();
         }
-        //return $array_expediente;
+        return $array_expediente;
     }
 
     /*
@@ -231,6 +232,16 @@ class Expediente extends Model
                 foreach ($iniciador->caratulas as $caratula)
                 {
                     $lista_expedientes->push($caratula->expediente->getDatos());
+                }
+                break;
+            case "5": //Busca por nro_expediente_ext
+                $expedienteExt = Expediente::where('nro_expediente_ext', $valor)->get()->values();
+                if ($expedienteExt != null)
+                {
+                    foreach ($expedienteExt as $expediente)
+                    {
+                        $lista_expedientes->push($expediente->getDatos());
+                    }
                 }
                 break;
         }

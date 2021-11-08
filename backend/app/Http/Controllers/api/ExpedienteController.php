@@ -194,6 +194,7 @@ class ExpedienteController extends Controller
         return response()->json($detalle,200);
     }
 
+    //TODO revisar utilidad
     public function indexPorAreas(Request $request)
     {
         $expedientes = Expediente::where('area_actual_id',$request->area_actual_id)->where('area_actual_type',$request->area_actual_type)->get();
@@ -204,19 +205,7 @@ class ExpedienteController extends Controller
 
     public function update()//$request)
     {
-        $request = new Request;
-        $request->id_cuerpo = 50;
-        $request->cantidad_fojas = Cuerpo::CANTIDAD_FOJAS;
-        ///////////////////////////////////////////////////
-        $cuerpo = Cuerpo::find($request->id_cuerpo);
-        $cuerpo->cantidad_fojas = $request->cantidad_fojas;
-        //dd($cuerpo);
-        $caratula = $cuerpo->caratula()->first();
-        //dd($caratula);
-        //$expediente = $caratula->expediente()->get();
-        $expediente = Expediente::find($caratula->expediente_id)->first();
-        dd($expediente);
-
+        //
     }
 
     public function bandeja(Request $request)//entrada,area,mis expedientes,enviado,recuperados
@@ -230,31 +219,20 @@ class ExpedienteController extends Controller
 
     public function contadorBandejaEntrada(Request $request)
     {
-        //$cuerpos = Cuerpo::All();
         $user_area = $request->area_id;
-        /*$contador = $cuerpos->where('estado', 1)
-                            ->where('area_id', $user_area)->count();
-
-        $contador = $cuerpos->where('estado', 1)
-                    ->where('area_id', $user_area)->count();
-
-        foreach ($cuerpos as $cuerpo){
-            $cuerpo->historiales()-
-        }*/
-       $contador = Expediente::listadoExpedientes($request->user_id,1,1)->count();
+        $contador = Expediente::listadoExpedientes($request->user_id,1,1)->count();
         return response()->json($contador, 200);
     }
 
     /*
-    * Busca los expedientes por: 1-iniciador, 2-nro_cheque, 3-nro_expediente
+    * Busca los expedientes por: 1-nro_expediente, 2-cuit iniciador, 3-nro_cheque, 4-iniciador, 5-nro_expediente_ext
     */
     public function buscarExpediente(Request $request)
     {
-        $buscar_por = $request->buscar_por;//1-iniciador, 2-nro_cheque, 3-nro_expediente
+        $buscar_por = $request->buscar_por;
         $valor = $request->valor;
-        $listado_expedientes = Expediente::buscarPor($valor,$buscar_por);
-       // return response()->json($listado_expedientes,200);
-        return $buscar_por;
+        $listado_expedientes = Expediente::buscarPor($valor, $buscar_por);
+        return response()->json($listado_expedientes, 200);
     }
 
     /*
