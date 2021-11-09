@@ -98,7 +98,7 @@ class ExpedienteController extends Controller
                             $historial = new Historial;
                             $historial->expediente_id = $expediente->id;
                             $historial->user_id = $request->input("user_id");
-                            $historial->area_origen_id = $user->area_id;
+                            $historial->area_origen_id = $request->area_id;
                             $historial->area_destino_id = $request->area_id;
                             $historial->fojas = $request->nro_fojas;
                             $historial->fecha = Carbon::now()->format('Y-m-d');
@@ -110,7 +110,7 @@ class ExpedienteController extends Controller
                                 $estado_actual = Area::findOrFail($request->area_id);
                                 //ARCHIVOS/////////////////////////////////////////////////////////////////////////////
                                 if(!is_null($request->allFiles()))
-                                {                 
+                                {
                                     $zip = new ZipArchive;
                                     $fileName = $request->nro_expediente;
                                     $fileName = str_replace("/","-",$fileName).'.zip';
@@ -128,7 +128,7 @@ class ExpedienteController extends Controller
                                     $expediente->save();
                                 }
                                 ///////////////////////////////////////////////////////////////////////////////////////
-                                $datos = [$expediente->fecha,$caratula->iniciador->nombre,$extracto->descripcion,$estado_actual,$path];
+                                $datos = [$expediente->fecha,$caratula->iniciador->nombre,$extracto->descripcion,$estado_actual,$path, $expediente->nro_expediente];
                                 return response()->json($datos,200);
                             }
                         }
@@ -153,7 +153,7 @@ class ExpedienteController extends Controller
         "descripcion_extracto": "Extracto"
     }
     */
-    
+
 
     public function show(Request $request)
     {

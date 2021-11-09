@@ -96,17 +96,20 @@
           class="Montserrat-Regular text-justify"
           color="amber accent-4"
           outlined
-          item-value="idd"
+          item-value="id"
           single-line
-          return-object
           item-color="amber accent-4"
           :items="this.$store.getters.get_areas_all"
           item-text="nombre"
-          v-model="area_destino"
+          v-model="expe.area_id"
       >
       </v-autocomplete>
 
-      <input-field v-model="expe.archivos"/>
+
+      <v-card  color="#FFF5E6" class="pa-5">
+        <label-input texto="Adjuntar Archivos al Pase"/>
+        <input type="file" multiple @change="handleFileUpload( $event )"/>
+      </v-card>
 
 
       <v-row no-gutters justify="center" class="mt-8">
@@ -123,8 +126,6 @@
       </v-row>
     </form>
 
-    {{ expediente }}
-
     <modal-nuevos-expedientes :show="creado" :dato="expediente_new" @close="cerrarModal"/>
   </div>
 </template>
@@ -137,19 +138,18 @@ import TextField from "../components/TextField";
 import AutocompleteField from "../components/AutocompleteField";
 import ModalNuevosExpedientes from "../components/dialogs/ModalNuevosExpedientes"
 import LabelError from "../components/LabelError"
-import InputField from "../components/InputFile.vue"
-
 
 export default {
   name: 'Home',
-  components: {AutocompleteField, TextField, InputDate, LabelInput,Extractos,ModalNuevosExpedientes,LabelError, InputField},
+  components: {AutocompleteField, TextField, InputDate, LabelInput,Extractos,ModalNuevosExpedientes,LabelError},
   data: () => ({
     radioGroup: 1,
     toggle_none: null,
     agregarIniciador: [{texto: "Agregar Iniciador", imagen: "./img/cards/ver-todos.svg",}],
     motivo: [],
     showDetalle: false,
-    area_destino: [],
+    files:'',
+    loader: null,
     expe:{
       iniciador_id: '',
       nro_fojas: '',
@@ -167,21 +167,33 @@ export default {
       this.capturarIniciador(this.expe.iniciador_id)
     },
 
+    handleFileUpload( event ){
+      this.files = event.target.files;
+    },
+
     storeExpe() {
-      const expediente = {
-        user_id:this.getIdUser,
-        iniciador_id: this.expe.iniciador_id,
-        nro_fojas: this.expe.nro_fojas,
-        nro_expediente: this.nroExpediente.toString(),
-        prioridad_id: this.expe.prioridad,
-        tipo_exp_id: this.expe.tipo_exp_id,
-        descripcion_extracto: this.extracto,
-        area_id : this.area_destino.id,
-        tipo_area: this.area_destino.tipo_area,
-        tipo_entidad: 1,
-        archivos: this.expe.archivos
+
+      let formData = new FormData();
+
+      for( var i = 0; i < this.files.length; i++ ){
+        let file = this.files[i];
+
+        formData.append('archivo' + i + '', file);
       }
-      this.storeExpediente(expediente);
+
+      let cantidad = (this.files.length).toString()
+      formData.append('user_id', this.getIdUser);
+      formData.append('iniciador_id', this.expe.iniciador_id);
+      formData.append('nro_fojas', this.expe.nro_fojas);
+      formData.append('nro_expediente', this.nroExpediente);
+      formData.append('prioridad_id',  this.expe.prioridad);
+      formData.append('tipo_exp_id',this.expe.tipo_exp_id);
+      formData.append('descripcion_extracto',this.extracto);
+      formData.append('area_id',this.expe.area_id);
+      formData.append('archivos_length', cantidad );
+
+      this.storeExpediente(formData)
+
     },
 
     ...mapActions([
@@ -189,7 +201,8 @@ export default {
       'storeExpediente',
       'nroExpedienteAleatorio',
       'cerrarModal',
-      'capturarIniciador'
+      'capturarIniciador',
+      'creado',
     ]),
 
   },
@@ -199,7 +212,7 @@ export default {
       'allIniciadores',
       'fecha',
       'motivoSinExtracto',
-      'creado',
+
       'expediente',
       'getTipoUsuario',
       'motivoConExtracto',
