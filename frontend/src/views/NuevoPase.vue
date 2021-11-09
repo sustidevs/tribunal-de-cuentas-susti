@@ -3,7 +3,7 @@
     <titulo texto="Nuevo Pase" icono="mdi-file-document" class="pb-8"/>
     <template>
       <form @submit.prevent="storePas()" >
-        <v-stepper v-model="e1">
+        <v-stepper v-model="e1" class="mb-16">
 
           <v-card color="#facd89" class="Montserrat-Regular text-justify">
             <v-stepper-header>
@@ -20,10 +20,9 @@
           <!--Primer Step-->
           <v-stepper-items>
             <v-stepper-content step="1">
-              <v-card class="mb-12" color="white" >
+              <v-card elevation="0" class="mb-12">
 
                 <label-input texto="Pase a:"/>
-
 
                 <v-autocomplete
                     class="Montserrat-Regular text-justify"
@@ -52,7 +51,6 @@
                         readonly
                         v-model="fecha"
                     ></v-text-field>
-
                   </v-col>
 
                   <v-col cols="12" lg="4">
@@ -71,28 +69,27 @@
               </v-card>
 
               <v-row justify="center" class="ma-8">
-                <v-btn class="Montserrat-SemiBold" color="#FACD89" @click="e1 = 2">
-                  Continuar <v-icon>mdi-arrow-right</v-icon>
-                </v-btn>
-
+                <v-col cols="4">
+                    <v-btn type="submit" class="pa-5 Montserrat-SemiBold" height="55" elevation="0" color="#FACD89" block @click="e1 = 2">
+                      <div class="pr-5"> Continuar </div><v-icon>  mdi-arrow-right </v-icon>
+                    </v-btn>
+                </v-col>
               </v-row>
-
             </v-stepper-content>
 
             <v-stepper-content step="2">
-
               <modal-detalle-pase :data="this.pase" :dataArea="this.area"/>
               <v-row  justify="center" class="ma-8">
-                <v-btn @click="e1 = 1" class="Montserrat-SemiBold" color="black" text>
-                  Volver
-                </v-btn>
-
-                <v-btn
-                    type="submit"
-                    class="Montserrat-SemiBold" color="#FACD89"
-                >
-                  Confirmar Pase<v-icon class="ml-4">mdi-check</v-icon>
-                </v-btn>
+                <v-col cols="4">
+                    <v-btn @click="e1 = 1" type="submit" class="pa-5 Montserrat-SemiBold" height="55" elevation="0" block>
+                      <v-icon class="pr-5"> mdi-arrow-left </v-icon> <div> Volver </div>
+                    </v-btn>
+                </v-col>
+                <v-col cols="4">
+                    <v-btn type="submit" class="pa-5 Montserrat-SemiBold" height="55" elevation="0" color="#FACD89" block>
+                      <div class="pr-5"> Confirmar Pase </div><v-icon>  mdi-check </v-icon>
+                    </v-btn>
+                </v-col>
 
               </v-row>
             </v-stepper-content>
