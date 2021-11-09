@@ -65,3 +65,5 @@ Route::post('/store-iniciador', [IniciadorController::Class, 'store']);
 Route::post('/show-iniciador',  [IniciadorController::Class, 'show']);
 Route::post('/update-iniciador',[IniciadorController::Class, 'update']);
 ////////////////////////////////////////////////////////////////////////////////////////////
+
+Route::get('/prueba-codBarrra',[ExpedienteController::class, 'codigoBarra'] );
