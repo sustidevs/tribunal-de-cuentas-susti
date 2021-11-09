@@ -1,7 +1,7 @@
 <template>
   <v-expansion-panels focusable>
     <v-expansion-panel
-        v-for="(item,i) in 5"
+        v-for="(data,i) in 5"
         :key="i"
     >
       <v-expansion-panel-header>Item</v-expansion-panel-header>
@@ -13,5 +13,9 @@
 </template>
 
 <script>
-
+export default {
+  props: {
+    data: Array
+  }
+}
 </script>

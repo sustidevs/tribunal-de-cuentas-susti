@@ -45,7 +45,6 @@ export default {
     ...mapActions(['getCantidadPendientes']),
 
     getCantidad_Pendientes(){
-      console.log(this.getUser)
       this.getCantidadPendientes(this.getUser)
     },
 }
