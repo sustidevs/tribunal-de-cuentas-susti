@@ -35,7 +35,7 @@
           </v-text-field>
         </v-col>
       </v-row>
-      <label-error class="mt-3" :texto="this.motivo_error"/>
+      <label-error :texto="this.motivo_error"/>
 
       <v-row no-gutters justify="start"  class="pb-3">
         <v-col cols="12" sm="12" lg="6" class="pr-lg-2">
@@ -79,7 +79,6 @@
 
       <v-row no-gutters justify="center">
         <v-col cols="12" sm="12" lg="6" class="pr-lg-2 pb-3">
-          <label-error/>
           <label-input texto="Pase a"/>
 
           <v-autocomplete
