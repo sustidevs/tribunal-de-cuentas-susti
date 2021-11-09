@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\api\UserController;
 use App\Http\Controllers\api\LoginController;
 use App\Http\Controllers\api\HistorialController;
+use App\Http\Controllers\Api\IniciadorController;
 use App\Http\Controllers\api\ExpedienteController;
 
 /*
@@ -57,5 +58,12 @@ Route::get('/restoreUser', [UserController::class, 'restore']);
 
 Route::get('/login',[LoginController::Class, 'showLoginForm'] );
 Route::post('/login',[LoginController::Class, 'authenticate'] );
+
+///////INICIADORES//////////////////////////////////////////////////////////////////////////
+Route::get('/index-iniciador',  [IniciadorController::Class, 'index']);
+Route::post('/store-iniciador', [IniciadorController::Class, 'store']);
+Route::post('/show-iniciador',  [IniciadorController::Class, 'show']);
+Route::post('/update-iniciador',[IniciadorController::Class, 'update']);
+////////////////////////////////////////////////////////////////////////////////////////////
 
 Route::get('/prueba-codBarrra',[ExpedienteController::class, 'codigoBarra'] );

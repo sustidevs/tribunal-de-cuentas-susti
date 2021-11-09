@@ -17,26 +17,26 @@
       <v-divider color="#393B44"></v-divider>
 
       <label-error :texto="this.iniciador_id_error"/>
-        <v-row no-gutters justify="center" class="mb-3 mt-2">
-          <v-col cols="12" sm="12" lg="6" class="pr-lg-2">
-            <LabelInput texto="Iniciador"/>
-            <autocomplete-field :data="allIniciadores" nombre="nombre" @input="cargarExpediente()"  v-model="expe.iniciador_id"/>
-          </v-col>
+      <v-row no-gutters justify="center" class="mt-2">
+        <v-col cols="12" sm="12" lg="6" class="pr-lg-2">
+          <LabelInput texto="Iniciador"/>
+          <autocomplete-field :data="allIniciadores" nombre="nombre" @input="cargarExpediente()"  v-model="expe.iniciador_id"/>
+        </v-col>
 
-          <v-col cols="12" sm="12" lg="6" class="pl-lg-2">
-            <label-input texto="Nº de Expediente"/>
-            <v-text-field
-                class="Montserrat-Regular text-justify"
-                color="amber accent-4"
-                outlined
-                readonly
-                v-model="nroExpediente"
-            >
-            </v-text-field>
-          </v-col>
-        </v-row>
-
+        <v-col cols="12" sm="12" lg="6" class="pl-lg-2">
+          <label-input texto="Nº de Expediente"/>
+          <v-text-field
+              class="Montserrat-Regular text-justify"
+              color="amber accent-4"
+              outlined
+              readonly
+              v-model="nroExpediente"
+          >
+          </v-text-field>
+        </v-col>
+      </v-row>
       <label-error :texto="this.motivo_error"/>
+
       <v-row no-gutters justify="start"  class="pb-3">
         <v-col cols="12" sm="12" lg="6" class="pr-lg-2">
             <LabelInput texto="Motivo del Expediente"/>
@@ -56,19 +56,43 @@
         </v-col>
       </v-row>
 
-        <v-row no-gutters justify="start">
-          <label-error :texto="this.descripcion_extracto_error"/>
-          <v-col cols="12" class="pr-lg-2">
-            <label-input texto="Extracto"/>
-            <Extractos v-model="expe.descripcion_extracto" :tipo="expe.tipo_exp_id"/>
-          </v-col>
-        </v-row>
+      <v-row no-gutters justify="start">
+        <label-error :texto="this.descripcion_extracto_error"/>
+        <v-col cols="12" class="pr-lg-2">
+          <label-input texto="Extracto"/>
+          <Extractos v-model="expe.descripcion_extracto" :tipo="expe.tipo_exp_id"/>
+        </v-col>
+      </v-row>
 
-      <v-row no-gutters justify="center"  class="pt-7">
+      <v-row no-gutters justify="center" class="pt-5">
         <v-col cols="12" sm="12" lg="6" class="pr-lg-2 pb-3">
+          <label-error/>
+          <label-input texto="Número SIIF"/>
+          <text-field tipo="number"/>
+        </v-col>
+        <v-col cols="12" sm="12" lg="6" class="pl-lg-2 pb-3">
           <label-error :texto="this.nro_fojas_error"/>
           <LabelInput texto="Cantidad de Fojas"/>
           <text-field tipo="number" v-model="expe.nro_fojas" />
+        </v-col>
+      </v-row>
+
+      <v-row no-gutters justify="center">
+        <v-col cols="12" sm="12" lg="6" class="pr-lg-2 pb-3">
+          <label-input texto="Pase a"/>
+
+          <v-autocomplete
+            class="Montserrat-Regular text-justify"
+            color="amber accent-4"
+            outlined
+            item-value="id"
+            single-line
+            item-color="amber accent-4"
+            :items="this.$store.getters.get_areas_all"
+            item-text="nombre"
+            v-model="expe.area_id"
+          >
+          </v-autocomplete>
         </v-col>
 
         <v-col cols="12" sm="12" lg="6" class="pl-lg-2 pb-6">
@@ -90,27 +114,13 @@
         </v-col>
       </v-row>
 
-        <label-input texto="Pase a:"/>
-
-      <v-autocomplete
-          class="Montserrat-Regular text-justify"
-          color="amber accent-4"
-          outlined
-          item-value="idd"
-          single-line
-          return-object
-          item-color="amber accent-4"
-          :items="this.$store.getters.get_areas_all"
-          item-text="nombre"
-          v-model="area_destino"
-      >
-      </v-autocomplete>
-
-      <input-field v-model="expe.archivos"/>
-
+      <v-card  color="#FFF5E6" class="pa-5">
+        <label-input texto="Adjuntar Archivos al Pase"/>
+        <input type="file" multiple @change="handleFileUpload( $event )"/>
+      </v-card>
 
       <v-row no-gutters justify="center" class="mt-8">
-        <v-col cols="12" sm="6" md="6" lg="6" class="py-6 px-sm-2">
+        <v-col cols="12" sm="6" md="6" lg="6" class="pb-16 px-sm-2">
           <v-btn type="submit" class="pa-5 color Montserrat-SemiBold" height="55" elevation="0" color="#FACD89" block>
             <v-icon class="px-5">
               mdi-check-bold
@@ -122,8 +132,6 @@
         </v-col>
       </v-row>
     </form>
-
-    {{ expediente }}
 
     <modal-nuevos-expedientes :show="creado" :dato="expediente_new" @close="cerrarModal"/>
   </div>
@@ -137,19 +145,18 @@ import TextField from "../components/TextField";
 import AutocompleteField from "../components/AutocompleteField";
 import ModalNuevosExpedientes from "../components/dialogs/ModalNuevosExpedientes"
 import LabelError from "../components/LabelError"
-import InputField from "../components/InputFile.vue"
-
 
 export default {
   name: 'Home',
-  components: {AutocompleteField, TextField, InputDate, LabelInput,Extractos,ModalNuevosExpedientes,LabelError, InputField},
+  components: {AutocompleteField, TextField, InputDate, LabelInput,Extractos,ModalNuevosExpedientes,LabelError},
   data: () => ({
     radioGroup: 1,
     toggle_none: null,
     agregarIniciador: [{texto: "Agregar Iniciador", imagen: "./img/cards/ver-todos.svg",}],
     motivo: [],
     showDetalle: false,
-    area_destino: [],
+    files:'',
+    loader: null,
     expe:{
       iniciador_id: '',
       nro_fojas: '',
@@ -167,21 +174,33 @@ export default {
       this.capturarIniciador(this.expe.iniciador_id)
     },
 
+    handleFileUpload( event ){
+      this.files = event.target.files;
+    },
+
     storeExpe() {
-      const expediente = {
-        user_id:this.getIdUser,
-        iniciador_id: this.expe.iniciador_id,
-        nro_fojas: this.expe.nro_fojas,
-        nro_expediente: this.nroExpediente.toString(),
-        prioridad_id: this.expe.prioridad,
-        tipo_exp_id: this.expe.tipo_exp_id,
-        descripcion_extracto: this.extracto,
-        area_id : this.area_destino.id,
-        tipo_area: this.area_destino.tipo_area,
-        tipo_entidad: 1,
-        archivos: this.expe.archivos
+
+      let formData = new FormData();
+
+      for( var i = 0; i < this.files.length; i++ ){
+        let file = this.files[i];
+
+        formData.append('archivo' + i + '', file);
       }
-      this.storeExpediente(expediente);
+
+      let cantidad = (this.files.length).toString()
+      formData.append('user_id', this.getIdUser);
+      formData.append('iniciador_id', this.expe.iniciador_id);
+      formData.append('nro_fojas', this.expe.nro_fojas);
+      formData.append('nro_expediente', this.nroExpediente);
+      formData.append('prioridad_id',  this.expe.prioridad);
+      formData.append('tipo_exp_id',this.expe.tipo_exp_id);
+      formData.append('descripcion_extracto',this.extracto);
+      formData.append('area_id',this.expe.area_id);
+      formData.append('archivos_length', cantidad );
+
+      this.storeExpediente(formData)
+
     },
 
     ...mapActions([
@@ -189,7 +208,8 @@ export default {
       'storeExpediente',
       'nroExpedienteAleatorio',
       'cerrarModal',
-      'capturarIniciador'
+      'capturarIniciador',
+      'creado',
     ]),
 
   },
@@ -199,7 +219,7 @@ export default {
       'allIniciadores',
       'fecha',
       'motivoSinExtracto',
-      'creado',
+
       'expediente',
       'getTipoUsuario',
       'motivoConExtracto',

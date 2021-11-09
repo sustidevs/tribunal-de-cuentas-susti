@@ -54,32 +54,21 @@ class UserController extends Controller
         $persona->telefono = $request->telefono;
         $persona->email = $request->email;
         $persona->direccion = $request->direccion;
-    
-        if ($persona->save()){
+        if($persona->save())
+        {
             $user = New User();
-            if ($request->tipo_area == "Area") 
-            {
-                $area = Area::findOrFail($request->area_id);
-                $area_type = Area::class;
-            } else 
-            {
-                $area = SubArea::findOrFail($request->area_id);
-                $area_type = SubArea::class;
-            }
-            
-            $user->area_id = $area->id;
-            $user->area_type = $area_type;
+            $user->area_id = $request->area_id;
             $user->persona_id = $persona->id;
             $user->tipo_user_id = $request->tipo_user;
             $user->cuil = $request->cuil;
             $user->password = Hash::make($request->password);
-            //$user->assignRole(Role::find($request->role_id)->name);
-            
-            if($user->save()){
-                return response()->json($user->datos_user(),200);
+            //$user->assignRole(Role::find($request->role_id)->name);            
+            if($user->save())
+            {
+                return response()->json($user->datos_user(), 200);
             }
         }
-        return response()->json([],200);
+        return response()->json([], 401);
     }
 
     /**
@@ -117,41 +106,28 @@ class UserController extends Controller
         $request->direccion = 'Una Calle 123';
         */
         $user = User::findOrFail($request->id);
-        $persona = Persona::findOrFail($user->persona->id);
-
-        
+        /*$persona = Persona::findOrFail($user->persona->id);
         $persona->dni = $request->dni;
         $persona->nombre = $request->nombre;
         $persona->apellido = $request->apellido;
         $persona->telefono = $request->telefono;
         $persona->email = $request->email;
         $persona->direccion = $request->direccion;
-        
-        $persona->update();
-        
-        if ($request->tipo_area == "Area") 
-        {
-            $area = Area::findOrFail($request->area_id);
-            $area_type = Area::class;
-        } else 
-        {
-            $area = SubArea::findOrFail($request->area_id);
-            $area_type = SubArea::class;
-        }
-        
-        $user->area_id = $area->id;
-        $user->area_type = $area_type;
-        $user->tipo_user_id = $request->tipo_user_id;
-        $user->cuil = $request->cuil;
+        $persona->update();*/        
         if ($request->password != null) {
             $user->password = Hash::make($request->password);
         }
-        
-        if($user->update()){
-            return response()->json($user->datos_user(),200);
-        }
 
-        return response()->json([],200);
+        /*if($request->validated())     //TODO para validaciones
+        {
+            $user->password = Hash::make($request->password);
+        }*/
+
+        /*if($user->update()){
+            return response()->json($user->datos_user(),200);
+        }*/
+        $user->update();
+        return response()->json($user, 200);
     }
 
     /**

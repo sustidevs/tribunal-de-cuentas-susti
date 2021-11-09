@@ -100,7 +100,7 @@ class ExpedienteController extends Controller
                             $historial = new Historial;
                             $historial->expediente_id = $expediente->id;
                             $historial->user_id = $request->input("user_id");
-                            $historial->area_origen_id = $user->area_id;
+                            $historial->area_origen_id = $request->area_id;
                             $historial->area_destino_id = $request->area_id;
                             $historial->fojas = $request->nro_fojas;
                             $historial->fecha = Carbon::now()->format('Y-m-d');
@@ -112,7 +112,7 @@ class ExpedienteController extends Controller
                                 $estado_actual = Area::findOrFail($request->area_id);
                                 //ARCHIVOS/////////////////////////////////////////////////////////////////////////////
                                 if(!is_null($request->allFiles()))
-                                {                 
+                                {
                                     $zip = new ZipArchive;
                                     $fileName = $request->nro_expediente;
                                     $fileName = str_replace("/","-",$fileName).'.zip';
@@ -133,8 +133,7 @@ class ExpedienteController extends Controller
                                 $cod = new DNS1D;
                                 //(2 = separacion barras, 80 = ancho de la barra) 
                                 $codigoBarra = $cod->getBarcodeHTML($expediente->nro_expediente, 'C39',2,80,'black', true);
-                                //return response()->json($var,200);
-                                $datos = [$expediente->fecha,$caratula->iniciador->nombre,$extracto->descripcion,$estado_actual,$path,$codigoBarra];
+                                $datos = [$expediente->fecha,$caratula->iniciador->nombre,$extracto->descripcion,$estado_actual,$path, $expediente->nro_expediente,$codigoBarra];
                                 return response()->json($datos,200);
                             }
                         }
@@ -159,7 +158,7 @@ class ExpedienteController extends Controller
         "descripcion_extracto": "Extracto"
     }
     */
-    
+
 
     public function show(Request $request)
     {

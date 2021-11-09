@@ -45,7 +45,7 @@ class AreaSeeder extends Seeder
         array('descripcion' => 'AUDITORIA D'),
         array('descripcion' => 'PRESIDENCIA'),
         array('descripcion' => 'MAESTRANZA'),
-        array('descripcion' => 'EQUIPO CTA DE INVERSIÓN')
+        //array('descripcion' => 'EQUIPO CTA DE INVERSIÓN')
         //último sin coma
         );
 
