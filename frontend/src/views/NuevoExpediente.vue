@@ -17,26 +17,26 @@
       <v-divider color="#393B44"></v-divider>
 
       <label-error :texto="this.iniciador_id_error"/>
-        <v-row no-gutters justify="center" class="mb-3 mt-2">
-          <v-col cols="12" sm="12" lg="6" class="pr-lg-2">
-            <LabelInput texto="Iniciador"/>
-            <autocomplete-field :data="allIniciadores" nombre="nombre" @input="cargarExpediente()"  v-model="expe.iniciador_id"/>
-          </v-col>
+      <v-row no-gutters justify="center" class="mt-2">
+        <v-col cols="12" sm="12" lg="6" class="pr-lg-2">
+          <LabelInput texto="Iniciador"/>
+          <autocomplete-field :data="allIniciadores" nombre="nombre" @input="cargarExpediente()"  v-model="expe.iniciador_id"/>
+        </v-col>
 
-          <v-col cols="12" sm="12" lg="6" class="pl-lg-2">
-            <label-input texto="Nº de Expediente"/>
-            <v-text-field
-                class="Montserrat-Regular text-justify"
-                color="amber accent-4"
-                outlined
-                readonly
-                v-model="nroExpediente"
-            >
-            </v-text-field>
-          </v-col>
-        </v-row>
-
+        <v-col cols="12" sm="12" lg="6" class="pl-lg-2">
+          <label-input texto="Nº de Expediente"/>
+          <v-text-field
+              class="Montserrat-Regular text-justify"
+              color="amber accent-4"
+              outlined
+              readonly
+              v-model="nroExpediente"
+          >
+          </v-text-field>
+        </v-col>
+      </v-row>
       <label-error :texto="this.motivo_error"/>
+
       <v-row no-gutters justify="start"  class="pb-3">
         <v-col cols="12" sm="12" lg="6" class="pr-lg-2">
             <LabelInput texto="Motivo del Expediente"/>
@@ -56,19 +56,43 @@
         </v-col>
       </v-row>
 
-        <v-row no-gutters justify="start">
-          <label-error :texto="this.descripcion_extracto_error"/>
-          <v-col cols="12" class="pr-lg-2">
-            <label-input texto="Extracto"/>
-            <Extractos v-model="expe.descripcion_extracto" :tipo="expe.tipo_exp_id"/>
-          </v-col>
-        </v-row>
+      <v-row no-gutters justify="start">
+        <label-error :texto="this.descripcion_extracto_error"/>
+        <v-col cols="12" class="pr-lg-2">
+          <label-input texto="Extracto"/>
+          <Extractos v-model="expe.descripcion_extracto" :tipo="expe.tipo_exp_id"/>
+        </v-col>
+      </v-row>
 
-      <v-row no-gutters justify="center"  class="pt-7">
+      <v-row no-gutters justify="center" class="pt-5">
         <v-col cols="12" sm="12" lg="6" class="pr-lg-2 pb-3">
+          <label-error/>
+          <label-input texto="Número SIIF"/>
+          <text-field tipo="number"/>
+        </v-col>
+        <v-col cols="12" sm="12" lg="6" class="pl-lg-2 pb-3">
           <label-error :texto="this.nro_fojas_error"/>
           <LabelInput texto="Cantidad de Fojas"/>
           <text-field tipo="number" v-model="expe.nro_fojas" />
+        </v-col>
+      </v-row>
+
+      <v-row no-gutters justify="center">
+        <v-col cols="12" sm="12" lg="6" class="pr-lg-2 pb-3">
+          <label-input texto="Pase a"/>
+
+          <v-autocomplete
+            class="Montserrat-Regular text-justify"
+            color="amber accent-4"
+            outlined
+            item-value="id"
+            single-line
+            item-color="amber accent-4"
+            :items="this.$store.getters.get_areas_all"
+            item-text="nombre"
+            v-model="expe.area_id"
+          >
+          </v-autocomplete>
         </v-col>
 
         <v-col cols="12" sm="12" lg="6" class="pl-lg-2 pb-6">
@@ -90,30 +114,13 @@
         </v-col>
       </v-row>
 
-        <label-input texto="Pase a:"/>
-
-      <v-autocomplete
-          class="Montserrat-Regular text-justify"
-          color="amber accent-4"
-          outlined
-          item-value="id"
-          single-line
-          item-color="amber accent-4"
-          :items="this.$store.getters.get_areas_all"
-          item-text="nombre"
-          v-model="expe.area_id"
-      >
-      </v-autocomplete>
-
-
       <v-card  color="#FFF5E6" class="pa-5">
         <label-input texto="Adjuntar Archivos al Pase"/>
         <input type="file" multiple @change="handleFileUpload( $event )"/>
       </v-card>
 
-
       <v-row no-gutters justify="center" class="mt-8">
-        <v-col cols="12" sm="6" md="6" lg="6" class="py-6 px-sm-2">
+        <v-col cols="12" sm="6" md="6" lg="6" class="pb-16 px-sm-2">
           <v-btn type="submit" class="pa-5 color Montserrat-SemiBold" height="55" elevation="0" color="#FACD89" block>
             <v-icon class="px-5">
               mdi-check-bold
