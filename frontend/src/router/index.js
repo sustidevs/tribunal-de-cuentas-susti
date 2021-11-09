@@ -15,6 +15,7 @@ import CaratulaPdf from '../views/CaratulaPdf.vue'
 import PasePdf from '../views/PasePdf.vue'
 import layout from '../layout/Layout'
 import Expedientes from "../views/Expedientes";
+import pdf from "../components/PDF/Pase"
 import Usuario from "../views/Usuario";
 
 Vue.use(VueRouter)
@@ -27,8 +28,14 @@ const routes = [
     component: layout,
     children: [
       {
-        path: '/',
+        path: '/pdf',
         name: 'Home',
+        component: pdf,
+        meta: {title: 'Inicio'}
+      },
+      {
+        path: '/',
+        name: 'PDF',
         component: Home,
         meta: {title: 'Inicio',  layout: layout }
       },
