@@ -1,109 +1,136 @@
 <template>
-    <v-dialog v-model="show" max-width="1200px" content-class="round">
-      <v-card class="px-7 pt-1 pb-6">
-        <v-row class="mt-5">
-          <v-col cols="10">
-            <h2 class="Montserrat-Bold text-justify">
-              Consultar un expediente por
-            </h2>
-          </v-col>
-          <v-col cols="2" align="right">
-            <v-btn  @click="close" icon elevation="0" color="grey lighten-2">
-              <v-icon left large color="#393B44">
-                mdi-close-thick
-              </v-icon>
-            </v-btn>
-          </v-col>
-        </v-row>
-        <v-divider color="#393B44" class="mt-2"></v-divider>
+    <v-dialog v-model="show" width="1100" content-class="round">
 
-        <form @submit.prevent="consultar()" >
-        <div class="d-flex justify-center column Montserrat-Semibold mt-4">
+      <div v-if="this.get_encontrado == false">
+        <v-card class="px-7 pt-1 pb-6">
 
-          <v-radio-group  row v-model="busqueda.buscar_por">
-            <v-radio
-                class="textRadio"
-                color="orange"
-                value="n"
-                label="N° de expediente"
-            >
-            </v-radio>
-
-            <v-radio
-                class="textRadio"
-                color="orange"
-                label="Cuil del iniciador"
-            >
-            </v-radio>
-          </v-radio-group>
-
-          <!--
-          <v-btn-toggle v-model="busqueda.buscar_por" group class="justify-space-around">
-              <v-btn value="1" x-large class="px-sm-12">
-                  <v-icon color="amber accent-4" class="pr-2"> </v-icon>
-                  N° de expediente
+          <v-row class="mt-5">
+            <v-col cols="10">
+              <h2 class="Montserrat-Bold text-justify">
+                Consultar Expediente
+              </h2>
+            </v-col>
+            <v-col cols="2" align="right">
+              <v-btn  @click="close" icon elevation="0" color="grey lighten-2">
+                <v-icon left large color="#393B44">
+                  mdi-close-thick
+                </v-icon>
               </v-btn>
-              <v-btn value="2" x-large class="px-sm-12">
-                  <v-icon color="amber accent-4" class="pr-2">  </v-icon>
-                  CUIL DEL INICIADOR
-              </v-btn>
-          </v-btn-toggle>-->
-        </div>
-
-        <div>
-                  <div class="d-flex my-4">
-                      <v-text-field
-                          class="Montserrat-Regular text-justify"
-                          color="amber accent-4"
-                          outlined
-                          v-model="busqueda.valor"
-                          label="Por ejemplo: 27-41789321-8, ..."
-                      ></v-text-field>
-                  </div>
-            <v-row justify="center" class="pb-6">
-              <v-btn type="submit" class="pa-5 color Montserrat-SemiBold" height="45" color="#FACD89">
-                <v-icon class="pr-4"> mdi-text-box-search-outline </v-icon>
-                Buscar
-              </v-btn>
-            </v-row>
-          </div>
-
-        </form>
-
-        <div v-if="this.resultados">
-          <v-row no-gutters class="text mt-4" justify="start">
-            <v-col cols="12">
-              <LabelInput texto="Resultados Obtenidos"/>
-              <div v-if="this.resultados">
-                <card-extracto-pase class="my-4" background="#FACD89" expediente="800 - 28-04 - 1000/2021" fecha="28-04-2021" responsable="Responsable" extracto="RENDICIÓN DE CUENTAS N° 01/20 FDO.PTE.GTOS.BIENES DE CONSUMO
-                    SERVICIOS NO RESPONSABLE. BS. USO Y TRANF. DCTO M° 2548/20. $1.000.000.00 (MINISTERIO REPARTICIÓN)."></card-extracto-pase>
-              </div>
-              <div v-else>
-                <div class="my-4">
-                  <v-alert
-                    dense
-                    outlined
-                    color="amber accent-4"
-                  >
-                    No se encontraron resultados
-                  </v-alert>
-                  </div>
-              </div>
             </v-col>
           </v-row>
+
+          <v-divider color="#393B44" class="mt-2"></v-divider>
+
+          <form @submit.prevent="consultar()" >
+            <div class="Montserrat-SemiBold mt-4 py-2">
+              Seleccione la opcion por la que desea buscar:
+            </div>
+
+            <v-btn-toggle class="py-3" v-model="busqueda.buscar_por" group  @change="showBuscar = true">
+              <v-btn value="1"  class="px-8 pa-8 textRadio">
+                <v-icon class="pr-2" large color="rgb(251, 140, 0, 0.7)"> mdi-file-multiple </v-icon>
+                N° de Expediente
+              </v-btn>
+
+              <v-btn value="3"  class="px-8 pa-8 textRadio">
+                <v-icon class="pr-2" large color="rgb(244, 67, 54, 0.7)"> mdi-cash </v-icon>
+                N° de Cheque/Transferencia
+              </v-btn>
+
+              <v-btn value="2"  class="px-8 pa-8 textRadio">
+                <v-icon  class="pr-2" large color="rgb(244, 67, 54, 0.7)"> mdi-account </v-icon>
+                Cuit del Iniciador
+              </v-btn>
+            </v-btn-toggle>
+
+            <div v-if="showBuscar" class="pt-2">
+              <div class="Montserrat-SemiBold mt-2 mb-1 py-2">
+                Ingrese el valor:
+              </div>
+              <text-field v-model="busqueda.valor"/>
+              <v-row justify="center" class="pb-6">
+                <v-btn type="submit" class="pa-5 color Montserrat-SemiBold" height="45" color="#FACD89">
+                  <v-icon class="pr-4"> mdi-text-box-search-outline </v-icon>
+                  Buscar
+                </v-btn>
+              </v-row>
+            </div>
+
+          </form>
+        </v-card>
+      </div>
+
+
+      <div v-if="this.get_encontrado">
+         <v-card class="px-7 pt-1 pb-6">
+
+           <v-row class="mt-5">
+             <v-col cols="10">
+               <h2 class="Montserrat-Bold text-justify">
+                 Resultados Obtenidos
+               </h2>
+             </v-col>
+             <v-col cols="2" align="right">
+               <v-btn  @click="close" icon elevation="0" color="grey lighten-2">
+                 <v-icon left large color="#393B44">
+                   mdi-close-thick
+                 </v-icon>
+               </v-btn>
+             </v-col>
+           </v-row>
+
+           <v-divider color="#393B44" class="mt-2"></v-divider>
+
+           <div v-if="this.get_busquedaExp.length == 0" class="Montserrat-Regular mt-4 py-2">
+             No se han encontrado resultados
+
+             <v-btn  @click="close" icon elevation="0" color="grey lighten-2">
+               <v-icon left large color="#393B44">
+                 mdi-close-thick
+               </v-icon>
+               Cerrar
+             </v-btn>
+           </div>
+
+
+           <div v-if="this.get_busquedaExp.length > 0">
+             <div class="Montserrat-Regular mt-4 py-2">
+               Haga click en el resultado para mas detalles
+             </div>
+
+             <v-expansion-panels focusable>
+               <v-expansion-panel class="my-2"  v-for="item in get_busquedaExp" :key="item.id">
+                 <v-expansion-panel-header color="#FACD89" class="Montserrat-SemiBold sizeNroExp"> {{item.expediente_id }})   {{ item.nro_expediente}}</v-expansion-panel-header>
+
+                 <v-expansion-panel-content>
+                   <div class="Montserrat-Bold mt-4">Iniciador:</div>
+                   <div class="Montserrat-Regular">{{item.iniciador }}</div>
+
+                   <div class="Montserrat-Bold mt-4">Cuit:</div>
+                   <div class="Montserrat-Regular">{{item.cuit }}</div>
+
+                   <div class="Montserrat-Bold mt-4">Extracto:</div>
+                   <div class="Montserrat-Regular">{{item.extracto }}</div>
+
+                   <div class="Montserrat-Bold mt-4">Area Actual:</div>
+                   <div class="Montserrat-Regular">{{item.area_actual }}</div>
+                 </v-expansion-panel-content>
+               </v-expansion-panel>
+             </v-expansion-panels>
+           </div>
+         </v-card>
         </div>
-      </v-card>
+
     </v-dialog>
 </template>
 
 <script>
-import LabelInput from "../LabelInput"
-import CardExtractoPase from '../CardExtractoPase.vue'
-import {mapActions} from "vuex";
+import TextField from "../TextField";
+import {mapActions, mapGetters} from "vuex";
 
 export default {
   name: 'ModalConsultarNroExp',
-  components: {LabelInput, CardExtractoPase},
+  components: { TextField},
   props: {
     show: Boolean,
   },
@@ -111,8 +138,8 @@ export default {
   data () {
     return {
       buscador: null,
-      resultados: null,
-
+      resultados: false,
+      showBuscar: false,
       busqueda: {
         buscar_por: '',
         valor: '',
@@ -125,19 +152,21 @@ export default {
     }
   },
 
+  computed: mapGetters(['get_busquedaExp','get_encontrado']),
 
   methods: {
 
     ...mapActions([
-      'consultar',
+      'consultarExpediente',
     ]),
 
     consultar () {
-      this.resultados = true
+      this.consultarExpediente(this.busqueda)
     },
 
     close() {
       this.$emit("close")
+      this.$router.go(0)
     },
 
     mostrar () {
@@ -150,14 +179,13 @@ export default {
 </script>
 
 <style>
-h2{
-  font-size: 26px;
-  color: #393B44;
+.textRadio{
+  font-family: Montserrat-Bold,serif;
+  font-size: 15px !important;
 }
 
-.textRadio{
-  font-family: Montserrat-Bold;
-  font-size: 34px !important;
+.sizeNroExp{
+  font-size: 20px !important;
 }
 
 </style>

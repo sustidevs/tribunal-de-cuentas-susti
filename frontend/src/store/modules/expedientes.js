@@ -13,7 +13,7 @@ const state = {
     cantidad_pendientes: 0,
     finalizado: true,
     busquedaExp : '',
-
+    encontrado: false,
 };
 
 const getters = {
@@ -29,23 +29,24 @@ const getters = {
     get_cantPendientes: state => state.cantidad_pendientes,
     recuperado: state => state.recuperado,
     get_finalizado: state => state.finalizado,
-    get_busquedaExp: state => state.busquedaExp
+    get_busquedaExp: state => state.busquedaExp,
+    get_encontrado: state => state.encontrado,
 };
 
 const actions = {
 
     consultarExpediente ({ commit }, busqueda) {
-        axios.post(process.env.VUE_APP_API_URL+ '/buscar-expediente', busqueda)
+        axios.post(process.env.VUE_APP_API_URL+ '/api/buscar-expediente', busqueda)
             .then(response => {
                 console.log(response.data)
                 commit('set_resultadosExp', response.data)
+                commit('set_encontrado', true)
             })
     },
 
     getCantidadPendientes ({ commit }, usuario) {
         axios.post(process.env.VUE_APP_API_URL+ '/api/contarExp', usuario)
             .then(response => {
-                console.log(response.data)
                 commit('set_cantPendientes', response.data)
             })
     },
@@ -116,7 +117,8 @@ const mutations = {
     recuperado: (state, recuperado) => state.recuperado = recuperado,
     set_finalizado: (state, finalizado) => state.finalizado = finalizado,
     set_bandejaEntrada: (state,expediente_bandeja) => state.expediente_bandeja = expediente_bandeja,
-    set_resultadosExp: (state,busquedaExp) => state.busquedaExp = busquedaExp
+    set_resultadosExp: (state,busquedaExp) => state.busquedaExp = busquedaExp,
+    set_encontrado: (state,encontrado) => state.encontrado = encontrado,
 };
 
 export default {
