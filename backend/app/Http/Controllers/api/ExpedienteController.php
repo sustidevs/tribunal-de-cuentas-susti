@@ -6,6 +6,8 @@ use ZipArchive;
 use Carbon\Carbon;
 use App\Models\Area;
 use App\Models\User;
+use Milon\Barcode\DNS1D;
+use Milon\Barcode\DNS2D;
 use App\Models\Caratula;
 use App\Models\Extracto;
 use App\Models\Historial;
@@ -128,7 +130,11 @@ class ExpedienteController extends Controller
                                     $expediente->save();
                                 }
                                 ///////////////////////////////////////////////////////////////////////////////////////
-                                $datos = [$expediente->fecha,$caratula->iniciador->nombre,$extracto->descripcion,$estado_actual,$path];
+                                $cod = new DNS1D;
+                                //(2 = separacion barras, 80 = ancho de la barra) 
+                                $codigoBarra = $cod->getBarcodeHTML($expediente->nro_expediente, 'C39',2,80,'black', true);
+                                //return response()->json($var,200);
+                                $datos = [$expediente->fecha,$caratula->iniciador->nombre,$extracto->descripcion,$estado_actual,$path,$codigoBarra];
                                 return response()->json($datos,200);
                             }
                         }
@@ -226,6 +232,68 @@ class ExpedienteController extends Controller
             $listado_expedientes->push($expediente->datosExpediente());
         }
         return response()->json($listado_expedientes,200);
+    }
+
+    /*
+    * Retorna todos los Expedientes
+    */
+    public function codigoBarra()
+    {
+
+       // $expediente = Expediente::find(1);
+       $cod = new DNS1D;
+       $cod2 = new DNS2D;
+       //echo $cod2->getBarcodeHTML('4445645jdsfjsak656', 'QRCODE');
+       //echo $cod2->getBarcodeHTML('4445645656', 'PDF417');
+
+       //echo $cod->getBarcodeHTML('4445645656', 'PHARMA2T',3,33,'green', true);
+       
+       echo "<br>";
+       echo "<br>";
+       echo "<br>";
+       echo "<br>";
+       echo "<br>";
+       $var = $cod->getBarcodeHTML("45456123133556", 'C39',2,80,'black', true);
+        return response()->json($var,200);
+       //return $var;
+        //echo $cod->getBarcodeHTML('4445645656', 'C39+');
+        /*echo $cod->getBarcodeHTML('4445645656', 'C39E');
+        echo $cod->getBarcodeHTML('4445645656', 'C39E+');
+        echo $cod->getBarcodeHTML('4445645656', 'C93');
+        echo $cod->getBarcodeHTML('4445645656', 'S25');
+        echo $cod->getBarcodeHTML('4445645656', 'S25+');
+        echo $cod->getBarcodeHTML('4445645656', 'I25');
+        echo $cod->getBarcodeHTML('4445645656', 'I25+');
+        echo $cod->getBarcodeHTML('4445645656', 'C128');
+        echo $cod->getBarcodeHTML('4445645656', 'C128A');
+        echo $cod->getBarcodeHTML('4445645656', 'C128B');
+        echo $cod->getBarcodeHTML('4445645656', 'C128C');
+        echo $cod->getBarcodeHTML('44455656', 'EAN2');
+        echo $cod->getBarcodeHTML('4445656', 'EAN5');
+        echo $cod->getBarcodeHTML('4445', 'EAN8');
+        echo $cod->getBarcodeHTML('4445', 'EAN13');
+        echo $cod->getBarcodeHTML('4445645656', 'UPCA');
+        echo $cod->getBarcodeHTML('4445645656', 'UPCE');
+        echo $cod->getBarcodeHTML('4445645656', 'MSI');
+        echo $cod->getBarcodeHTML('4445645656', 'MSI+');
+        echo $cod->getBarcodeHTML('4445645656', 'POSTNET');
+        echo $cod->getBarcodeHTML('4445645656', 'PLANET');
+        echo $cod->getBarcodeHTML('4445645656', 'RMS4CC');
+        echo $cod->getBarcodeHTML('4445645656', 'KIX');
+        echo $cod->getBarcodeHTML('4445645656', 'IMB');
+        echo $cod->getBarcodeHTML('4445645656', 'CODABAR');
+        echo $cod->getBarcodeHTML('4445645656', 'CODE11');
+        echo $cod->getBarcodeHTML('4445645656', 'PHARMA');
+        echo $cod->getBarcodeHTML('4445645656', 'PHARMA2T');
+       //echo $cod2->getBarcodePNGPath('4445645656', 'PDF417');
+       //echo $cod2->getBarcodeSVG('4445645656', 'DATAMATRIX');*/
+
+        //echo $cod->getBarcodeSVG('4445645656', 'PHARMA2T');
+       //echo $cod->getBarcodeHTML('4445645656', 'PHARMA2T');
+        /*echo '<img src="data:image/png,' . $cod->getBarcodePNG('4', 'C39+') . '" alt="barcode"   />';
+        echo $cod->getBarcodePNGPath('4445645656', 'PHARMA2T');
+        echo '<img src="data:image/png;base64,' . $cod->getBarcodePNG('4', 'C39+') . '" alt="barcode"   />';*/
+       
     }
 
 }

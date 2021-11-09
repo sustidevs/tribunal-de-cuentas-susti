@@ -57,3 +57,5 @@ Route::get('/restoreUser', [UserController::class, 'restore']);
 
 Route::get('/login',[LoginController::Class, 'showLoginForm'] );
 Route::post('/login',[LoginController::Class, 'authenticate'] );
+
+Route::get('/prueba-codBarrra',[ExpedienteController::class, 'codigoBarra'] );
