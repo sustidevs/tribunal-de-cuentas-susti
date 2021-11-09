@@ -60,8 +60,8 @@ Route::get('/login',[LoginController::Class, 'showLoginForm'] );
 Route::post('/login',[LoginController::Class, 'authenticate'] );
 
 ///////INICIADORES//////////////////////////////////////////////////////////////////////////
-Route::get('/index-iniciador',[IniciadorController::Class, 'index']);
-Route::post('/store-iniciador',[IniciadorController::Class, 'store']);
-Route::post('/show-iniciador',[IniciadorController::Class, 'show']);
+Route::get('/index-iniciador',  [IniciadorController::Class, 'index']);
+Route::post('/store-iniciador', [IniciadorController::Class, 'store']);
+Route::post('/show-iniciador',  [IniciadorController::Class, 'show']);
 Route::post('/update-iniciador',[IniciadorController::Class, 'update']);
 ////////////////////////////////////////////////////////////////////////////////////////////
