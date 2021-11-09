@@ -45,7 +45,6 @@ export default {
     ...mapActions(['getCantidadPendientes']),
 
     getCantidad_Pendientes(){
-      console.log(this.getUser)
       this.getCantidadPendientes(this.getUser)
     },
 }
@@ -73,14 +72,14 @@ export default {
 }
 
 .Montserrat-Regular{
-  font-family: "Montserrat-Regular";
+  font-family: "Montserrat-Regular",serif;
 }
 
 .Montserrat-SemiBold {
-  font-family: "Montserrat-SemiBold";
+  font-family: "Montserrat-SemiBold",serif;
 }
 
 .Montserrat-Bold {
-  font-family: "Montserrat-Bold";
+  font-family: "Montserrat-Bold",serif;
 }
 </style>
