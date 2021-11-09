@@ -17,7 +17,7 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        $persona = Persona::create([
+        /*$persona = Persona::create([
             'dni' => '11222333',
             'nombre' => 'Juan',
             'apellido' => 'Perez',
@@ -95,6 +95,11 @@ class UserSeeder extends Seeder
         'email_verified_at' => now(),
         'password' => Hash::make('password'), // password
         'remember_token' => Str::random(10),
-    ]);
+    ]);*/
+        $users = User::all();
+        foreach ($users as $user) {
+            $user->password=  Hash::make($user->cuil);
+            $user->update();
+        } 
     }
 }
