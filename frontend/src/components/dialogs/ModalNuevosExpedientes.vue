@@ -16,7 +16,7 @@
       <div class="Montserrat-Bold mb-2 sizeTM"> Extracto:</div>
       <div class="Montserrat-Regular mb-6 text-justify sizeDM">{{ dato[2] }}</div>
 
-      <div class=" Montserrat-Bold mb-2 sizeTM"> Se derivo al Area:</div>
+      <div class=" Montserrat-Bold mb-2 sizeTM"> Se derivó al área:</div>
       <div class="Montserrat-Regular mb-6 text-justify sizeDM">{{ dato[3].descripcion }}</div>
 
       <v-row no-gutters justify="center" class="py-4">
