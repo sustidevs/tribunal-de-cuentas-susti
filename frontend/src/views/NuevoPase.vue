@@ -64,8 +64,10 @@
                   </v-col>
                 </v-row>
 
-                <label-input texto="Adjuntar Archivos"/>
-                <file-inputs/>
+                <v-card color="#FFF5E6" class="pa-5">
+                  <label-input texto="Adjuntar Archivos al Pase"/>
+                  <input type="file" multiple @change="handleFileUpload( $event )"/>
+                </v-card>
               </v-card>
 
               <v-row justify="center" class="ma-8">
@@ -106,21 +108,21 @@ import Titulo from "../components/Titulo";
 import LabelInput from "../components/LabelInput";
 import TextField from "../components/TextField";
 import {mapActions, mapGetters} from "vuex";
-import FileInputs from "../components/FileInputs";
 import ModalDetallePase from "../components/dialogs/ModalDetallePase";
 import ModalExitoPase from "../components/dialogs/ModalExitoPase";
 
 export default {
     name: 'Nuevo Pase',
-    components: {FileInputs, Titulo,LabelInput, TextField, ModalDetallePase,ModalExitoPase},
+    components: {Titulo,LabelInput, TextField, ModalDetallePase,ModalExitoPase},
     data: () => ({
-      files: [],
       e1: 1,
       area: [],
       pase:{
         motivo: '',
         nro_fojas: 0,
-      }
+      },
+      files:'',
+      loader: null,
 
     }),
 
@@ -135,16 +137,30 @@ export default {
       ]),
 
     storePas() {
-      const pas = {
-        user_id:  this.$store.getters.getIdUser,
-        expediente_id: this.$store.getters.idExpedientePase,
-        fojas: this.pase.nro_fojas,
-        area_destino_id: this.area.id,
-        area_destino_type: this.area.tipo_area,
-        motivo: this.pase.motivo,
-        archivos: null,
+      let formData = new FormData();
+
+      for( var i = 0; i < this.files.length; i++ ){
+        let file = this.files[i];
+
+        formData.append('archivo' + i + '', file);
       }
-      this.storePase(pas);
+
+      let cantidad = (this.files.length).toString()
+      formData.append('user_id', this.$store.getters.getIdUser);
+      formData.append('expediente_id', this.$store.getters.idExpedientePase);
+      formData.append('fojas', this.pase.nro_fojas);
+      formData.append('area_destino_id', this.area.id);
+      formData.append('area_destino_type', this.area.tipo_area);
+      formData.append('motivo', this.pase.motivo);
+      formData.append('archivos', null);
+       formData.append('estado_expediente', 1);
+      formData.append('archivos_length', cantidad);
+
+      this.storePase(formData)
+    },
+
+    handleFileUpload( event ){
+      this.files = event.target.files;
     },
   },
 
