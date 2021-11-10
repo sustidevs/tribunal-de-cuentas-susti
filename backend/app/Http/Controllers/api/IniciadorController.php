@@ -18,7 +18,7 @@ class IniciadorController extends Controller
     public function create()
     {
         $tipo_entidad = TipoEntidad::all();
-        return $tipo_entidad;
+        return response()->json($tipo_entidad, 200);
     }
 
     public function store(Request $request)
@@ -58,6 +58,14 @@ class IniciadorController extends Controller
     {
         $iniciador = Iniciador::findOrFail($request->id);
         return response()->json($iniciador, 200);
+    }
+
+    public function edit(Request $request)
+    {
+        $tipo_entidad = TipoEntidad::all();
+        $iniciador = Iniciador::findOrFail($request->id);
+        $data = ["iniciador" =>$iniciador,"tipo_entidad" =>  $tipo_entidad ];
+        return response()->json($data, 200);
     }
 
     public function update(Request $request)

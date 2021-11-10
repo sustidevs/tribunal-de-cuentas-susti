@@ -63,6 +63,7 @@ Route::post('/login',[LoginController::Class, 'authenticate'] );
 Route::get('/index-iniciador',  [IniciadorController::Class, 'index']);
 Route::post('/store-iniciador', [IniciadorController::Class, 'store']);
 Route::post('/show-iniciador',  [IniciadorController::Class, 'show']);
+Route::post('/edit-iniciador',  [IniciadorController::Class, 'edit']);
 Route::post('/update-iniciador',[IniciadorController::Class, 'update']);
 ////////////////////////////////////////////////////////////////////////////////////////////
 
