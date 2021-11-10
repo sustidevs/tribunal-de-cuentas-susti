@@ -27,6 +27,7 @@
           disable-sort
           mobile-breakpoint="300"
           class="elevation-1 mytable"
+          @click:row="historial_pase"
           loading-text="Cargando expedientes. Por favor, espere."
           :loading="loading"
           no-data-text="No tienes Expedientes"
@@ -80,8 +81,19 @@ export default {
     },
 
     ...mapActions([
-      'getNuevoPase'
+      'getHistorial'
     ]),
+
+
+
+    historial_pase: function (item, row) {
+      row.select(true);
+      console.log(item);
+      this.getHistorial(item)
+      this.$router.push({name: 'VerHistoriales'})
+      //console.log(item)
+    },
+
   }
 }
 </script>

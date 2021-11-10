@@ -14,6 +14,9 @@ const state = {
     finalizado: true,
     busquedaExp : '',
     encontrado: false,
+    todos_expedientes: [],
+    historial: [],
+    historial_nro: '',
 };
 
 const getters = {
@@ -31,9 +34,29 @@ const getters = {
     get_finalizado: state => state.finalizado,
     get_busquedaExp: state => state.busquedaExp,
     get_encontrado: state => state.encontrado,
+    todos_expp: state => state.todos_expedientes,
+    get_Historial: state => state.historial,
+    get_historial_nro: state => state.historial_nro
 };
 
 const actions = {
+
+    todos_exp ({ commit }) {
+        axios.get(process.env.VUE_APP_API_URL+ '/api/all-expedientes')
+            .then(response => {
+                console.log(response.data)
+                commit('set_todos_expedientes', response.data)
+                commit('set_finalizado', false)
+            })
+    },
+
+    getHistorial ({ commit }, expediente) {
+        axios.post(process.env.VUE_APP_API_URL+ '/api/historialExp', expediente)
+            .then(response => {
+                commit('set_nro_historial', response.data[0].nro_expediente)
+                commit('set_historial', response.data)
+            })
+    },
 
     consultarExpediente ({ commit }, busqueda) {
         axios.post(process.env.VUE_APP_API_URL+ '/api/buscar-expediente', busqueda)
@@ -119,6 +142,9 @@ const mutations = {
     set_bandejaEntrada: (state,expediente_bandeja) => state.expediente_bandeja = expediente_bandeja,
     set_resultadosExp: (state,busquedaExp) => state.busquedaExp = busquedaExp,
     set_encontrado: (state,encontrado) => state.encontrado = encontrado,
+    set_todos_expedientes: (state,todos_expedientes) => state.todos_expedientes = todos_expedientes,
+    set_historial: (state,historial) => state.historial = historial,
+    set_nro_historial: (state,historial_nro) => state.historial_nro = historial_nro,
 };
 
 export default {
