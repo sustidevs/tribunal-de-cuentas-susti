@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\api;
 
+use ZipArchive;
 use Carbon\Carbon;
 use App\Models\Area;
 use App\Models\User;
@@ -54,13 +55,84 @@ class HistorialController extends Controller
         $historial->fecha = Carbon::now()->format('Y-m-d');
         $historial->hora = Carbon::now()->format('h:i');
         $historial->motivo = $request->motivo;
-        $historial->nombre_archivo = $request->nombre_archivo;
+        //$historial->nombre_archivo = $request->nombre_archivo;
         $historial->estado = 1;//pendiente para la bandeja del area destino, enviado para la bandeja origen
         $expediente->fojas += $historial->fojas;
+        //ARCHIVOS/////////////////////////////////////////////////////////////////////////////
+        if(!is_null($request->allFiles()))
+        {
+            $zip = new ZipArchive;
+            $fileName = $expediente->nro_expediente;
+            $fileName = str_replace("/","-",$fileName).'.zip';
+            $path =storage_path()."/app/public/archivos_expedientes/".$fileName. ".zip";
+            if($zip->open($path ,ZipArchive::CREATE) === true)
+            {
+                foreach ($request->allFiles() as $key => $value)
+                {
+                    $relativeNameInZipFile = $value->getClientOriginalName();
+                    $zip->addFile($value, $relativeNameInZipFile);
+                }
+                $zip->close();
+            }
+            $expediente->archivos = $fileName;
+            $expediente->save();
+        }
+        ///////////////////////////////////////////////////////////////////////////////////////
         $expediente->save();
         $historial->save();
         return response()->json($historial, 200);
     }
+
+    /*public function agregarArchivos(Request $request)
+    {
+        $fileName = Formulario::findOrFail($request->id)->comprimidos;
+        if(empty($fileName))
+        {
+            $zip = new ZipArchive;
+            $persona_id = Formulario::findOrFail($request->id)->persona_id;
+            $persona = Persona::findOrFail($persona_id)->first();
+            $fileName =  'Documentacion '.$persona->nombre.' '.$persona->apellido.Str::random(5).'.zip';
+            $path = storage_path()."/app/public/archivos_formularios/" . $fileName;
+            if(!is_null($request->Archivos[0]))
+            {
+                if($zip->open($path,ZipArchive::CREATE) === true)
+                {
+                    foreach ($request->Archivos as $key => $value)
+                    {
+                        $relativeNameInZipFile = $value->getClientOriginalName();
+                        $zip->addFile($value, $relativeNameInZipFile);
+                    }
+                    $zip->close();
+                }
+                $formulario = Formulario::findOrFail($request->id)->first();
+                $formulario->comprimidos = $fileName;
+                $formulario->save();
+            }
+        }
+        else
+        {
+            $zip = new ZipArchive;
+            $fileName = Formulario::findOrFail($request->id)->comprimidos;
+            $path = storage_path() . '/app/public/archivos_formularios/' . $fileName;
+            if ($zip->open($path) === TRUE) {
+                if(!is_null($request->Archivos[0]))
+                {
+                    if($zip->open($path,ZipArchive::CREATE) === true)
+                    {
+                        foreach ($request->Archivos as $key => $value)
+                        {
+                            $relativeNameInZipFile = $value->getClientOriginalName();
+                            $zip->addFile($value, $relativeNameInZipFile);
+                        }
+                        $zip->close();
+                    }
+                    $formulario = Formulario::findOrFail($request->id)->first();
+                    $formulario->comprimidos = $fileName;
+                    $formulario->save();
+                }
+            }
+        }
+    }*/
 
      /*
     * Cambia el estado de los cuerpos de un expediente y guarda registro del mismo en el historial.
