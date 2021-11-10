@@ -83,57 +83,6 @@ class HistorialController extends Controller
         return response()->json($historial, 200);
     }
 
-    /*public function agregarArchivos(Request $request)
-    {
-        $fileName = Formulario::findOrFail($request->id)->comprimidos;
-        if(empty($fileName))
-        {
-            $zip = new ZipArchive;
-            $persona_id = Formulario::findOrFail($request->id)->persona_id;
-            $persona = Persona::findOrFail($persona_id)->first();
-            $fileName =  'Documentacion '.$persona->nombre.' '.$persona->apellido.Str::random(5).'.zip';
-            $path = storage_path()."/app/public/archivos_formularios/" . $fileName;
-            if(!is_null($request->Archivos[0]))
-            {
-                if($zip->open($path,ZipArchive::CREATE) === true)
-                {
-                    foreach ($request->Archivos as $key => $value)
-                    {
-                        $relativeNameInZipFile = $value->getClientOriginalName();
-                        $zip->addFile($value, $relativeNameInZipFile);
-                    }
-                    $zip->close();
-                }
-                $formulario = Formulario::findOrFail($request->id)->first();
-                $formulario->comprimidos = $fileName;
-                $formulario->save();
-            }
-        }
-        else
-        {
-            $zip = new ZipArchive;
-            $fileName = Formulario::findOrFail($request->id)->comprimidos;
-            $path = storage_path() . '/app/public/archivos_formularios/' . $fileName;
-            if ($zip->open($path) === TRUE) {
-                if(!is_null($request->Archivos[0]))
-                {
-                    if($zip->open($path,ZipArchive::CREATE) === true)
-                    {
-                        foreach ($request->Archivos as $key => $value)
-                        {
-                            $relativeNameInZipFile = $value->getClientOriginalName();
-                            $zip->addFile($value, $relativeNameInZipFile);
-                        }
-                        $zip->close();
-                    }
-                    $formulario = Formulario::findOrFail($request->id)->first();
-                    $formulario->comprimidos = $fileName;
-                    $formulario->save();
-                }
-            }
-        }
-    }*/
-
      /*
     * Cambia el estado de los cuerpos de un expediente y guarda registro del mismo en el historial.
     */
