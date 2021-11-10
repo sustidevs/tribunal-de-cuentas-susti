@@ -7,11 +7,11 @@
 
           <v-card color="#facd89" class="Montserrat-Regular text-justify">
             <v-stepper-header>
-              <v-stepper-step color="black" :complete="e1 > 1" step="1">
+              <v-stepper-step color="grey darken-3" :complete="e1 > 1" step="1">
                 Datos Expediente
               </v-stepper-step>
               <v-divider></v-divider>
-              <v-stepper-step :complete="e1 > 2" step="2">
+              <v-stepper-step color="grey darken-3" :complete="e1 > 2" step="2">
                 Detalle del Pase
               </v-stepper-step>
             </v-stepper-header>
@@ -33,7 +33,7 @@
                     return-object
                     item-color="amber accent-4"
                     :items="get_areas"
-                    item-text="nombre"
+                    item-text="descripcion"
                     v-model="area"
                 >
                 </v-autocomplete>
@@ -70,7 +70,7 @@
 
               <v-row justify="center" class="ma-8">
                 <v-col cols="4">
-                    <v-btn type="submit" class="pa-5 Montserrat-SemiBold" height="55" elevation="0" color="#FACD89" block @click="e1 = 2">
+                    <v-btn  class="pa-5 Montserrat-SemiBold" height="55" elevation="0" color="#FACD89" block @click="e1 = 2">
                       <div class="pr-5"> Continuar </div><v-icon>  mdi-arrow-right </v-icon>
                     </v-btn>
                 </v-col>
@@ -81,16 +81,15 @@
               <modal-detalle-pase :data="this.pase" :dataArea="this.area"/>
               <v-row  justify="center" class="ma-8">
                 <v-col cols="4">
-                    <v-btn @click="e1 = 1" type="submit" class="pa-5 Montserrat-SemiBold" height="55" elevation="0" block>
+                    <v-btn @click="e1 = 1" class="pa-5 Montserrat-SemiBold" height="55" elevation="0" block>
                       <v-icon class="pr-5"> mdi-arrow-left </v-icon> <div> Volver </div>
                     </v-btn>
                 </v-col>
                 <v-col cols="4">
                     <v-btn type="submit" class="pa-5 Montserrat-SemiBold" height="55" elevation="0" color="#FACD89" block>
-                      <div class="pr-5"> Confirmar Pase </div><v-icon>  mdi-check </v-icon>
+                      <div class="pr-5"> Confirmar Pase </div><v-icon> mdi-check </v-icon>
                     </v-btn>
                 </v-col>
-
               </v-row>
             </v-stepper-content>
           </v-stepper-items>
@@ -106,23 +105,13 @@
 import Titulo from "../components/Titulo";
 import LabelInput from "../components/LabelInput";
 import TextField from "../components/TextField";
-//import AutocompleteField from "../components/AutocompleteField";
 import {mapActions, mapGetters} from "vuex";
 import FileInputs from "../components/FileInputs";
 import ModalDetallePase from "../components/dialogs/ModalDetallePase";
 import ModalExitoPase from "../components/dialogs/ModalExitoPase";
-/**
-
-
-import SecondaryButton from "../components/SecondaryButton";
-import Button from "../components/Button";
-import InputDate from "../components/InputDate";
-import CardExtractoPase from '../components/CardExtractoPase.vue';
-import InputFile from '../components/InputFile.vue'**/
 
 export default {
     name: 'Nuevo Pase',
-   /** components: {InputDate, Button, Titulo, LabelInput,, SecondaryButton, CardExtractoPase, InputFile},**/
     components: {FileInputs, Titulo,LabelInput, TextField, ModalDetallePase,ModalExitoPase},
     data: () => ({
       files: [],
@@ -149,7 +138,7 @@ export default {
       const pas = {
         user_id:  this.$store.getters.getIdUser,
         expediente_id: this.$store.getters.idExpedientePase,
-        nro_fojas: this.pase.nro_fojas,
+        fojas: this.pase.nro_fojas,
         area_destino_id: this.area.id,
         area_destino_type: this.area.tipo_area,
         motivo: this.pase.motivo,
