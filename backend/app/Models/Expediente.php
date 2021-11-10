@@ -51,6 +51,16 @@ class Expediente extends Model
         return $this->hasMany(Historial::class);
     }
 
+    public function hijos()
+    {
+        return $this->hasMany(Expediente::class,'expediente_id');
+    }
+
+    public function padre()
+    {
+        return $this->belongsTo(Expediente::class,'expediente_id');
+    }
+
     public function cantidadCuerpos()
     {
         return ceil($this->fojas/200);

@@ -67,6 +67,7 @@ class ExpedienteController extends Controller
             $expediente->estado_expediente_id = '1';
             $expediente->area_actual_id = '13';
             $expediente->monto = $request->monto;
+            $expediente->expediente_id = $request->expediente_id;
             if($expediente->save());
             {
                 $extracto = new Extracto;
@@ -140,12 +141,10 @@ class ExpedienteController extends Controller
     }
     /*Ejemplo para el postman
     {
-        "nro_expediente" : "02221-2510-123122023/2021",
+        "nro_expediente" : "42221-2510-123122023/2021",
         "nro_fojas" : "250",
-        "prioridad" : "1",
-        "fecha" : "2021-10-25 21:21:57",
+        "prioridad_id" : "1",
         "tipo_exp_id" : "1",
-        "area_actual_id" : "6",
         "monto" : "100",
         "user_id" : "1",
         "area_id" : "1",
@@ -154,6 +153,31 @@ class ExpedienteController extends Controller
     }
     */
     
+    public function union(Request $request)
+    {
+        $exp_hijo = Expediente::findOrFail($request->exp_hijo);
+        $exp_padre = Expediente::findOrFail($request->exp_padre);
+        $exp_hijo->expediente_id = $exp_padre->id;
+        $exp_hijo->update();
+        return response()->json([$exp_padre->first(),$exp_padre->hijos,$exp_hijo->padre ],200);
+    }
+
+    /*{
+        "exp_padre" : "1",
+        "exp_hijo" : "2"
+    }*/
+
+    public function desgloce(Request $request)
+    {
+        $exp_hijo = Expediente::findOrFail($request->exp_hijo);
+        $exp_hijo->expediente_id = "";
+        $exp_hijo->update();
+        return response()->json("operacion realizada con exitos wey",200);
+    }
+
+    /*{
+        "exp_hijo" : "2"
+    }*/
 
     public function show(Request $request)
     {
