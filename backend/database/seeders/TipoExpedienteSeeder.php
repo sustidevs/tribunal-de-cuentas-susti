@@ -64,22 +64,11 @@ class TipoExpedienteSeeder extends Seeder
 
     public function run()
     {
-        /*foreach($this->arrayTipoExpedientes as $tipo){
+        foreach($this->arrayTipoExpedientes as $tipo){
             $t = new TipoExpediente();
             $t->descripcion = $tipo['descripcion'];
             //$t->nro_tipo_exp = $tipo['numero'];
             $t->save();
-        }*/
-        DB::insert("INSERT INTO tribunaldecuentas.tipo_expedientes (descripcion,created_at,updated_at,deleted_at) VALUES
-        ('FONDO PERMANENTE','2021-11-11 22:15:59.0','2021-11-11 22:15:59.0',NULL),
-        ('CANCELACIÓN','2021-11-11 22:15:59.0','2021-11-11 22:15:59.0',NULL),
-        ('SUBSIDIO','2021-11-11 22:15:59.0','2021-11-11 22:15:59.0',NULL),
-        ('APORTE NO REINTEGRABLE','2021-11-11 22:15:59.0','2021-11-11 22:15:59.0',NULL),
-        ('BALANCES','2021-11-11 22:15:59.0','2021-11-11 22:15:59.0',NULL),
-        ('MEMORIAS','2021-11-11 22:15:59.0','2021-11-11 22:15:59.0',NULL),
-        ('ACORDADA Nº 32/2001 ESPONTÁNEA','2021-11-11 22:15:59.0','2021-11-11 22:15:59.0',NULL),
-        ('ACORDADA Nº 17/2003','2021-11-11 22:15:59.0','2021-11-11 22:15:59.0',NULL),
-        ('ACORDADA Nº 08/2005','2021-11-11 22:15:59.0','2021-11-11 22:15:59.0',NULL),
-        ('ACORDADA Nº 12/2005','2021-11-11 22:15:59.0','2021-11-11 22:15:59.0',NULL)");
+        }
     }
 }
