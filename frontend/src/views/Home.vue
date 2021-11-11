@@ -8,7 +8,7 @@
 
       <titulo-inicio texto="Expedientes" class="my-6"/>
       <div class="d-flex flex-row">
-        <div v-if="getArea == 'DEPARTAMENTO MESA DE ENTRADA'">
+        <div v-if="getArea == 'DPTO. MESA DE ENTRADAS Y SALIDAS'">
           <div class="pr-5">
             <ButtonBig texto="Nuevo" link="/nuevo-expediente" :imagen="'./img/cards/nuevoexpediente.png'"/>
           </div>
