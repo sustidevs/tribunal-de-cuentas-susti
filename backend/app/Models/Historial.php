@@ -12,24 +12,24 @@ class Historial extends Model
 
     protected $table = "historiales";
 
-    public function areaOrigen() 
+    public function areaOrigen()
     {
         return $this->hasOne('App\Models\Area','id','area_origen_id');
     }
 
-    public function areaDestino() 
+    public function areaDestino()
     {
         return $this->hasOne('App\Models\Area','id','area_destino_id');
     }
 
-    public function user() 
+    public function user()
     {
         return $this->belongsTo(User::class);
     }
 
-    public function expediente() 
+    public function expediente()
     {
-        return $this->hasOne('App\Models\Expediente', 'id');
+        return $this->hasOne('App\Models\Expediente', 'id', 'expediente_id');
     }
 
     public function getHistorial()

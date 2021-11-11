@@ -55,9 +55,6 @@
           <ButtonBig texto="Expedientes" link="/expedientes"  :imagen="'./img/cards/expedientes.png'"/>
         </div>
         <div class="mx-5">
-          <ButtonBig texto="Historiales"  link="/historial"  :imagen="'./img/cards/historial.png'"/>
-        </div>
-        <div class="mx-5">
           <ButtonBig texto="Enviados"  link="/enviados"  :imagen="'./img/cards/expedientes-enviados.png'"/>
         </div>
       </div>
