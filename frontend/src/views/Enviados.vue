@@ -1,6 +1,6 @@
 <template>
   <div>
-    <titulo texto="Expedientes Enviados" icono="mdi-file-export" />
+    <titulo texto="Expedientes Enviados" icono="mdi-email-fast" />
     <tabla-enviados :headers="headers" :data="datos"/>
   </div>
 </template>

@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <div>
+  <div class="pb-16">
+    <div class="pb-16">
       <v-row no-gutters justify="start" class="pt-5">
         <titulo-area-sub :area="this.$store.getters.getArea"  class="mb-2"/>
       </v-row>
@@ -56,6 +56,9 @@
         </div>
         <div class="mx-5">
           <ButtonBig texto="Historiales"  link="/historial"  :imagen="'./img/cards/historial.png'"/>
+        </div>
+        <div class="mx-5">
+          <ButtonBig texto="Enviados"  link="/enviados"  :imagen="'./img/cards/expedientes-enviados.png'"/>
         </div>
       </div>
 
