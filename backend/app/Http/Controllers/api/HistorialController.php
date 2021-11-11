@@ -81,7 +81,15 @@ class HistorialController extends Controller
         ///////////////////////////////////////////////////////////////////////////////////////
         $expediente->save();
         $historial->save();
-        return response()->json($historial, 200);
+        $area_destino = $historial->areaDestino->descripcion;
+        $fecha = $historial->fecha = Carbon::now()->format('Y-m-d');
+        $fojas = $historial->fojas = $request->fojas;
+        $data = [$area_destino,
+                 $fecha,
+                 $fojas,
+                 $user->persona->nombre. " ".$user->persona->apellido,
+                 $historial->motivo];
+        return response()->json($data, 200);
     }
 
      /*
