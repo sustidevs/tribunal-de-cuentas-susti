@@ -1,6 +1,7 @@
 <template>
     <div>
       <titulo class="pb-3" texto="Historial del Expediente N°" :nro="this.get_historial_nro" icono="mdi-text-box-search-outline"/>
+      <!--
       <v-row>
         <v-btn @click="refColores=!refColores" color="grey lighten-2" class="mt-4 ml-3"> Referencia de colores
           <v-icon right>
@@ -18,17 +19,18 @@
             Departamento de Administración
           </v-chip>
         </div>
-      </v-row>
+      </v-row>-->
 
       <v-row class="pb-6" justify="center">
         <v-timeline
+            reverse
             align-top
             :dense="$vuetify.breakpoint.smAndDown"
         >
             <v-timeline-item
               v-for="item in this.get_Historial"
               :key="item.id"
-              :color="item.color"
+              color="amber darken-4"
               :icon="item.icon"
               :area="item.area"
               :asignado="item.asignado"
@@ -36,19 +38,23 @@
               fill-dot
             >
               <v-card
+                  width="1400"
                   :color="item.color"
               >
+                <v-card color="amber lighten-4">
                   <div class="pl-4 pt-4 pb-3">
-                      <div class="area pb-2"> {{item.area}} </div>
-                      <v-row class="titulo black--text">
-                          <v-col cols="12" lg="8" md="12">
-                              <div class="pt-2">Asignado a: {{item.nombre_usuario}}</div>
-                          </v-col>
-                          <v-col cols="12" lg="4" md="12">
-                              <div class="pt-2">Fecha: {{item.fecha}} </div>
-                          </v-col>
-                      </v-row>
+                    <div class="area pb-2"> {{item.area}} </div>
+                    <v-row class="titulo black--text">
+                      <v-col cols="12" lg="8" md="12">
+                        <div class="pt-2">Asignado a: {{item.nombre_usuario}}</div>
+                      </v-col>
+                      <v-col cols="12" lg="4" md="12">
+                        <div class="pt-2">Fecha: {{item.fecha}} </div>
+                      </v-col>
+                    </v-row>
                   </div>
+                </v-card>
+
 
                 <v-card-text class="white text--primary">
                   <div class="Montserrat-Bold pb-2"> Area Origen: </div>
@@ -58,11 +64,6 @@
                   <div class="Montserrat-Bold pb-2"> Motivo: </div>
                   <p>{{item.motivo}}</p>
                 </v-card-text>
-
-                <v-card-text class="white text--primary">
-                      <div class="Montserrat-Bold pb-2"> Observaciones </div>
-                      <p>Lorem ipsum dolor sit amet, no nam oblique veritus. Commune scaevola imperdiet nec ut, sed euismod convenire principes at. Est et nobis iisque percipit, an vim zril disputando voluptatibus, vix an salutandi sententiae.</p>
-                  </v-card-text>
 
               </v-card>
             </v-timeline-item>
