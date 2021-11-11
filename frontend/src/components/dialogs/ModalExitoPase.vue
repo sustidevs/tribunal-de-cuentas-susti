@@ -3,24 +3,24 @@
     <v-card class="px-7 pt-1">
 
       <div class="py-8 Montserrat-Bold  tituloModal">
-        Se realizó con éxito el pase del expediente N° {{ dato.nro_expediente}}
+        Se realizó con éxito el pase del expediente N° {{ dato[5] }}
       </div>
       <v-divider color="#393B44"></v-divider>
 
       <div class="Montserrat-Bold mb-2 mt-8 sizeTM"> Pase a:</div>
-      <div class="Montserrat-Regular mb-6 ml-1 sizeDM"> {{ dato.area_destino_id}}</div>
+      <div class="Montserrat-Regular mb-6 ml-1 sizeDM"> {{dato[0]}} </div>
 
       <div class="Montserrat-Bold mb-2 mt-8 sizeTM"> Fecha:</div>
-      <div class="Montserrat-Regular mb-6 ml-1 sizeDM"> {{ dato.fecha }}</div>
+      <div class="Montserrat-Regular mb-6 ml-1 sizeDM"> {{ dato[1] }} </div>
 
       <div class="Montserrat-Bold mb-2 sizeTM"> Fojas:</div>
-      <div class="Montserrat-Regular mb-6 text-justify sizeDM">{{ dato.fojas }}</div>
+      <div class="Montserrat-Regular mb-6 text-justify sizeDM">{{ dato[2] }}</div>
 
       <div class="Montserrat-Bold mb-2 sizeTM"> Agente que redacta el pase:</div>
-      <div class="Montserrat-Regular mb-6 text-justify sizeDM">{{ dato.area_origen_id }}</div>
+      <div class="Montserrat-Regular mb-6 text-justify sizeDM">{{ dato[3] }}</div>
 
       <div class=" Montserrat-Bold mb-2 sizeTM"> A efectos de:</div>
-      <div class="Montserrat-Regular mb-6 text-justify sizeDM">{{ dato.motivo}}</div>
+      <div class="Montserrat-Regular mb-6 text-justify sizeDM">{{ dato[4] }}</div>
 
       <v-row no-gutters justify="center" class="py-4">
 
@@ -60,22 +60,22 @@
 
           <div class="direction pad">
             <div class="Montserrat-SemiBold sizeAll pl">Fecha: </div>
-            <div class="Montserrat-Regular sizeAll">{{ dato[0] }}</div>
+            <div class="Montserrat-Regular sizeAll">{{ dato[1] }}</div>
           </div>
 
           <div class="direction pad">
             <div class="Montserrat-SemiBold sizeAll pl">Fojas:</div>
-            <div class="Montserrat-Regular pl-3 sizeAll"> </div>
+            <div class="Montserrat-Regular pl-3 sizeAll"> {{ dato[2] }} </div>
           </div>
 
           <div class="direction pad">
             <div class="Montserrat-SemiBold sizeAll pl"> Agente que redacta el pase:</div>
-            <div class="Montserrat-Regular pl-3 sizeAll"> {{ dato[1] }} </div>
+            <div class="Montserrat-Regular pl-3 sizeAll"> {{ dato[3] }} </div>
           </div>
 
           <div class="direction pad">
             <div class="Montserrat-SemiBold sizeAll pl"> A efectos de:</div>
-            <div class="Montserrat-Regular pl-3 sizeAll"> {{ dato[1] }} </div>
+            <div class="Montserrat-Regular pl-3 sizeAll"> {{ dato[4] }} </div>
           </div>
         </section>
       </section>
