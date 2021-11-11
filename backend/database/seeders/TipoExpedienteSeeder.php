@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\TipoExpediente;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class TipoExpedienteSeeder extends Seeder
 {
@@ -41,32 +42,44 @@ class TipoExpedienteSeeder extends Seeder
         array('descripcion' => 'APORTE NO REINTEGRABLE'),
         array('descripcion' => 'BALANCES'),
         array('descripcion' => 'MEMORIAS'),
-        array('descripcion' => 'ACORDADA Nº32/2001'),
-        array('descripcion' => 'ACORDADA Nº17/2003'),
-        array('descripcion' => 'ACORDADA 08/2005'),
-        array('descripcion' => 'ACORDADA 12/2005'),
+        array('descripcion' => 'ACORDADA Nº 32/2001 ESPONTÁNEA'),
+        array('descripcion' => 'ACORDADA Nº 17/2003'),
+        array('descripcion' => 'ACORDADA Nº 08/2005'),
+        array('descripcion' => 'ACORDADA Nº 12/2005'),
         array('descripcion' => 'NOTAS'),
         array('descripcion' => 'CUENTA DE INVERSION'),
-        array('descripcion' => 'ACORDADA 222/2011'),
+        array('descripcion' => 'ACORDADA Nº 222/2011'),
         array('descripcion' => 'ARANCELAMIENTO'),
-        array('descripcion' => 'ACORDADA 229/2011'),
+        array('descripcion' => 'ACORDADA Nº 229/2011'),
         array('descripcion' => 'FONDO FEDERAL SOLIDARIO'),
         array('descripcion' => 'REQUERIMIENTO'),
         array('descripcion' => 'OFICIO'),
         array('descripcion' => 'FO.E.SE'),
-        array('descripcion' => 'ACORDADA 404/2016'),
-        array('descripcion' => 'ACORDADA 222/2011'),
+        array('descripcion' => 'ACORDADA Nº 404/2016'),
+        array('descripcion' => 'CÉDULA ACORDADA Nº 32/2001'),
         array('descripcion' => 'SUELDOS'),
-        array('descripcion' => 'CEDULAS DE REGISTRACIONES'),
+        array('descripcion' => 'CÉDULAS DE REGISTRACIONES'),
+        array('descripcion' => 'CÉDULAS CAMBIO DE RESPONSABLE'),
     );
 
     public function run()
     {
-        foreach($this->arrayTipoExpedientes as $tipo){
+        /*foreach($this->arrayTipoExpedientes as $tipo){
             $t = new TipoExpediente();
             $t->descripcion = $tipo['descripcion'];
             //$t->nro_tipo_exp = $tipo['numero'];
             $t->save();
-        }
+        }*/
+        DB::insert("INSERT INTO tribunaldecuentas.tipo_expedientes (descripcion,created_at,updated_at,deleted_at) VALUES
+        ('FONDO PERMANENTE','2021-11-11 22:15:59.0','2021-11-11 22:15:59.0',NULL),
+        ('CANCELACIÓN','2021-11-11 22:15:59.0','2021-11-11 22:15:59.0',NULL),
+        ('SUBSIDIO','2021-11-11 22:15:59.0','2021-11-11 22:15:59.0',NULL),
+        ('APORTE NO REINTEGRABLE','2021-11-11 22:15:59.0','2021-11-11 22:15:59.0',NULL),
+        ('BALANCES','2021-11-11 22:15:59.0','2021-11-11 22:15:59.0',NULL),
+        ('MEMORIAS','2021-11-11 22:15:59.0','2021-11-11 22:15:59.0',NULL),
+        ('ACORDADA Nº 32/2001 ESPONTÁNEA','2021-11-11 22:15:59.0','2021-11-11 22:15:59.0',NULL),
+        ('ACORDADA Nº 17/2003','2021-11-11 22:15:59.0','2021-11-11 22:15:59.0',NULL),
+        ('ACORDADA Nº 08/2005','2021-11-11 22:15:59.0','2021-11-11 22:15:59.0',NULL),
+        ('ACORDADA Nº 12/2005','2021-11-11 22:15:59.0','2021-11-11 22:15:59.0',NULL)");
     }
 }
