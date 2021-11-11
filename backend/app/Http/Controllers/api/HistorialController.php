@@ -88,7 +88,8 @@ class HistorialController extends Controller
                  $fecha,
                  $fojas,
                  $user->persona->nombre. " ".$user->persona->apellido,
-                 $historial->motivo];
+                 $historial->motivo,
+                $expediente->nro_expediente];
         return response()->json($data, 200);
     }
 
