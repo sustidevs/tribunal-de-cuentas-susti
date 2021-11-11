@@ -82,7 +82,7 @@
 </template>
 <script>
     export default {
-        name: 'Carátula PDF',
+        name: 'Carátula',
     }
 </script>
 <style>
