@@ -15,6 +15,7 @@ import CaratulaPdf from '../views/CaratulaPdf.vue'
 import PasePdf from '../views/PasePdf.vue'
 import layout from '../layout/Layout'
 import Expedientes from "../views/Expedientes";
+import Enviados from "../views/Enviados";
 import pdf from "../components/PDF/Pase"
 import Usuario from "../views/Usuario";
 
@@ -104,6 +105,12 @@ const routes = [
         name: 'Expedientes',
         component: Expedientes,
         meta: { title: 'Nueva Reunion' }
+      },
+      {
+        path: '/enviados',
+        name: 'Enviados',
+        component: Enviados,
+        meta: { title: 'Enviados' }
       },
       {
         path: '/usuario',

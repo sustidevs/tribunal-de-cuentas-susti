@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <div>
+  <div class="pb-16">
+    <div class="pb-16">
       <v-row no-gutters justify="start" class="pt-5">
         <titulo-area-sub :area="this.$store.getters.getArea"  class="mb-2"/>
       </v-row>
@@ -8,7 +8,7 @@
 
       <titulo-inicio texto="Expedientes" class="my-6"/>
       <div class="d-flex flex-row">
-        <div v-if="getArea == 'Dpto. MESA DE ENTRADAS Y SALIDAS'">
+        <div v-if="getArea == 'DEPARTAMENTO MESA DE ENTRADA'">
           <div class="pr-5">
             <ButtonBig texto="Nuevo" link="/nuevo-expediente" :imagen="'./img/cards/nuevoexpediente.png'"/>
           </div>
@@ -53,6 +53,9 @@
         </div>
         <div class="mx-5">
           <ButtonBig texto="Expedientes" link="/expedientes"  :imagen="'./img/cards/expedientes.png'"/>
+        </div>
+        <div class="mx-5">
+          <ButtonBig texto="Enviados"  link="/enviados"  :imagen="'./img/cards/expedientes-enviados.png'"/>
         </div>
       </div>
 
