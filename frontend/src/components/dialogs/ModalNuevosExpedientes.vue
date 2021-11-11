@@ -56,10 +56,11 @@
             <div class="Montserrat-Regular sizeAll">{{ dato[0] }}</div>
           </div>
 
+<!--
           <div class="direction pad">
-            <div class="Montserrat-SemiBold sizeAll pl">Cuit/Dni:</div>
+            <div class="Montserrat-SemiBold sizeAll pl">CUIT/DNI:</div>
             <div class="Montserrat-Regular pl-3 sizeAll">30562451</div>
-          </div>
+          </div>-->
 
           <div class="direction pad">
             <div class="Montserrat-SemiBold sizeAll pl"> Iniciador:</div>
