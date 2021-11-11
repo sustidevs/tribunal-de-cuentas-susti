@@ -35,7 +35,7 @@ export default {
   },
 
   methods: {
-    ...mapActions(['getExpedientes','getIdUser']),
+    ...mapActions(['getExpedientes']),
 
     getExpe(){
       let exp = {
