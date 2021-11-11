@@ -11,11 +11,12 @@ import NuevoPase from '../views/NuevoPase.vue'
 import Seguimientos from '../views/Seguimientos.vue'
 import VerSeguimientos from '../views/VerSeguimientos.vue'
 import NuevoIniciador from '../views/NuevoIniciador.vue'
+import CaratulaPdf from '../views/CaratulaPdf.vue'
+import PasePdf from '../views/PasePdf.vue'
 import layout from '../layout/Layout'
 import Expedientes from "../views/Expedientes";
 import Enviados from "../views/Enviados";
 import pdf from "../components/PDF/Pase"
-import Caratula from "../components/PDF/Caratula"
 import Usuario from "../views/Usuario";
 
 Vue.use(VueRouter)
@@ -29,18 +30,10 @@ const routes = [
     children: [
       {
         path: '/pdf',
-        name: 'PDF',
+        name: 'Home',
         component: pdf,
-        meta: {title: 'Pase'}
+        meta: {title: 'Inicio'}
       },
-      {
-        path: '/caratula',
-        name: 'Caratula',
-        component: Caratula,
-        meta: {title: 'Caratula'}
-      },
-
-
       {
         path: '/',
         name: 'PDF',
@@ -132,6 +125,18 @@ const routes = [
     name: 'LoginGeneral',
     component: LoginGeneral,
     meta: { title: 'Ingresar' }
+  },
+  {
+    path: '/caratula',
+    name: 'CaratulaPdf',
+    component: CaratulaPdf,
+    meta: { title: 'Carátula' }
+  },
+  {
+    path: '/imprimir-pase',
+    name: 'PasePdf',
+    component: PasePdf,
+    meta: { title: 'Pase' }
   },
 
 ]
