@@ -1,6 +1,5 @@
 <template>
   <div>
-
     <v-row>
       <v-col
           cols="12"
@@ -48,7 +47,6 @@
 </template>
 
 <script>
-import {mapActions} from "vuex";
 
 export default {
   props: {
@@ -68,7 +66,6 @@ export default {
     getColor (prioridades) {
       if (prioridades === 'alta') return 'red lighten-3'
       if (prioridades === 'media') return 'yellow lighten-3'
-      if (prioridades === 'baja') return 'green lighten-3'
     },
     getClass (prioridades) {
       if (prioridades === 'Alta') return 'white--text'
@@ -78,10 +75,6 @@ export default {
       if (prioridades === 'Alta') return 'mdi-exclamation-thick'
       else return 'mdi-check-bold'
     },
-
-    ...mapActions([
-      'getNuevoPase'
-    ]),
   }
 }
 </script>

@@ -57,6 +57,7 @@ class HistorialController extends Controller
         $historial->motivo = $request->motivo;
         //$historial->nombre_archivo = $request->nombre_archivo;
         $historial->estado = 1;//pendiente para la bandeja del area destino, enviado para la bandeja origen
+        $expediente->estado_expediente_id = '1';
         $expediente->fojas += $historial->fojas;
         //ARCHIVOS/////////////////////////////////////////////////////////////////////////////
         if(!is_null($request->allFiles()))
