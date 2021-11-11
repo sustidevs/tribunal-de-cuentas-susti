@@ -123,8 +123,8 @@ class Expediente extends Model
         $Expedientes = Expediente::all();
         $user = User::findOrFail($user_id);
         $array_expediente = collect([]);
-        
-    
+
+
         foreach ($Expedientes as $exp)
         {
             switch ($bandeja)
@@ -162,7 +162,7 @@ class Expediente extends Model
                 'estado'=>$estado_expediente,
                 'user_id'=>$exp->historiales->last()->user_id
             ]);
-            
+
         }
         /*
         * Filtro los Exp. por bandeja
@@ -173,7 +173,7 @@ class Expediente extends Model
             return $array_expediente->where('area_destino_id',$user->area_id)
                                     ->where('estado',$estado)->values();
         }
-        
+
 
         #MIS EXPEDIENTE
         if ($bandeja == 3) {
