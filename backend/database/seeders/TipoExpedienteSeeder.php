@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\TipoExpediente;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class TipoExpedienteSeeder extends Seeder
 {
@@ -41,23 +42,24 @@ class TipoExpedienteSeeder extends Seeder
         array('descripcion' => 'APORTE NO REINTEGRABLE'),
         array('descripcion' => 'BALANCES'),
         array('descripcion' => 'MEMORIAS'),
-        array('descripcion' => 'ACORDADA Nº32/2001'),
-        array('descripcion' => 'ACORDADA Nº17/2003'),
-        array('descripcion' => 'ACORDADA 08/2005'),
-        array('descripcion' => 'ACORDADA 12/2005'),
+        array('descripcion' => 'ACORDADA Nº 32/2001 ESPONTÁNEA'),
+        array('descripcion' => 'ACORDADA Nº 17/2003'),
+        array('descripcion' => 'ACORDADA Nº 08/2005'),
+        array('descripcion' => 'ACORDADA Nº 12/2005'),
         array('descripcion' => 'NOTAS'),
         array('descripcion' => 'CUENTA DE INVERSION'),
-        array('descripcion' => 'ACORDADA 222/2011'),
+        array('descripcion' => 'ACORDADA Nº 222/2011'),
         array('descripcion' => 'ARANCELAMIENTO'),
-        array('descripcion' => 'ACORDADA 229/2011'),
+        array('descripcion' => 'ACORDADA Nº 229/2011'),
         array('descripcion' => 'FONDO FEDERAL SOLIDARIO'),
         array('descripcion' => 'REQUERIMIENTO'),
         array('descripcion' => 'OFICIO'),
         array('descripcion' => 'FO.E.SE'),
-        array('descripcion' => 'ACORDADA 404/2016'),
-        array('descripcion' => 'ACORDADA 222/2011'),
+        array('descripcion' => 'ACORDADA Nº 404/2016'),
+        array('descripcion' => 'CÉDULA ACORDADA Nº 32/2001'),
         array('descripcion' => 'SUELDOS'),
-        array('descripcion' => 'CEDULAS DE REGISTRACIONES'),
+        array('descripcion' => 'CÉDULAS DE REGISTRACIONES'),
+        array('descripcion' => 'CÉDULAS CAMBIO DE RESPONSABLE'),
     );
 
     public function run()
