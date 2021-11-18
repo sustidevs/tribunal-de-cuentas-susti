@@ -24,6 +24,13 @@
         </v-col>
 
         <v-col cols="12" sm="12" lg="6" class="pl-lg-2">
+          <label-input texto="Buscar por CUIL"/>
+          <autocomplete-field/>
+        </v-col>
+      </v-row>
+
+      <v-row no-gutters justify="center" class="mt-2">
+        <v-col cols="12" sm="12" lg="6" class="pr-lg-2">
           <label-input texto="Nº de Expediente"/>
           <v-text-field
               class="Montserrat-Regular text-justify"
@@ -34,7 +41,17 @@
           >
           </v-text-field>
         </v-col>
+
+        <v-col cols="12" sm="12" lg="6" class="pl-lg-2">
+          <v-btn href="/nuevo-iniciador" class="pa-5 color Montserrat-SemiBold mt-10" height="55" elevation="0" color="#FACD89" block>
+            <v-icon class="px-5">
+              mdi-account-plus
+            </v-icon>
+              Agregar Iniciador
+          </v-btn>
+        </v-col>
       </v-row>
+
       <label-error :texto="this.motivo_error"/>
 
       <v-row no-gutters justify="start"  class="pb-3">
