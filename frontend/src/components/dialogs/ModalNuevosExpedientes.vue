@@ -87,7 +87,7 @@ export default {
   name: 'ModalInvitacionesEnviadas',
   components: {Button, VueHtml2pdf},
   props: {
-    show: Boolean,
+    show: Function,
     dato: Array,
   },
 

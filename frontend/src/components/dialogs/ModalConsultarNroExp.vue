@@ -23,7 +23,7 @@
 
           <form @submit.prevent="consultar()" >
             <div class="Montserrat-SemiBold mt-4 py-2">
-              Seleccione la opcion por la que desea buscar:
+              Seleccione la opción por la que desea buscar:
             </div>
 
             <v-btn-toggle class="py-3" v-model="busqueda.buscar_por" group  @change="showBuscar = true">
@@ -39,7 +39,7 @@
 
               <v-btn value="2"  class="px-8 pa-8 textRadio">
                 <v-icon  class="pr-2" large color="rgb(244, 67, 54, 0.7)"> mdi-account </v-icon>
-                Cuit del Iniciador
+                CUIL del Iniciador
               </v-btn>
             </v-btn-toggle>
 
