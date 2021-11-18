@@ -40,6 +40,12 @@
           </v-chip>
         </template>
 
+
+        <template v-slot:item.action="{ }">
+          <v-btn fab small color="#FACD89" depressed>
+            <v-icon> mdi-keyboard-return </v-icon>
+          </v-btn>
+        </template>
       </v-data-table>
     </a>
 

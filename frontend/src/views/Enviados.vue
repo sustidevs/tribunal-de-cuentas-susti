@@ -23,6 +23,7 @@ export default {
         { text: 'Trámite', value: 'tramite' },
         { text: 'Cuerpo', value: 'cant_cuerpos' },
         { text: 'Fojas', value: 'fojas' },
+        { text: 'Recuperar', value: 'action', align: 'center', sortable: false },
         {class: "display-4"},
       ],
     }
