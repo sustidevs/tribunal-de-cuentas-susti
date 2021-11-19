@@ -8,6 +8,7 @@ import MisExpedientes from '../views/MisExpedientes.vue'
 import RecuperarExpediente from '../views/RecuperarExpediente.vue'
 import NuevaReunion from '../views/NuevaReunion.vue'
 import NuevoPase from '../views/NuevoPase.vue'
+import MisMovimientos from '../views/MisMovimientos.vue'
 import Seguimientos from '../views/Seguimientos.vue'
 import VerSeguimientos from '../views/VerSeguimientos.vue'
 import NuevoIniciador from '../views/NuevoIniciador.vue'
@@ -71,6 +72,12 @@ const routes = [
         name: 'NuevoPase',
         component: NuevoPase,
         meta: { title: 'Nuevo Pase' }
+      },
+      {
+        path: '/mis-movimientos',
+        name: 'Mis Movimientos',
+        component: MisMovimientos,
+        meta: { title: 'Mis Movimientos' }
       },
       {
         path: '/historial',
