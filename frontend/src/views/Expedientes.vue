@@ -1,6 +1,7 @@
 <template>
   <div>
-    <titulo texto="Expedientes" icono="mdi-bell"/>
+    <titulo texto="Expedientes" icono="mdi-text-box-multiple"/>
+    <div class="descripcion text-justify py-4">Si desea <strong>ver detalle e historial</strong> de un expediente, haga clic en el botón de la tabla.</div>
     <tabla-expedientes class="mt-2" :headers="headers" :data="todos_expp" :loading="get_finalizado"/>
   </div>
 </template>
@@ -20,8 +21,9 @@ export default {
         {text: 'Extracto', value: 'extracto'},
         {text: 'Fecha Creación', value: 'fecha_creacion'},
         {text: 'Trámite', value: 'tramite'},
-        {text: 'Cuerpo', value: 'cant_cuerpos'},
+        {text: 'Cuerpo', value: 'cuerpos'},
         {text: 'Fojas', value: 'fojas'},
+        {text: 'Ver Detalles', value: 'action', align: 'center', sortable: false},
         {class: "display-4"},
       ],
       estado: 1,

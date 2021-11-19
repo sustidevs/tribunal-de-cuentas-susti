@@ -1,6 +1,7 @@
 <template>
   <div>
-    <titulo texto="Expedientes Enviados" icono="mdi-email-fast" />
+    <titulo texto="Expedientes Enviados" icono="mdi-email-fast"/>
+    <div class="descripcion text-justify py-4">Si desea <strong>recuperar</strong> un expediente, haga clic en el botón de la tabla.</div>
     <tabla-enviados :headers="headers" :data="allExpedientes" :loading="get_finalizado"/>
   </div>
 </template>
@@ -50,3 +51,9 @@ export default {
 
 }
 </script>
+<style>
+.descripcion {
+  font-family: Montserrat-Regular;
+  font-size: 23px;
+}
+</style>
