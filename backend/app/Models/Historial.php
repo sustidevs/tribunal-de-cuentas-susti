@@ -36,7 +36,8 @@ class Historial extends Model
     {
         $array=Collect([
             'expediente_id'     =>$this->expediente->id,
-            'nro_expediente'     =>$this->expediente->nro_expediente,
+            'nro_expediente'    =>$this->expediente->nro_expediente,
+            'extracto'          =>$this->expediente->caratula->extracto->descripcion,
             'area_origen_id'    =>$this->areaOrigen->id,
             'area_origen'       =>$this->areaOrigen->descripcion,
             'area_destino_id'   =>$this->areaDestino->id,
@@ -48,4 +49,24 @@ class Historial extends Model
         ]);
         return $array;
     }
+
+    /*
+    * Devuelve todos los expedientes enviados de un usuario
+    *
+    */
+    public static function ExpedientesEnviados($area_id,$user_id)
+    {
+        $array = Collect();
+        $historiales = Historial::all()->where("area_origen_id",$area_id)
+                                       ->where("user_id",$user_id)
+    #ACLARACION: Hago este filtro porque cuando el area_destino_id = area_origen_id significa que no se realizo ningun pase (o se envio) el exp,
+    #sino que solo se cambio el estado:
+                                       ->where("area_destino_id","!=", $area_id ); 
+        
+        foreach($historiales as $historial){
+            $array->push($historial->getHistorial());
+        }
+        return $array;
+    }
+
 }

@@ -157,4 +157,20 @@ class HistorialController extends Controller
         }
         return response()->json($array, 200);
     }
+
+    /*
+    * Devuelve los expedientes enviados de un usuario
+    */
+    public function misEnviados(Request $request)
+    {
+        $misExpEnviados = Historial::ExpedientesEnviados($request->area_id,$request->user_id);
+        return response()->json($misExpEnviados, 200);
+
+        /*   Datos de prueba
+        {
+            "user_id" : 1,
+            "area_id": 13,
+        }
+        */
+    }
 }
