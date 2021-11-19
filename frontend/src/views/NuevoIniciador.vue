@@ -1,6 +1,6 @@
 <template>
   <div class="mb-12">
-        <titulo texto="Nuevo Iniciador" icono="mdi-account-plus-outline" class="pb-8"/>
+        <titulo texto="Nuevo Iniciador" icono="mdi-account-plus" class="pb-8"/>
         <v-row no-gutters justify="center" class="mt-2 mb-3">
             <v-col cols="12" sm="12" lg="6" class="pr-lg-2">
                 <label-input texto="Nombre entidad / persona"/>

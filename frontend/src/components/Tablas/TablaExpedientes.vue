@@ -74,6 +74,7 @@ export default {
       if (prioridades === 'alta') return 'red lighten-3'
       if (prioridades === 'media') return 'grey lighten-2'
     },
+
     getIcon (prioridades) {
       if (prioridades === 'alta') return 'mdi-exclamation-thick'
       else return 'mdi-check-bold'
@@ -82,8 +83,6 @@ export default {
     ...mapActions([
       'getHistorial'
     ]),
-
-
 
     historial_pase: function (item, row) {
       row.select(true);

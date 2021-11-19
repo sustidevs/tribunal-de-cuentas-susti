@@ -59,16 +59,15 @@
         </div>
       </div>
 
-      <!--
-      <div v-if="this.getTipoUsuario === 'Administrador Area'">
+      <div v-if="this.getTipoUsuario === 'Empleado'">
         <v-divider color="#393B44" class="my-8"></v-divider>
-        <titulo-inicio texto="Acciones de Administrador" class="my-6"/>
+        <titulo-inicio texto="Solicitudes" class="my-6"/>
         <div class="d-flex flex-row">
           <div class="pr-5">
             <ButtonBig texto="Nuevo iniciador" link="/nuevo-iniciador" :imagen="'./img/cards/iniciador.png'"/>
           </div>
         </div>
-      </div>-->
+      </div>
 
       <!--<v-row>
         <v-col cols="12" sm="6" lg="3">
