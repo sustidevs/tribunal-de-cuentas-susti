@@ -35,12 +35,16 @@
         <template v-slot:item.prioridad="{ item }">
           <v-chip
               :color="getColor(item.prioridad)"
-              :class="getClass(item.prioridad)"
           >
             <v-icon size="20px" class="mr-1">{{getIcon(item.prioridad)}}</v-icon><h5 class="font-weight-regular">{{ item.prioridad }}</h5>
           </v-chip>
         </template>
 
+        <template v-slot:item.action="{ }">
+          <v-btn fab small color="#FACD89" depressed>
+            <v-icon> mdi-email-fast </v-icon>
+          </v-btn>
+        </template>
       </v-data-table>
     </a>
 
@@ -67,14 +71,10 @@ export default {
   methods: {
     getColor (prioridades) {
       if (prioridades === 'alta') return 'red lighten-3'
-      if (prioridades === 'media') return 'yellow lighten-3'
-    },
-    getClass (prioridades) {
-      if (prioridades === 'Alta') return 'white--text'
-      else return 'grey--text text--darken-3'
+      if (prioridades === 'media') return 'grey lighten-2'
     },
     getIcon (prioridades) {
-      if (prioridades === 'Alta') return 'mdi-exclamation-thick'
+      if (prioridades === 'alta') return 'mdi-exclamation-thick'
       else return 'mdi-check-bold'
     },
 
