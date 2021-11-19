@@ -60,6 +60,9 @@
         <div class="mx-5">
           <ButtonBig texto="Enviados"  link="/enviados"  :imagen="'./img/cards/expedientes-enviados.png'"/>
         </div>
+        <div class="mx-5">
+          <ButtonBig texto="Mis Movimientos"  link="/mis-movimientos"  :imagen="'./img/cards/mis-movimientos.png'"/>
+        </div>
       </div>
 
       <div v-if="this.getTipoUsuario === 'Empleado'">
