@@ -171,8 +171,23 @@ class ExpedienteController extends Controller
     {
         $exp_hijo = Expediente::findOrFail($request->exp_hijo);
         $exp_hijo->expediente_id = "";
-        $exp_hijo->update();
-        return response()->json("operacion realizada con exitos wey",200);
+        if($exp_hijo->update())
+        {
+            $historial = new Historial;
+            $historial->expediente_id = $exp_hijo->id;
+            $historial->user_id = $request->user_id;
+
+            $historial->area_origen_id = $exp_hijo->historiales->last()->area_origen_id;
+            $historial->area_destino_id = $exp_hijo->historiales->last()->area_destino_id;
+            $historial->fojas = $exp_hijo->fojas;
+            $historial->fecha = Carbon::now()->format('Y-m-d');
+            $historial->hora = Carbon::now()->format('h:i');
+            $historial->motivo = "desgloce";
+            $historial->estado = "3";//Enviado
+            return response()->json("operacion realizada con exitos wey",200);
+        }
+        
+        return response()->json("Error",400);
     }
 
     /*{
