@@ -17,11 +17,11 @@
       <v-divider color="#393B44"></v-divider>
 
       <label-error :texto="this.iniciador_id_error"/>
-      <v-row no-gutters justify="center" class="mt-2">
+      <v-row no-gutters justify="start" class="mt-2">
         <v-col cols="12" sm="12" lg="6" class="pr-lg-2">
           <LabelInput texto="Buscar Iniciador por:"/>
           <div class="d-flex column justify-center Montserrat-Semibold">
-            <v-btn-toggle class="justify-space-around py-3" group>
+            <v-btn-toggle class="justify-space-around py-3" v-model="buscarPor" group>
               <v-btn @change="buscarPor=4" value="4" class="px-8 pa-8 textRadio">
                 <v-icon class="pr-2" large color="rgb(251, 140, 0, 0.7)"> mdi-account </v-icon>
                 Entidad / persona
@@ -35,19 +35,21 @@
           </div>
         </v-col>
 
-        <v-col cols="12" sm="12" lg="6" class="pl-lg-2">
-          <label-error/>
-          <div v-if="buscarPor == 4" class="pt-8">
-            <autocomplete-field :data="allIniciadores" nombre="nombre" @input="cargarExpediente()"  v-model="expe.iniciador_id"/>
-          </div>
-          <div v-if="buscarPor == 3" class="pt-8">
-            <autocomplete-field/>
-          </div>
-        </v-col>
       </v-row>
 
       <v-row no-gutters justify="center" class="mt-2">
         <v-col cols="12" sm="12" lg="6" class="pr-lg-2">
+          <div v-if="buscarPor == 4">
+            <label-input texto="Nombre entidad / persona"/>
+            <autocomplete-field :data="allIniciadores" nombre="nombre" @input="cargarExpediente()"  v-model="expe.iniciador_id"/>
+          </div>
+          <div v-if="buscarPor == 3">
+            <label-input texto="N° de CUIT"/>
+            <autocomplete-field/>
+          </div>
+        </v-col>
+
+        <v-col cols="12" sm="12" lg="6" class="pl-lg-2">
           <label-input texto="Nº de Expediente"/>
           <v-text-field
               class="Montserrat-Regular text-justify"
@@ -57,15 +59,6 @@
               v-model="nroExpediente"
           >
           </v-text-field>
-        </v-col>
-
-        <v-col cols="12" sm="12" lg="6" class="pl-lg-2">
-          <v-btn href="/nuevo-iniciador" class="pa-5 color Montserrat-SemiBold mt-10" height="55" elevation="0" color="#FACD89" block>
-            <v-icon class="px-5">
-              mdi-account-plus
-            </v-icon>
-              Agregar Iniciador
-          </v-btn>
         </v-col>
       </v-row>
 
@@ -186,7 +179,7 @@ export default {
   components: {AutocompleteField, TextField, InputDate, LabelInput,Extractos,ModalNuevosExpedientes,LabelError},
   data: () => ({
     radioGroup: 1,
-    buscarPor: null,
+    buscarPor: 4,
     toggle_none: null,  
     agregarIniciador: [{texto: "Agregar Iniciador", imagen: "./img/cards/ver-todos.svg",}],
     motivo: [],

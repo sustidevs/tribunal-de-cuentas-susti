@@ -39,6 +39,9 @@
         <div class="mx-5">
           <ButtonBig texto="Realizar Pase" link="/mis-expedientes" :imagen="'./img/cards/nuevopase.png'"/>
         </div>
+        <div v-if="this.getTipoUsuario === 'Administrador Area'" class="mx-5">
+          <ButtonBig texto="Nuevo iniciador" link="/nuevo-iniciador" :imagen="'./img/cards/iniciador.png'"/>
+        </div>
       </div>
 
       <v-divider color="#393B44" class="mt-2 mt-12"></v-divider>
