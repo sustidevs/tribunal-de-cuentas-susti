@@ -47,6 +47,7 @@ Route::post('/historial',                [HistorialController::class, 'create'])
 Route::post('/historial-expediente',     [HistorialController::class, 'store']);
 Route::post('/update-estado',     [HistorialController::class, 'updateEstado']);
 Route::post('/historialExp',     [HistorialController::class, 'historialExpediente']);
+Route::post('/mis-enviados',     [HistorialController::class, 'misEnviados']);
 
 Route::get('/indexUser', [UserController::class, 'index']);
 Route::get('/createUser', [UserController::class, 'create']);
