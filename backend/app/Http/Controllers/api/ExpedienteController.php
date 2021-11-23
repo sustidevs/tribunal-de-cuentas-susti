@@ -210,7 +210,7 @@ class ExpedienteController extends Controller
     }
 
     /*
-    * Busca los expedientes por: 1-nro_expediente, 2-cuit iniciador, 3-nro_cheque, 4-iniciador, 5-nro_expediente_ext
+    * Busca los expedientes por: 1-nro_expediente, 2-cuit iniciador, 3-nro_cheque, 4-iniciador, 5-nro_expediente_ext, 6-norma legal
     */
     public function buscarExpediente(Request $request)
     {

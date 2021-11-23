@@ -248,6 +248,17 @@ class Expediente extends Model
                     }
                 }
                 break;
+
+                case "6": //Busca por Norma Legal
+                    $expedientes = Expediente::where('tipo_expediente', 3) //Tipo Exp.: Subsidio
+                                                 ->get();
+                    //$lista_expedientes = collect();
+                    foreach ($expedientes as $exp) {
+                        $lista_expedientes->push($exp->getDatos());
+                        
+                    }
+                    $lista_expedientes = $lista_expedientes->where('extracto','like','%'.'NORMA LEGAL: '.$valor.'%');
+                    break;
         }
         return $lista_expedientes;
     }
