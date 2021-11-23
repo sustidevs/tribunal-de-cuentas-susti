@@ -20,11 +20,11 @@
                 width="190"
                 height="190"
                 @click="abrirModalConsultar()"
-                :class="hover ? 'orange lighten-4' : 'grey lighten-2'"
+                :class="hover ? 'orange accent-1' : 'grey lighten-2'"
                 class="pa-8 Montserrat-Bold grey--text text--darken-3"
             >
               <div class="d-flex flex-column justify-center">
-                <v-icon size="110" color="#FDBC3F" class="py-2">mdi-magnify</v-icon>
+                <v-icon size="110" class="py-2" :color="hover ? 'grey darken-1' : '#FDBC3F'">mdi-magnify</v-icon>
 
                 <div class="sizeBig pt-4">
                   Expediente
@@ -34,14 +34,21 @@
           </v-hover>
                 <modal-consultar-nro-exp :show="showModalConsultarNroExp" @close="closeModalConsultarNroExp"/>
         </div>
-        <div class="mx-5">
-          <ButtonBig texto="Pase" link="/mis-expedientes" icon="mdi-arrow-right-top-bold"/>
-        </div>
         <div v-if="this.getTipoUsuario === 'Administrador Area'" class="mx-5">
           <ButtonBig texto="Iniciador" link="/nuevo-iniciador" icon="mdi-account-plus"/>
         </div>
         <div v-if="this.getTipoUsuario === 'Administrador Area'" class="mx-5">
           <ButtonBig texto="Iniciador" link="" icon="mdi-account-question"/>
+        </div>
+        <div class="mx-5">
+          <ButtonBig texto="Pase" link="/mis-expedientes" icon="mdi-file-move"/>
+        </div>
+                      <!-- BOTONES NUEVOS, A ACOMODAR -->
+        <div class="mx-5">
+          <ButtonBig texto="Fusión" link="" icon="mdi-file-plus"/>
+        </div>
+        <div class="mx-5">
+          <ButtonBig texto="Desglose" link="" icon="mdi-file-percent"/>
         </div>
       </div>
 
@@ -69,6 +76,8 @@
           </div>
         </div>
       </div>
+
+
 
       <!--<v-row>
         <v-col cols="12" sm="6" lg="3">

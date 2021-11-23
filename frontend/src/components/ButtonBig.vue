@@ -5,14 +5,14 @@
           rounded
           width="190"
           height="190"
-          :class="hover ? 'orange lighten-4' : 'grey lighten-2'"
+          :class="hover ? 'orange accent-1' : 'grey lighten-2'"
           class="pa-8 Montserrat-Bold grey--text text--darken-3"
           :href="link"
           :target="target"
       >
         <div class="d-flex flex-column center">
           <div>
-            <v-icon size="110" color="#FDBC3F" class="py-2"> {{icon}} </v-icon>
+            <v-icon size="110" class="py-2" :color="hover ? 'grey darken-1' : '#FDBC3F'"> {{icon}} </v-icon>
           </div>
           <div class="sizeBig pt-4">
             {{texto}}
