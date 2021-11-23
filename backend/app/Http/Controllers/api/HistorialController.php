@@ -163,7 +163,13 @@ class HistorialController extends Controller
     */
     public function misEnviados(Request $request)
     {
-        $misExpEnviados = Historial::ExpedientesEnviados($request->area_id,$request->user_id);
+        if ($request->user_id != null){
+            $misExpEnviados = Historial::ExpedientesEnviados($request->area_id,$request->user_id);
+        }
+        else{ //Si user_id == null  trae todos los Exp. Enviados del area
+            $misExpEnviados = Historial::ExpedientesEnviados($request->area_id);
+        }
+       
         return response()->json($misExpEnviados, 200);
 
         /*   Datos de prueba
