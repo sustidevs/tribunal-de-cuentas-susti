@@ -1,12 +1,11 @@
 <template>
-  <div>
     <v-hover v-slot="{ hover }" >
       <v-btn
           rounded
           width="190"
           height="190"
           :class="hover ? 'orange accent-1' : 'grey lighten-2'"
-          class="pa-8 Montserrat-Bold grey--text text--darken-3"
+          class="pa-8 justify-center Montserrat-Bold grey--text text--darken-3"
           :href="link"
           :target="target"
       >
@@ -20,7 +19,6 @@
         </div>
       </v-btn>
     </v-hover>
-  </div>
 </template>
 <script>
 export default {
@@ -36,7 +34,6 @@ export default {
 
 <style>
 .center{
-  font-size: 15px;
   text-align: center;
 }
 

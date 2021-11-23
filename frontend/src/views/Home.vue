@@ -2,79 +2,103 @@
   <div class="pb-16">
     <div class="pb-16">
       <v-row no-gutters justify="start" class="pt-5">
-        <titulo-area-sub :area="this.$store.getters.getArea"  class="mb-2"/>
+        <titulo-area-sub :area="this.$store.getters.getArea" class="mb-2"/>
       </v-row>
       <v-divider color="#393B44" class="mt-2"></v-divider>
 
-      <titulo-inicio texto="Expedientes" class="my-6"/>
-      <div class="d-flex flex-row">
-        <div v-if="getArea == 'DPTO. MESA DE ENTRADAS Y SALIDAS'">
-          <div class="pr-5">
-            <ButtonBig texto="Expediente" link="/nuevo-expediente" icon="mdi-text-box-plus"/>
-          </div>
-        </div>
-        <div class="mx-5">
-          <v-hover v-slot="{ hover }" >
-            <v-btn
-                rounded
-                width="190"
-                height="190"
-                @click="abrirModalConsultar()"
-                :class="hover ? 'orange accent-1' : 'grey lighten-2'"
-                class="pa-8 Montserrat-Bold grey--text text--darken-3"
-            >
-              <div class="d-flex flex-column justify-center">
-                <v-icon size="110" class="py-2" :color="hover ? 'grey darken-1' : '#FDBC3F'">mdi-magnify</v-icon>
+      <div v-if="getArea == 'DPTO. MESA DE ENTRADAS Y SALIDAS'">
+        <v-row>
+          <v-col cols="12" sm="12" lg="6">
+            <titulo-inicio texto="Bandejas" class="my-6"/>
+            <ButtonBig class="mr-10 my-4" texto="Pendientes" link="/expedientes-pendientes" icon="mdi-clock"/>
+            <ButtonBig class="mr-10 my-4" texto="Expedientes" link="/expedientes" icon="mdi-archive"/>
+            <ButtonBig class="my-4" texto="Enviados"  link="/enviados" icon="mdi-file-send"/>
+          </v-col>
+          <v-col cols="12" sm="12" lg="6">
+            <titulo-inicio texto="Expedientes" class="my-6"/>
+            <ButtonBig class="mr-10 my-4" texto="Pase" link="/mis-expedientes" icon="mdi-file-move"/>
+          </v-col>
+        </v-row>
 
-                <div class="sizeBig pt-4">
-                  Expediente
+        <v-divider color="#393B44" class="mt-2 mt-12 d-none d-sm-block"></v-divider>
+
+        <v-row>
+          <v-col cols="12" sm="12" lg="6">
+            <titulo-inicio texto="Nuevo" class="my-6"/>
+            <ButtonBig class="mr-10 my-4" texto="Expediente" link="/nuevo-expediente" icon="mdi-text-box-plus"/>
+            <ButtonBig class="mr-10 my-4" texto="Iniciador" link="/nuevo-iniciador" icon="mdi-account-plus"/>
+          </v-col>
+          <v-col cols="12" sm="12" lg="6">
+            <titulo-inicio texto="Consultar" class="my-6"/>
+            <ButtonBig class="mr-10 my-4" texto="Iniciador" link="" icon="mdi-account-question"/>
+            <v-hover v-slot="{ hover }" >
+              <v-btn
+                  rounded
+                  width="190"
+                  height="190"
+                  @click="abrirModalConsultar()"
+                  :class="hover ? 'orange accent-1' : 'grey lighten-2'"
+                  class="pa-8 Montserrat-Bold grey--text text--darken-3"
+              >
+                <div class="d-flex flex-column justify-center">
+                  <v-icon size="110" class="py-2" :color="hover ? 'grey darken-1' : '#FDBC3F'">mdi-magnify</v-icon>
+
+                  <div class="sizeBig pt-4">
+                    Expediente
+                  </div>
                 </div>
-              </div>
-            </v-btn>
-          </v-hover>
-                <modal-consultar-nro-exp :show="showModalConsultarNroExp" @close="closeModalConsultarNroExp"/>
-        </div>
-        <div v-if="this.getTipoUsuario === 'Administrador Area'" class="mx-5">
-          <ButtonBig texto="Iniciador" link="/nuevo-iniciador" icon="mdi-account-plus"/>
-        </div>
-        <div v-if="this.getTipoUsuario === 'Administrador Area'" class="mx-5">
-          <ButtonBig texto="Iniciador" link="" icon="mdi-account-question"/>
-        </div>
-        <div class="mx-5">
-          <ButtonBig texto="Pase" link="/mis-expedientes" icon="mdi-file-move"/>
-        </div>
-                      <!-- BOTONES NUEVOS, A ACOMODAR -->
-        <div class="mx-5">
-          <ButtonBig texto="Fusión" link="" icon="mdi-file-plus"/>
-        </div>
-        <div class="mx-5">
-          <ButtonBig texto="Desglose" link="" icon="mdi-file-percent"/>
-        </div>
+              </v-btn>
+            </v-hover>
+            <modal-consultar-nro-exp :show="showModalConsultarNroExp" @close="closeModalConsultarNroExp"/>
+          </v-col>
+        </v-row>
       </div>
 
-      <v-divider color="#393B44" class="mt-2 mt-12"></v-divider>
+      <div v-else>
+        <v-row>
+          <v-col cols="12" md="12" lg="6">
+            <titulo-inicio texto="Bandejas" class="my-6"/>
+            <ButtonBig class="mr-10 my-4" texto="Pendientes" link="/expedientes-pendientes" icon="mdi-clock"/>
+            <ButtonBig class="mr-10 my-4" texto="Expedientes" link="/expedientes" icon="mdi-archive"/>
+            <ButtonBig class="mr-10 my-4" texto="Enviados"  link="/enviados" icon="mdi-file-send"/>
+          </v-col>
+          <v-col cols="12" md="12" lg="6">
+            <titulo-inicio texto="Consultar" class="my-6"/>
+            <v-hover v-slot="{ hover }" >
+              <v-btn
+                  rounded
+                  width="190"
+                  height="190"
+                  @click="abrirModalConsultar()"
+                  :class="hover ? 'orange accent-1' : 'grey lighten-2'"
+                  class="pa-8 Montserrat-Bold grey--text text--darken-3"
+              >
+                <div class="d-flex flex-column justify-center">
+                  <v-icon size="110" class="py-2" :color="hover ? 'grey darken-1' : '#FDBC3F'">mdi-magnify</v-icon>
 
-      <titulo-inicio texto="Bandejas" class="my-6"/>
-      <div class="d-flex flex-row">
-        <div class="pr-5">
-          <ButtonBig  texto="Pendientes" link="/expedientes-pendientes" icon="mdi-clock"/>
-        </div>
-        <div class="mx-5">
-          <ButtonBig texto="Expedientes" link="/expedientes" icon="mdi-archive"/>
-        </div>
-        <div class="mx-5">
-          <ButtonBig texto="Enviados"  link="/enviados" icon="mdi-file-send"/>
-        </div>
-      </div>
+                  <div class="sizeBig pt-4">
+                    Expediente
+                  </div>
+                </div>
+              </v-btn>
+            </v-hover>
+            <modal-consultar-nro-exp :show="showModalConsultarNroExp" @close="closeModalConsultarNroExp"/>
+          </v-col>
+        </v-row>
 
-      <div v-if="this.getTipoUsuario === 'Empleado'">
-        <v-divider color="#393B44" class="my-8"></v-divider>
-        <titulo-inicio texto="Solicitudes" class="my-6"/>
-        <div class="d-flex flex-row">
-          <div class="pr-5">
-            <ButtonBig texto="Nuevo iniciador" link="/nuevo-iniciador" :imagen="'./img/cards/iniciador.png'"/>
-          </div>
-        </div>
+        <v-divider color="#393B44" class="mt-2 mt-12 d-none d-sm-block"></v-divider>
+
+        <v-row>
+          <v-col cols="12" md="12" lg="6">
+            <titulo-inicio texto="Expedientes" class="my-6"/>
+            <ButtonBig class="mr-10 my-4" texto="Pase" link="/mis-expedientes" icon="mdi-file-move"/>
+            <ButtonBig class="mr-10 my-4" texto="Fusión" link="" icon="mdi-file-plus"/>
+            <ButtonBig class="mr-10 my-4" texto="Desglose" link="" icon="mdi-file-percent"/>
+          </v-col>
+          <v-col cols="12" md="12" lg="6">
+
+          </v-col>
+        </v-row>
       </div>
 
 
@@ -204,7 +228,7 @@ import {mapActions, mapGetters} from "vuex";
     }
   },
 
-    computed: mapGetters(['getTipoUsuario','getArea']),
+  computed: mapGetters(['getTipoUsuario','getArea']),
 
   methods:{
     ...mapActions([ 'getSubArea','getUser', 'getBandejaEntrada']),
