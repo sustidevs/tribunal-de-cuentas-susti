@@ -111,10 +111,14 @@ class Expediente extends Model
         return $array_expediente;
     }
 
-    public static function nroExpediente($fecha_exp, $año_exp)
+    public static function nroExpediente($año_exp)
     {
-        $nro_aleatorio = mt_rand(1000, 9999);
-        $nro_exp = Iniciador::NRO_INICIADOR . '-' . $fecha_exp . '-' . $nro_aleatorio . '/' . $año_exp;
+        $expedientes =  DB::table('expedientes')
+                        ->whereYear('fecha', $año_exp)
+                        ->get();
+        $cont = $expedientes->count() + 1;
+        $nro_aleatorio = str_pad($cont,5,"0",STR_PAD_LEFT);
+        $nro_exp = Iniciador::NRO_INICIADOR . '-'. $nro_aleatorio . '/' . $año_exp;
         return $nro_exp;
     }
 
