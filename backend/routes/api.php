@@ -6,6 +6,7 @@ use App\Http\Controllers\api\UserController;
 use App\Http\Controllers\api\LoginController;
 use App\Http\Controllers\api\HistorialController;
 use App\Http\Controllers\Api\IniciadorController;
+use App\Http\Controllers\api\SolicitudController;
 use App\Http\Controllers\api\ExpedienteController;
 
 /*
@@ -68,4 +69,10 @@ Route::post('/edit-iniciador',  [IniciadorController::Class, 'edit']);
 Route::post('/update-iniciador',[IniciadorController::Class, 'update']);
 ////////////////////////////////////////////////////////////////////////////////////////////
 
+///////SOLICITUDES//////////////////////////////////////////////////////////////////////////
+Route::get('/index-solicitud',      [SolicitudController::Class, 'index']);
+Route::post('/store-solicitud',     [SolicitudController::Class, 'store']);
+Route::post('/show-solicitud',      [SolicitudController::Class, 'show']);
+Route::post('/update-solicitud',    [SolicitudController::Class, 'update']);
+////////////////////////////////////////////////////////////////////////////////////////////
 Route::get('/prueba-codBarrra',[ExpedienteController::class, 'codigoBarra'] );
