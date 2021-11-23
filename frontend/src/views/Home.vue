@@ -10,7 +10,7 @@
       <div class="d-flex flex-row">
         <div v-if="getArea == 'DPTO. MESA DE ENTRADAS Y SALIDAS'">
           <div class="pr-5">
-            <ButtonBig texto="Nuevo" link="/nuevo-expediente" :imagen="'./img/cards/nuevoexpediente.png'"/>
+            <ButtonBig texto="Expediente" link="/nuevo-expediente" icon="mdi-text-box-plus"/>
           </div>
         </div>
         <div class="mx-5">
@@ -24,23 +24,31 @@
                 class="pa-8 Montserrat-Bold grey--text text--darken-3"
             >
               <div class="d-flex flex-column justify-center">
-                <div>
-                  <v-img class="py-2" max-height="130" width="130" :src="'./img/cards/consultar.png'"></v-img>
-                </div>
+                <v-icon size="110" class="py-2" :color="hover ? 'grey darken-1' : '#FDBC3F'">mdi-magnify</v-icon>
 
                 <div class="sizeBig pt-4">
-                  Consultar
+                  Expediente
                 </div>
               </div>
             </v-btn>
           </v-hover>
                 <modal-consultar-nro-exp :show="showModalConsultarNroExp" @close="closeModalConsultarNroExp"/>
         </div>
-        <div class="mx-5">
-          <ButtonBig texto="Realizar Pase" link="/mis-expedientes" :imagen="'./img/cards/nuevopase.png'"/>
+        <div v-if="this.getTipoUsuario === 'Administrador Area'" class="mx-5">
+          <ButtonBig texto="Iniciador" link="/nuevo-iniciador" icon="mdi-account-plus"/>
         </div>
         <div v-if="this.getTipoUsuario === 'Administrador Area'" class="mx-5">
-          <ButtonBig texto="Nuevo iniciador" link="/nuevo-iniciador" :imagen="'./img/cards/iniciador.png'"/>
+          <ButtonBig texto="Iniciador" link="" icon="mdi-account-question"/>
+        </div>
+        <div class="mx-5">
+          <ButtonBig texto="Pase" link="/mis-expedientes" icon="mdi-file-move"/>
+        </div>
+                      <!-- BOTONES NUEVOS, A ACOMODAR -->
+        <div class="mx-5">
+          <ButtonBig texto="Fusión" link="" icon="mdi-file-plus"/>
+        </div>
+        <div class="mx-5">
+          <ButtonBig texto="Desglose" link="" icon="mdi-file-percent"/>
         </div>
       </div>
 
@@ -49,19 +57,13 @@
       <titulo-inicio texto="Bandejas" class="my-6"/>
       <div class="d-flex flex-row">
         <div class="pr-5">
-          <ButtonBig  texto="Pendientes" link="/expedientes-pendientes" :imagen="'./img/cards/pendientes.png'" />
+          <ButtonBig  texto="Pendientes" link="/expedientes-pendientes" icon="mdi-clock"/>
         </div>
         <div class="mx-5">
-          <ButtonBig texto="Mis Expedientes" link="/mis-expedientes"  :imagen="'./img/cards/misexpediente.png'"/>
+          <ButtonBig texto="Expedientes" link="/expedientes" icon="mdi-archive"/>
         </div>
         <div class="mx-5">
-          <ButtonBig texto="Expedientes" link="/expedientes"  :imagen="'./img/cards/expedientes.png'"/>
-        </div>
-        <div class="mx-5">
-          <ButtonBig texto="Enviados"  link="/enviados"  :imagen="'./img/cards/expedientes-enviados.png'"/>
-        </div>
-        <div class="mx-5">
-          <ButtonBig texto="Mis Movimientos"  link="/mis-movimientos"  :imagen="'./img/cards/mis-movimientos.png'"/>
+          <ButtonBig texto="Enviados"  link="/enviados" icon="mdi-file-send"/>
         </div>
       </div>
 
@@ -74,6 +76,8 @@
           </div>
         </div>
       </div>
+
+
 
       <!--<v-row>
         <v-col cols="12" sm="6" lg="3">

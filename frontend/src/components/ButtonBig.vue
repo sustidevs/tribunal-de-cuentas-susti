@@ -10,9 +10,9 @@
           :href="link"
           :target="target"
       >
-        <div class="d-flex flex-column justify-center">
+        <div class="d-flex flex-column center">
           <div>
-            <v-img class="py-2" max-height="130" width="130" :src="imagen"></v-img>
+            <v-icon size="110" class="py-2" :color="hover ? 'grey darken-1' : '#FDBC3F'"> {{icon}} </v-icon>
           </div>
           <div class="sizeBig pt-4">
             {{texto}}
@@ -26,7 +26,7 @@
 export default {
   name: 'BotonHorizontal',
   props: {
-    imagen: String,
+    icon: String,
     texto: String,
     link: String,
     target: null,
@@ -35,7 +35,13 @@ export default {
 </script>
 
 <style>
+.center{
+  font-size: 15px;
+  text-align: center;
+}
+
 .sizeBig{
   font-size: 15px;
+  text-align: center;
 }
 </style>
