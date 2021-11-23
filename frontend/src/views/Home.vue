@@ -20,7 +20,7 @@
                 width="190"
                 height="190"
                 @click="abrirModalConsultar()"
-                :class="hover ? 'orange lighten-5' : 'grey lighten-2'"
+                :class="hover ? 'orange lighten-4' : 'grey lighten-2'"
                 class="pa-8 Montserrat-Bold grey--text text--darken-3"
             >
               <div class="d-flex flex-column justify-center">

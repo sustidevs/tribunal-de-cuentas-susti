@@ -5,7 +5,7 @@
           rounded
           width="190"
           height="190"
-          :class="hover ? 'orange lighten-5' : 'grey lighten-2'"
+          :class="hover ? 'orange lighten-4' : 'grey lighten-2'"
           class="pa-8 Montserrat-Bold grey--text text--darken-3"
           :href="link"
           :target="target"
