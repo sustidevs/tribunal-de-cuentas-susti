@@ -11,7 +11,7 @@ class Iniciador extends Model
     use HasFactory;
 
     protected $table = "iniciadores";
-    const NRO_INICIADOR =  01000;
+    const NRO_INICIADOR =  800;
 
     public function tipoEntidad()
     {

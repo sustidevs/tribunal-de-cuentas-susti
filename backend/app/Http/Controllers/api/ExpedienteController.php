@@ -49,9 +49,9 @@ class ExpedienteController extends Controller
 
     public function createNroExpediente(Request $request)
     {
-        $fecha_exp = Carbon::now()->format('d-m');
+        //$fecha_exp = Carbon::now()->format('d-m');
         $año_exp = Carbon::now()->format('Y');
-        $nro_expediente = Expediente::nroExpediente($fecha_exp, $año_exp);
+        $nro_expediente = Expediente::nroExpediente($año_exp);
         return $nro_expediente;
     }
 
