@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\api;
 
+use ZipArchive;
 use Carbon\Carbon;
 use App\Models\Area;
 use App\Models\User;
@@ -54,12 +55,42 @@ class HistorialController extends Controller
         $historial->fecha = Carbon::now()->format('Y-m-d');
         $historial->hora = Carbon::now()->format('h:i');
         $historial->motivo = $request->motivo;
-        $historial->nombre_archivo = $request->nombre_archivo;
+        //$historial->nombre_archivo = $request->nombre_archivo;
         $historial->estado = 1;//pendiente para la bandeja del area destino, enviado para la bandeja origen
+        $expediente->estado_expediente_id = '1';
         $expediente->fojas += $historial->fojas;
+        //ARCHIVOS/////////////////////////////////////////////////////////////////////////////
+        if(!is_null($request->allFiles()))
+        {
+            $zip = new ZipArchive;
+            $fileName = $expediente->nro_expediente;
+            $fileName = str_replace("/","-",$fileName).'.zip';
+            $path =storage_path()."/app/public/archivos_expedientes/".$fileName. ".zip";
+            if($zip->open($path ,ZipArchive::CREATE) === true)
+            {
+                foreach ($request->allFiles() as $key => $value)
+                {
+                    $relativeNameInZipFile = $value->getClientOriginalName();
+                    $zip->addFile($value, $relativeNameInZipFile);
+                }
+                $zip->close();
+            }
+            $expediente->archivos = $fileName;
+            $expediente->save();
+        }
+        ///////////////////////////////////////////////////////////////////////////////////////
         $expediente->save();
         $historial->save();
-        return response()->json($historial, 200);
+        $area_destino = $historial->areaDestino->descripcion;
+        $fecha = $historial->fecha = Carbon::now()->format('Y-m-d');
+        $fojas = $historial->fojas = $request->fojas;
+        $data = [$area_destino,
+                 $fecha,
+                 $fojas,
+                 $user->persona->nombre. " ".$user->persona->apellido,
+                 $historial->motivo,
+                $expediente->nro_expediente];
+        return response()->json($data, 200);
     }
 
      /*
@@ -125,5 +156,27 @@ class HistorialController extends Controller
                 $array->push($historial->getHistorial());
         }
         return response()->json($array, 200);
+    }
+
+    /*
+    * Devuelve los expedientes enviados de un usuario
+    */
+    public function misEnviados(Request $request)
+    {
+        if ($request->user_id != null){
+            $misExpEnviados = Historial::ExpedientesEnviados($request->area_id,$request->user_id);
+        }
+        else{ //Si user_id == null  trae todos los Exp. Enviados del area
+            $misExpEnviados = Historial::ExpedientesEnviados($request->area_id);
+        }
+       
+        return response()->json($misExpEnviados, 200);
+
+        /*   Datos de prueba
+        {
+            "user_id" : 1,
+            "area_id": 13,
+        }
+        */
     }
 }

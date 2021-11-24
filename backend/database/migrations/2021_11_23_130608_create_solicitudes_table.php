@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateIniciadoresTable extends Migration
+class CreateSolicitudesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,9 @@ class CreateIniciadoresTable extends Migration
      */
     public function up()
     {
-        Schema::create('iniciadores', function (Blueprint $table) {
+        Schema::create('solicitudes', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->foreignId('id_tipo_entidad')->constrained('tipos_entidad'); //TODO 
+            $table->integer('tipo_entidad'); 
             $table->string('nombre');
             $table->string('apellido')->nullable();
             $table->string('dni')->nullable();
@@ -25,6 +25,8 @@ class CreateIniciadoresTable extends Migration
             $table->string('email')->nullable();
             $table->string('direccion')->nullable();
             $table->string('area_reparticiones')->nullable();
+            $table->integer('estado');
+            $table->string('motivo')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
@@ -37,6 +39,6 @@ class CreateIniciadoresTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('iniciadores');
+        Schema::dropIfExists('solicitudes');
     }
 }

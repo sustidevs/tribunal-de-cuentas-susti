@@ -102,7 +102,6 @@ class User extends Authenticatable
                           'tipo_user' => $this->tipoUser->descripcion,
                           'area_id' => $this->area_id,
                           'area' => $nombreArea,
-                          'tipo_area' => $this->get_tipo_area(),
                           'dni' => $this->persona->dni,
                           'cuil' => $this->cuil,
                           'nombre' => $this->persona->nombre,

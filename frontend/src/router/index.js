@@ -8,13 +8,14 @@ import MisExpedientes from '../views/MisExpedientes.vue'
 import RecuperarExpediente from '../views/RecuperarExpediente.vue'
 import NuevaReunion from '../views/NuevaReunion.vue'
 import NuevoPase from '../views/NuevoPase.vue'
+import MisMovimientos from '../views/MisMovimientos.vue'
 import Seguimientos from '../views/Seguimientos.vue'
 import VerSeguimientos from '../views/VerSeguimientos.vue'
 import NuevoIniciador from '../views/NuevoIniciador.vue'
-import CaratulaPdf from '../views/CaratulaPdf.vue'
-import PasePdf from '../views/PasePdf.vue'
 import layout from '../layout/Layout'
 import Expedientes from "../views/Expedientes";
+import Enviados from "../views/Enviados";
+import Usuario from "../views/Usuario";
 
 Vue.use(VueRouter)
 
@@ -24,8 +25,7 @@ const routes = [
     path: '',
     name: 'layout',
     component: layout,
-    children: [
-      {
+    children: [{
         path: '/',
         name: 'Home',
         component: Home,
@@ -74,6 +74,12 @@ const routes = [
         meta: { title: 'Nuevo Pase' }
       },
       {
+        path: '/mis-movimientos',
+        name: 'Mis Movimientos',
+        component: MisMovimientos,
+        meta: { title: 'Mis Movimientos' }
+      },
+      {
         path: '/historial',
         name: 'Historial',
         component: Seguimientos,
@@ -97,6 +103,18 @@ const routes = [
         component: Expedientes,
         meta: { title: 'Nueva Reunion' }
       },
+      {
+        path: '/enviados',
+        name: 'Enviados',
+        component: Enviados,
+        meta: { title: 'Enviados' }
+      },
+      {
+        path: '/usuario',
+        name: 'Usuario',
+        component: Usuario,
+        meta: { title: 'Usuario' }
+      },
     ]
   },
   {
@@ -105,19 +123,6 @@ const routes = [
     component: LoginGeneral,
     meta: { title: 'Ingresar' }
   },
-  {
-    path: '/caratula',
-    name: 'CaratulaPdf',
-    component: CaratulaPdf,
-    meta: { title: 'Carátula' }
-  },
-  {
-    path: '/imprimir-pase',
-    name: 'PasePdf',
-    component: PasePdf,
-    meta: { title: 'Pase' }
-  },
-
 ]
 
 const router = new VueRouter({

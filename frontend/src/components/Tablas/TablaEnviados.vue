@@ -20,15 +20,15 @@
     <a>
       <v-data-table
           :headers="headers"
-          :items="items"
+          :items="data"
           :search="search"
           :items-per-page="5"
           disable-sort
           mobile-breakpoint="300"
           class="elevation-1 mytable"
-          v-model="selected"
-          @click:row="recuperar"
-          no-data-text="No hay Expedientes para recuperar"
+          loading-text="Cargando expedientes enviados. Por favor, espere."
+          :loading="loading"
+          no-data-text="No tienes expedientes enviados"
       >
 
         <template v-slot:item.prioridad="{ item }">
@@ -51,36 +51,22 @@
 </template>
 
 <script>
-import {mapActions} from "vuex";
 
 export default {
   props: {
-    items: Array,
+    headers: Array,
+    data: Array,
+    loading: {type: Boolean, default: false},
   },
 
   data () {
     return {
       selected:[],
-      headers: [
-        {text: 'Prioridad', value: 'prioridad'},
-        {text: 'Nro. de Expediente', value: 'nro_expediente'},
-        {text: 'Extracto', value: 'extracto'},
-        {text: 'Fecha Creación', value: 'fecha_creacion'},
-        {text: 'Trámite', value: 'tramite'},
-        {text: 'Cuerpo', value: 'cant_cuerpos'},
-        {text: 'Fojas', value: 'fojas'},
-        {text: 'Recuperar', value: 'action', align: 'center', sortable: false},
-      ],
       search: '',
     }
   },
 
   methods: {
-
-    ...mapActions([
-      'recibir'
-    ]),
-
     getColor (prioridades) {
       if (prioridades === 'alta') return 'red lighten-3'
       if (prioridades === 'media') return 'grey lighten-2'
@@ -89,13 +75,27 @@ export default {
       if (prioridades === 'alta') return 'mdi-exclamation-thick'
       else return 'mdi-check-bold'
     },
-    recuperar (item) {
-      item.estado_expediente = 4
-      item.estado= 1,
-          item.bandeja= 1,
-          item.user_id= this.$store.getters.getIdUser,
-          this.recibir(item)
-    }
-  },
+  }
 }
 </script>
+
+<style>
+.v-data-table > .v-data-table__wrapper > table > thead > tr > th > span {
+  font-size: 19px !important;
+}
+
+.mytable thead {
+  background-color: #facd89 !important;
+  font-family: "Montserrat-Regular",serif !important;
+}
+
+.v-data-table > .v-data-table__wrapper > table > tbody > tr > td {
+  font-family: "Montserrat-Regular",serif !important;
+  font-size: 17px !important;
+}
+
+.v-data-table > .v-data-table__wrapper > table > tbody > tr:hover{
+  background-color: #FAE3BF !important;
+}
+
+</style>

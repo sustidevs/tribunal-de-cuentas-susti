@@ -27,6 +27,7 @@
           disable-sort
           mobile-breakpoint="300"
           class="elevation-1 mytable"
+          @click:row="historial_pase"
           loading-text="Cargando expedientes. Por favor, espere."
           :loading="loading"
           no-data-text="No tienes Expedientes"
@@ -35,12 +36,16 @@
         <template v-slot:item.prioridad="{ item }">
           <v-chip
               :color="getColor(item.prioridad)"
-              :class="getClass(item.prioridad)"
           >
             <v-icon size="20px" class="mr-1">{{getIcon(item.prioridad)}}</v-icon><h5 class="font-weight-regular">{{ item.prioridad }}</h5>
           </v-chip>
         </template>
 
+        <template v-slot:item.action="{ }">
+          <v-btn fab small color="#FACD89" depressed>
+            <v-icon> mdi-eye </v-icon>
+          </v-btn>
+        </template>
       </v-data-table>
     </a>
 
@@ -67,21 +72,26 @@ export default {
   methods: {
     getColor (prioridades) {
       if (prioridades === 'alta') return 'red lighten-3'
-      if (prioridades === 'media') return 'yellow lighten-3'
-      if (prioridades === 'baja') return 'green lighten-3'
+      if (prioridades === 'media') return 'grey lighten-2'
     },
-    getClass (prioridades) {
-      if (prioridades === 'Alta') return 'white--text'
-      else return 'grey--text text--darken-3'
-    },
+
     getIcon (prioridades) {
-      if (prioridades === 'Alta') return 'mdi-exclamation-thick'
+      if (prioridades === 'alta') return 'mdi-exclamation-thick'
       else return 'mdi-check-bold'
     },
 
     ...mapActions([
-      'getNuevoPase'
+      'getHistorial'
     ]),
+
+    historial_pase: function (item, row) {
+      row.select(true);
+      console.log(item);
+      this.getHistorial(item)
+      this.$router.push({name: 'VerHistoriales'})
+      //console.log(item)
+    },
+
   }
 }
 </script>

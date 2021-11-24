@@ -121,10 +121,14 @@ class Expediente extends Model
         return $array_expediente;
     }
 
-    public static function nroExpediente($fecha_exp, $año_exp)
+    public static function nroExpediente($año_exp)
     {
-        $nro_aleatorio = mt_rand(1000, 9999);
-        $nro_exp = Iniciador::NRO_INICIADOR . '-' . $fecha_exp . '-' . $nro_aleatorio . '/' . $año_exp;
+        $expedientes =  DB::table('expedientes')
+                        ->whereYear('fecha', $año_exp)
+                        ->get();
+        $cont = $expedientes->count() + 1;
+        $nro_aleatorio = str_pad($cont,5,"0",STR_PAD_LEFT);
+        $nro_exp = Iniciador::NRO_INICIADOR . '-'. $nro_aleatorio . '/' . $año_exp;
         return $nro_exp;
     }
 
@@ -133,8 +137,8 @@ class Expediente extends Model
         $Expedientes = Expediente::where('expediente_id',null)->get();
         $user = User::findOrFail($user_id);
         $array_expediente = collect([]);
-        
-    
+
+
         foreach ($Expedientes as $exp)
         {
             switch ($bandeja)
@@ -172,7 +176,7 @@ class Expediente extends Model
                 'estado'=>$estado_expediente,
                 'user_id'=>$exp->historiales->last()->user_id
             ]);
-            
+
         }
         /*
         * Filtro los Exp. por bandeja
@@ -183,7 +187,7 @@ class Expediente extends Model
             return $array_expediente->where('area_destino_id',$user->area_id)
                                     ->where('estado',$estado)->values();
         }
-        
+
 
         #MIS EXPEDIENTE
         if ($bandeja == 3) {

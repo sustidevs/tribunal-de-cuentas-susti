@@ -33,7 +33,7 @@ export default {
     {text: 'Extracto', value: 'extracto'},
     {text: 'Trámite', value: 'tramite'},
     {text: 'Última modificación', value: 'ult_modificacion'},
-    {text: 'Ver', value: 'action', align: 'center'},
+    {text: 'Ver', value: 'action', align: 'center', sortable: false},
   ],
   datos: [
     {nro_expediente : '800-24-04-1000/2021', extracto: 'Ayuda económica', tramite: 'Rendición de cuenta', ult_modificacion: '13-10-2021'},

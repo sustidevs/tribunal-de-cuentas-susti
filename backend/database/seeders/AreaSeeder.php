@@ -16,7 +16,7 @@ class AreaSeeder extends Seeder
         //array('descripcion' => 'ASESORIA LETRADA'),
         array('descripcion' => 'ASESORIA LEGAL'),
         array('descripcion' => 'DIRECCIÓN DE PERSONAL'),
-        array('descripcion' => 'DEPARTAMENTO DE ADMINISTRACIÓN'),
+        array('descripcion' => 'DPTO. DE ADMINISTRACIÓN'),
         array('descripcion' => 'DIRECCIÓN DE REGISTRACIONES'),
         array('descripcion' => 'VOCALIA A'),
         array('descripcion' => 'VOCALIA B'),
@@ -25,12 +25,12 @@ class AreaSeeder extends Seeder
     );
 
     Private $arraySubAreas = array (
-        array('descripcion' => 'DEPARTAMENTO DE FALLOS'),
+        array('descripcion' => 'DEPARTAMENTO FALLOS'),
         array('descripcion' => 'ARCHIVO'),
         //array('descripcion' => 'PROSECRETARIA'),
         //array('descripcion' => 'MAYORDOMIA'),
-        array('descripcion' => 'DEPARTAMENTO MESA DE ENTRADA'),
-        array('descripcion' => 'DEPARTAMENTO DE NOTIFICACIONES'),
+        array('descripcion' => 'DPTO. MESA DE ENTRADAS Y SALIDAS'),
+        array('descripcion' => 'DPTO. NOTIFICACIONES'),
         array('descripcion' => 'DIRECCIÓN DE INFORMATICA'),
         //array('descripcion' => 'Dpto. TESORERIA'),
         //array('descripcion' => 'Dpto. CONTABLE'),       
@@ -45,7 +45,7 @@ class AreaSeeder extends Seeder
         array('descripcion' => 'AUDITORIA D'),
         array('descripcion' => 'PRESIDENCIA'),
         array('descripcion' => 'MAESTRANZA'),
-        array('descripcion' => 'EQUIPO CTA DE INVERSIÓN')
+        //array('descripcion' => 'EQUIPO CTA DE INVERSIÓN')
         //último sin coma
         );
 
