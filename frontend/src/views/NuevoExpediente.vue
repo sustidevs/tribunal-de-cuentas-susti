@@ -17,39 +17,14 @@
       <v-divider color="#393B44"></v-divider>
 
       <label-error :texto="this.iniciador_id_error"/>
-      <v-row no-gutters justify="start" class="mt-2">
+      <v-row no-gutters justify="start">
         <v-col cols="12" sm="12" lg="6" class="pr-lg-2">
-          <LabelInput texto="Buscar Iniciador por:"/>
-          <div class="d-flex column justify-center Montserrat-Semibold">
-            <v-btn-toggle class="justify-space-around py-3" v-model="buscarPor" group>
-              <v-btn @change="buscarPor=4" value="4" class="px-8 pa-8 textRadio">
-                <v-icon class="pr-2" large color="rgb(251, 140, 0, 0.7)"> mdi-account </v-icon>
-                Entidad / persona
-              </v-btn>
-
-              <v-btn @change="buscarPor=3" value="3" class="px-8 pa-8 textRadio">
-                <v-icon class="pr-2" large color="rgb(244, 67, 54, 0.7)"> mdi-card-account-details </v-icon>
-                N° de CUIT
-              </v-btn>
-            </v-btn-toggle>
-          </div>
+          <label-error/>
+          <label-input texto="Iniciador"/>
+          <autocomplete-field :data="allIniciadores" nombre="nombre" @input="cargarExpediente()"  v-model="expe.iniciador_id"/>
         </v-col>
-
-      </v-row>
-
-      <v-row no-gutters justify="center" class="mt-2">
-        <v-col cols="12" sm="12" lg="6" class="pr-lg-2">
-          <div v-if="buscarPor == 4">
-            <label-input texto="Nombre entidad / persona"/>
-            <autocomplete-field :data="allIniciadores" nombre="nombre" @input="cargarExpediente()"  v-model="expe.iniciador_id"/>
-          </div>
-          <div v-if="buscarPor == 3">
-            <label-input texto="N° de CUIT"/>
-            <autocomplete-field/>
-          </div>
-        </v-col>
-
         <v-col cols="12" sm="12" lg="6" class="pl-lg-2">
+          <label-error/>
           <label-input texto="Nº de Expediente"/>
           <v-text-field
               class="Montserrat-Regular text-justify"
@@ -179,7 +154,6 @@ export default {
   components: {AutocompleteField, TextField, InputDate, LabelInput,Extractos,ModalNuevosExpedientes,LabelError},
   data: () => ({
     radioGroup: 1,
-    buscarPor: 4,
     toggle_none: null,  
     agregarIniciador: [{texto: "Agregar Iniciador", imagen: "./img/cards/ver-todos.svg",}],
     motivo: [],
