@@ -157,9 +157,31 @@ class ExpedienteController extends Controller
     {
         $exp_hijo = Expediente::findOrFail($request->exp_hijo);
         $exp_padre = Expediente::findOrFail($request->exp_padre);
-        $exp_hijo->expediente_id = $exp_padre->id;
-        $exp_hijo->update();
-        return response()->json([$exp_padre->first(),$exp_padre->hijos,$exp_hijo->padre ],200);
+        if($exp_hijo->expediente_id == "")
+        {
+            $exp_hijo->expediente_id = $exp_padre->id;
+            if($exp_hijo->save())
+            {
+                $historial = new Historial;
+                $historial->expediente_id = $exp_hijo->id;
+                $historial->user_id = $request->user_id;
+                $historial->area_origen_id = $exp_hijo->historiales->last()->area_origen_id;
+                $historial->area_destino_id = $exp_hijo->historiales->last()->area_destino_id;
+                $historial->fojas = $exp_hijo->fojas;
+                $historial->fecha = Carbon::now()->format('Y-m-d');
+                $historial->hora = Carbon::now()->format('h:i');
+                $historial->motivo = "union";
+                $historial->estado = "3";//Mi expediente
+                $historial->save();
+                $exp_padre->fojas = $exp_padre->fojas + $exp_hijo->fojas;//cantidad total de fojas
+                $exp_padre->save();
+                return response()->json([$exp_padre->first(),$exp_padre->hijos,$exp_hijo->padre ],200);
+            };
+        }
+        else
+        {
+            return response()->json("ERROR",400);
+        }
     }
 
     /*{
@@ -170,33 +192,73 @@ class ExpedienteController extends Controller
     public function desgloce(Request $request)
     {
         $exp_hijo = Expediente::findOrFail($request->exp_hijo);
-        $exp_hijo->expediente_id = "";
-        if($exp_hijo->update())
+        $exp_padre = $exp_hijo->expediente_id;
+        if($exp_hijo->expediente_id != "")
         {
-            $historial = new Historial;
-            $historial->expediente_id = $exp_hijo->id;
-            $historial->user_id = $request->user_id;
-
-            $historial->area_origen_id = $exp_hijo->historiales->last()->area_origen_id;
-            $historial->area_destino_id = $exp_hijo->historiales->last()->area_destino_id;
-            $historial->fojas = $exp_hijo->fojas;
-            $historial->fecha = Carbon::now()->format('Y-m-d');
-            $historial->hora = Carbon::now()->format('h:i');
-            $historial->motivo = "desgloce";
-            $historial->estado = "3";//Enviado
-            return response()->json("operacion realizada con exitos wey",200);
+            $exp_hijo->expediente_id = "";
+            if($exp_padre->fojas > $request->fojas_hijo)
+            {
+                $exp_hijo->fojas = $request->fojas_hijo;
+                $exp_padre->fojas = $exp_padre->fojas - $exp_hijo->fojas;
+                if($exp_hijo->save() && $exp_padre->save())
+                {
+                    $historial = new Historial;
+                    $historial->expediente_id = $exp_hijo->id;
+                    $historial->user_id = $request->user_id;
+                    $historial->area_origen_id = $exp_padre->historiales->last()->area_origen_id;
+                    $historial->area_destino_id = $exp_padre->historiales->last()->area_destino_id;
+                    $historial->fojas = $exp_hijo->fojas;
+                    $historial->fecha = Carbon::now()->format('Y-m-d');
+                    $historial->hora = Carbon::now()->format('h:i');
+                    $historial->motivo = "desgloce";
+                    $historial->estado = "3";//Mi expediente
+                    $historial_padre = new Historial;
+                    $historial_padre->expediente_id = $exp_padre->id;
+                    $historial_padre->user_id = $request->user_id;
+                    $historial_padre->area_origen_id = $exp_padre->historiales->last()->area_origen_id;
+                    $historial_padre->area_destino_id = $exp_padre->historiales->last()->area_destino_id;
+                    $historial_padre->fojas = $exp_padre->fojas;
+                    $historial_padre->fecha = Carbon::now()->format('Y-m-d');
+                    $historial_padre->hora = Carbon::now()->format('h:i');
+                    $historial_padre->motivo = "desgloce expediente_id: ". $exp_hijo->id;
+                    $historial_padre->estado = "3";//Mi expediente
+                    if($historial_padre->save() && $historial->save())
+                    {
+                        return response()->json("operacion realizada con exitos wey!",200);  
+                    }
+                    else
+                    {
+                        return response()->json("ERROR, NOSE QUE PASO???",400);
+                    }
+                }
+            }
+            else
+            {
+                return response()->json("nùmero de fojas incorrecto menso!",400);
+            }
         }
-        
-        return response()->json("Error",400);
+        else
+        {
+            return response()->json("Error",400);
+        }
     }
 
     /*{
-        "exp_hijo" : "2"
+        "exp_padre" : "1",
+        "exp_hijo" : "2",
+        "user_id" : "1",
+        "fojas_hijo" : 1
     }*/
+
+    public function createDesgloce(Request $request)
+    {
+        $exp_padre = Expediente::findOrFail($request->exp_padre);
+        return response()->json($exp_padre->hijos,200); 
+    }
 
     public function show(Request $request)
     {
-        $expediente = Expediente::findOrFail($request->expediente_id);
+        $expediente = Expediente::where('expediente_id',null)->findOrFail($request->expediente_id);
         $iniciador = $expediente->caratula->iniciador;
         $extracto = $expediente->caratula->extracto;
         $fecha_sistema = $expediente->created_at->format('Y-m-d');
@@ -259,7 +321,7 @@ class ExpedienteController extends Controller
     */
     public function AllExpedientes()
     {
-        $expedientes = Expediente::all();
+        $expedientes = Expediente::where('expediente_id',null)->get();
         $listado_expedientes = Collect([]);
         foreach ($expedientes as $expediente) {
             $listado_expedientes->push($expediente->datosExpediente());
