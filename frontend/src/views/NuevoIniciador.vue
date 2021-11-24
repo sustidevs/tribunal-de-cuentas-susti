@@ -65,12 +65,13 @@
           <SecondaryButton link="/" texto="Volver a inicio" icono="mdi-keyboard-backspace"/>
         </v-col>
         <v-col cols="12" sm="6" md="6" lg="6" class="py-6 px-sm-2">
-          <v-btn class="pa-5 color Montserrat-SemiBold" height="55" elevation="0" color="#FACD89" block>
+          <v-btn @click="abrirModalExitoNuevoIniciador()" class="pa-5 color Montserrat-SemiBold" height="55" elevation="0" color="#FACD89" block>
             <v-icon class="px-5">
               mdi-check-bold
             </v-icon>
               Confirmar
           </v-btn>
+          <modal-exito-nuevo-iniciador :show="showModal" @close="closeModalExitoNuevoIniciador"/>
         </v-col>
       </v-row>
   </div>
@@ -82,9 +83,25 @@ import LabelInput from "../components/LabelInput";
 import TextField from "../components/TextField";
 import AutocompleteField from "../components/AutocompleteField";
 import SecondaryButton from "../components/SecondaryButton";
+import ModalExitoNuevoIniciador from '../components/dialogs/ModalExitoNuevoIniciador.vue'
 
 export default {
-  name: 'NuevoIniciador',
-  components: {Titulo, LabelInput, TextField, AutocompleteField, SecondaryButton},
+    name: 'NuevoIniciador',
+    components: {Titulo, LabelInput, TextField, AutocompleteField, SecondaryButton, ModalExitoNuevoIniciador},
+
+    data () {
+        return {
+            showModal: false,
+        }
+    },
+
+    methods: {
+        abrirModalExitoNuevoIniciador() {
+            this.showModal=!this.showModal
+        },
+        closeModalExitoNuevoIniciador() {
+            this.showModal = false;
+        },
+    }
 }
 </script>
