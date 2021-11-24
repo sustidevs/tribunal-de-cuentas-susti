@@ -62,7 +62,19 @@ class UserController extends Controller
             $user->tipo_user_id = $request->tipo_user;
             $user->cuil = $request->cuil;
             $user->password = Hash::make($request->password);
-            //$user->assignRole(Role::find($request->role_id)->name);            
+            //$user->assignRole(Role::find($request->role_id)->name);
+            if($request->adminArea == "on")
+            {
+                $user->giverPermissionTo(['name' => 'AGREGAR INICIADOR']);
+                $user->giverPermissionTo(['name' => 'LISTAR EXPEDIENTES DE SU AREA']);
+                $user->giverPermissionTo(['name' => 'LISTAR EXPEDIENTES (TODAS)']);
+                $user->giverPermissionTo(['name' => 'REALIZAR PASES']);
+            }
+            if($request->empleado == "on")
+            {
+                $user->giverPermissionTo(['name' => 'VER EXPEDIENTE']);
+                $user->giverPermissionTo(['name' => 'REASIGNAR PASE']);
+            }
             if($user->save())
             {
                 return response()->json($user->datos_user(), 200);
