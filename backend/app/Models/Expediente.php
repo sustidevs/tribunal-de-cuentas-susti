@@ -250,14 +250,21 @@ class Expediente extends Model
                 break;
 
                 case "6": //Busca por Norma Legal
-                    $expedientes = Expediente::where('tipo_expediente', 3) //Tipo Exp.: Subsidio
-                                                 ->get();
-                    //$lista_expedientes = collect();
-                    foreach ($expedientes as $exp) {
-                        $lista_expedientes->push($exp->getDatos());
+                    $valor = 'NORMA LEGAL: '.$valor;
+                    /*Hice asi porque de esta forma: $lista_expedientes = $lista_expedientes->where('extracto','LIKE',"%$valor%");
+                    no me funcionaba la parte del: 'LIKE',"%$valor%"*/
+                    $consulta = DB::table('expedientes')->join('caratulas', 'expedientes.id', '=', 'caratulas.expediente_id')
+                                            ->join('extractos', 'caratulas.extracto_id', '=', 'extractos.id')
+                                            ->select('expedientes.*', 'caratulas.expediente_id', 'extractos.descripcion')
+                                            ->where('tipo_expediente', 3)
+                                            ->where('descripcion','LIKE',"%$valor%")
+                                            ->get();                      
+    
+                    foreach ($consulta as $item) {
+                        $expediente = Expediente::FindOrFail($item->id);
+                        $lista_expedientes->push($expediente->getDatos());
                         
                     }
-                    $lista_expedientes = $lista_expedientes->where('extracto','like','%'.'NORMA LEGAL: '.$valor.'%');
                     break;
         }
         return $lista_expedientes;
