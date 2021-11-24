@@ -48,22 +48,13 @@
             </v-col>
 
             <v-col cols="12" sm="12" lg="6" class="pl-lg-2">
-                <label-input texto="Prefijo"/>
-                <v-text-field
-                    class="Montserrat-Regular text-justify"
-                    color="amber accent-4"
-                    outlined
-                ></v-text-field>
+                <label-input texto="Correo electrónico"/>
+                <text-field/>
             </v-col>
         </v-row>
 
         <v-row no-gutters justify="start" class="mt-2 mb-3">
             <v-col cols="12" sm="12" lg="6" class="pr-lg-2">
-                <label-input texto="Correo electrónico"/>
-                <text-field/>
-            </v-col>
-
-            <v-col cols="12" sm="12" lg="6" class="pl-lg-2">
                 <label-input texto="Teléfono"/>
                 <text-field/>
             </v-col>
@@ -76,9 +67,9 @@
         <v-col cols="12" sm="6" md="6" lg="6" class="py-6 px-sm-2">
           <v-btn class="pa-5 color Montserrat-SemiBold" height="55" elevation="0" color="#FACD89" block>
             <v-icon class="px-5">
-              mdi-plus-circle-outline
+              mdi-check-bold
             </v-icon>
-              Agregar nuevo iniciador
+              Confirmar
           </v-btn>
         </v-col>
       </v-row>
