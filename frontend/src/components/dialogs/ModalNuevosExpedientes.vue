@@ -13,11 +13,17 @@
       <div class="Montserrat-Bold mr-1 mb-2 sizeTM"> Iniciador:</div>
       <div class="Montserrat-Regular mb-6 text-justify sizeDM">{{ dato[1] }}</div>
 
+      <div class="Montserrat-Bold mr-1 mb-2 sizeTM"> Email:</div>
+      <div class="Montserrat-Regular mb-6 text-justify sizeDM"> correo@gmail.com</div>
+
+      <div class="Montserrat-Bold mb-2 sizeTM"> Se derivó al área:</div>
+      <div class="Montserrat-Regular mb-6 text-justify sizeDM">{{ dato[3].descripcion }}</div>
+
       <div class="Montserrat-Bold mb-2 sizeTM"> Extracto:</div>
       <div class="Montserrat-Regular mb-6 text-justify sizeDM">{{ dato[2] }}</div>
 
-      <div class=" Montserrat-Bold mb-2 sizeTM"> Se derivó al área:</div>
-      <div class="Montserrat-Regular mb-6 text-justify sizeDM">{{ dato[3].descripcion }}</div>
+      <div class="Montserrat-Bold mb-2 sizeTM">Observación:</div>
+      <div class="Montserrat-Regular mb-6 text-justify sizeDM">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. </div>
 
       <v-row no-gutters justify="center" class="py-4">
 
@@ -67,9 +73,19 @@
             <div class="Montserrat-Regular pl-3 sizeAll"> {{ dato[1] }} </div>
           </div>
 
+          <div class="direction pad">
+            <div class="Montserrat-SemiBold sizeAll pl"> Email:</div>
+            <div class="Montserrat-Regular pl-3 sizeAll"> correo@gmail.com </div>
+          </div>
+
           <div class="d-flex flex-column pad">
             <div class="Montserrat-SemiBold sizeAll">Extracto:</div>
             <div class="Montserrat-Regular sizeAll">{{ dato[2] }}</div>
+          </div>
+
+          <div class="d-flex flex-column pad">
+            <div class="Montserrat-SemiBold sizeAll">Observación:</div>
+            <div class="Montserrat-Regular sizeAll text-justify">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. </div>
           </div>
         </section>
       </section>
@@ -143,6 +159,7 @@ export default {
 
 .sizeAll{
   font-size: 18px;
+  text-align: justify;
 }
 
 .direction {
