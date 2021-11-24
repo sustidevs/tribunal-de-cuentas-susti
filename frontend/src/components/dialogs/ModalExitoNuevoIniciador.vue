@@ -1,0 +1,37 @@
+<template>
+  <v-dialog v-model="show" width="1200px" content-class="round">
+    <v-card class="px-7 pt-1">
+        <titulo texto="La solicitud para agregar un nuevo iniciador ha sido enviada" icono="mdi-account-check"/>
+        <div class="descripcion text-justify pt-4">Quedará en estado pendiente hasta que un administrador la apruebe.</div>
+        <v-row no-gutters justify="center" class="mt-8">
+            <v-col cols="12" sm="6" md="6" lg="6" class="py-6 px-sm-2">
+                <v-btn @click="close" class="pa-5 color Montserrat-SemiBold" height="55" elevation="0" color="#FACD89" block>
+                    <v-icon class="px-5"> mdi-check-bold </v-icon>
+                    Aceptar
+                </v-btn>
+            </v-col>
+        </v-row>
+    </v-card>
+  </v-dialog>
+</template>
+<script>
+import Titulo from "../Titulo"
+export default {
+  name: 'ModalExitoNuevoIniciador',
+  components: {Titulo},
+
+  props: {
+    show: Boolean,
+  },
+  methods: {
+    close() {
+      this.$emit("close")
+    },
+  }
+}
+</script>
+<style>
+.round {
+  border-radius: 30px;
+}
+</style>
