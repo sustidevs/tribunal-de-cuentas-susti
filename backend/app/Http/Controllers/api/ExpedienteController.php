@@ -204,7 +204,6 @@ class ExpedienteController extends Controller
 
     public function contadorBandejaEntrada(Request $request)
     {
-        $user_area = $request->area_id;
         $contador = Expediente::listadoExpedientes($request->user_id,1,1)->count();
         return response()->json($contador, 200);
     }
@@ -294,5 +293,10 @@ class ExpedienteController extends Controller
         echo '<img src="data:image/png;base64,' . $cod->getBarcodePNG('4', 'C39+') . '" alt="barcode"   />';*/
        
     }
+
+    /*public function notificarExpediente(Request $request)
+    {
+        $contar = Expediente::notificacion($user_id, $tipo_expediente);
+    }*/
 
 }
