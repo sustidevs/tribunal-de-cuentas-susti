@@ -4,44 +4,44 @@
       <v-row no-gutters justify="start" class="pt-5">
         <titulo-area-sub :area="this.$store.getters.getArea" class="mb-2"/>
       </v-row>
-      <v-divider color="#393B44" class="mt-2"></v-divider>
+      <v-divider color="#393B44" class="my-4"></v-divider>
 
       <div v-if="getArea == 'DPTO. MESA DE ENTRADAS Y SALIDAS'">
         <v-row class="phone">
           <v-col cols="12" sm="12" lg="6">
-            <titulo-inicio texto="Bandejas" class="my-6"/>
+            <titulo-inicio texto="Bandejas" class="my-2"/>
             <ButtonBig class="my-4 mx-5" texto="Pendientes" link="/expedientes-pendientes" icon="mdi-clock"/>
             <ButtonBig class="my-4 mx-5" texto="Expedientes" link="/expedientes" icon="mdi-archive"/>
             <ButtonBig class="my-4 mx-5" texto="Enviados"  link="/enviados" icon="mdi-file-send"/>
           </v-col>
           <v-col cols="12" sm="12" lg="6">
-            <titulo-inicio texto="Expedientes" class="my-6"/>
+            <titulo-inicio texto="Expedientes" class="my-2"/>
             <ButtonBig class="my-4 mx-5" texto="Pase" link="/mis-expedientes" icon="mdi-file-move"/>
           </v-col>
         </v-row>
 
-        <v-divider color="#393B44" class="mt-2 mt-12 d-none d-sm-block"></v-divider>
+        <v-divider color="#393B44" class="mt-10 d-none d-sm-block"></v-divider>
 
-        <v-row class="phone">
+        <v-row class="phone mt-4">
           <v-col cols="12" sm="12" lg="6">
-            <titulo-inicio texto="Nuevo" class="my-6"/>
+            <titulo-inicio texto="Nuevo" class="my-2"/>
             <ButtonBig class="my-4 mx-5" texto="Expediente" link="/nuevo-expediente" icon="mdi-text-box-plus"/>
             <ButtonBig class="my-4 mx-5" texto="Iniciador" link="/nuevo-iniciador" icon="mdi-account-plus"/>
           </v-col>
           <v-col cols="12" sm="12" lg="6">
-            <titulo-inicio texto="Consultar" class="my-6"/>
+            <titulo-inicio texto="Consultar" class="my-2"/>
             <ButtonBig class="my-4 mx-5" texto="Iniciador" link="" icon="mdi-account-question"/>
             <v-hover v-slot="{ hover }" >
               <v-btn
                   rounded
-                  width="190"
-                  height="190"
+                  width="150"
+                  height="150"
                   @click="abrirModalConsultar()"
-                  :class="hover ? 'orange accent-1' : 'grey lighten-2'"
+                  :class="hover ? 'orange accent-1' : 'grey lighten-3'"
                   class="pa-8 mx-5 Montserrat-Bold grey--text text--darken-3"
               >
                 <div class="d-flex flex-column justify-center">
-                  <v-icon size="110" class="py-2" :color="hover ? 'grey darken-1' : '#FDBC3F'">mdi-magnify</v-icon>
+                  <v-icon size="70" class="py-2" :color="hover ? 'grey darken-1' : '#FDBC3F'">mdi-magnify</v-icon>
 
                   <div class="sizeBig pt-4">
                     Expediente
@@ -55,26 +55,26 @@
       </div>
 
       <div v-else>
-        <v-row>
+        <v-row  class="phone mt-4">
           <v-col cols="12" md="12" lg="6">
-            <titulo-inicio texto="Bandejas" class="my-6"/>
+            <titulo-inicio texto="Bandejas" class="my-2"/>
             <ButtonBig class="my-4 mx-5" texto="Pendientes" link="/expedientes-pendientes" icon="mdi-clock"/>
             <ButtonBig class="my-4 mx-5" texto="Expedientes" link="/expedientes" icon="mdi-archive"/>
             <ButtonBig class="my-4 mx-5" texto="Enviados"  link="/enviados" icon="mdi-file-send"/>
           </v-col>
           <v-col cols="12" md="12" lg="6">
-            <titulo-inicio texto="Consultar" class="my-6"/>
+            <titulo-inicio texto="Consultar" class="my-2"/>
             <v-hover v-slot="{ hover }" >
               <v-btn
                   rounded
-                  width="190"
-                  height="190"
+                  width="150"
+                  height="150"
                   @click="abrirModalConsultar()"
-                  :class="hover ? 'orange accent-1' : 'grey lighten-2'"
-                  class="pa-8 mx-5 Montserrat-Bold grey--text text--darken-3"
+                  :class="hover ? 'orange accent-1' : 'grey lighten-3'"
+                  class="pa-8 my-4 mx-5 Montserrat-Bold grey--text text--darken-3"
               >
                 <div class="d-flex flex-column justify-center">
-                  <v-icon size="110" class="py-2" :color="hover ? 'grey darken-1' : '#FDBC3F'">mdi-magnify</v-icon>
+                  <v-icon size="70" class="py-2" :color="hover ? 'grey darken-1' : '#FDBC3F'">mdi-magnify</v-icon>
 
                   <div class="sizeBig pt-4">
                     Expediente
@@ -88,15 +88,12 @@
 
         <v-divider color="#393B44" class="mt-2 mt-12 d-none d-sm-block"></v-divider>
 
-        <v-row>
+        <v-row  class="phone mt-4">
           <v-col cols="12" md="12" lg="6">
-            <titulo-inicio texto="Expedientes" class="my-6"/>
+            <titulo-inicio texto="Expedientes" class="my-2"/>
             <ButtonBig class="my-4 mx-5" texto="Pase" link="/mis-expedientes" icon="mdi-file-move"/>
             <ButtonBig class="my-4 mx-5" texto="Fusión" link="" icon="mdi-file-plus"/>
             <ButtonBig class="my-4 mx-5" texto="Desglose" link="" icon="mdi-file-percent"/>
-          </v-col>
-          <v-col cols="12" md="12" lg="6">
-
           </v-col>
         </v-row>
       </div>
