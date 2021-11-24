@@ -3,7 +3,7 @@
     <v-card class="px-7 pt-1">
 
       <div class="py-8 Montserrat-Bold  tituloModal">
-        Se registró con éxito el expediente {{dato[5]}}
+        Se registró con éxito el expediente N° {{dato[5]}}
       </div>
       <v-divider color="#393B44"></v-divider>
 
