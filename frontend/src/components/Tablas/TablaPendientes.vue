@@ -17,7 +17,7 @@
       </v-col>
     </v-row>
 
-    <a>
+    
       <v-data-table
           :headers="headers"
           :items="items"
@@ -27,7 +27,6 @@
           mobile-breakpoint="300"
           class="elevation-1 mytable"
           v-model="selected"
-          @click:row="recibirI"
           loading-text="Cargando expedientes. Por favor, espere."
           :loading="loading"
           no-data-text="No hay Expedientes Pendientes por aceptar"
@@ -41,13 +40,13 @@
           </v-chip>
         </template>
 
-        <template v-slot:item.action="{ }">
-          <v-btn fab small color="#FACD89" depressed>
+        <template v-slot:item.action>
+          <v-btn @click="recibirI" fab small color="#FACD89" depressed>
             <v-icon> mdi-text-box-check </v-icon>
           </v-btn>
         </template>
       </v-data-table>
-    </a>
+    
 
   </div>
 </template>
