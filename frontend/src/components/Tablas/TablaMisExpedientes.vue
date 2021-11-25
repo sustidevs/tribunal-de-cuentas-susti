@@ -48,7 +48,7 @@
 
         <template v-slot:item.action2="{ }">
           <v-btn fab small color="#FACD89" depressed>
-            <v-icon> mdi-email-fast </v-icon>
+            <v-icon> mdi-file-move </v-icon>
           </v-btn>
         </template>
       </v-data-table>
