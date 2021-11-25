@@ -40,7 +40,13 @@
           </v-chip>
         </template>
 
-        <template v-slot:item.action="{ }">
+        <template v-slot:item.action1="{ }">
+          <v-btn fab small color="#FACD89" depressed>
+            <v-icon> mdi-eye </v-icon>
+          </v-btn>
+        </template>
+
+        <template v-slot:item.action2="{ }">
           <v-btn fab small color="#FACD89" depressed>
             <v-icon> mdi-email-fast </v-icon>
           </v-btn>

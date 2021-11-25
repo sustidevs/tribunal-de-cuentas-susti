@@ -26,7 +26,8 @@ export default {
         {text: 'Trámite', value: 'tramite'},
         {text: 'Cuerpo', value: 'cant_cuerpos'},
         {text: 'Fojas', value: 'fojas'},
-        {text: 'Realizar Pase', value: 'action', sortable: false},
+        {text: 'Ver Detalle', value: 'action1', sortable: false},
+        {text: 'Realizar Pase', value: 'action2', sortable: false},
         {class: "display-4"},
       ],
     }
