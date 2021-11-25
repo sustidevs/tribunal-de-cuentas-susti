@@ -4,6 +4,11 @@
     <div class="descripcion text-justify py-4">Si desea <strong>realizar un pase</strong>, haga clic en el botón de la tabla.</div>
     <alert-sucess texto="El expediente ha sido asignado con éxito" :condicion="this.$store.getters.asignado"/>
     <tabla-mis-expedientes :headers="headers" :data="allExpedientes" :loading="get_finalizado"/>
+
+    <v-btn @click="abrirModalExitoNuevoIniciador()" class="pa-5 Montserrat-SemiBold" elevation="0" color="#FACD89">
+        Abrir modal
+      <modal-ver-detalle-exp :show="showModalVerDetalle" @close="closeModalExitoNuevoIniciador"/>
+    </v-btn>
   </div>
 </template>
 
@@ -12,12 +17,14 @@ import Titulo from "../components/Titulo"
 import {mapActions, mapGetters} from "vuex";
 import TablaMisExpedientes from "../components/Tablas/TablaMisExpedientes";
 import AlertSucess from "../components/AlertSucess"
+import ModalVerDetalleExp from "../components/dialogs/ModalVerDetalleExp"
 
 export default {
   name: 'MisExpedientes',
-  components: {TablaMisExpedientes, Titulo, AlertSucess},
+  components: {TablaMisExpedientes, Titulo, AlertSucess, ModalVerDetalleExp},
   data() {
     return {
+      showModalVerDetalle: false,
       headers: [
         {text: 'Prioridad', value: 'prioridad'},
         {text: 'Nro. de Expediente', value: 'nro_expediente'},
@@ -49,6 +56,13 @@ export default {
           user_id: this.$store.getters.getIdUser,
         }
         this.getExpedientes(exp)
+      },
+
+      abrirModalExitoNuevoIniciador() {
+        this.showModalVerDetalle=!this.showModalVerDetalle
+      },
+      closeModalExitoNuevoIniciador() {
+        this.showModalVerDetalle = false;
       },
 
       /**
