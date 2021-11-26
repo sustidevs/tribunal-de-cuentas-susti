@@ -37,6 +37,7 @@ Route::post('/showExp',       [ExpedienteController::class, 'show']);
 Route::post('/indexExpArea',  [ExpedienteController::class, 'indexPorAreas']);
 Route::post('/buscar-expediente',  [ExpedienteController::class, 'buscarExpediente']);
 Route::get('/all-expedientes',  [ExpedienteController::class, 'AllExpedientes']);
+Route::post('/zip',       [ExpedienteController::class, 'descargarZip']);
 ////////////////////////////////////////////////////////////////////////////////////
 
 //BANDEJAS//////////////////////////////////////////////////////////////////////////////////

@@ -167,16 +167,45 @@ class ExpedienteController extends Controller
         $extracto = $expediente->caratula->extracto;
         $fecha_sistema = $expediente->created_at->format('Y-m-d');
         $fecha_exp = $expediente->fecha;
-        $nro_cuerpos = $expediente->caratula->cuerpos()->count();
+        $nro_cuerpos = $expediente->cantidadCuerpos();
         $fojas = $expediente->fojas;
+        if ($expediente->archivos == '')
+        {
+            $posee_archivo = '';
+        }
+        else
+        {
+            $posee_archivo = "si";
+        }
         $detalle = [$expediente->nro_expediente,
                     $iniciador->nombre,
                     $extracto->descripcion,
                     $fecha_sistema,
                     $fecha_exp,
                     $nro_cuerpos,
-                    $fojas];
+                    $fojas,
+                    $posee_archivo];
         return response()->json($detalle,200);
+    }
+
+    public function descargarZip(Request $request)
+    {
+        $expediente = Expediente::findOrFail($request->expediente_id);
+        if($request->has('download')) 
+        {
+            //Define Dir Folder
+            //$public_dir = storage_path()."/app/public/archivos_expedientes/". $expediente->archivos;
+            $fileName = $request->nro_expediente;
+            $fileName = str_replace("/","-",$fileName).'.zip';
+            // Zip File Name
+            $zipFileName = 'AllDocuments.zip';
+            // Create Download Response
+            $filetopath = $public_dir;
+            if(file_exists($filetopath))
+            {
+                return response()->download($zipFileName, $fileName);
+            }
+        }
     }
 
     //TODO revisar utilidad
