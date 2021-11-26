@@ -49,7 +49,7 @@
             <v-col>
                 <div class="d-flex">
                     <div class="textHereSmall Montserrat-Bold mr-1"> Archivos adjuntos: </div>
-                    <div class="textHereSmall Montserrat-SemiBold ml-1"> hacer conexión</div>
+                    <div v-for="(file, key) in files" :key="file"> {{ key }} . {{ file.name }} </div>
                 </div>
             </v-col>
         </v-row>
@@ -65,8 +65,6 @@
             </div>
         </v-row>
 
-
-
         <v-row no-gutters justify="center" class="mt-8">
             <v-col cols="12" sm="6" md="6" lg="6" class="py-6 px-sm-2">
                 <v-btn @click="close" class="pa-5 color Montserrat-SemiBold" height="55" elevation="0" color="#FACD89" block>
@@ -81,21 +79,27 @@
 <script>
 import Titulo from "../Titulo"
 export default {
-  name: 'ModalExitoNuevoIniciador',
-  components: {Titulo},
+    name: 'ModalExitoNuevoIniciador',
+    components: {Titulo},
 
-  props: {
-    show: Boolean,
-  },
-  methods: {
-    close() {
-      this.$emit("close")
+    data: () => ({
+        files:'',
+    }),
+
+    props: {
+        show: Boolean,
+        data: Array,
     },
-  }
+
+    methods: {
+        close() {
+            this.$emit("close")
+        },
+    }
 }
 </script>
 <style>
 .round {
-  border-radius: 30px;
+    border-radius: 30px;
 }
 </style>
