@@ -39,7 +39,12 @@
                 </v-autocomplete>
                 
                 <label-input texto="A efectos de:"/>
-                <text-field v-model="pase.motivo"/>
+                <v-textarea
+                  v-model="pase.motivo"
+                  outlined
+                  name="textarea"
+                  color="amber accent-4"
+                ></v-textarea>
 
                 <v-row>
                   <v-col cols="12" lg="4">

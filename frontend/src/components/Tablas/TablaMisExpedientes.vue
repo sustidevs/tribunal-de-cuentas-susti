@@ -17,7 +17,7 @@
       </v-col>
     </v-row>
 
-    <a>
+
       <v-data-table
           :headers="headers"
           :items="data"
@@ -26,7 +26,7 @@
           disable-sort
           mobile-breakpoint="300"
           class="elevation-1 mytable"
-          @click:row="nuevoPase"
+          
           loading-text="Cargando expedientes. Por favor, espere."
           :loading="loading"
           no-data-text="No tienes Expedientes"
@@ -40,13 +40,19 @@
           </v-chip>
         </template>
 
-        <template v-slot:item.action="{ }">
+        <template v-slot:item.action1="{ }">
           <v-btn fab small color="#FACD89" depressed>
-            <v-icon> mdi-email-fast </v-icon>
+            <v-icon> mdi-eye </v-icon>
+          </v-btn>
+        </template>
+
+        <template v-slot:item.action2="{ item }">
+          <v-btn @click="nuevoPase(item)" fab small color="#FACD89" depressed>
+            <v-icon> mdi-file-move </v-icon>
           </v-btn>
         </template>
       </v-data-table>
-    </a>
+
 
   </div>
 </template>
@@ -82,8 +88,7 @@ export default {
       'getNuevoPase'
     ]),
 
-    nuevoPase: function (item, row) {
-      row.select(true);
+    nuevoPase: function (item) {
       console.log(item);
       this.getNuevoPase(item)
       this.$router.push({name: 'NuevoPase'})
