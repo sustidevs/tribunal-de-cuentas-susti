@@ -30,7 +30,7 @@ export default {
     }
   },
 
-  computed: mapGetters(['allExpedientes', 'get_finalizado']),
+  computed: mapGetters(['allExpedientes', 'get_finalizado, getIdUser']),
 
   mounted() {
     this.getExpe();
@@ -42,6 +42,7 @@ export default {
     getExpe(){
       let exp = {
         estado: 1,
+        estado_expediente_id: 1,
         bandeja: 4,
         user_id: this.$store.getters.getIdUser,
       }
