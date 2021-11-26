@@ -26,7 +26,6 @@
           disable-sort
           mobile-breakpoint="300"
           class="elevation-1 mytable"
-          
           loading-text="Cargando expedientes. Por favor, espere."
           :loading="loading"
           no-data-text="No tienes Expedientes"
