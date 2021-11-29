@@ -8,6 +8,7 @@ use App\Http\Controllers\api\HistorialController;
 use App\Http\Controllers\Api\IniciadorController;
 use App\Http\Controllers\api\SolicitudController;
 use App\Http\Controllers\api\ExpedienteController;
+use App\Http\Controllers\api\CedulaController;
 
 /*
 |--------------------------------------------------------------------------
@@ -81,3 +82,10 @@ Route::post('/show-solicitud',      [SolicitudController::Class, 'show']);
 Route::post('/update-solicitud',    [SolicitudController::Class, 'update']);
 ////////////////////////////////////////////////////////////////////////////////////////////
 Route::get('/prueba-codBarrra',[ExpedienteController::class, 'codigoBarra'] );
+
+///////SOLICITUDES//////////////////////////////////////////////////////////////////////////
+Route::get('/index-cedula',      [CedulaController::Class, 'index']);
+Route::post('/store-cedula',    [CedulaController::Class, 'store']);
+Route::post('/create-cedula',    [CedulaController::Class, 'create']);
+Route::post('/edit-cedula',    [CedulaController::Class, 'edit']);
+Route::post('/update-cedula',    [CedulaController::Class, 'update']);
