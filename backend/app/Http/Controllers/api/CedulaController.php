@@ -35,7 +35,7 @@ class CedulaController extends Controller
     {
         $cedula = Cedula::findOrFaill($request->id);
         $expediente = Expediente::listadoExpedientes($request->user_id,3,3);//Mi Expedientes
-        $edit_cedula = [$expedientes,$cedula->getDatos()];
+        $edit_cedula = [$expediente,$cedula->getDatos()];
         return response()->json($edit_cedula,200);
     }
 
