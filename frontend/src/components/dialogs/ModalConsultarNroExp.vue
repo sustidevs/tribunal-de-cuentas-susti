@@ -22,7 +22,7 @@
           <v-divider color="#393B44" class="mt-2"></v-divider>
 
           <form @submit.prevent="consultar()" >
-            <div class="Montserrat-SemiBold mt-4 py-2">
+            <div class="descripcion mt-4 py-2">
               Seleccione la opción por la que desea buscar:
             </div>
 
@@ -81,21 +81,16 @@
 
            <v-divider color="#393B44" class="mt-2"></v-divider>
 
-           <div v-if="this.get_busquedaExp.length == 0" class="Montserrat-Regular mt-4 py-2">
-             No se han encontrado resultados
-
-             <v-btn  @click="close" icon elevation="0" color="grey lighten-2">
-               <v-icon left large color="#393B44">
-                 mdi-close-thick
-               </v-icon>
-               Cerrar
-             </v-btn>
+           <div v-if="this.get_busquedaExp.length == 0">
+             <div class="descripcion mt-4 py-2">
+              No se han encontrado resultados
+            </div>
            </div>
 
 
            <div v-if="this.get_busquedaExp.length > 0">
-             <div class="Montserrat-Regular mt-4 py-2">
-               Haga click en el resultado para mas detalles
+             <div class="descripcion mt-4 py-2">
+               Haga click en el resultado para más detalles
              </div>
 
              <v-expansion-panels focusable>
@@ -112,7 +107,7 @@
                    <div class="Montserrat-Bold mt-4">Extracto:</div>
                    <div class="Montserrat-Regular">{{item.extracto }}</div>
 
-                   <div class="Montserrat-Bold mt-4">Area Actual:</div>
+                   <div class="Montserrat-Bold mt-4">Área Actual:</div>
                    <div class="Montserrat-Regular">{{item.area_actual }}</div>
                  </v-expansion-panel-content>
                </v-expansion-panel>
