@@ -116,7 +116,7 @@ class ExpedienteController extends Controller
                                     $zip = new ZipArchive;
                                     $fileName = $request->nro_expediente;
                                     $fileName = str_replace("/","-",$fileName).'.zip';
-                                    $path =storage_path()."/app/public/archivos_expedientes/".$fileName. ".zip";
+                                    $path =storage_path()."/app/public/archivos_expedientes/".$fileName;
                                     if($zip->open($path ,ZipArchive::CREATE) === true)
                                     {
                                         foreach ($request->allFiles() as $key => $value)
@@ -188,24 +188,34 @@ class ExpedienteController extends Controller
         return response()->json($detalle,200);
     }
 
-    public function descargarZip(Request $request)
+    public function descargarZip() //TODO hasta que tenga boton
     {
-        $expediente = Expediente::findOrFail($request->expediente_id);
-        if($request->has('download')) 
+        $request = new Request;
+        $request->id = 1;//verificar que cuenta con archivos
+        $request->download = true;
+        $expediente = Expediente::findOrFail($request->id);
+        if($request->download == true) 
         {
             //Define Dir Folder
-            //$public_dir = storage_path()."/app/public/archivos_expedientes/". $expediente->archivos;
-            $fileName = $request->nro_expediente;
+            $public_dir = public_path()."/storage/archivos_expedientes/". $expediente->archivos;
+            $fileName = $expediente->nro_expediente;
             $fileName = str_replace("/","-",$fileName).'.zip';
             // Zip File Name
-            $zipFileName = 'AllDocuments.zip';
-            // Create Download Response
-            $filetopath = $public_dir;
-            if(file_exists($filetopath))
+            $zipFileName = $expediente->archivos;
+            if(file_exists($public_dir))
             {
-                return response()->download($zipFileName, $fileName);
+                return response()->download($public_dir , $fileName);
+            }
+            else
+            {
+                return 'no existe archivo';
             }
         }
+        else
+        {
+            return 'error';
+        }
+        return view('zip');
     }
 
     //TODO revisar utilidad
