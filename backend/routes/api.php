@@ -40,6 +40,9 @@ Route::get('/all-expedientes',  [ExpedienteController::class, 'AllExpedientes'])
 Route::get('/zip',         [ExpedienteController::class, 'descargarZip']);//TODO ruta back 8000
 //Route::post('/zip',       [ExpedienteController::class, 'descargarZip']);
 ////////////////////////////////////////////////////////////////////////////////////
+/// NUEVO INICIADOR
+Route::get('/createTipoEntidad',      [IniciadorController::class, 'create']);
+Route::post('/storeIniciador',      [IniciadorController::class, 'store']);
 
 //BANDEJAS//////////////////////////////////////////////////////////////////////////////////
 Route::post('/ListadoExp',       [ExpedienteController::class, 'bandeja']);
