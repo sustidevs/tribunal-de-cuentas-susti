@@ -1,7 +1,7 @@
 <template>
     <div class="mb-12">
         <form @submit.prevent="storeIniciador(inicia)" >
-            <titulo texto="Nuevo Iniciador" icono="mdi-account-plus-outline" class="pb-8"/>
+            <titulo texto="Nuevo Iniciador" icono="mdi-account-plus" class="pb-8"/>
             <v-row no-gutters justify="center" class="mt-2 mb-3">
                 <v-col cols="12" sm="12" lg="6" class="pr-lg-2">
                     <label-input texto="Nombre entidad / persona"/>
@@ -28,37 +28,43 @@
 
             <v-row no-gutters justify="start" class="mt-2 mb-3">
                 <v-col cols="12" sm="12" lg="6" class="pr-lg-2">
-                    <label-input texto="Área"/>
+                    <label-input texto="Área de reparticiones"/>
                     <text-field v-model="inicia.area_reparticiones"/>
                 </v-col>
 
-            <v-col cols="12" sm="12" lg="6" class="pl-lg-2">
-                <label-input texto="Correo electrónico"/>
-                <text-field v-model="inicia.correo"/>
-            </v-col>
-        </v-row>
+                <v-col cols="12" sm="12" lg="6" class="pl-lg-2">
+                    <label-input texto="Correo electrónico"/>
+                    <text-field v-model="inicia.correo"/>
+                </v-col>
+            </v-row>
 
-        <v-row no-gutters justify="start" class="mt-2 mb-3">
-            <v-col cols="12" sm="12" lg="6" class="pr-lg-2">
-                <label-input texto="Teléfono"/>
-                <text-field tipo="number" v-model="inicia.telefono"/>
-            </v-col>
-        </v-row>
+            <v-row no-gutters justify="start" class="mt-2 mb-3">
+                <v-col cols="12" sm="12" lg="6" class="pr-lg-2">
+                    <label-input texto="Teléfono"/>
+                    <text-field tipo="number" v-model="inicia.telefono"/>
+                </v-col>
 
-      <v-row no-gutters justify="center" class="mt-8">
-        <v-col cols="12" sm="6" md="6" lg="6" class="py-6 px-sm-2">
-          <SecondaryButton link="/" texto="Volver a inicio" icono="mdi-keyboard-backspace"/>
-        </v-col>
-        <v-col cols="12" sm="6" md="6" lg="6" class="py-6 px-sm-2">
-          <v-btn type="submit" @click="abrirModalExitoNuevoIniciador()" class="pa-5 color Montserrat-SemiBold" height="55" elevation="0" color="#FACD89" block>
-            <v-icon class="px-5">
-              mdi-check-bold
-            </v-icon>
-              Confirmar
-          </v-btn>
-          <modal-exito-nuevo-iniciador :show="showModal" @close="closeModalExitoNuevoIniciador"/>
-        </v-col>
-      </v-row>
+                <v-col cols="12" sm="12" lg="6" class="pl-lg-2">
+                    <label-input texto="Dirección"/>
+                    <text-field v-model="inicia.direccion"/>
+                </v-col>
+            </v-row>
+
+            <v-row no-gutters justify="center" class="mt-8">
+                <v-col cols="12" sm="6" md="6" lg="6" class="py-6 px-sm-2">
+                    <SecondaryButton link="/" texto="Volver a inicio" icono="mdi-keyboard-backspace"/>
+                </v-col>
+                <v-col cols="12" sm="6" md="6" lg="6" class="py-6 px-sm-2">
+                    <v-btn type="submit" @click="abrirModalExitoNuevoIniciador()" class="pa-5 color Montserrat-SemiBold" height="55" elevation="0" color="#FACD89" block>
+                        <v-icon class="px-5">
+                        mdi-check-bold
+                        </v-icon>
+                        Confirmar
+                    </v-btn>
+                    <modal-exito-nuevo-iniciador :show="showModal" @close="closeModalExitoNuevoIniciador"/>
+                </v-col>
+            </v-row>
+      </form>
   </div>
 </template>
 

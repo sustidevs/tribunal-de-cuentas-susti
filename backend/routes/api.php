@@ -8,7 +8,6 @@ use App\Http\Controllers\api\HistorialController;
 use App\Http\Controllers\Api\IniciadorController;
 use App\Http\Controllers\api\SolicitudController;
 use App\Http\Controllers\api\ExpedienteController;
-use App\Http\Controllers\api\IniciadorController;
 
 /*
 |--------------------------------------------------------------------------
