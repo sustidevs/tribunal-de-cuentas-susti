@@ -86,10 +86,12 @@ class HistorialController extends Controller
         $fojas = $historial->fojas = $request->fojas;
         $data = [$area_destino,
                  $fecha,
+                 $historial->hora,
                  $fojas,
                  $user->persona->nombre. " ".$user->persona->apellido,
                  $historial->motivo,
-                $expediente->nro_expediente];
+                $expediente->nro_expediente,
+                $expediente->caratula->extracto->descripcion];
         return response()->json($data, 200);
     }
 
