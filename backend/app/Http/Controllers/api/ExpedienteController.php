@@ -6,8 +6,8 @@ use ZipArchive;
 use Carbon\Carbon;
 use App\Models\Area;
 use App\Models\User;
-use App\Models\Cuerpo;
-use App\Models\SubArea;
+use Milon\Barcode\DNS1D;
+use Milon\Barcode\DNS2D;
 use App\Models\Caratula;
 use App\Models\Extracto;
 use App\Models\Historial;
@@ -22,6 +22,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\StoreExpedienteRequest;
 use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Database\Eloquent\Relations\Relation;
+use Illuminate\Support\Facades\Storage;
 
 class ExpedienteController extends Controller
 {
@@ -39,196 +40,125 @@ class ExpedienteController extends Controller
         $iniciador = Iniciador::all();
         $prioridad = PrioridadExpediente::all();
         $fecha = Carbon::now()->format('d-m-Y');
-        //Es necesario agregar para saber el area_destino al que se va a realizar el pase.
+        //Area destino a la que se va a hacer el pase
         $areas = Area::all_areas();
-        $create_exp = [$fecha, $iniciador, $motivoAll, $motivo, $prioridad,$areas]; 
+        $create_exp = [$fecha, $iniciador, $motivoAll, $motivo, $prioridad,$areas];
         //$create_exp = [$fecha, $iniciador, $motivoAll, $motivo, $prioridad];
         return response()->json($create_exp,200);
     }
 
     public function createNroExpediente(Request $request)
     {
-        $fecha_exp = Carbon::now()->format('d-m');
+        //$fecha_exp = Carbon::now()->format('d-m');
         $año_exp = Carbon::now()->format('Y');
-        $nro_expediente = Expediente::nroExpediente($fecha_exp, $año_exp);
+        $nro_expediente = Expediente::nroExpediente($año_exp);
         return $nro_expediente;
     }
 
     public function store(StoreExpedienteRequest $request)
     {
-        $expediente = new Expediente;
-        $expediente->nro_expediente = $request->nro_expediente;
-        $expediente->fojas = $request->nro_fojas;
-        $expediente->fecha = Carbon::now()->format('Y-m-d');
-        $expediente->prioridad = $request->prioridad;
-        $expediente->tipo_expediente = $request->tipo_exp_id;
-        $expediente->estado_expediente = '2';
-        $expediente->area_actual_id = '6';
-        $expediente->area_actual_type = 'App\Models\SubArea';
-        $expediente->monto = '3';//$request->monto;     TODO confirmar si monto va en nuevo expediente o en pase.
-        //return response()->json($request,200);
-        //ARCHIVOS/////////////////////////////////////////////////
-        /*$zip = new ZipArchive;
-        $fileName =  'Documentacion '.$expediente->nro_expediente.'.zip';
-        $path = storage_path()."/app/public/archivos_formularios/" . $fileName;
-        if(!is_null($request->archivos[0]))
-        {
-            if($zip->open($path,ZipArchive::CREATE) === true)
-            {
-                foreach ($request->archivos as $key => $value)
-                {
-                    $relativeNameInZipFile = $value->getClientOriginalName();
-                    $zip->addFile($value, $relativeNameInZipFile);
-                }
-                $zip->close();
-            }
-            $expediente->archivos = $fileName;
-        }*/
-        //////////////////////////////////////////////////////////
         if ($request->validated())
         {
-            $expediente->save();
-            $extracto = new Extracto;
-            $extracto->descripcion = $request->descripcion_extracto;
-            $extracto->save();
-
-            if($request->iniciador_id != null)//TODO validar que no venga null y saca este if
+            $expediente = new Expediente;
+            $expediente->nro_expediente = $request->nro_expediente;
+            $expediente->nro_expediente_ext = $request->nro_expediente_ext;
+            $expediente->fojas = $request->nro_fojas;
+            $expediente->fecha = Carbon::now()->format('Y-m-d');
+            $expediente->prioridad_id = $request->prioridad_id;
+            $expediente->tipo_expediente = $request->tipo_exp_id;
+            $expediente->estado_expediente_id = '1';
+            $expediente->area_actual_id = '13';
+            $expediente->monto = $request->monto;
+            if($expediente->save());
             {
-                $caratula = new Caratula;
-                $caratula->expediente_id = $expediente->id;
-                $caratula->iniciador_id = $request->iniciador_id;
-                $caratula->extracto_id = $extracto->id;
-                if($caratula->save())
+                $extracto = new Extracto;
+                $extracto->descripcion = $request->descripcion_extracto;
+                if($extracto->save());
                 {
-                    do
+                    $caratula = new Caratula;
+                    $caratula->expediente_id = $expediente->id;
+                    $caratula->iniciador_id = $request->iniciador_id;
+                    $caratula->extracto_id = $extracto->id;
+                    if($caratula->save())
                     {
-                        $cuerpo = new Cuerpo;
-                        if($expediente->fojas > Cuerpo::CANTIDAD_FOJAS)
+                        $user = User::findOrFail($request->user_id);
+                        $historial = new Historial;
+                        $historial->expediente_id = $expediente->id;
+                        $historial->user_id = $user->id;
+                        $historial->area_origen_id = 13;
+                        $historial->area_destino_id = 13;
+                        $historial->fojas = $request->nro_fojas;
+                        $historial->fecha = Carbon::now()->format('Y-m-d');
+                        $historial->hora = Carbon::now()->format('h:i');
+                        $historial->motivo = "created";
+                        $historial->estado = 1;
+                        if($historial->save())
                         {
-                            $cuerpo->cantidad_fojas = Cuerpo::CANTIDAD_FOJAS;
-                            $cuerpo->caratula_id = $caratula->id;
-                            $cuerpo->estado = 1;
-                            $cuerpo->area_id = $expediente->area_actual_id;
-                            $cuerpo->area_type = $expediente->area_actual_type;
-                            $cuerpo->save();
-                            
-                                $user = User::findOrFail($request->user_id);
-                                $cuerpo_id = $cuerpo->id;
-                                $historial = new Historial;
-                                $historial->cuerpo_id = $cuerpo_id;
-                                $historial->user_id = $user->id;
-                                $historial->area_origen_id = 6;
-                                $historial->area_destino_id = 6;
-                                $historial->area_origen_type = 'App\Models\SubArea';
-                                $historial->area_destino_type = 'App\Models\SubArea';
-                                $historial->fojas = $cuerpo->cantidad_fojas;
-                                $historial->fecha = Carbon::now()->format('Y-m-d');
-                                $historial->hora = Carbon::now()->format('h:i');
-                                $historial->motivo = "created";
-                                $historial->estado = 1;
-                                //$historial->archivos = $request->archivos;
-                                $historial->save();
-                            
-                            $expediente->fojas = $expediente->fojas - Cuerpo::CANTIDAD_FOJAS;
-
-                            if ($expediente->fojas <= Cuerpo::CANTIDAD_FOJAS)
-                            {
-                                $cuerpo = new Cuerpo;
-                                $cuerpo->cantidad_fojas = $expediente->fojas;
-                                $cuerpo->caratula_id = $caratula->id;
-                                $cuerpo->estado = 1;
-                                $cuerpo->area_id = $expediente->area_actual_id;
-                                $cuerpo->area_type = $expediente->area_actual_type;
-                                $cuerpo->save();
-                                
-                                    $user = User::findOrFail($request->user_id);
-                                    $cuerpo_id = $cuerpo->id;
-                                    $historial = new Historial;
-                                    $historial->cuerpo_id = $cuerpo_id;
-                                    $historial->user_id = $user->id;
-                                    $historial->area_origen_id = 6;
-                                    $historial->area_destino_id = 6;
-                                    $historial->area_origen_type = 'App\Models\SubArea';
-                                    $historial->area_destino_type = 'App\Models\SubArea';
-                                    $historial->fojas = $cuerpo->cantidad_fojas;
-                                    $historial->fecha = Carbon::now()->format('Y-m-d');
-                                    $historial->hora = Carbon::now()->format('h:i');
-                                    $historial->motivo = "created";
-                                    $historial->estado = 1;
-                                    //$historial->archivos = $request->archivos;
-                                    $historial->save();
-                                
-                            }
-                        }
-                        else if ($expediente->fojas <= Cuerpo::CANTIDAD_FOJAS)
-                        {
-                            $cuerpo->cantidad_fojas = $expediente->fojas;
-                            $cuerpo->caratula_id = $caratula->id;
-                            $cuerpo->estado = 1;
-                            $cuerpo->area_id = $expediente->area_actual_id;
-                            $cuerpo->area_type = $expediente->area_actual_type;
-                            $cuerpo->save();
-
-                            $user = User::findOrFail($request->user_id);
-                            $cuerpo_id = $cuerpo->id;
+                            /*
+                            * Cuando Realiza el pase
+                            */
                             $historial = new Historial;
-                            $historial->cuerpo_id = $cuerpo_id;
-                            $historial->user_id = $user->id;
-                            $historial->area_origen_id = 6;
-                            $historial->area_destino_id = 6;
-                            $historial->area_origen_type = 'App\Models\SubArea';
-                            $historial->area_destino_type = 'App\Models\SubArea';
-                            $historial->fojas = $cuerpo->cantidad_fojas;
+                            $historial->expediente_id = $expediente->id;
+                            $historial->user_id = $request->input("user_id");
+                            $historial->area_origen_id = 13 ;
+                            $historial->area_destino_id = $request->area_id;
+                            $historial->fojas = $request->nro_fojas;
                             $historial->fecha = Carbon::now()->format('Y-m-d');
                             $historial->hora = Carbon::now()->format('h:i');
-                            $historial->motivo = "created";
-                            $historial->estado = 1;
-                            //$historial->archivos = $request->archivos;
-                            $historial->save();
-                            
+                            $historial->motivo = "pase";
+                            $historial->estado = "1";//Enviado
+                            if($historial->save())
+                            {
+                                $estado_actual = Area::findOrFail($request->area_id);
+                                //ARCHIVOS/////////////////////////////////////////////////////////////////////////////
+                                if(!is_null($request->allFiles()))
+                                {
+                                    $zip = new ZipArchive;
+                                    $fileName = $request->nro_expediente;
+                                    $fileName = str_replace("/","-",$fileName).'.zip';
+                                    $path =storage_path()."/app/public/archivos_expedientes/".$fileName. ".zip";
+                                    if($zip->open($path ,ZipArchive::CREATE) === true)
+                                    {
+                                        foreach ($request->allFiles() as $key => $value)
+                                        {
+                                            $relativeNameInZipFile = $value->getClientOriginalName();
+                                            $zip->addFile($value, $relativeNameInZipFile);
+                                        }
+                                        $zip->close();
+                                    }
+                                    $expediente->archivos = $fileName;
+                                    $expediente->save();
+                                }
+                                ///////////////////////////////////////////////////////////////////////////////////////
+                                $cod = new DNS1D;
+                                //(2 = separacion barras, 80 = ancho de la barra) 
+                                $codigoBarra = $cod->getBarcodeHTML($expediente->nro_expediente, 'C39',2,80,'black', true);
+                                $datos = [$expediente->fecha,$caratula->iniciador->nombre,$extracto->descripcion,$estado_actual,$path, $expediente->nro_expediente,$codigoBarra];
+                                return response()->json($datos,200);
+                            }
                         }
                     }
-                    while ( ($expediente->fojas > Cuerpo::CANTIDAD_FOJAS) );
                 }
-                /* Realiza el pase de los cuerpos
-                * Recorro todos los cuerpos del exp. creados y los muevo al area destino incidado  
-                */ 
-                foreach ($expediente->caratula->cuerpos as $cuerpo) {
-                    $cuerpo->estado = "1";//Enviado (estado actual del cuerpo)
-                    $cuerpo->update();//TODO ver si es necesario actualizar el cuerpo, (si el exp es nuevo el estado ya deberia estar actualizado)
-                    $historial = new Historial;
-                    $historial->cuerpo_id = $cuerpo->id;
-                    $historial->user_id = $request->user_id;
-                    $historial->area_origen_id = $user->area_id;
-                    $historial->area_origen_type = $user->area_type;
-                    
-                    if ($request->tipo_area == "Area") 
-                    {
-                        $area = Area::findOrFail($request->area_id);
-                        $area_type = Area::class;
-                    } else 
-                    {
-                        $area = SubArea::findOrFail($request->area_id);
-                        $area_type = SubArea::class;
-                    }
-                    $historial->area_destino_id = $area->id;//TODO revisar como viene del front el dato (Areas::all_datos)
-                    $historial->area_destino_type = $area_type;
-
-                    $historial->fojas = $cuerpo->cantidad_fojas;
-                    $historial->fecha = Carbon::now()->format('Y-m-d');
-                    $historial->hora = Carbon::now()->format('h:i');
-                    $historial->motivo = "";
-                    $historial->estado = "1";//Enviado
-                    $historial->save();
-                }
-                $estado_actual = $area;
-                $datos = [$expediente->fecha,$caratula->iniciador->nombre,$extracto->descripcion,$estado_actual];
-                return response()->json($datos,200);
             }
-           
         }
-        return response()->json('Error',200);
+        return response()->json('Error',400);
     }
+    /*Ejemplo para el postman
+    {
+        "nro_expediente" : "02221-2510-123122023/2021",
+        "nro_fojas" : "250",
+        "prioridad" : "1",
+        "fecha" : "2021-10-25 21:21:57",
+        "tipo_exp_id" : "1",
+        "area_actual_id" : "6",
+        "monto" : "100",
+        "user_id" : "1",
+        "area_id" : "1",
+        "iniciador_id": "1",
+        "descripcion_extracto": "Extracto"
+    }
+    */
+
 
     public function show(Request $request)
     {
@@ -249,6 +179,7 @@ class ExpedienteController extends Controller
         return response()->json($detalle,200);
     }
 
+    //TODO revisar utilidad
     public function indexPorAreas(Request $request)
     {
         $expedientes = Expediente::where('area_actual_id',$request->area_actual_id)->where('area_actual_type',$request->area_actual_type)->get();
@@ -259,19 +190,7 @@ class ExpedienteController extends Controller
 
     public function update()//$request)
     {
-        $request = new Request;
-        $request->id_cuerpo = 50;
-        $request->cantidad_fojas = Cuerpo::CANTIDAD_FOJAS;
-        ///////////////////////////////////////////////////
-        $cuerpo = Cuerpo::find($request->id_cuerpo);
-        $cuerpo->cantidad_fojas = $request->cantidad_fojas;
-        //dd($cuerpo);
-        $caratula = $cuerpo->caratula()->first();
-        //dd($caratula);
-        //$expediente = $caratula->expediente()->get();
-        $expediente = Expediente::find($caratula->expediente_id)->first();
-        dd($expediente);
-
+        //
     }
 
     public function bandeja(Request $request)//entrada,area,mis expedientes,enviado,recuperados
@@ -285,22 +204,20 @@ class ExpedienteController extends Controller
 
     public function contadorBandejaEntrada(Request $request)
     {
-        $historiales = Historial::All();
         $user_area = $request->area_id;
-        $contador = $historiales->where('estado', 1)
-                                ->where('area_destino_id', $user_area)->count();
+        $contador = Expediente::listadoExpedientes($request->user_id,1,1)->count();
         return response()->json($contador, 200);
     }
 
     /*
-    * Busca los expedientes por: 1-iniciador, 2-nro_cheque, 3-nro_expediente
+    * Busca los expedientes por: 1-nro_expediente, 2-cuit iniciador, 3-nro_cheque, 4-iniciador, 5-nro_expediente_ext, 6-norma legal
     */
     public function buscarExpediente(Request $request)
     {
-        //$buscar_por = $request->buscar_por;//1-iniciador, 2-nro_cheque, 3-nro_expediente
+        $buscar_por = $request->buscar_por;
         $valor = $request->valor;
-        $listado_expedientes = Expediente::buscarPor($valor);
-        return response()->json($listado_expedientes,200);
+        $listado_expedientes = Expediente::buscarPor($valor, $buscar_por);
+        return response()->json($listado_expedientes, 200);
     }
 
     /*
@@ -314,6 +231,68 @@ class ExpedienteController extends Controller
             $listado_expedientes->push($expediente->datosExpediente());
         }
         return response()->json($listado_expedientes,200);
+    }
+
+    /*
+    * Retorna todos los Expedientes
+    */
+    public function codigoBarra()
+    {
+
+       // $expediente = Expediente::find(1);
+       $cod = new DNS1D;
+       $cod2 = new DNS2D;
+       //echo $cod2->getBarcodeHTML('4445645jdsfjsak656', 'QRCODE');
+       //echo $cod2->getBarcodeHTML('4445645656', 'PDF417');
+
+       //echo $cod->getBarcodeHTML('4445645656', 'PHARMA2T',3,33,'green', true);
+       
+       echo "<br>";
+       echo "<br>";
+       echo "<br>";
+       echo "<br>";
+       echo "<br>";
+       $var = $cod->getBarcodeHTML("45456123133556", 'C39',2,80,'black', true);
+        return response()->json($var,200);
+       //return $var;
+        //echo $cod->getBarcodeHTML('4445645656', 'C39+');
+        /*echo $cod->getBarcodeHTML('4445645656', 'C39E');
+        echo $cod->getBarcodeHTML('4445645656', 'C39E+');
+        echo $cod->getBarcodeHTML('4445645656', 'C93');
+        echo $cod->getBarcodeHTML('4445645656', 'S25');
+        echo $cod->getBarcodeHTML('4445645656', 'S25+');
+        echo $cod->getBarcodeHTML('4445645656', 'I25');
+        echo $cod->getBarcodeHTML('4445645656', 'I25+');
+        echo $cod->getBarcodeHTML('4445645656', 'C128');
+        echo $cod->getBarcodeHTML('4445645656', 'C128A');
+        echo $cod->getBarcodeHTML('4445645656', 'C128B');
+        echo $cod->getBarcodeHTML('4445645656', 'C128C');
+        echo $cod->getBarcodeHTML('44455656', 'EAN2');
+        echo $cod->getBarcodeHTML('4445656', 'EAN5');
+        echo $cod->getBarcodeHTML('4445', 'EAN8');
+        echo $cod->getBarcodeHTML('4445', 'EAN13');
+        echo $cod->getBarcodeHTML('4445645656', 'UPCA');
+        echo $cod->getBarcodeHTML('4445645656', 'UPCE');
+        echo $cod->getBarcodeHTML('4445645656', 'MSI');
+        echo $cod->getBarcodeHTML('4445645656', 'MSI+');
+        echo $cod->getBarcodeHTML('4445645656', 'POSTNET');
+        echo $cod->getBarcodeHTML('4445645656', 'PLANET');
+        echo $cod->getBarcodeHTML('4445645656', 'RMS4CC');
+        echo $cod->getBarcodeHTML('4445645656', 'KIX');
+        echo $cod->getBarcodeHTML('4445645656', 'IMB');
+        echo $cod->getBarcodeHTML('4445645656', 'CODABAR');
+        echo $cod->getBarcodeHTML('4445645656', 'CODE11');
+        echo $cod->getBarcodeHTML('4445645656', 'PHARMA');
+        echo $cod->getBarcodeHTML('4445645656', 'PHARMA2T');
+       //echo $cod2->getBarcodePNGPath('4445645656', 'PDF417');
+       //echo $cod2->getBarcodeSVG('4445645656', 'DATAMATRIX');*/
+
+        //echo $cod->getBarcodeSVG('4445645656', 'PHARMA2T');
+       //echo $cod->getBarcodeHTML('4445645656', 'PHARMA2T');
+        /*echo '<img src="data:image/png,' . $cod->getBarcodePNG('4', 'C39+') . '" alt="barcode"   />';
+        echo $cod->getBarcodePNGPath('4445645656', 'PHARMA2T');
+        echo '<img src="data:image/png;base64,' . $cod->getBarcodePNG('4', 'C39+') . '" alt="barcode"   />';*/
+       
     }
 
 }

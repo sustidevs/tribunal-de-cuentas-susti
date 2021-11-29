@@ -25,10 +25,11 @@ class StoreExpedienteRequest extends FormRequest
     {
         return [
             'nro_fojas' => 'required|max:1000|integer',
-            'prioridad' => 'required',
+            'prioridad_id' => 'required',
             //'monto'     => 'required|integer',
             'descripcion_extracto' => 'required',
-            'iniciador_id' => 'required'
+            'iniciador_id' => 'required',
+            'archivos' => 'mimes:docx, txt, pdf, jpg, jpeg, xlsx, xls|file|size:25600'
         ];
     }
 
@@ -38,11 +39,13 @@ class StoreExpedienteRequest extends FormRequest
             'nro_fojas.required'    => 'Ingrese cantidad de fojas',
             'nro_fojas.max'         => 'Número máximo excedido',
             'nro_fojas.integer'     => 'Solo puede ingresar números',
-            'prioridad.required'    => 'Seleccione prioridad del expediente',
+            'prioridad_id.required'    => 'Seleccione prioridad del expediente',
             // 'monto.required'        => 'Ingrese un monto',
             // 'monto.integer'         => 'Solo puede ingresar números',
             'descripcion_extracto.required' => 'Descripción del extracto requerida',
-            'iniciador_id.required' => 'Seleccione un iniciador'
+            'iniciador_id.required' => 'Seleccione un iniciador',
+            'archivos.mimes'        => 'Seleccione un archivo con la extensión correcta.',
+            'archivos.size'         => 'El archivo es demasiado pesado.'
         ];
     }
 }

@@ -1,6 +1,7 @@
 <template>
   <div>
     <titulo texto="Expedientes Pendientes" icono="mdi-bell"/>
+    <div class="descripcion text-justify py-4">Si desea <strong>aceptar</strong> un expediente, haga clic en el botón de la tabla.</div>
     <alert-sucess texto="El expediente ha sido recibido con éxito" :condicion="this.aceptado"/>
     <tabla-pendientes class="mt-2" :items="allBandejaEntrada" :loading="get_finalizado"/>
     </div>

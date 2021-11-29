@@ -26,11 +26,11 @@ class ExpedienteFactory extends Factory
             'nro_expediente' => $this->faker->unique()->numberBetween(10000000, 99999999),
             'fojas' => $this->faker->numberBetween(10, 1000),
             'fecha' => $this->faker->date(),
-            'area_actual_id' =>  $this->faker->numberBetween(1, 37),
-            'area_actual_type' => $this->faker->randomElement(['App\Models\Area','App\Models\SubArea']),
+            'area_actual_id' =>  $this->faker->numberBetween(1, 20),
+            //'area_actual_type' => $this->faker->randomElement(['App\Models\Area','App\Models\SubArea']),
             'monto' => $this->faker->numberBetween(1000, 9999),
-            'prioridad' => $this->faker->numberBetween(1, 2),
-            'estado_expediente' => $this->faker->numberBetween(1, 2),
+            'prioridad_id' => $this->faker->numberBetween(1, 2),
+            'estado_expediente_id' => $this->faker->numberBetween(1, 2),
             'tipo_expediente' => $this->faker->numberBetween(1, 5) 
         ];
     }

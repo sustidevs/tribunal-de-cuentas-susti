@@ -4,11 +4,12 @@ namespace Database\Seeders;
 
 use App\Models\TipoExpediente;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class TipoExpedienteSeeder extends Seeder
 {
     
-    private $arrayTipoExpedientes = array(
+    private $arrayTipoExpedientesNro = array(
         array('descripcion' => 'FONDO PERMANENTE','numero' => '1000'),
         array('descripcion' => 'CANCELACIÓN','numero' => '2000'),
         array('descripcion' => 'SUBSIDIO','numero' => '3000'),
@@ -34,12 +35,39 @@ class TipoExpedienteSeeder extends Seeder
         array('descripcion' => 'CEDULAS DE REGISTRACIONES','numero' => '23000'),
     );
 
+    private $arrayTipoExpedientes = array(
+        array('descripcion' => 'FONDO PERMANENTE'),
+        array('descripcion' => 'CANCELACIÓN'),
+        array('descripcion' => 'SUBSIDIO'),
+        array('descripcion' => 'APORTE NO REINTEGRABLE'),
+        array('descripcion' => 'BALANCES'),
+        array('descripcion' => 'MEMORIAS'),
+        array('descripcion' => 'ACORDADA Nº 32/2001 ESPONTÁNEA'),
+        array('descripcion' => 'ACORDADA Nº 17/2003'),
+        array('descripcion' => 'ACORDADA Nº 08/2005'),
+        array('descripcion' => 'ACORDADA Nº 12/2005'),
+        array('descripcion' => 'NOTAS'),
+        array('descripcion' => 'CUENTA DE INVERSION'),
+        array('descripcion' => 'ACORDADA Nº 222/2011'),
+        array('descripcion' => 'ARANCELAMIENTO'),
+        array('descripcion' => 'ACORDADA Nº 229/2011'),
+        array('descripcion' => 'FONDO FEDERAL SOLIDARIO'),
+        array('descripcion' => 'REQUERIMIENTO'),
+        array('descripcion' => 'OFICIO'),
+        array('descripcion' => 'FO.E.SE'),
+        array('descripcion' => 'ACORDADA Nº 404/2016'),
+        array('descripcion' => 'CÉDULA ACORDADA Nº 32/2001'),
+        array('descripcion' => 'SUELDOS'),
+        array('descripcion' => 'CÉDULAS DE REGISTRACIONES'),
+        array('descripcion' => 'CÉDULAS CAMBIO DE RESPONSABLE'),
+    );
+
     public function run()
     {
         foreach($this->arrayTipoExpedientes as $tipo){
             $t = new TipoExpediente();
             $t->descripcion = $tipo['descripcion'];
-            $t->nro_tipo_exp = $tipo['numero'];
+            //$t->nro_tipo_exp = $tipo['numero'];
             $t->save();
         }
     }

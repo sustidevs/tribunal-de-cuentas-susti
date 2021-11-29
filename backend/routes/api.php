@@ -4,7 +4,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\api\UserController;
 use App\Http\Controllers\api\LoginController;
-use App\Http\Controllers\Api\HistorialController;
+use App\Http\Controllers\api\HistorialController;
+use App\Http\Controllers\Api\IniciadorController;
+use App\Http\Controllers\api\SolicitudController;
 use App\Http\Controllers\api\ExpedienteController;
 use App\Http\Controllers\api\IniciadorController;
 
@@ -41,15 +43,16 @@ Route::get('/all-expedientes',  [ExpedienteController::class, 'AllExpedientes'])
 Route::get('/createTipoEntidad',      [IniciadorController::class, 'create']);
 Route::post('/storeIniciador',      [IniciadorController::class, 'store']);
 
-////////////////////////////////////////////////////////////////////////////////////
+//BANDEJAS//////////////////////////////////////////////////////////////////////////////////
 Route::post('/ListadoExp',       [ExpedienteController::class, 'bandeja']);
 Route::post('/contarExp',         [ExpedienteController::class, 'contadorBandejaEntrada']);
 ///////////////////////////////////////////////////////////////////////////////////
 
 Route::post('/historial',                [HistorialController::class, 'create']);
 Route::post('/historial-expediente',     [HistorialController::class, 'store']);
-Route::post('/update-estado-cuerpo',     [HistorialController::class, 'updateEstado']);
+Route::post('/update-estado',     [HistorialController::class, 'updateEstado']);
 Route::post('/historialExp',     [HistorialController::class, 'historialExpediente']);
+Route::post('/mis-enviados',     [HistorialController::class, 'misEnviados']);
 
 Route::get('/indexUser', [UserController::class, 'index']);
 Route::get('/createUser', [UserController::class, 'create']);
@@ -61,3 +64,19 @@ Route::get('/restoreUser', [UserController::class, 'restore']);
 
 Route::get('/login',[LoginController::Class, 'showLoginForm'] );
 Route::post('/login',[LoginController::Class, 'authenticate'] );
+
+///////INICIADORES//////////////////////////////////////////////////////////////////////////
+Route::get('/index-iniciador',  [IniciadorController::Class, 'index']);
+Route::post('/store-iniciador', [IniciadorController::Class, 'store']);
+Route::post('/show-iniciador',  [IniciadorController::Class, 'show']);
+Route::post('/edit-iniciador',  [IniciadorController::Class, 'edit']);
+Route::post('/update-iniciador',[IniciadorController::Class, 'update']);
+////////////////////////////////////////////////////////////////////////////////////////////
+
+///////SOLICITUDES//////////////////////////////////////////////////////////////////////////
+Route::get('/index-solicitud',      [SolicitudController::Class, 'index']);
+Route::post('/store-solicitud',     [SolicitudController::Class, 'store']);
+Route::post('/show-solicitud',      [SolicitudController::Class, 'show']);
+Route::post('/update-solicitud',    [SolicitudController::Class, 'update']);
+////////////////////////////////////////////////////////////////////////////////////////////
+Route::get('/prueba-codBarrra',[ExpedienteController::class, 'codigoBarra'] );

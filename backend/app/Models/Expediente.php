@@ -2,7 +2,10 @@
 
 namespace App\Models;
 
+use App\Models\Caratula;
+use App\Models\Historial;
 use App\Models\Iniciador;
+use App\Models\EstadoExpediente;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -13,7 +16,7 @@ class Expediente extends Model
 
     public function caratula()
     {
-        return $this->hasOne('App\Models\Caratula', 'id');
+        return $this->hasOne(Caratula::class);
     }
 
     public function tipoExpediente()
@@ -23,12 +26,12 @@ class Expediente extends Model
 
     public function estadoExpediente()
     {
-        return $this->hasOne('App\Models\EstadoExpediente');
+        return $this->hasOne(EstadoExpediente::class);
     }
 
     public function prioridadExpediente()
     {
-        return $this->hasOne('App\Models\PrioridadExpediente','id','prioridad');
+        return $this->hasOne('App\Models\PrioridadExpediente','id','prioridad_id');
         //$this->hasOne(Phone::class, 'foreign_key', 'local_key');
     }
 
@@ -39,9 +42,18 @@ class Expediente extends Model
 
     public function area()
     {
-        //return $this->morphTo();
-        return $this->morphTo(__FUNCTION__, 'area_actual_type', 'area_actual_id');
-        //return $this->hasOne('App\Models\Area');
+        //return $this->morphTo(__FUNCTION__, 'area_actual_type', 'area_actual_id');
+        return $this->hasOne('App\Models\Area','id','area_actual_id');
+    }
+
+    public function historiales()
+    {
+        return $this->hasMany(Historial::class);
+    }
+
+    public function cantidadCuerpos()
+    {
+        return ceil($this->fojas/200);
     }
 
     /*
@@ -49,16 +61,14 @@ class Expediente extends Model
     */
     public function getDatos()
     {
-        $array = Collect(["id" => $this->id,
+        $array = Collect(["expediente_id" => $this->id,
                           //"nro_expediente" => $this->nroExpediente($this->caratula->iniciador->prefijo, date("d-m",strtotime($this->fecha)),date("Y",strtotime($this->fecha))),
                           "nro_expediente" => $this->nro_expediente,
                           "fecha" =>  date("d-m-Y", strtotime($this->fecha)),
                           "iniciador" => $this->caratula->iniciador->nombre,
                           "cuit" => $this->caratula->iniciador->cuit,
                           "extracto" => $this->caratula->extracto->descripcion,
-                          "area_actual" => $this->area->descripcion,
-                          "area_actual_type" => $this->area_actual_type]);
-
+                          "area_actual" => $this->area->descripcion]);
         return $array;
     }
 
@@ -70,228 +80,117 @@ class Expediente extends Model
                           'extracto'=>$this->caratula->extracto->descripcion,
                           'fecha_creacion'=>$this->created_at->format('d-m-Y'),
                           'tramite'=>$this->tipoExpediente->descripcion,
-                          'cuerpos'=>$this->caratula->cuerpos()->count('id'),
+                          'cuerpos'=>$this->cantidadCuerpos(),
                           'caratula'=>$this->caratula->id,
-                          'fojas'=>$this->caratula->expediente->fojas,
+                          'fojas'=>$this->fojas,
                           'area_actual' => $this->area->descripcion,
-                          'area_actual_type' => $this->area_actual_type]);
+                          'area_origen'=>$this->historiales->last()->areaOrigen->descripcion
+            ]);
 
         return $array;
     }
-    
+
     public static function index()
     {
-        $cuerpos = Cuerpo::all();
-        $array_cuerpo = collect([]);
-        foreach ($cuerpos as $cuerpo)
+        $expedientes = Expediente::all();
+        $array_expediente = collect([]);
+        foreach ($expedientes as $exp)
         {
-            $array_cuerpo->push([
-                                'id'=>$cuerpo->caratula->expediente->id,
-                                'prioridad'=>$cuerpo->caratula->expediente->prioridadExpediente->descripcion,
-                                'nro_expediente'=>$cuerpo->caratula->expediente->nro_expediente,
-                                'extracto'=>$cuerpo->caratula->extracto->descripcion,
-                                'fecha_creacion'=>$cuerpo->caratula->expediente->created_at->format('d-m-Y'),
-                                'tramite'=>$cuerpo->caratula->expediente->tipoExpediente->descripcion,
-                                'cuerpos'=>$cuerpo->caratula->cuerpos()->count('id'),
-                                'caratula'=>$cuerpo->caratula_id,
-                                'fojas'=>$cuerpo->caratula->expediente->fojas,
+            $array_expediente->push([
+                                'id'=>$exp->id,
+                                'prioridad'=>$exp->prioridadExpediente->descripcion,
+                                'nro_expediente'=>$exp->nro_expediente,
+                                'extracto'=>$exp->caratula->extracto->descripcion,
+                                'fecha_creacion'=>$exp->created_at->format('d-m-Y'),
+                                'tramite'=>$exp->tipoExpediente->descripcion,
+                                'cuerpos'=>$exp->cantidadCuerpos(),
+                                'caratula'=>$exp->caratula->id,
+                                'fojas'=>$exp->fojas,
                             ]);
         }
-        return $array_cuerpo;
+        return $array_expediente;
     }
 
-    public static function nroExpediente($fecha_exp, $año_exp)
+    public static function nroExpediente($año_exp)
     {
-        $nro_aleatorio = mt_rand(1000, 9999);
-        $nro_exp = Iniciador::NRO_INICIADOR . '-' . $fecha_exp . '-' . $nro_aleatorio . '/' . $año_exp;
+        $expedientes =  DB::table('expedientes')
+                        ->whereYear('fecha', $año_exp)
+                        ->get();
+        $cont = $expedientes->count() + 1;
+        $nro_aleatorio = str_pad($cont,5,"0",STR_PAD_LEFT);
+        $nro_exp = Iniciador::NRO_INICIADOR . '-'. $nro_aleatorio . '/' . $año_exp;
         return $nro_exp;
-    }
-
-    public static function filtrarExpedientes($user_id,$estado,$bandeja,$array_cuerpo)
-    {
-        
-        //return $user;
-        //$cuerpos = Cuerpo::all();
-        //$array_cuerpo = collect([]);
-
-        // foreach ($cuerpos as $cuerpo)
-        // {
-        //     $array_cuerpo->push([
-        //                         'prioridad'=>$cuerpo->caratula->expediente->prioridadExpediente->descripcion,
-        //                         'nro_expediente'=>$cuerpo->caratula->expediente->nro_expediente,
-        //                         'extracto'=>$cuerpo->caratula->extracto->descripcion,
-        //                         'fecha_creacion'=>$cuerpo->caratula->expediente->created_at->format('d-m-Y'),
-        //                         'tramite'=>$cuerpo->caratula->expediente->tipoExpediente->descripcion,
-        //                         'cuerpos'=>$cuerpo->caratula->cuerpos()->count('id'),
-        //                         'fojas'=>$cuerpo->caratula->expediente->fojas,
-        //                         'cuerpo_id'=>$cuerpo->id,
-        //                         "area_destino"=>$cuerpo->estadoActual()->area_destino_id,
-        //                         "area_destino_type"=>$cuerpo->estadoActual()->area_destino_type,
-        //                         "estado"=>$cuerpo->estadoActual()->estado,
-        //                     ]);
-
-        // }
-
-        
-        $user = User::findOrFail($user_id);
-        //BANDEJA DE ENTRADA
-        if ($bandeja == 1)
-        {
-            $array = Collect([]);
-            foreach ($array_cuerpo as $cuerpo)
-            {
-                if ($cuerpo->estadoActual() != null)
-                {
-                    $array->push([
-                        'prioridad'=>$cuerpo->caratula->expediente->prioridadExpediente->descripcion,
-                        'nro_expediente'=>$cuerpo->caratula->expediente->nro_expediente,
-                        //'extracto'=>$cuerpo->caratula->extracto->descripcion,
-                        //'fecha_creacion'=>$cuerpo->caratula->expediente->created_at->format('d-m-Y'),
-                        //'tramite'=>$cuerpo->caratula->expediente->tipoExpediente->descripcion,
-                        //'cuerpos'=>$cuerpo->caratula->cuerpos()->count('id'),
-                        'fojas'=>$cuerpo->cantidad_fojas,
-                        'id_cuerpo'=>$cuerpo->id,
-                        "area_destino"=>$cuerpo->estadoActual()->area_destino_id,
-                        "area_destino_type"=>$cuerpo->estadoActual()->area_destino_type,
-                        "estado"=>$cuerpo->estadoActual()->estado,
-                        'caratula'=>$cuerpo->caratula_id,
-                    ]);
-            }
-
-            }
-            $array = $array->where('area_destino',$user->area_id)
-                           ->where('area_destino_type',$user->area_type)
-                           ->where('estado',$estado);
-            return $array;
-        }
-        //BANDEJA DEL AREA
-        else if($bandeja == 2)
-        {
-            $array = Collect([]);
-            foreach ($array_cuerpo as $cuerpo)
-            {
-
-                if($cuerpo->estadoActual() != null)
-                {
-                    $array->push([
-                        'prioridad'=>$cuerpo->caratula->expediente->prioridadExpediente->descripcion,
-                        //'nro_expediente'=>$cuerpo->caratula->expediente->nro_expediente,
-                        //'extracto'=>$cuerpo->caratula->extracto->descripcion,
-                        //'fecha_creacion'=>$cuerpo->caratula->expediente->created_at->format('d-m-Y'),
-                        //'tramite'=>$cuerpo->caratula->expediente->tipoExpediente->descripcion,
-                        //'cuerpos'=>$cuerpo->caratula->cuerpos()->count('id'),
-                        'fojas'=>$cuerpo->cantidad_fojas,
-                        'id'=>$cuerpo->id,
-                        "area_id"=>$cuerpo->area_id,
-                        "area_type"=>$cuerpo->area_type,
-                        "estado"=>$cuerpo->estado,
-                    ]);
-                }
-                
-            }
-
-            $array = $array->where('area_id',$user->area_id)
-                                         ->where('area_type',$user->area_type)
-                                         ->where('estado',$estado);
-            return $array;
-        }
-        //MI EXPEDIENTE
-        else if($bandeja == 3)
-        {
-            $array = Collect([]);
-            foreach ($array_cuerpo as $cuerpo)
-            {
-
-                if($cuerpo->estadoActual() != null)
-                {
-                    $array->push([
-                        'prioridad'=>$cuerpo->caratula->expediente->prioridadExpediente->descripcion,
-                        //'nro_expediente'=>$cuerpo->caratula->expediente->nro_expediente,
-                        //'extracto'=>$cuerpo->caratula->extracto->descripcion,
-                        //'fecha_creacion'=>$cuerpo->caratula->expediente->created_at->format('d-m-Y'),
-                        //'tramite'=>$cuerpo->caratula->expediente->tipoExpediente->descripcion,
-                        //'cuerpos'=>$cuerpo->caratula->cuerpos()->count('id'),
-                        'fojas'=>$cuerpo->cantidad_fojas,
-                        'id'=>$cuerpo->id,
-                        "area_id"=>$cuerpo->area_id,
-                        "area_type"=>$cuerpo->area_type,
-                        "estado"=>$cuerpo->estado,
-                        "user_id"=>$cuerpo->estadoActual()->user_id,
-                    ]);
-                }
-                
-            }
-
-            $array = $array->where('area_id',$user->area_id)
-                                         ->where('area_type',$user->area_type)
-                                         ->where('estado',$estado)
-                                         ->where('user_id',$user->id);
-            return $array;
-        }
-        //Enviados
-        else if($bandeja == 4)
-        {
-            $array = Collect([]);
-            foreach ($array_cuerpo as $cuerpo)
-            {
-                if ($cuerpo->estadoActual() != null)
-                {
-                    $array->push([
-                        'prioridad'=>$cuerpo->caratula->expediente->prioridadExpediente->descripcion,
-                        'nro_expediente'=>$cuerpo->caratula->expediente->nro_expediente,
-                        //'extracto'=>$cuerpo->caratula->extracto->descripcion,
-                        //'fecha_creacion'=>$cuerpo->caratula->expediente->created_at->format('d-m-Y'),
-                        //'tramite'=>$cuerpo->caratula->expediente->tipoExpediente->descripcion,
-                        //'cuerpos'=>$cuerpo->caratula->cuerpos()->count('id'),
-                        'fojas'=>$cuerpo->cantidad_fojas,
-                        'id_cuerpo'=>$cuerpo->id,
-                        "area_origen"=>$cuerpo->estadoActual()->area_origen_id,
-                        "area_origen_type"=>$cuerpo->estadoActual()->area_origen_type,
-                        "estado"=>$cuerpo->estadoActual()->estado,
-                    ]);
-            }
-
-            }
-            $array = $array->where('area_origen',$user->area_id)
-                           ->where('area_origen_type',$user->area_type)
-                           ->where('estado',$estado);
-            return $array;
-        }
-
-        return "error";
     }
 
     public static function listadoExpedientes($user_id,$estado,$bandeja)
     {
         $Expedientes = Expediente::all();
+        $user = User::findOrFail($user_id);
         $array_expediente = collect([]);
+
+
         foreach ($Expedientes as $exp)
         {
-            $cuerpos_bandeja = Expediente::filtrarExpedientes($user_id,$estado,$bandeja,$exp->caratula->cuerpos);
-            //return $cuerpos_bandeja->count();
-            if ($cuerpos_bandeja->count() > 0)
+            switch ($bandeja)
             {
-                $array_expediente->push([
-                    'id'=>$exp->id,
-                    'prioridad'=>$exp->prioridadExpediente->descripcion,
-                    'nro_expediente'=>$exp->nro_expediente,
-                    'extracto'=>$exp->caratula->extracto->descripcion,
-                    'fecha_creacion'=>$exp->caratula->expediente->created_at->format('d-m-Y'),
-                    'tramite'=>$exp->tipoExpediente->descripcion,
-                    'cant_cuerpos'=>$cuerpos_bandeja->count(),
-                    'fojas'=>$cuerpos_bandeja->sum('fojas'),
-                    'iniciador'=>$exp->caratula->iniciador->nombre,
-                    'cuit_iniciador'=>$exp->caratula->iniciador->cuit,
-                    'cuerpos'=>$cuerpos_bandeja,
-                    //'contador'=>$contador,
-                    //'fojas'=>$cuerpos_bandeja->sum(),
-                    //'cuerpo_id'=>$cuerpo->id,
-                    //"area_destino"=>$cuerpo->estadoActual()->area_destino_id,
-                    //"area_destino_type"=>$cuerpo->estadoActual()->area_destino_type,
-                    //"estado"=>$cuerpo->estadoActual()->estado,
-                ]);
+                case "1":
+                case "4":     #BANDEJA DE ENTRADA O #ENVIADOS
+                    $area_destino_id = $exp->historiales->last()->areaDestino->id;
+                    $area_destino = $exp->historiales->last()->areaDestino->descripcion;
+                    $estado_expediente = $exp->historiales->last()->estado;
+                    break;
+                case "3": #MI EXPEDIENTE
+                    $area_destino_id = $exp->area_actual_id;
+                    $area_destino = $exp->area->descripcion;
+                    $estado_expediente = $exp->estado_expediente_id;
+                    break;
             }
-            
+
+            $array_expediente->push([
+                'expediente_id'=>$exp->id,
+                'prioridad'=>$exp->prioridadExpediente->descripcion,
+                'nro_expediente'=>$exp->nro_expediente,
+                'extracto'=>$exp->caratula->extracto->descripcion,
+                'fecha_creacion'=>$exp->created_at->format('d-m-Y'),
+                'tramite'=>$exp->tipoExpediente->descripcion,
+                'cant_cuerpos'=>$exp->cantidadCuerpos(),
+                'fojas'=>$exp->fojas,
+                'iniciador'=>$exp->caratula->iniciador->nombre,
+                'cuit_iniciador'=>$exp->caratula->iniciador->cuit,
+                'area_origen_id'=>$exp->historiales->last()->areaOrigen->id,
+                'area_origen'=>$exp->historiales->last()->areaOrigen->descripcion,
+                'area_destino_id'=>$area_destino_id,
+                'area_destino'=>$area_destino,
+                //'area_actual_id'=>$exp->area_actual_id,
+                //'area_actual'=>$exp->area->descripcion,
+                'estado'=>$estado_expediente,
+                'user_id'=>$exp->historiales->last()->user_id
+            ]);
+
+        }
+        /*
+        * Filtro los Exp. por bandeja
+        */
+
+        #BANDEJA DE ENTRADA
+        if ($bandeja == 1) {
+            return $array_expediente->where('area_destino_id',$user->area_id)
+                                    ->where('estado',$estado)->values();
+        }
+
+
+        #MIS EXPEDIENTE
+        if ($bandeja == 3) {
+            return $array_expediente->where('area_destino_id',$user->area_id)
+                                    ->where('user_id',$user->id)
+                                    ->where('estado',$estado)->values();
+        }
+
+        #ENVIADOS
+        if ($bandeja == 4) {
+            return $array_expediente->where('area_origen_id',$user->area_id)
+                                    ->where('user_id',$user->id)
+                                    ->where('estado',$estado)->values();
         }
         return $array_expediente;
     }
@@ -302,23 +201,23 @@ class Expediente extends Model
     public static function buscarPor($valor,$busqueda)
     {
         $lista_expedientes = Collect([]);
-        switch ($busqueda) 
+        switch ($busqueda)
         {
             case "1": //Busca por nro_expediente
                 $expediente = Expediente::where('nro_expediente', $valor)->get()->first();//Deberia retornar solo un expediente
-                if ($expediente != null) 
+                if ($expediente != null)
                 {
                     $lista_expedientes->push($expediente->getDatos());
                 }
                 break;
-                
+
             case "2": //Busca por cuit iniciador
                 $iniciador = Iniciador::where('cuit',$valor)->get()->first();
-            
-                if ($iniciador != null) 
+
+                if ($iniciador != null)
                 {
                     //Recorro las caratulas del iniciador para obtener los expedientes
-                    foreach ($iniciador->caratulas as $caratula) 
+                    foreach ($iniciador->caratulas as $caratula)
                     {
                         $lista_expedientes->push($caratula->expediente->getDatos());
                     }
@@ -326,7 +225,7 @@ class Expediente extends Model
                 break;
             case "3"://Busca por nro_cheque o nro_transaccion
                 $pago = Pago::where('nro', $valor)->get()->first();//Deberia retornar solo un expediente
-                if ($pago != null) 
+                if ($pago != null)
                 {
                     $lista_expedientes->push($pago->expediente->getDatos());
                 }
@@ -334,13 +233,41 @@ class Expediente extends Model
             case "4"://Busca por id de iniciador
                 $iniciador = Iniciador::findOrFail($valor);
                 //Recorro las caratulas del iniciador para obtener los expedientes
-                foreach ($iniciador->caratulas as $caratula) 
+                foreach ($iniciador->caratulas as $caratula)
                 {
                     $lista_expedientes->push($caratula->expediente->getDatos());
                 }
                 break;
+            case "5": //Busca por nro_expediente_ext
+                $expedienteExt = Expediente::where('nro_expediente_ext', $valor)->get()->values();
+                if ($expedienteExt != null)
+                {
+                    foreach ($expedienteExt as $expediente)
+                    {
+                        $lista_expedientes->push($expediente->getDatos());
+                    }
+                }
+                break;
+
+                case "6": //Busca por Norma Legal
+                    $valor = 'NORMA LEGAL: '.$valor;
+                    /*Hice asi porque de esta forma: $lista_expedientes = $lista_expedientes->where('extracto','LIKE',"%$valor%");
+                    no me funcionaba la parte del: 'LIKE',"%$valor%"*/
+                    $consulta = DB::table('expedientes')->join('caratulas', 'expedientes.id', '=', 'caratulas.expediente_id')
+                                            ->join('extractos', 'caratulas.extracto_id', '=', 'extractos.id')
+                                            ->select('expedientes.*', 'caratulas.expediente_id', 'extractos.descripcion')
+                                            ->where('tipo_expediente', 3)
+                                            ->where('descripcion','LIKE',"%$valor%")
+                                            ->get();                      
+    
+                    foreach ($consulta as $item) {
+                        $expediente = Expediente::FindOrFail($item->id);
+                        $lista_expedientes->push($expediente->getDatos());
+                        
+                    }
+                    break;
         }
         return $lista_expedientes;
     }
-    
+
 }

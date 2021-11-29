@@ -1,8 +1,11 @@
 <template>
   <div>
     <titulo texto="Mis Expedientes" icono="mdi-file-document" />
+    <div class="descripcion text-justify py-4">Si desea <strong>realizar un pase</strong>, haga clic en el botón de la tabla.</div>
     <alert-sucess texto="El expediente ha sido asignado con éxito" :condicion="this.$store.getters.asignado"/>
     <tabla-mis-expedientes :headers="headers" :data="allExpedientes" :loading="get_finalizado"/>
+
+  
   </div>
 </template>
 
@@ -11,6 +14,7 @@ import Titulo from "../components/Titulo"
 import {mapActions, mapGetters} from "vuex";
 import TablaMisExpedientes from "../components/Tablas/TablaMisExpedientes";
 import AlertSucess from "../components/AlertSucess"
+
 
 export default {
   name: 'MisExpedientes',
@@ -25,6 +29,8 @@ export default {
         {text: 'Trámite', value: 'tramite'},
         {text: 'Cuerpo', value: 'cant_cuerpos'},
         {text: 'Fojas', value: 'fojas'},
+        {text: 'Ver Detalle', value: 'action1', sortable: false},
+        {text: 'Realizar Pase', value: 'action2', sortable: false},
         {class: "display-4"},
       ],
     }
@@ -34,6 +40,7 @@ export default {
 
     mounted() {
       this.getExpe();
+     
     },
 
     methods: {
@@ -48,6 +55,7 @@ export default {
         this.getExpedientes(exp)
       },
 
+  
       /**
        this.$api.post("ListadoExp", bandeja).then((response) => {
         this.BandejaEntrada = response.data;

@@ -11,17 +11,12 @@ class Caratula extends Model
 
     public function expediente() 
     {
-        return $this->belongsTo('App\Models\Expediente');
+        return $this->hasOne('App\Models\Expediente','id','expediente_id');
     }
 
     public function responsable() 
     {
         return $this->hasOne('App\Models\Responsable');
-    }
-
-    public function cuerpos() 
-    {
-        return $this->hasMany('App\Models\Cuerpo');
     }
 
     public function extracto() 

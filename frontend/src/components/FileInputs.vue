@@ -4,9 +4,8 @@
       v-model="inputVal"
       color="amber accent-4"
       counter
-      label="File input"
       multiple
-      placeholder="Select your files"
+      placeholder="Seleccione un archivo"
       prepend-icon="mdi-paperclip"
       outlined
       :show-size="1000"

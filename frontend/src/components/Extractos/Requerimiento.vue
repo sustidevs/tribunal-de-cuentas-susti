@@ -26,7 +26,7 @@
                 </v-row>
 
                 <v-row class="tex" justify="start">
-                    <v-col cols="12" sm="12" lg="4" class="px-5">
+                    <v-col cols="12" sm="12" lg="6" class="px-5">
                         <div class="d-flex column d-flex-sm row">
                             <p class="pt-5 pr-3">TESORERO:</p>
                             <v-text-field
@@ -37,7 +37,7 @@
                         </div>
                     </v-col>
 
-                    <v-col cols="12" sm="12" lg="4" class="px-5">
+                    <v-col cols="12" sm="12" lg="6" class="px-5">
                         <div class="d-flex column d-flex-sm row">
                             <p class="pt-5 pr-3">OBJETO:</p>
                             <v-text-field
@@ -48,7 +48,7 @@
                         </div>
                     </v-col>
 
-                    <v-col cols="12" sm="12" lg="4" class="px-5">
+                    <v-col cols="12" sm="12" lg="6" class="px-5">
                         <div class="d-flex column d-flex-sm row">
                             <p class="pt-5 pr-3">PLAZO:</p>
                             <v-text-field
@@ -63,7 +63,7 @@
                 <v-row class="tex" justify="start">
                     <v-col cols="12" sm="12" lg="6" class="px-5">
                         <div class="d-flex column d-flex-sm row">
-                            <p class="pt-5">INICIADOR: ---</p>
+                            <p class="pt-5">INICIADOR: {{ nombreIniciador }}</p>
                         </div>
                     </v-col>
 
@@ -113,7 +113,7 @@
 </template>
 
 <script>
-import {mapActions} from "vuex";
+import {mapActions, mapGetters} from "vuex";
 
 export default {
   name: 'Requerimiento',
@@ -127,24 +127,36 @@ export default {
         input3: '',
         input4: '',
         input5: '',
+        nombreIniciador: '',
       }
     },
 
-  methods: {
-    cargaExtracto() {
-        const extracto = "E/REQUERIMIENTO AL:  " + this.input1 + "    DIRECTOR:  " + this.input2 + "   TESORERO:  " + this.input3 + "    OBJETO:  " + this. input4 + "   PLAZO:  " + this.input5 + "   REQUERIMIENTOS"
-        this.extracto(extracto)
+    computed: {
+        ... mapGetters(['get_iniciadorSelected','allIniciadores']),
     },
 
-    ...mapActions([
-        'extracto',
-    ]),
-
-    save () {
-        this.isEditing = !this.isEditing
-        this.hasSaved = true
+    mounted(){
+        this.cargariniciador()
     },
-  },
+
+    methods: {
+        cargaExtracto() {
+            this.isEditing = !this.isEditing
+            this.hasSaved = true
+            const extracto = "E/REQUERIMIENTO AL:  " + this.input1 + "    DIRECTOR:  " + this.input2 + "   TESORERO:  " + this.input3 + "    OBJETO:  " + this. input4 + "   PLAZO:  " + this.input5 + "   REQUERIMIENTOS"
+            this.extracto(extracto)
+        },
+
+        cargariniciador(){
+            let nombrei = this.allIniciadores.find( item => item.id === this.get_iniciadorSelected)
+            console.log(nombrei.nombre)
+            this.nombreIniciador = nombrei.nombre
+        },
+
+        ...mapActions([
+            'extracto',
+        ]),
+    },
 
 }
 </script>

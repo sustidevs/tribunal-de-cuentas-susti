@@ -17,7 +17,7 @@
       </v-col>
     </v-row>
 
-    <a>
+    
       <v-data-table
           :headers="headers"
           :items="items"
@@ -27,7 +27,6 @@
           mobile-breakpoint="300"
           class="elevation-1 mytable"
           v-model="selected"
-          @click:row="recibirI"
           loading-text="Cargando expedientes. Por favor, espere."
           :loading="loading"
           no-data-text="No hay Expedientes Pendientes por aceptar"
@@ -36,13 +35,18 @@
         <template v-slot:item.prioridad="{ item }">
           <v-chip
               :color="getColor(item.prioridad)"
-              :class="getClass(item.prioridad)"
           >
             <v-icon size="20px" class="mr-1">{{getIcon(item.prioridad)}}</v-icon><h5 class="font-weight-regular">{{ item.prioridad }}</h5>
           </v-chip>
         </template>
+
+        <template v-slot:item.action= "{item}">
+          <v-btn @click="recibirI(item)" fab small color="#FACD89" depressed>
+            <v-icon> mdi-text-box-check </v-icon>
+          </v-btn>
+        </template>
       </v-data-table>
-    </a>
+    
 
   </div>
 </template>
@@ -67,6 +71,8 @@ export default {
         {text: 'Trámite', value: 'tramite'},
         {text: 'Cuerpo', value: 'cant_cuerpos'},
         {text: 'Fojas', value: 'fojas'},
+        {text: 'Área Origen', value:'area_origen'},
+        {text: 'Aceptar', value: 'action', align: 'center', sortable: false},
       ],
       search: '',
     }
@@ -79,15 +85,11 @@ export default {
     ]),
 
     getColor (prioridades) {
-      if (prioridades === '1') return 'red lighten-3'
-      if (prioridades === '2') return 'green lighten-3'
-    },
-    getClass (prioridades) {
-      if (prioridades === '1') return 'white--text'
-      else return 'grey--text text--darken-3'
+      if (prioridades === 'alta') return 'red lighten-3'
+      if (prioridades === 'media') return 'grey lighten-2'
     },
     getIcon (prioridades) {
-      if (prioridades === '1') return 'mdi-exclamation-thick'
+      if (prioridades === 'alta') return 'mdi-exclamation-thick'
       else return 'mdi-check-bold'
     },
     openExpediente (item) {

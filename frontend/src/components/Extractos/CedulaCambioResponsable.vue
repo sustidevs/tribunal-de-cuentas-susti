@@ -27,7 +27,7 @@
                 </v-row>
 
                 <v-row class="tex" justify="start">
-                    <v-col cols="12" sm="12" lg="5" class="px-5">
+                    <v-col cols="12" sm="12" lg="6" class="px-5">
                         <div class="d-flex column d-flex-sm row">
                             <p class="pt-5 pr-3">NORMA LEGAL:</p>
                             <v-text-field
@@ -38,7 +38,7 @@
                         </div>
                     </v-col>
 
-                    <v-col cols="12" sm="12" lg="4" class="px-5">
+                    <v-col cols="12" sm="12" lg="6" class="px-5">
                         <div class="d-flex column d-flex-sm row">
                             <p class="pt-5 pr-3">OTORGÓ:</p>
                             <v-text-field
@@ -49,7 +49,7 @@
                         </div>
                     </v-col>
 
-                    <v-col cols="12" sm="12" lg="3" class="px-5">
+                    <v-col cols="12" sm="12" lg="6" class="px-5">
                         <div class="d-flex column d-flex-sm row">
                             <p class="pt-5 pr-3">GTOS: </p>
                             <v-text-field
@@ -60,7 +60,7 @@
                         </div>
                     </v-col>
 
-                    <v-col cols="12" sm="12" lg="4" class="px-5">
+                    <v-col cols="12" sm="12" lg="6" class="px-5">
                         <div class="d-flex column d-flex-sm row">
                             <p class="pt-5 pr-3">IMPORTE: $</p>
                             <v-text-field
@@ -71,7 +71,7 @@
                         </div>
                     </v-col>
 
-                    <v-col cols="12" sm="12" lg="4" class="px-5">
+                    <v-col cols="12" sm="12" lg="6" class="px-5">
                         <div class="d-flex column d-flex-sm row">
                             <p class="pt-5 pr-3">N° DE RECLAMO:</p>
                             <v-text-field
@@ -82,7 +82,7 @@
                         </div>
                     </v-col>
 
-                    <v-col cols="12" sm="12" lg="4" class="px-5">
+                    <v-col cols="12" sm="12" lg="6" class="px-5">
                         <div class="d-flex column d-flex-sm row">
                             <p class="pt-5 pr-3">DISPOSICIÓN: </p>
                             <v-text-field
@@ -97,7 +97,7 @@
                 <v-row class="tex" justify="start">
                     <v-col cols="12" sm="12" lg="6" class="px-5">
                         <div class="d-flex column d-flex-sm row">
-                            <p class="pt-5">INICIADOR: ---</p>
+                            <p class="pt-5">INICIADOR: {{ nombreIniciador }}</p>
                         </div>
                     </v-col>
 
@@ -147,41 +147,53 @@
 </template>
 
 <script>
-import {mapActions} from "vuex";
+import {mapActions, mapGetters} from "vuex";
 
 export default {
-  name: 'CedulaCambioResponsable',
+    name: 'CedulaCambioResponsable',
 
-  data () {
-      return {
-        hasSaved: false,
-        isEditing: true,
-        input1: '',
-        input2: '',
-        input3: '',
-        input4: '',
-        input5: '',
-        input6: '',
-        input7: '',
-        input8: '',
-      }
+    data () {
+        return {
+            hasSaved: false,
+            isEditing: true,
+            input1: '',
+            input2: '',
+            input3: '',
+            input4: '',
+            input5: '',
+            input6: '',
+            input7: '',
+            input8: '',
+            nombreIniciador: '',
+        }
     },
 
-  methods: {
-    cargaExtracto() {
-      const extracto = "E/JUICIO DE CTAS.DE OFICIO A:  " + this.input1 + "   CUIT/DNI:  " + this.input2 + "  NORMA LEGAL:  " + this.input3 + "   OTORGÓ:  " + this. input4 + "   GTOS:  " + this.input5 + "  IMPORTE: $  " + this.input6 + "   N° DE RECLAMO:  " + this.input7 + "   DISPOSICIÓN:  " + this. input8 + "   CÉDULA CAMBIO RESPONSABLE"
-      this.extracto(extracto)
+    computed: {
+        ... mapGetters(['get_iniciadorSelected','allIniciadores']),
     },
 
-    ...mapActions([
-      'extracto',
-    ]),
-
-    save () {
-        this.isEditing = !this.isEditing
-        this.hasSaved = true
+    mounted(){
+        this.cargariniciador()
     },
-  },
+
+    methods: {
+        cargaExtracto() {
+            this.isEditing = !this.isEditing
+            this.hasSaved = true
+            const extracto = "E/JUICIO DE CTAS.DE OFICIO A:  " + this.input1 + "   CUIT/DNI:  " + this.input2 + "  NORMA LEGAL:  " + this.input3 + "   OTORGÓ:  " + this. input4 + "   GTOS:  " + this.input5 + "  IMPORTE: $  " + this.input6 + "   N° DE RECLAMO:  " + this.input7 + "   DISPOSICIÓN:  " + this. input8 + "   CÉDULA CAMBIO RESPONSABLE"
+            this.extracto(extracto)
+        },
+
+        cargariniciador(){
+            let nombrei = this.allIniciadores.find( item => item.id === this.get_iniciadorSelected)
+            console.log(nombrei.nombre)
+            this.nombreIniciador = nombrei.nombre
+        },
+
+        ...mapActions([
+        'extracto',
+        ]),
+    },
 
 }
 </script>

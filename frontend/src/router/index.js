@@ -8,10 +8,14 @@ import MisExpedientes from '../views/MisExpedientes.vue'
 import RecuperarExpediente from '../views/RecuperarExpediente.vue'
 import NuevaReunion from '../views/NuevaReunion.vue'
 import NuevoPase from '../views/NuevoPase.vue'
+import MisMovimientos from '../views/MisMovimientos.vue'
 import Seguimientos from '../views/Seguimientos.vue'
 import VerSeguimientos from '../views/VerSeguimientos.vue'
 import NuevoIniciador from '../views/NuevoIniciador.vue'
 import layout from '../layout/Layout'
+import Expedientes from "../views/Expedientes";
+import Enviados from "../views/Enviados";
+import Usuario from "../views/Usuario";
 
 Vue.use(VueRouter)
 
@@ -21,8 +25,7 @@ const routes = [
     path: '',
     name: 'layout',
     component: layout,
-    children: [
-      {
+    children: [{
         path: '/',
         name: 'Home',
         component: Home,
@@ -33,6 +36,12 @@ const routes = [
         name: 'Nuevo',
         component: NuevoExpediente,
         meta: { title: 'Nuevo Expediente' }
+      },
+      {
+        path: '/expedientes',
+        name: 'Expedientes',
+        component: Expedientes,
+        meta: { title: 'Expedientes' }
       },
       {
         path: '/expedientes-pendientes',
@@ -65,6 +74,12 @@ const routes = [
         meta: { title: 'Nuevo Pase' }
       },
       {
+        path: '/mis-movimientos',
+        name: 'Mis Movimientos',
+        component: MisMovimientos,
+        meta: { title: 'Mis Movimientos' }
+      },
+      {
         path: '/historial',
         name: 'Historial',
         component: Seguimientos,
@@ -82,6 +97,24 @@ const routes = [
         component: NuevoIniciador,
         meta: { title: 'Nuevo Iniciador' }
       },
+      {
+        path: '/expedientes',
+        name: 'Expedientes',
+        component: Expedientes,
+        meta: { title: 'Nueva Reunion' }
+      },
+      {
+        path: '/enviados',
+        name: 'Enviados',
+        component: Enviados,
+        meta: { title: 'Enviados' }
+      },
+      {
+        path: '/usuario',
+        name: 'Usuario',
+        component: Usuario,
+        meta: { title: 'Usuario' }
+      },
     ]
   },
   {
@@ -90,7 +123,6 @@ const routes = [
     component: LoginGeneral,
     meta: { title: 'Ingresar' }
   },
-
 ]
 
 const router = new VueRouter({

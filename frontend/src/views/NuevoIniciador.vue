@@ -32,38 +32,34 @@
                     <text-field v-model="inicia.area_reparticiones"/>
                 </v-col>
 
-                <v-col cols="12" sm="12" lg="6" class="pl-lg-2">
-                    <label-input texto="Prefijo"/>
-                    <text-field tipo="number" v-model="inicia.prefijo"/>
-                </v-col>
-            </v-row>
+            <v-col cols="12" sm="12" lg="6" class="pl-lg-2">
+                <label-input texto="Correo electrónico"/>
+                <text-field v-model="inicia.correo"/>
+            </v-col>
+        </v-row>
 
-            <v-row no-gutters justify="start" class="mt-2 mb-3">
-                <v-col cols="12" sm="12" lg="6" class="pr-lg-2">
-                    <label-input texto="Correo electrónico"/>
-                    <text-field v-model="inicia.correo"/>
-                </v-col>
+        <v-row no-gutters justify="start" class="mt-2 mb-3">
+            <v-col cols="12" sm="12" lg="6" class="pr-lg-2">
+                <label-input texto="Teléfono"/>
+                <text-field tipo="number" v-model="inicia.telefono"/>
+            </v-col>
+        </v-row>
 
-                <v-col cols="12" sm="12" lg="6" class="pl-lg-2">
-                    <label-input texto="Teléfono"/>
-                    <text-field tipo="number" v-model="inicia.telefono"/>
-                </v-col>
-            </v-row>
-
-            <v-row no-gutters justify="center" class="mt-8">
-                <v-col cols="12" sm="6" md="6" lg="6" class="py-6 px-sm-2">
-                    <v-btn type="submit" class="pa-5 color Montserrat-SemiBold" height="55" elevation="0" color="#FACD89" block>
-                        <div class="py-6 pa-5">
-                            <v-icon class="px-5">
-                            mdi-plus-circle-outline
-                            </v-icon>
-                            Agregar
-                        </div>
-                    </v-btn>
-                </v-col>
-            </v-row>
-        </form>
-    </div>
+      <v-row no-gutters justify="center" class="mt-8">
+        <v-col cols="12" sm="6" md="6" lg="6" class="py-6 px-sm-2">
+          <SecondaryButton link="/" texto="Volver a inicio" icono="mdi-keyboard-backspace"/>
+        </v-col>
+        <v-col cols="12" sm="6" md="6" lg="6" class="py-6 px-sm-2">
+          <v-btn type="submit" @click="abrirModalExitoNuevoIniciador()" class="pa-5 color Montserrat-SemiBold" height="55" elevation="0" color="#FACD89" block>
+            <v-icon class="px-5">
+              mdi-check-bold
+            </v-icon>
+              Confirmar
+          </v-btn>
+          <modal-exito-nuevo-iniciador :show="showModal" @close="closeModalExitoNuevoIniciador"/>
+        </v-col>
+      </v-row>
+  </div>
 </template>
 
 <script>
@@ -72,25 +68,27 @@ import LabelInput from "../components/LabelInput";
 import TextField from "../components/TextField";
 import AutocompleteField from "../components/AutocompleteField";
 import {mapActions, mapGetters} from "vuex";
+import SecondaryButton from "../components/SecondaryButton";
+import ModalExitoNuevoIniciador from '../components/dialogs/ModalExitoNuevoIniciador.vue'
 
 export default {
     name: 'NuevoIniciador',
-    components: {Titulo, LabelInput, TextField, AutocompleteField},
+    components: {Titulo, LabelInput, TextField, AutocompleteField, SecondaryButton, ModalExitoNuevoIniciador},
 
     data: () => ({
-        inicia:{
-            nombre: '',
-            tipo_entidad: '',
-            cuit: '',
-            cuil: '',
-            area_reparticiones: '',
-            prefijo: '',
-            correo: '',
-            telefono: '',
-        }
+            inicia: {
+                nombre: '',
+                tipo_entidad: '',
+                cuit: '',
+                cuil: '',
+                area_reparticiones: '',
+                correo: '',
+                telefono: '',
+            },
+            showModal: false,
     }),
 
-     mounted() {
+    mounted() {
       this.createTipoEntidad();
     },
 
@@ -98,6 +96,12 @@ export default {
         ...mapActions([
             'storeIniciador', 'createTipoEntidad'
         ]),
+        abrirModalExitoNuevoIniciador() {
+            this.showModal=!this.showModal
+        },
+        closeModalExitoNuevoIniciador() {
+            this.showModal = false;
+        },
     },
 
     computed: {
