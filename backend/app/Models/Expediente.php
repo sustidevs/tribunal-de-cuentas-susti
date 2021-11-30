@@ -51,6 +51,11 @@ class Expediente extends Model
         return $this->hasMany(Historial::class);
     }
 
+    public function cedulas()
+    {
+        return $this->hasMany(Cedula::class);
+    }
+
     public function cantidadCuerpos()
     {
         return ceil($this->fojas/200);
