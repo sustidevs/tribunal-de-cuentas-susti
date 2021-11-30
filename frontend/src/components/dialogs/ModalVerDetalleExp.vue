@@ -49,7 +49,7 @@
             <v-col>
                 <div class="d-flex">
                     <div class="textHereSmall Montserrat-Bold mr-1"> Archivos adjuntos: </div>
-                    <div v-for="(file, key) in files" :key="file"> {{ key }} . {{ file.name }} </div>
+                    <div v-for="file in get_archivos" :key="file.id"> {{ file }} </div>
                 </div>
             </v-col>
         </v-row>
@@ -78,22 +78,35 @@
 </template>
 <script>
 import Titulo from "../Titulo"
+import {mapActions, mapGetters} from "vuex";
 export default {
     name: 'ModalExitoNuevoIniciador',
     components: {Titulo},
-
-    data: () => ({
-        files:'',
-    }),
-
     props: {
         show: Boolean,
         data: Array,
     },
 
+    computed: mapGetters(['get_archivos']),
+
+    mounted() {
+      this.getArchiv();
+    },
+
     methods: {
+        ...mapActions([ 'getArchivos', 'nro_expediente']),
+
+        getArchiv(){
+            let files = {
+                id: this.expediente_id,
+                download: true,
+            }
+            this.getArchivos(files)
+        },
+
         close() {
             this.$emit("close")
+            this.$router.go(0)
         },
     }
 }

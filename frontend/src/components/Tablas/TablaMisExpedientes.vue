@@ -45,6 +45,7 @@
         >
           <v-icon> mdi-eye</v-icon>
           <modal-ver-detalle-exp
+            :data="allExpedientes"
             :show="showModalVerDetalle"
             @close="closeModalExitoNuevoIniciador"
           />
