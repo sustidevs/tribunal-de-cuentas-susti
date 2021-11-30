@@ -40,8 +40,8 @@
           </v-chip>
         </template>
 
-        <template v-slot:item.action>
-          <v-btn @click="recibirI" fab small color="#FACD89" depressed>
+        <template v-slot:item.action= "{item}">
+          <v-btn @click="recibirI(item)" fab small color="#FACD89" depressed>
             <v-icon> mdi-text-box-check </v-icon>
           </v-btn>
         </template>

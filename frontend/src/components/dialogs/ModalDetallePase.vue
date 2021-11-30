@@ -9,7 +9,7 @@
       <v-row no-gutters class="pt-3">
         <v-col cols="12" lg="6">
           <div class="d-flex justify-start">
-            <div class="fontSmall Montserrat-SemiBold mr-3"> Pase a:</div>
+            <div class="fontSmall Montserrat-SemiBold mr-3"> Derivado a:</div>
             <div class="fontBig Montserrat-Regular"> {{ dataArea.descripcion }} </div>
           </div>
         </v-col>
@@ -38,12 +38,14 @@
 
       <v-row no-gutters class="py-5">
         <v-col cols="12" sm="12" lg="12">
-          <div class="d-flex justify-start">
             <div class="fontSmall Montserrat-SemiBold mr-3"> A efectos de: </div>
+        </v-col>
+        <v-col cols="12" sm="12" lg="12">
             <div class="fontBig Montserrat-Regular text-justify"> {{ data.motivo}} </div>
-          </div>
         </v-col>
       </v-row>
+
+      
     </v-card>
   </v-row>
 
