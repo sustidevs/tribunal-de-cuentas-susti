@@ -72,17 +72,15 @@ export default {
     },
 
     ...mapActions([
-      "recibir"
+      "recuperar"
       ]),
 
     recuperacion: function(item) {
-      console.log(item);
       item.estado_expediente = 4
-          item.estado= 1,
-          item.bandeja= 1,
-          item.user_id= this.$store.getters.getIdUser,
-      this.recibir(item);
-      this.$router.push({ name: "Enviados" });
+      item.estado= 1,
+      item.bandeja= 1,
+      item.user_id= this.$store.getters.getIdUser,
+      this.recuperar(item);
     },
   },
 };

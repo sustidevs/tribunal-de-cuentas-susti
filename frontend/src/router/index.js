@@ -5,11 +5,8 @@ import LoginGeneral from '../views/LoginGeneral.vue'
 import NuevoExpediente from '../views/NuevoExpediente.vue'
 import BandejaDeEntrada from '../views/BandejaDeEntrada.vue'
 import MisExpedientes from '../views/MisExpedientes.vue'
-import RecuperarExpediente from '../views/RecuperarExpediente.vue'
-import NuevaReunion from '../views/NuevaReunion.vue'
+// import NuevaReunion from '../views/Reunion/NuevaReunion.vue'
 import NuevoPase from '../views/NuevoPase.vue'
-import MisMovimientos from '../views/MisMovimientos.vue'
-import Seguimientos from '../views/Seguimientos.vue'
 import VerSeguimientos from '../views/VerSeguimientos.vue'
 import NuevoIniciador from '../views/NuevoIniciador.vue'
 import layout from '../layout/Layout'
@@ -55,35 +52,17 @@ const routes = [
         component: MisExpedientes,
         meta: { title: 'Mis Expedientes' }
       },
-      {
-        path: '/recuperar-expediente',
-        name: 'recuperar-exp',
-        component: RecuperarExpediente,
-        meta: { title: 'Recuperar' }
-      },
-      {
-        path: '/nueva-reunion',
-        name: 'Nueva reunion',
-        component: NuevaReunion,
-        meta: { title: 'Nueva Reunion' }
-      },
+      // {
+      //   path: '/nueva-reunion',
+      //   name: 'Nueva reunion',
+      //   component: NuevaReunion,
+      //   meta: { title: 'Nueva Reunion' }
+      // },
       {
         path: '/nuevo-pase',
         name: 'NuevoPase',
         component: NuevoPase,
         meta: { title: 'Nuevo Pase' }
-      },
-      {
-        path: '/mis-movimientos',
-        name: 'Mis Movimientos',
-        component: MisMovimientos,
-        meta: { title: 'Mis Movimientos' }
-      },
-      {
-        path: '/historial',
-        name: 'Historial',
-        component: Seguimientos,
-        meta: { title: 'Historial' }
       },
       {
         path: '/ver-historiales',

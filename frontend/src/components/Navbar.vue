@@ -3,12 +3,13 @@
     <div class="Montserrat-SemiBold" >
       <v-app-bar class="px-12" height="64" color="#393b44">
         <a href="/"><LogoNavbar/></a>
+         <v-row justify="space-between">
         <DropdownMenu titulo="Expedientes" :data-item="expedientes"/>
+
         <!--<DropdownMenu titulo="Documentos" :data-item="documentos"/>
         <DropdownMenu titulo="Comunicaciones" :data-item="comunicaciones"/>-->
-        <v-row justify="end">
           <!--<MensajeriaNotificacion/>-->
-          <DropdownMenuPerfil :nombre="this.$store.getters.getNombreApellido" :correo="this.$store.getters.getCorreo"/>
+          <DropdownMenuPerfil :nombre="this.$store.getters.getNombreApellido" :cuil="this.$store.getters.getCuil" :area="this.$store.getters.getArea" />
         </v-row>
       </v-app-bar>
     </div>
