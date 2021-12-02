@@ -2,7 +2,7 @@
   <v-dialog v-model="show" width="1200px" content-class="round">
     <v-card class="px-7 pt-1">
         <titulo texto="Expediente N° 800 - 28-04 - 1000/2021" icono="mdi-file-document"/>
-        
+
         <v-row no-gutters align="start" class="pt-6">
             <v-col>
                 <div class="d-flex">
@@ -45,11 +45,12 @@
                 </div>
             </v-col>
         </v-row>
+
         <v-row no-gutters align="start" class="mt-5">
             <v-col>
                 <div class="d-flex">
-                    <div class="textHereSmall Montserrat-Bold mr-1"> Archivos adjuntos: </div>
-                    <div v-for="file in get_archivos" :key="file.id"> {{ file }} </div>
+                    <div class="textHereSmall Montserrat-Bold mr-3"> Archivos adjuntos: </div>
+                    <v-chip @click="getArchiv()"> Descargar archivos</v-chip>
                 </div>
             </v-col>
         </v-row>
@@ -80,26 +81,22 @@
 import Titulo from "../Titulo"
 import {mapActions, mapGetters} from "vuex";
 export default {
-    name: 'ModalExitoNuevoIniciador',
+    name: 'ModalVerDetalleExp',
     components: {Titulo},
     props: {
-        show: Boolean,
-        data: Array,
+        show: {type: Boolean, default:false},
+        datos: Number,
     },
 
-    computed: mapGetters(['get_archivos']),
-
-    mounted() {
-      this.getArchiv();
-    },
+    computed: mapGetters(['allExpedientes', 'get_archivos']),
 
     methods: {
-        ...mapActions([ 'getArchivos', 'nro_expediente']),
+        ...mapActions([ 'getExpedientes', 'getArchivos']),
 
         getArchiv(){
             let files = {
-                id: this.expediente_id,
-                download: true,
+                id: this.datos,
+                download: true
             }
             this.getArchivos(files)
         },

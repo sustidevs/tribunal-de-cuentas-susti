@@ -204,6 +204,7 @@ class ExpedienteController extends Controller
             $zipFileName = $expediente->archivos;
             if(file_exists($public_dir))
             {
+                //return view('zip');
                 return response()->download($public_dir , $fileName);
             }
             else

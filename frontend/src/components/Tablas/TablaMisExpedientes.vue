@@ -35,20 +35,9 @@
         </v-chip>
       </template>
 
-      <template v-slot:item.action1="{}">
-        <v-btn
-          @click="abrirModalExitoNuevoIniciador()"
-          fab
-          small
-          color="#FACD89"
-          depressed
-        >
-          <v-icon> mdi-eye</v-icon>
-          <modal-ver-detalle-exp
-            :data="allExpedientes"
-            :show="showModalVerDetalle"
-            @close="closeModalExitoNuevoIniciador"
-          />
+      <template v-slot:item.action1="{ item }">
+        <v-btn @click="detalle(item)" fab small color="#FACD89" depressed >
+          <v-icon>mdi-eye</v-icon>
         </v-btn>
       </template>
 
@@ -58,6 +47,14 @@
         </v-btn>
       </template>
     </v-data-table>
+
+    
+
+      <modal-ver-detalle-exp
+            :datos="expediente_id"
+            :show="show_modal"
+            @close="closeModalExitoNuevoIniciador"
+      />
   </div>
 </template>
 
@@ -75,9 +72,10 @@ export default {
 
   data() {
     return {
-      showModalVerDetalle: false,
+      show_modal: false,
       selected: [],
       search: "",
+      expediente_id:0,
     };
   },
 
@@ -100,8 +98,9 @@ export default {
       //console.log(item)
     },
 
-    abrirModalExitoNuevoIniciador() {
-      this.showModalVerDetalle = !this.showModalVerDetalle;
+    detalle(item) {
+      this.show_modal = true;
+      this.expediente_id = item.expediente_id
     },
 
     closeModalExitoNuevoIniciador() {

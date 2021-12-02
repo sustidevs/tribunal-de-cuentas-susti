@@ -86,11 +86,12 @@ const actions = {
 
     getArchivos ({ commit }, archivo)  {
         axios.post(process.env.VUE_APP_API_URL+ '/api/zip', archivo)
-            .then(response => {
-                console.log(response.data)
-                commit('set_archivos', response.data)
-                commit('set_finalizado', false)
-            })
+        .then(response => {
+            let blob = new Blob([response.data], {type: 'application/zip'})
+            let url = window.URL.createObjectURL(blob)
+            window.open(url)
+            commit('set_expedientes', response.data)
+        })
     },
 
     cerrarModal ({ commit }){
