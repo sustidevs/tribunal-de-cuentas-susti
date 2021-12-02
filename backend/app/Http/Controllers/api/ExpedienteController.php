@@ -330,8 +330,20 @@ class ExpedienteController extends Controller
        //echo $cod->getBarcodeHTML('4445645656', 'PHARMA2T');
         /*echo '<img src="data:image/png,' . $cod->getBarcodePNG('4', 'C39+') . '" alt="barcode"   />';
         echo $cod->getBarcodePNGPath('4445645656', 'PHARMA2T');
-        echo '<img src="data:image/png;base64,' . $cod->getBarcodePNG('4', 'C39+') . '" alt="barcode"   />';*/
-       
+        echo '<img src="data:image/png;base64,' . $cod->getBarcodePNG('4', 'C39+') . '" alt="barcode"   />';*/      
     }
 
+    /*
+    - Recibe como parámetro el expediente_id y lo relaciona directamente con el recurso asociado para mostrar el detalle
+    - Hace uso de Implicit Binding
+    - @param: expediente_id
+      Autor: Mariano Flores
+    */
+    public function showDetalleExpediente(/*Expediente $expediente*/Request $request)
+    {
+        $consulta = Expediente::findOrFail($request);
+        //dd($expediente);
+        return response()->json($consulta, 200);
+        //return response()->json($request, 200);
+    }
 }
