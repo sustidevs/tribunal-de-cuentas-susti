@@ -51,6 +51,12 @@ class Expediente extends Model
         return $this->hasMany(Historial::class);
     }
 
+    //public function expediente()
+    //{
+    //    return $this->hasOne('App\Models\Expediente', 'id', 'expediente_id');
+    //}
+    //return $this->hasOne('App\Models\TipoExpediente','id','tipo_expediente'
+
     public function cedulas()
     {
         return $this->hasMany(Cedula::class);

@@ -17,24 +17,41 @@ class Notificacion extends Model
 
     public function user()
     {
-        return $this->hasMany('App\Models\User', 'id', 'user_id');
+        return $this->belongsTo('App\Models\User');
     }
 
     public static function index()
     {
-        $notificaciones = Notificacion::all();
+        $notificaciones = Notificacion::all()->where('estado', 1);
         $array_notificacion = collect([]);
         foreach ($notificaciones as $notificacion)
         {
             $array_notificacion->push([
-                                'notificacion_id'   => $notificacion->id,
+                                'id'                => $notificacion->id,
                                 'nro_expediente'    => $notificacion->expediente->nro_expediente,
-                                'user_id'           => $notificacion->user->id,
-                                'area'              => $notificacion->user->area_id,
+                                'user_creacion'     => $notificacion->expediente->historiales->first()->user->persona->nombre ." " . $notificacion->expediente->historiales->first()->user->persona->apellido,
+                                'area'              => $notificacion->user->area->descripcion,
                                 'fecha'             => $notificacion->created_at->format('d-m-Y'),
-                                'estado'            => $nofitifacion->estado,
+                                'extracto'          => $notificacion->expediente->caratula->extracto->descripcion,
+                                'estado'            => $notificacion->estado,
                             ]);
         }
+        return $array_notificacion;
+        //Expediente::find(3)->historiales->first()->user->persona->nombre
+    }
+
+    public function getDatos()
+    {
+        $array_notificacion = collect([]);
+        $array_notificacion->push([
+                                'id'                => $this->id,
+                                'nro_expediente'    => $this->expediente->nro_expediente,
+                                'user_id'           => $this->user->id,
+                                'nombre'            => $this->user->persona->nombre ." " . $this->user->persona->apellido,
+                                'area'              => $this->user->area->descripcion,
+                                'fecha'             => $this->created_at->format('d-m-Y'),
+                                'estado'            => $this->estado,
+                            ]);
         return $array_notificacion;
     }
 }
