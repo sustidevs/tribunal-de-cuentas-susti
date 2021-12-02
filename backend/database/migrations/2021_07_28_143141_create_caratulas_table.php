@@ -18,6 +18,7 @@ class CreateCaratulasTable extends Migration
             $table->foreignId('expediente_id')->constrained('expedientes');
             $table->foreignId('iniciador_id')->constrained('iniciadores');
             $table->foreignId('extracto_id')->constrained('extractos');
+            $table->string('observacion', 150)->nullable();
             $table->timestamps();
         });
     }
