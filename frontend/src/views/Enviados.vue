@@ -1,19 +1,31 @@
 <template>
   <div>
-    <titulo texto="Expedientes Enviados" icono="mdi-email-fast"/>
-    <div class="descripcion text-justify py-4">Si desea <strong>recuperar</strong> un expediente, haga clic en el botón de la tabla.</div>
-    <tabla-enviados :headers="headers" :data="allExpedientes" :loading="get_finalizado"/>
+    <alert
+      texto="El expediente fue recuperado con éxito."
+      :condicion="this.recuperado"
+    />
+    <titulo texto="Expedientes Enviados" icono="mdi-email-fast" />
+    <div class="descripcion text-justify py-4">
+      Si desea <strong>recuperar</strong> un expediente, haga clic en el botón
+      de la tabla.
+    </div>
+    <tabla-enviados
+      :headers="headers"
+      :data="allExpedientes"
+      :loading="get_finalizado"
+    />
   </div>
 </template>
 
 <script>
 import Titulo from "../components/Titulo"
-import {mapActions, mapGetters} from "vuex";
+import Alert from "../components/Alert"
 import TablaEnviados from "../components/Tablas/TablaEnviados";
+import {mapActions, mapGetters} from "vuex";
 
 export default {
   name: 'Enviados',
-  components: {Titulo, TablaEnviados},
+  components: {Titulo, Alert, TablaEnviados},
   data() {
     return {
       headers: [
@@ -30,14 +42,14 @@ export default {
     }
   },
 
-  computed: mapGetters(['allExpedientes', 'get_finalizado, getIdUser']),
+  computed: mapGetters(['allExpedientes', 'get_finalizado', 'recuperado']),
 
   mounted() {
     this.getExpe();
   },
 
   methods: {
-    ...mapActions(['getExpedientes']),
+    ...mapActions(['getExpedientes', 'getIdUser', 'recupeado']),
 
     getExpe(){
       let exp = {
