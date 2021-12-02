@@ -6,23 +6,24 @@ use ZipArchive;
 use Carbon\Carbon;
 use App\Models\Area;
 use App\Models\User;
-use Milon\Barcode\DNS1D;
-use Milon\Barcode\DNS2D;
 use App\Models\Caratula;
 use App\Models\Extracto;
+use Milon\Barcode\DNS1D;
+use Milon\Barcode\DNS2D;
 use App\Models\Historial;
 use App\Models\Iniciador;
 use App\Models\Expediente;
 use App\Models\TipoEntidad;
+use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
 use App\Models\TipoExpediente;
 use App\Models\PrioridadExpediente;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\StoreExpedienteRequest;
 use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Database\Eloquent\Relations\Relation;
-use Illuminate\Support\Facades\Storage;
 
 class ExpedienteController extends Controller
 {
@@ -334,16 +335,17 @@ class ExpedienteController extends Controller
     }
 
     /*
-    - Recibe como parámetro el expediente_id y lo relaciona directamente con el recurso asociado para mostrar el detalle
-    - Hace uso de Implicit Binding
+    - Método que retorna el detalle del expediente para mostrarlo en bandeja de entrada antes de aceptar
     - @param: expediente_id
       Autor: Mariano Flores
+
+      A mejorar: utilizar implicit binding <problemas cuando es una ruta api>
     */
-    public function showDetalleExpediente(/*Expediente $expediente*/Request $request)
+    public function showDetalleExpediente(Request $request)
     {
-        $consulta = Expediente::findOrFail($request);
-        //dd($expediente);
-        return response()->json($consulta, 200);
-        //return response()->json($request, 200);
+        $expediente = Expediente::findOrFail($request)->first();
+        $detalle = Area::find($expediente->area_actual_id)->descripcion;
+        //$detalle['area'] = $expediente->area;
+        return response()->json($expediente->area->descripcion, 200);
     }
 }
