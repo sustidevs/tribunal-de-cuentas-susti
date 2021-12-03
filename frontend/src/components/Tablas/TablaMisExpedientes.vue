@@ -82,7 +82,7 @@ export default {
   methods: {
     getColor(prioridades) {
       if (prioridades === "alta") return "red lighten-3";
-      if (prioridades === "media") return "grey lighten-2";
+      if (prioridades === "normal") return "grey lighten-2";
     },
     getIcon(prioridades) {
       if (prioridades === "alta") return "mdi-exclamation-thick";
