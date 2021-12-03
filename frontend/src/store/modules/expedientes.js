@@ -85,7 +85,13 @@ const actions = {
     },
 
     getArchivos ({ commit }, archivo)  {
-        axios.post(process.env.VUE_APP_API_URL+ '/api/zip', archivo)
+        axios.post(process.env.VUE_APP_API_URL+ '/api/zip', archivo, {
+            responseType: 'arraybuffer',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/zip'
+            }
+        })
         .then(response => {
             let blob = new Blob([response.data], {type: 'application/zip'})
             let url = window.URL.createObjectURL(blob)

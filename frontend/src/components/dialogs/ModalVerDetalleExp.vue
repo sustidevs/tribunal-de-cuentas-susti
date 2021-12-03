@@ -50,7 +50,7 @@
             <v-col>
                 <div class="d-flex">
                     <div class="textHereSmall Montserrat-Bold mr-3"> Archivos adjuntos: </div>
-                    <v-chip @click="getArchiv()"> Descargar archivos</v-chip>
+                    <v-chip class="textHereSmall Montserrat-Regular" @click="getArchiv()"> Descargar</v-chip>
                 </div>
             </v-col>
         </v-row>
