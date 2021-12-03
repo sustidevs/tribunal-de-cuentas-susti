@@ -14,6 +14,7 @@ use App\Models\Historial;
 use App\Models\Iniciador;
 use App\Models\Expediente;
 use App\Models\TipoEntidad;
+use Illuminate\Support\Arr;
 use App\Models\Notificacion;
 use Illuminate\Http\Request;
 use App\Models\TipoExpediente;
@@ -341,8 +342,23 @@ class ExpedienteController extends Controller
        //echo $cod->getBarcodeHTML('4445645656', 'PHARMA2T');
         /*echo '<img src="data:image/png,' . $cod->getBarcodePNG('4', 'C39+') . '" alt="barcode"   />';
         echo $cod->getBarcodePNGPath('4445645656', 'PHARMA2T');
-        echo '<img src="data:image/png;base64,' . $cod->getBarcodePNG('4', 'C39+') . '" alt="barcode"   />';*/
-       
+        echo '<img src="data:image/png;base64,' . $cod->getBarcodePNG('4', 'C39+') . '" alt="barcode"   />';*/      
+    }
+
+    
+    /*
+    - Método que retorna el detalle del expediente para mostrarlo en bandeja de entrada antes de aceptar
+    - @param: expediente_id
+    */
+    public function showDetalleExpediente(Request $request)
+    {
+        $expediente = Expediente::findOrFail($request);
+        $detalle = Collect([]);
+        foreach ($expediente as $exp)
+        {
+            $detalle->push($exp->datosExpediente());
+        }
+        return response()->json($detalle, 200);
     }
 
     /*public function notificarExpediente(Request $request)
