@@ -4,11 +4,12 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\api\UserController;
 use App\Http\Controllers\api\LoginController;
+use App\Http\Controllers\api\CedulaController;
 use App\Http\Controllers\api\HistorialController;
 use App\Http\Controllers\Api\IniciadorController;
 use App\Http\Controllers\api\SolicitudController;
 use App\Http\Controllers\api\ExpedienteController;
-use App\Http\Controllers\api\CedulaController;
+use App\Http\Controllers\api\NotificacionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -38,8 +39,8 @@ Route::post('/showExp',       [ExpedienteController::class, 'show']);
 Route::post('/indexExpArea',  [ExpedienteController::class, 'indexPorAreas']);
 Route::post('/buscar-expediente',  [ExpedienteController::class, 'buscarExpediente']);
 Route::get('/all-expedientes',  [ExpedienteController::class, 'AllExpedientes']);
-Route::get('/zip',         [ExpedienteController::class, 'descargarZip']);//TODO ruta back 8000
-//Route::post('/zip',       [ExpedienteController::class, 'descargarZip']);  
+//Route::get('/zip',         [ExpedienteController::class, 'descargarZip']);//TODO ruta back 8000
+Route::post('/zip',       [ExpedienteController::class, 'descargarZip']);  
 ////////////////////////////////////////////////////////////////////////////////////
 /// NUEVO INICIADOR
 Route::get('/createTipoEntidad',      [IniciadorController::class, 'create']);
@@ -83,9 +84,16 @@ Route::post('/update-solicitud',    [SolicitudController::Class, 'update']);
 ////////////////////////////////////////////////////////////////////////////////////////////
 Route::get('/prueba-codBarrra',[ExpedienteController::class, 'codigoBarra'] );
 
-///////SOLICITUDES//////////////////////////////////////////////////////////////////////////
+///////CEDULAS//////////////////////////////////////////////////////////////////////////////
 Route::get('/index-cedula',      [CedulaController::Class, 'index']);
 Route::post('/store-cedula',    [CedulaController::Class, 'store']);
 Route::post('/create-cedula',    [CedulaController::Class, 'create']);
 Route::post('/edit-cedula',    [CedulaController::Class, 'edit']);
 Route::post('/update-cedula',    [CedulaController::Class, 'update']);
+////////////////////////////////////////////////////////////////////////////////////////////
+
+///////NOTIFICACIONES///////////////////////////////////////////////////////////////////////
+Route::get('/index-notificacion',       [NotificacionController::Class, 'index']);
+Route::post('/store-notificacion',      [NotificacionController::Class, 'store']);
+Route::post('/update-notificacion',     [NotificacionController::Class, 'update']);
+////////////////////////////////////////////////////////////////////////////////////////////
