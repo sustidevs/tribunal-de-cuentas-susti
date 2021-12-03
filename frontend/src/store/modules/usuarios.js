@@ -9,7 +9,8 @@ const state = {
     errorP: false,
     errorAmbos: false,
     incorrecto: false,
-    authenticated: false
+    authenticated: false,
+    cuil: {}
 };
 
 const getters = {
@@ -25,7 +26,8 @@ const getters = {
     errorP: state => state.errorP,
     errorAmbos: state => state.errorAmbos,
     authenticated: state => state.authenticated,
-    getTipoUsuario: state=> state.user.tipo_user
+    getTipoUsuario: state=> state.user.tipo_user,
+    getCuil: state => state.user.cuil
 };
 
 const actions = {
@@ -72,6 +74,7 @@ const mutations = {
     set_errorPass: (state, errorPass) => state.errorPass = errorPass,
     setIncorrecto: (state, incorrecto) => state.incorrecto = incorrecto,
     setAuthenticated: (state, authenticated) => state.authenticated = authenticated,
+    setCuil: (state, cuil) => state.cuil = cuil,
     clearUserData: () => {
         localStorage.removeItem('user')
     }

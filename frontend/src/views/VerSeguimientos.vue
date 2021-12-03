@@ -21,7 +21,7 @@
         </div>
       </v-row>-->
 
-      <v-row class="pb-6" justify="center">
+      <v-row class="pb-6 mb-9" justify="center">
         <v-timeline
             reverse
             align-top

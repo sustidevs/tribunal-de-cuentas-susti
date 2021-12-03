@@ -17,6 +17,7 @@ const state = {
     todos_expedientes: [],
     historial: [],
     historial_nro: '',
+    archivos: [],
 };
 
 const getters = {
@@ -36,7 +37,8 @@ const getters = {
     get_encontrado: state => state.encontrado,
     todos_expp: state => state.todos_expedientes,
     get_Historial: state => state.historial,
-    get_historial_nro: state => state.historial_nro
+    get_historial_nro: state => state.historial_nro,
+    get_archivos: state => state.archivos,
 };
 
 const actions = {
@@ -82,6 +84,22 @@ const actions = {
             })
     },
 
+    getArchivos ({ commit }, archivo)  {
+        axios.post(process.env.VUE_APP_API_URL+ '/api/zip', archivo, {
+            responseType: 'arraybuffer',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/zip'
+            }
+        })
+        .then(response => {
+            let blob = new Blob([response.data], {type: 'application/zip'})
+            let url = window.URL.createObjectURL(blob)
+            window.open(url)
+            commit('set_expedientes', response.data)
+        })
+    },
+
     cerrarModal ({ commit }){
         commit('creado',false)
     },
@@ -118,7 +136,7 @@ const actions = {
             })
     },
     recuperar({ commit }, expediente) {
-        axios.post(process.env.VUE_APP_API_URL+ '/api/update-estado-cuerpo', expediente).
+        axios.post(process.env.VUE_APP_API_URL+ '/api/update-estado', expediente).
         then(response => {
             console.log(response)
             commit('recuperado', true)
@@ -144,8 +162,9 @@ const mutations = {
     set_todos_expedientes: (state,todos_expedientes) => state.todos_expedientes = todos_expedientes,
     set_historial: (state,historial) => state.historial = historial,
     set_nro_historial: (state,historial_nro) => state.historial_nro = historial_nro,
+    set_archivos: (state, archivos) => state.archivos = archivos,
 };
-
+ 
 export default {
     namespace: true,
     state,

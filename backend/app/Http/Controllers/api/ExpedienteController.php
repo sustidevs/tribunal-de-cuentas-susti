@@ -116,7 +116,7 @@ class ExpedienteController extends Controller
                                     $zip = new ZipArchive;
                                     $fileName = $request->nro_expediente;
                                     $fileName = str_replace("/","-",$fileName).'.zip';
-                                    $path =storage_path()."/app/public/archivos_expedientes/".$fileName. ".zip";
+                                    $path =storage_path()."/app/public/archivos_expedientes/".$fileName;
                                     if($zip->open($path ,ZipArchive::CREATE) === true)
                                     {
                                         foreach ($request->allFiles() as $key => $value)
@@ -167,16 +167,56 @@ class ExpedienteController extends Controller
         $extracto = $expediente->caratula->extracto;
         $fecha_sistema = $expediente->created_at->format('Y-m-d');
         $fecha_exp = $expediente->fecha;
-        $nro_cuerpos = $expediente->caratula->cuerpos()->count();
+        $nro_cuerpos = $expediente->cantidadCuerpos();
         $fojas = $expediente->fojas;
+        if ($expediente->archivos == '')
+        {
+            $posee_archivo = '';
+        }
+        else
+        {
+            $posee_archivo = "si";
+        }
         $detalle = [$expediente->nro_expediente,
                     $iniciador->nombre,
                     $extracto->descripcion,
                     $fecha_sistema,
                     $fecha_exp,
                     $nro_cuerpos,
-                    $fojas];
+                    $fojas,
+                    $posee_archivo];
         return response()->json($detalle,200);
+    }
+
+    public function descargarZip(Request $request) //TODO hasta que tenga boton
+    {
+        //$request = new Request;
+        //$request->id = 1;//verificar que cuenta con archivos
+        //$request->download = true;
+        $expediente = Expediente::findOrFail($request->id);
+        if($request->download == true) 
+        {
+            //Define Dir Folder
+            $public_dir = public_path()."/storage/archivos_expedientes/". $expediente->archivos;
+            $fileName = $expediente->nro_expediente;
+            $fileName = str_replace("/","-",$fileName).'.zip';
+            // Zip File Name
+            $zipFileName = $expediente->archivos;
+            if(file_exists($public_dir))
+            {
+                //return view('zip');
+                return response()->download($public_dir , $fileName);
+            }
+            else
+            {
+                return 'no existe archivo';
+            }
+        }
+        else
+        {
+            return 'error';
+        }
+        return view('zip');
     }
 
     //TODO revisar utilidad

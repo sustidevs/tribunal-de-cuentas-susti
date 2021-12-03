@@ -2,7 +2,7 @@
   <v-dialog v-model="show" width="1200px" content-class="round">
     <v-card class="px-7 pt-1">
         <titulo texto="Expediente N° 800 - 28-04 - 1000/2021" icono="mdi-file-document"/>
-        
+
         <v-row no-gutters align="start" class="pt-6">
             <v-col>
                 <div class="d-flex">
@@ -45,11 +45,12 @@
                 </div>
             </v-col>
         </v-row>
+
         <v-row no-gutters align="start" class="mt-5">
             <v-col>
                 <div class="d-flex">
-                    <div class="textHereSmall Montserrat-Bold mr-1"> Archivos adjuntos: </div>
-                    <div class="textHereSmall Montserrat-SemiBold ml-1"> hacer conexión</div>
+                    <div class="textHereSmall Montserrat-Bold mr-3"> Archivos adjuntos: </div>
+                    <v-chip class="textHereSmall Montserrat-Regular" @click="getArchiv()"> Descargar</v-chip>
                 </div>
             </v-col>
         </v-row>
@@ -65,8 +66,6 @@
             </div>
         </v-row>
 
-
-
         <v-row no-gutters justify="center" class="mt-8">
             <v-col cols="12" sm="6" md="6" lg="6" class="py-6 px-sm-2">
                 <v-btn @click="close" class="pa-5 color Montserrat-SemiBold" height="55" elevation="0" color="#FACD89" block>
@@ -80,22 +79,37 @@
 </template>
 <script>
 import Titulo from "../Titulo"
+import {mapActions, mapGetters} from "vuex";
 export default {
-  name: 'ModalExitoNuevoIniciador',
-  components: {Titulo},
-
-  props: {
-    show: Boolean,
-  },
-  methods: {
-    close() {
-      this.$emit("close")
+    name: 'ModalVerDetalleExp',
+    components: {Titulo},
+    props: {
+        show: {type: Boolean, default:false},
+        datos: Number,
     },
-  }
+
+    computed: mapGetters(['allExpedientes', 'get_archivos']),
+
+    methods: {
+        ...mapActions([ 'getExpedientes', 'getArchivos']),
+
+        getArchiv(){
+            let files = {
+                id: this.datos,
+                download: true
+            }
+            this.getArchivos(files)
+        },
+
+        close() {
+            this.$emit("close")
+            this.$router.go(0)
+        },
+    }
 }
 </script>
 <style>
 .round {
-  border-radius: 30px;
+    border-radius: 30px;
 }
 </style>
