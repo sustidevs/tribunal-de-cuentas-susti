@@ -85,6 +85,11 @@ class User extends Authenticatable
         return $this->belongsTo('App\Models\TipoUser');
     }
 
+    public function notificacion() 
+    {
+        return $this->hasMany(Notificacion::class);
+    }
+
     public function get_tipo_area() 
     {
         $tipo_area = Str::of($this->area_type)->basename()->lower()->ucfirst();
