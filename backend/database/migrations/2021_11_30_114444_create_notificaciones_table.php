@@ -18,7 +18,7 @@ class CreateNotificacionesTable extends Migration
             $table->bigIncrements('id');
             $table->foreignId('expediente_id')->constrained('expedientes');
             $table->integer('user_id');
-            $table->dateTime('fecha')->nullable();
+            $table->date('fecha')->nullable();
             $table->integer('estado')->nullable();
             $table->timestamps();
         });

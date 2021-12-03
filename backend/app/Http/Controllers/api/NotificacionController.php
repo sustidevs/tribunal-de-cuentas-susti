@@ -47,7 +47,8 @@ class NotificacionController extends Controller
         $notificacion->fecha = Carbon::now();
         $notificacion->estado = "2"; //Aceptado
         $notificacion->save();
-        return response()->json($notificacion->getDatos(), 200);
+        dd($notificacion);
+        //return response()->json($notificacion->getDatos(), 200);
     }
 
     public function destroy($id)
