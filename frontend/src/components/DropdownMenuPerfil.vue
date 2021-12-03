@@ -28,22 +28,22 @@
           <v-list-item-subtitle class="d-flex justify-end white--text text-h7">
             {{ area }}
           </v-list-item-subtitle>
-          <v-list-item-subtitle class=" white--text d-flex justify-end">{{
-            cuil
-          }}</v-list-item-subtitle>
+          <v-list-item-subtitle class=" white--text d-flex justify-end">
+            {{ cuil }}
+          </v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
 
       <v-divider class="my-1"></v-divider>
 
-      <div>
-        <v-hover v-slot="{ hover }" class="d-flex justify-end py-2">
-          <v-btn block x-large depressed text>
+      <div >
+        <v-hover v-slot="{ hover }" class="d-flex justify-end py-2" >
+          <v-btn block x-large depressed text href="/usuario">
             <h5
               class="px-2 Montserrat-Regular"
               :class="hover ? 'amber--text text--lighten-3' : 'white--text'"
             >
-              Editar Peril
+              Editar Perfil
             </h5>
             <v-icon
               :class="hover ? 'amber--text text--lighten-3' : 'white--text'"
@@ -79,8 +79,9 @@ export default {
   props: {
     nombre: String,
     apellido: String,
-    cuil: String,
+    cuil: Number,
     area: String,
+    link: String,
   },
   
   methods: {

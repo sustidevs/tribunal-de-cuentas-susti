@@ -15,6 +15,7 @@ use App\Models\Iniciador;
 use App\Models\Expediente;
 use App\Models\TipoEntidad;
 use Illuminate\Support\Arr;
+use App\Models\Notificacion;
 use Illuminate\Http\Request;
 use App\Models\TipoExpediente;
 use App\Models\PrioridadExpediente;
@@ -132,6 +133,15 @@ class ExpedienteController extends Controller
                                 }
                                 ///////////////////////////////////////////////////////////////////////////////////////
                                 $cod = new DNS1D;
+                                if ($request->tipo_exp_id == 3)
+                                {
+                                    $notificacion = new Notificacion;
+                                    $notificacion->expediente_id = $expediente->id;
+                                    $notificacion->user_id = $request->user_id;
+                                    $notificacion->fecha = Carbon::now()->format('Y-m-d');
+                                    $notificacion->estado = "1"; //Pendiente
+                                    $notificacion->save(); 
+                                }
                                 //(2 = separacion barras, 80 = ancho de la barra) 
                                 $codigoBarra = $cod->getBarcodeHTML($expediente->nro_expediente, 'C39',2,80,'black', true);
                                 $datos = [$expediente->fecha,$caratula->iniciador->nombre,$extracto->descripcion,$estado_actual,$path, $expediente->nro_expediente,$codigoBarra];
@@ -189,11 +199,11 @@ class ExpedienteController extends Controller
         return response()->json($detalle,200);
     }
 
-    public function descargarZip() //TODO hasta que tenga boton
+    public function descargarZip(Request $request) //TODO hasta que tenga boton
     {
-        $request = new Request;
-        $request->id = 1;//verificar que cuenta con archivos
-        $request->download = true;
+        //$request = new Request;
+        //$request->id = 1;//verificar que cuenta con archivos
+        //$request->download = true;
         $expediente = Expediente::findOrFail($request->id);
         if($request->download == true) 
         {
@@ -205,6 +215,7 @@ class ExpedienteController extends Controller
             $zipFileName = $expediente->archivos;
             if(file_exists($public_dir))
             {
+                //return view('zip');
                 return response()->download($public_dir , $fileName);
             }
             else
@@ -244,7 +255,6 @@ class ExpedienteController extends Controller
 
     public function contadorBandejaEntrada(Request $request)
     {
-        $user_area = $request->area_id;
         $contador = Expediente::listadoExpedientes($request->user_id,1,1)->count();
         return response()->json($contador, 200);
     }
@@ -334,18 +344,25 @@ class ExpedienteController extends Controller
         echo '<img src="data:image/png;base64,' . $cod->getBarcodePNG('4', 'C39+') . '" alt="barcode"   />';*/      
     }
 
+    
     /*
     - Método que retorna el detalle del expediente para mostrarlo en bandeja de entrada antes de aceptar
     - @param: expediente_id
-      Autor: Mariano Flores
-
-      A mejorar: utilizar implicit binding <problemas cuando es una ruta api>
     */
     public function showDetalleExpediente(Request $request)
     {
-        $expediente = Expediente::findOrFail($request)->first();
-        $detalle = Area::find($expediente->area_actual_id)->descripcion;
-        //$detalle['area'] = $expediente->area;
-        return response()->json($expediente->area->descripcion, 200);
+        $expediente = Expediente::findOrFail($request);
+        $detalle = Collect([]);
+        foreach ($expediente as $exp)
+        {
+            $detalle->push($exp->datosExpediente());
+        }
+        return response()->json($detalle, 200);
     }
+
+    /*public function notificarExpediente(Request $request)
+    {
+        $contar = Expediente::notificacion($user_id, $tipo_expediente);
+    }*/
+
 }

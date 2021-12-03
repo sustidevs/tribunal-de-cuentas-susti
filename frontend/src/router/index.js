@@ -9,6 +9,7 @@ import MisExpedientes from '../views/MisExpedientes.vue'
 import NuevoPase from '../views/NuevoPase.vue'
 import VerSeguimientos from '../views/VerSeguimientos.vue'
 import NuevoIniciador from '../views/NuevoIniciador.vue'
+import Iniciadores from '../views/Iniciadores.vue'
 import layout from '../layout/Layout'
 import Expedientes from "../views/Expedientes";
 import Enviados from "../views/Enviados";
@@ -75,6 +76,12 @@ const routes = [
         name: 'NuevoIniciador',
         component: NuevoIniciador,
         meta: { title: 'Nuevo Iniciador' }
+      },
+      {
+        path: '/iniciadores',
+        name: 'Iniciadores',
+        component: Iniciadores,
+        meta: { title: 'Iniciadores' }
       },
       {
         path: '/expedientes',

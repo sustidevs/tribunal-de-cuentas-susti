@@ -13,7 +13,7 @@ class PrioridadExpedienteSeeder extends Seeder
     {
         $prioridades = [
             'alta',
-            'media'
+            'normal'
         ];
         foreach($prioridades as $pri){
             $p = new PrioridadExpediente();
