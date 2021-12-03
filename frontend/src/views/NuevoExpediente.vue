@@ -135,8 +135,8 @@
         </v-col>
       </v-row>
     </form>
-
     <modal-nuevos-expedientes :show="creado" :dato="expediente_new" @close="cerrarModal"/>
+
   </div>
 </template>
 <script>

@@ -131,7 +131,7 @@ class ExpedienteController extends Controller
                                 }
                                 ///////////////////////////////////////////////////////////////////////////////////////
                                 $cod = new DNS1D;
-                                //(2 = separacion barras, 80 = ancho de la barra) 
+                                //(2 = separacion barras, 80 = ancho de la barra)
                                 $codigoBarra = $cod->getBarcodeHTML($expediente->nro_expediente, 'C39',2,80,'black', true);
                                 $datos = [$expediente->fecha,$caratula->iniciador->nombre,$extracto->descripcion,$estado_actual,$path, $expediente->nro_expediente,$codigoBarra];
                                 return response()->json($datos,200);
@@ -188,13 +188,14 @@ class ExpedienteController extends Controller
         return response()->json($detalle,200);
     }
 
+
     public function descargarZip(Request $request) //TODO hasta que tenga boton
     {
         //$request = new Request;
         //$request->id = 1;//verificar que cuenta con archivos
         //$request->download = true;
         $expediente = Expediente::findOrFail($request->id);
-        if($request->download == true) 
+        if($request->download == true)
         {
             //Define Dir Folder
             $public_dir = public_path()."/storage/archivos_expedientes/". $expediente->archivos;
@@ -205,18 +206,14 @@ class ExpedienteController extends Controller
             if(file_exists($public_dir))
             {
                 //return view('zip');
-                return response()->download($public_dir , $fileName);
+                $headers = array('Content-Type'=>'arraybuffer',);
+                return response()->download($public_dir , $fileName, $headers);
             }
             else
             {
                 return 'no existe archivo';
             }
         }
-        else
-        {
-            return 'error';
-        }
-        return view('zip');
     }
 
     //TODO revisar utilidad
@@ -286,7 +283,7 @@ class ExpedienteController extends Controller
        //echo $cod2->getBarcodeHTML('4445645656', 'PDF417');
 
        //echo $cod->getBarcodeHTML('4445645656', 'PHARMA2T',3,33,'green', true);
-       
+
        echo "<br>";
        echo "<br>";
        echo "<br>";
@@ -332,7 +329,7 @@ class ExpedienteController extends Controller
         /*echo '<img src="data:image/png,' . $cod->getBarcodePNG('4', 'C39+') . '" alt="barcode"   />';
         echo $cod->getBarcodePNGPath('4445645656', 'PHARMA2T');
         echo '<img src="data:image/png;base64,' . $cod->getBarcodePNG('4', 'C39+') . '" alt="barcode"   />';*/
-       
+
     }
 
 }
