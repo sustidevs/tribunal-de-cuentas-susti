@@ -50,8 +50,9 @@
 
       <modal-ver-detalle-exp
             :datos="datos"
+            :nro_expediente="nro_expediente"
             :show="show_modal"
-            @close="closeModalExitoNuevoIniciador"
+            @close="closeModal"
       />
   </div>
 </template>
@@ -99,11 +100,13 @@ export default {
     detalle(item) {
       this.show_modal = true;
       this.datos = item
+      this.nro_expediente = item.nro_expediente
+      this.show_modal = true;
     },
 
-    closeModalExitoNuevoIniciador() {
-      this.showModalVerDetalle = false;
-    },
+    closeModal() {
+      this.show_modal = false;
+    }
   },
 };
 </script>

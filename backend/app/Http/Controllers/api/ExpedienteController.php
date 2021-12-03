@@ -14,6 +14,7 @@ use App\Models\Historial;
 use App\Models\Iniciador;
 use App\Models\Expediente;
 use App\Models\TipoEntidad;
+use Illuminate\Support\Arr;
 use App\Models\Notificacion;
 use Illuminate\Http\Request;
 use App\Models\TipoExpediente;
@@ -212,13 +213,14 @@ class ExpedienteController extends Controller
         return response()->json($detalle,200);
     }
 
+
     public function descargarZip(Request $request) //TODO hasta que tenga boton
     {
         //$request = new Request;
         //$request->id = 1;//verificar que cuenta con archivos
         //$request->download = true;
         $expediente = Expediente::findOrFail($request->id);
-        if($request->download == true) 
+        if($request->download == true)
         {
             //Define Dir Folder
             $public_dir = public_path()."/storage/archivos_expedientes/". $expediente->archivos;
@@ -229,18 +231,14 @@ class ExpedienteController extends Controller
             if(file_exists($public_dir))
             {
                 //return view('zip');
-                return response()->download($public_dir , $fileName);
+                $headers = array('Content-Type'=>'arraybuffer',);
+                return response()->download($public_dir , $fileName, $headers);
             }
             else
             {
                 return 'no existe archivo';
             }
         }
-        else
-        {
-            return 'error';
-        }
-        return view('zip');
     }
 
     //TODO revisar utilidad
@@ -309,7 +307,7 @@ class ExpedienteController extends Controller
        //echo $cod2->getBarcodeHTML('4445645656', 'PDF417');
 
        //echo $cod->getBarcodeHTML('4445645656', 'PHARMA2T',3,33,'green', true);
-       
+
        echo "<br>";
        echo "<br>";
        echo "<br>";
@@ -354,8 +352,23 @@ class ExpedienteController extends Controller
        //echo $cod->getBarcodeHTML('4445645656', 'PHARMA2T');
         /*echo '<img src="data:image/png,' . $cod->getBarcodePNG('4', 'C39+') . '" alt="barcode"   />';
         echo $cod->getBarcodePNGPath('4445645656', 'PHARMA2T');
-        echo '<img src="data:image/png;base64,' . $cod->getBarcodePNG('4', 'C39+') . '" alt="barcode"   />';*/
-       
+        echo '<img src="data:image/png;base64,' . $cod->getBarcodePNG('4', 'C39+') . '" alt="barcode"   />';*/      
+    }
+
+    
+    /*
+    - Método que retorna el detalle del expediente para mostrarlo en bandeja de entrada antes de aceptar
+    - @param: expediente_id
+    */
+    public function showDetalleExpediente(Request $request)
+    {
+        $expediente = Expediente::findOrFail($request);
+        $detalle = Collect([]);
+        foreach ($expediente as $exp)
+        {
+            $detalle->push($exp->datosExpediente());
+        }
+        return response()->json($detalle, 200);
     }
 
     /*public function notificarExpediente(Request $request)

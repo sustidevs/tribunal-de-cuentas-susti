@@ -17,6 +17,9 @@
                 </div>
             </v-col>
         </v-row>
+      </v-card>
+
+
         <v-row no-gutters align="start" class="mt-5">
             <v-col>
                 <div class="d-flex">
@@ -76,7 +79,7 @@
             <v-col cols="12" sm="6" md="6" lg="6" class="py-6 px-sm-2">
                 <v-btn @click="close" class="pa-5 color Montserrat-SemiBold" height="55" elevation="0" color="#FACD89" block>
                     <v-icon class="px-5"> mdi-check-bold </v-icon>
-                    Aceptar
+                    Cerrar
                 </v-btn>
             </v-col>
         </v-row>
@@ -92,6 +95,8 @@ export default {
     props: {
         show: {type: Boolean, default:false},
         datos: Object,
+        expediente_id: Number,
+        nro_expediente: String,
     },
 
     computed: mapGetters(['allExpedientes', 'get_archivos']),
@@ -102,14 +107,13 @@ export default {
         getArchiv(){
             let files = {
                 id: this.datos.expediente_id,
-                download: true
+                download: true,
+                nro_expediente: this.nro_expediente,
             }
             this.getArchivos(files)
         },
-
         close() {
             this.$emit("close")
-            this.$router.go(0)
         },
     }
 }
@@ -117,5 +121,9 @@ export default {
 <style>
 .round {
     border-radius: 30px;
+}
+
+.descargar {
+  font-size: 18px !important;
 }
 </style>

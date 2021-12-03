@@ -10,7 +10,8 @@ const state = {
     errorAmbos: false,
     incorrecto: false,
     authenticated: false,
-    cuil: {}
+    cuil: {},
+    newPass:false
 };
 
 const getters = {
@@ -27,7 +28,8 @@ const getters = {
     errorAmbos: state => state.errorAmbos,
     authenticated: state => state.authenticated,
     getTipoUsuario: state=> state.user.tipo_user,
-    getCuil: state => state.user.cuil
+    getCuil: state => state.user.cuil,
+    getNewPass: state => state.newPass
 };
 
 const actions = {
@@ -61,8 +63,22 @@ const actions = {
 
     logout ({ commit }) {
         commit('clearUserData')
-    }
+    },
+    
+    // editPassword({commit}, user) {
+    //     axios.get(process.env.VUE_APP_API_URL+ '/api/editUser',user)
+    //         .then(response => {
+    //             console.log(response)
+    //             commit('set_user', response.data)
+    //         })
+    // }
 
+    nuevaContrasena({commit}, newPass){
+        axios.post(process.env.VUE_APP_API_URL+ '/api/updateUser', newPass)
+            .then(
+                commit('setNewPass', true)
+            )
+    }
 };
 
 const mutations = {
@@ -77,7 +93,8 @@ const mutations = {
     setCuil: (state, cuil) => state.cuil = cuil,
     clearUserData: () => {
         localStorage.removeItem('user')
-    }
+    },
+    setNewPass: (state, newPass) => state.newPass = newPass
 };
 
 export default {
