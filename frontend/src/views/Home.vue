@@ -6,6 +6,8 @@
       </v-row>
       <v-divider color="#393B44" class="my-4"></v-divider>
 
+      <tabla-iniciadores/>
+
       <div v-if="getArea == 'DPTO. MESA DE ENTRADAS Y SALIDAS'">
         <v-row class="phone">
           <v-col cols="12" sm="12" lg="6">
@@ -184,10 +186,11 @@ import ModalConsultarNroExp from "../components/dialogs/ModalConsultarNroExp"
 import ButtonBig from "../components/ButtonBig"
 
 import {mapActions, mapGetters} from "vuex";
+import TablaIniciadores from '../components/Tablas/TablaIniciadores.vue'
 
   export default {
     name: 'Home',
-    components: {TituloInicio,TituloAreaSub, ModalConsultarNroExp, ButtonBig},
+    components: {TituloInicio,TituloAreaSub, ModalConsultarNroExp, ButtonBig, TablaIniciadores},
     data () {
     return {
 
