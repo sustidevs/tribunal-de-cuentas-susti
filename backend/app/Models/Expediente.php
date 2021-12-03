@@ -51,9 +51,20 @@ class Expediente extends Model
         return $this->hasMany(Historial::class);
     }
 
+    //public function expediente()
+    //{
+    //    return $this->hasOne('App\Models\Expediente', 'id', 'expediente_id');
+    //}
+    //return $this->hasOne('App\Models\TipoExpediente','id','tipo_expediente'
+
     public function cedulas()
     {
         return $this->hasMany(Cedula::class);
+    }
+
+    public function notificacion()
+    {
+        return $this->hasMany(Notificacion::class);
     }
 
     public function cantidadCuerpos()
@@ -274,14 +285,15 @@ class Expediente extends Model
         return $lista_expedientes;
     }
 
-    public function notificacion($user_id)
+/*    public function notificacion($user_id)
     {
         /*$lista_areas = Collect([]);
         $area = User::findOrFail($user_id)->area_id;
         $expediente = $this->tipo_expediente->where('id', 3);*/
-        $expediente = Expediente::all()->where('tipo_expediente', 3);
+    /*    $expediente = Expediente::all()->where('tipo_expediente', 3);
         $user = User::all()->where('area_id', 6)->orWhere('area_id', 14);
+        $user = DB::table('users')->where('area_id', 6)->orWhere('area_id', 14)->get('id');
         $datos = [$expediente, $user];
         return $datos;
-    }
+    }*/
 }

@@ -6,23 +6,24 @@ use ZipArchive;
 use Carbon\Carbon;
 use App\Models\Area;
 use App\Models\User;
-use Milon\Barcode\DNS1D;
-use Milon\Barcode\DNS2D;
 use App\Models\Caratula;
 use App\Models\Extracto;
+use Milon\Barcode\DNS1D;
+use Milon\Barcode\DNS2D;
 use App\Models\Historial;
 use App\Models\Iniciador;
 use App\Models\Expediente;
 use App\Models\TipoEntidad;
+use App\Models\Notificacion;
 use Illuminate\Http\Request;
 use App\Models\TipoExpediente;
 use App\Models\PrioridadExpediente;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\StoreExpedienteRequest;
 use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Database\Eloquent\Relations\Relation;
-use Illuminate\Support\Facades\Storage;
 
 class ExpedienteController extends Controller
 {
@@ -131,6 +132,15 @@ class ExpedienteController extends Controller
                                 }
                                 ///////////////////////////////////////////////////////////////////////////////////////
                                 $cod = new DNS1D;
+                                if ($request->tipo_exp_id == 3)
+                                {
+                                    $notificacion = new Notificacion;
+                                    $notificacion->expediente_id = $expediente->id;
+                                    $notificacion->user_id = $request->user_id;
+                                    $notificacion->fecha = Carbon::now()->format('Y-m-d');
+                                    $notificacion->estado = "1"; //Pendiente
+                                    $notificacion->save(); 
+                                }
                                 //(2 = separacion barras, 80 = ancho de la barra) 
                                 $codigoBarra = $cod->getBarcodeHTML($expediente->nro_expediente, 'C39',2,80,'black', true);
                                 $datos = [$expediente->fecha,$caratula->iniciador->nombre,$extracto->descripcion,$estado_actual,$path, $expediente->nro_expediente,$codigoBarra];
