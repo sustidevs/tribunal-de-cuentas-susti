@@ -94,6 +94,13 @@ class ExpedienteController extends Controller
                         $historial->hora = Carbon::now()->format('h:i');
                         $historial->motivo = "created";
                         $historial->estado = 1;
+                        if(($request->allFiles()) != null)
+                        {
+                            $fileName = $request->nro_expediente;
+                            $fileName = str_replace("/","-",$fileName).'.zip';
+                            $path =storage_path()."/app/public/archivos_expedientes/".$fileName;
+                            $historial->nombre_archivo = $fileName;
+                        }
                         if($historial->save())
                         {
                             /*
@@ -113,7 +120,8 @@ class ExpedienteController extends Controller
                             {
                                 $estado_actual = Area::findOrFail($request->area_id);
                                 //ARCHIVOS/////////////////////////////////////////////////////////////////////////////
-                                if(!is_null($request->allFiles()))
+                                
+                                if(($request->allFiles()) != null)
                                 {
                                     $zip = new ZipArchive;
                                     $fileName = $request->nro_expediente;
@@ -129,8 +137,13 @@ class ExpedienteController extends Controller
                                         $zip->close();
                                     }
                                     $expediente->archivos = $fileName;
+                                    $historial->nombre_archivo = $fileName;
                                     $expediente->save();
+                                    $historial->save();
                                 }
+                                $fileName = $request->nro_expediente;
+                                $fileName = str_replace("/","-",$fileName).'.zip';
+                                $path =storage_path()."/app/public/archivos_expedientes/".$fileName;
                                 ///////////////////////////////////////////////////////////////////////////////////////
                                 $cod = new DNS1D;
                                 if ($request->tipo_exp_id == 3)

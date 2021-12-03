@@ -100,7 +100,8 @@ class Expediente extends Model
                           'caratula'=>$this->caratula->id,
                           'fojas'=>$this->fojas,
                           'area_actual' => $this->area->descripcion,
-                          'area_origen'=>$this->historiales->last()->areaOrigen->descripcion
+                          'area_origen'=>$this->historiales->last()->areaOrigen->descripcion,
+                          'archivo'=>$this->archivos
             ]);
 
         return $array;
@@ -180,7 +181,8 @@ class Expediente extends Model
                 //'area_actual_id'=>$exp->area_actual_id,
                 //'area_actual'=>$exp->area->descripcion,
                 'estado'=>$estado_expediente,
-                'user_id'=>$exp->historiales->last()->user_id
+                'user_id'=>$exp->historiales->last()->user_id,
+                'archivo'=>$exp->archivos
             ]);
 
         }
