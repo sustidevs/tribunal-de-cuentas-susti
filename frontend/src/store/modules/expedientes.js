@@ -18,6 +18,7 @@ const state = {
     historial: [],
     historial_nro: '',
     archivos: [],
+    descargado: false,
 };
 
 const getters = {
@@ -39,6 +40,7 @@ const getters = {
     get_Historial: state => state.historial,
     get_historial_nro: state => state.historial_nro,
     get_archivos: state => state.archivos,
+    get_descargado: state => state.descargado,
 };
 
 const actions = {
@@ -93,10 +95,16 @@ const actions = {
             }
         })
         .then(response => {
-            let blob = new Blob([response.data], {type: 'application/zip'})
-            let url = window.URL.createObjectURL(blob)
-            window.open(url)
-            commit('set_expedientes', response.data)
+            var fileURL = window.URL.createObjectURL(new Blob([response.data]));
+            var fileLink = document.createElement('a');
+
+            var nro_expediente = archivo.nro_expediente
+            fileLink.href = fileURL;
+            fileLink.setAttribute('download', nro_expediente + '.zip');
+            document.body.appendChild(fileLink);
+
+            fileLink.click();
+            commit('set_decargado', true)
         })
     },
 
@@ -163,6 +171,7 @@ const mutations = {
     set_historial: (state,historial) => state.historial = historial,
     set_nro_historial: (state,historial_nro) => state.historial_nro = historial_nro,
     set_archivos: (state, archivos) => state.archivos = archivos,
+    set_decargado: (state, descargado) => state.descargado = descargado,
 };
  
 export default {
