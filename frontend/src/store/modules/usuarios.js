@@ -11,7 +11,7 @@ const state = {
     incorrecto: false,
     authenticated: false,
     cuil: {},
-    newPass:{}
+    newPass:false
 };
 
 const getters = {

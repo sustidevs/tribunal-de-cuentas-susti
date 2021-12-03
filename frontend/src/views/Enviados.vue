@@ -2,6 +2,7 @@
   <div>
     <alert
       texto="El expediente fue recuperado con éxito."
+      type="success"
       :condicion="this.recuperado"
     />
     <titulo texto="Expedientes Enviados" icono="mdi-email-fast" />
