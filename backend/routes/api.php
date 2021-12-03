@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\api\PagoController;
 use App\Http\Controllers\api\UserController;
 use App\Http\Controllers\api\LoginController;
 use App\Http\Controllers\api\CedulaController;
@@ -97,4 +98,10 @@ Route::post('/update-cedula',    [CedulaController::Class, 'update']);
 Route::get('/index-notificacion',       [NotificacionController::Class, 'index']);
 Route::post('/store-notificacion',      [NotificacionController::Class, 'store']);
 Route::post('/update-notificacion',     [NotificacionController::Class, 'update']);
+////////////////////////////////////////////////////////////////////////////////////////////
+
+///////PAGOS////////////////////////////////////////////////////////////////////////////////
+Route::get('/index-pagos',      [PagoController::Class, 'index']);
+Route::post('/store-pagos',     [PagoController::Class, 'store']);
+Route::post('/update-pagos',    [PagoController::Class, 'update']);
 ////////////////////////////////////////////////////////////////////////////////////////////
