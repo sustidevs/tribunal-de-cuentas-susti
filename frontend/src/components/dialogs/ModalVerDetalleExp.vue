@@ -17,7 +17,6 @@
                 </div>
             </v-col>
         </v-row>
-      </v-card>
 
 
         <v-row no-gutters align="start" class="mt-5">
@@ -95,8 +94,6 @@ export default {
     props: {
         show: {type: Boolean, default:false},
         datos: Object,
-        expediente_id: Number,
-        nro_expediente: String,
     },
 
     computed: mapGetters(['allExpedientes', 'get_archivos']),
@@ -108,7 +105,7 @@ export default {
             let files = {
                 id: this.datos.expediente_id,
                 download: true,
-                nro_expediente: this.nro_expediente,
+                nro_expediente: this.datos.nro_expediente,
             }
             this.getArchivos(files)
         },

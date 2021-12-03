@@ -40,8 +40,8 @@ Route::post('/showExp',             [ExpedienteController::class, 'show']);
 Route::post('/indexExpArea',        [ExpedienteController::class, 'indexPorAreas']);
 Route::post('/buscar-expediente',   [ExpedienteController::class, 'buscarExpediente']);
 Route::get('/all-expedientes',      [ExpedienteController::class, 'AllExpedientes']);
-Route::get('/zip',                  [ExpedienteController::class, 'descargarZip']);//TODO ruta back 8000
-//Route::post('/zip',               [ExpedienteController::class, 'descargarZip']);
+//Route::get('/zip',                  [ExpedienteController::class, 'descargarZip']);//TODO ruta back 8000
+Route::post('/zip',               [ExpedienteController::class, 'descargarZip']);
 Route::get('/show-detalle',        [ExpedienteController::class, 'showDetalleExpediente']);
 ////////////////////////////////////////////////////////////////////////////////////
 /// NUEVO INICIADOR

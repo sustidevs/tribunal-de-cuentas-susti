@@ -65,7 +65,7 @@ class HistorialController extends Controller
             $zip = new ZipArchive;
             $fileName = $expediente->nro_expediente;
             $fileName = str_replace("/","-",$fileName).'.zip';
-            $path =storage_path()."/app/public/archivos_expedientes/".$fileName. ".zip";
+            $path =storage_path()."/app/public/archivos_expedientes/".$fileName;
             if($zip->open($path ,ZipArchive::CREATE) === true)
             {
                 foreach ($request->allFiles() as $key => $value)
@@ -76,7 +76,9 @@ class HistorialController extends Controller
                 $zip->close();
             }
             $expediente->archivos = $fileName;
+            $historial->nombre_archivo = $fileName;
             $expediente->save();
+            $historial->save();
         }
         ///////////////////////////////////////////////////////////////////////////////////////
         $expediente->save();
@@ -107,7 +109,7 @@ class HistorialController extends Controller
         $historial = new Historial;
         $historial->expediente_id = $expediente->id;
         $historial->user_id = $user->id;
-        $historial->area_origen_id = $user->area_id;
+        $historial->area_origen_id = $expediente->historiales->last()->area_origen_id;
         $historial->area_destino_id = $user->area_id;
         $historial->fojas = $expediente->fojas;
         $historial->fecha = Carbon::now()->format('Y-m-d');
