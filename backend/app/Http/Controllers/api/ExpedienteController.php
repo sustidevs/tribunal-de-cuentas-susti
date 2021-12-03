@@ -188,11 +188,11 @@ class ExpedienteController extends Controller
         return response()->json($detalle,200);
     }
 
-    public function descargarZip() //TODO hasta que tenga boton
+    public function descargarZip(Request $request) //TODO hasta que tenga boton
     {
-        $request = new Request;
-        $request->id = 1;//verificar que cuenta con archivos
-        $request->download = true;
+        //$request = new Request;
+        //$request->id = 1;//verificar que cuenta con archivos
+        //$request->download = true;
         $expediente = Expediente::findOrFail($request->id);
         if($request->download == true) 
         {
@@ -204,6 +204,7 @@ class ExpedienteController extends Controller
             $zipFileName = $expediente->archivos;
             if(file_exists($public_dir))
             {
+                //return view('zip');
                 return response()->download($public_dir , $fileName);
             }
             else
