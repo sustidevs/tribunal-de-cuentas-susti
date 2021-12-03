@@ -112,7 +112,7 @@ class HistorialController extends Controller
         $historial->fojas = $expediente->fojas;
         $historial->fecha = Carbon::now()->format('Y-m-d');
         $historial->hora = Carbon::now()->format('h:i');
-        $historial->motivo = "cambio estado";
+        $historial->motivo = "Pase aceptado";
         $historial->estado = $request->estado_expediente;
         $expediente->estado_expediente_id = $request->estado_expediente;
         /*

@@ -48,10 +48,8 @@
       </template>
     </v-data-table>
 
-    
-
       <modal-ver-detalle-exp
-            :datos="expediente_id"
+            :datos="datos"
             :show="show_modal"
             @close="closeModalExitoNuevoIniciador"
       />
@@ -100,7 +98,7 @@ export default {
 
     detalle(item) {
       this.show_modal = true;
-      this.expediente_id = item.expediente_id
+      this.datos = item
     },
 
     closeModalExitoNuevoIniciador() {

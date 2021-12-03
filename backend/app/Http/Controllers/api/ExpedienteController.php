@@ -92,7 +92,7 @@ class ExpedienteController extends Controller
                         $historial->fojas = $request->nro_fojas;
                         $historial->fecha = Carbon::now()->format('Y-m-d');
                         $historial->hora = Carbon::now()->format('h:i');
-                        $historial->motivo = "created";
+                        $historial->motivo = "Expediente creado";
                         $historial->estado = 1;
                         if(($request->allFiles()) != null)
                         {
@@ -114,7 +114,7 @@ class ExpedienteController extends Controller
                             $historial->fojas = $request->nro_fojas;
                             $historial->fecha = Carbon::now()->format('Y-m-d');
                             $historial->hora = Carbon::now()->format('h:i');
-                            $historial->motivo = "pase";
+                            $historial->motivo = $request->observacion;
                             $historial->estado = "1";//Enviado
                             if($historial->save())
                             {

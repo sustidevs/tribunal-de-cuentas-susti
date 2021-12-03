@@ -7,13 +7,13 @@
             <v-col>
                 <div class="d-flex">
                     <div class="textHereSmall Montserrat-Bold mr-1"> Iniciador: </div>
-                    <div class="textHereSmall Montserrat-SemiBold ml-1"> Ministerio de Hacienda y Finanzas </div>
+                    <div class="textHereSmall Montserrat-SemiBold ml-1"> {{ this.datos.iniciador }} </div>
                 </div>
             </v-col>
             <v-col>
                 <div class="d-flex">
                     <div class="textHereSmall Montserrat-Bold mr-1"> Fecha de creación: </div>
-                    <div class="textHereSmall Montserrat-SemiBold ml-1"> 28/04/2021 </div>
+                    <div class="textHereSmall Montserrat-SemiBold ml-1"> {{ this.datos.fecha_creacion }} </div>
                 </div>
             </v-col>
         </v-row>
@@ -21,13 +21,13 @@
             <v-col>
                 <div class="d-flex">
                     <div class="textHereSmall Montserrat-Bold mr-1"> Área emisora: </div>
-                    <div class="textHereSmall Montserrat-SemiBold ml-1"> Secretaría General Técnica </div>
+                    <div class="textHereSmall Montserrat-SemiBold ml-1"> {{ this.datos.area_origen }} </div>
                 </div>
             </v-col>
             <v-col>
                 <div class="d-flex">
                     <div class="textHereSmall Montserrat-Bold mr-1"> Cuerpo: </div>
-                    <div class="textHereSmall Montserrat-SemiBold ml-1"> 3</div>
+                    <div class="textHereSmall Montserrat-SemiBold ml-1"> {{ this.datos.cant_cuerpos }} </div>
                 </div>
             </v-col>
         </v-row>
@@ -35,13 +35,13 @@
             <v-col>
                 <div class="d-flex">
                     <div class="textHereSmall Montserrat-Bold mr-1"> Trámite: </div>
-                    <div class="textHereSmall Montserrat-SemiBold ml-1"> Fondo Permanente </div>
+                    <div class="textHereSmall Montserrat-SemiBold ml-1"> {{ this.datos.tramite }} </div>
                 </div>
             </v-col>
             <v-col>
                 <div class="d-flex">
                     <div class="textHereSmall Montserrat-Bold mr-1"> Fojas: </div>
-                    <div class="textHereSmall Montserrat-SemiBold ml-1"> 15</div>
+                    <div class="textHereSmall Montserrat-SemiBold ml-1"> {{ this.datos.fojas }} </div>
                 </div>
             </v-col>
         </v-row>
@@ -50,20 +50,26 @@
             <v-col>
                 <div class="d-flex">
                     <div class="textHereSmall Montserrat-Bold mr-3"> Archivos adjuntos: </div>
-                    <v-chip class="textHereSmall Montserrat-Regular" @click="getArchiv()"> Descargar</v-chip>
+                    <div v-if="this.datos.archivo !== null">
+                        <v-chip class="textHereSmall Montserrat-Regular" @click="getArchiv()"> Descargar</v-chip>
+                    </div>
+                    <div v-else class="textHereSmall d-flex flex-column Montserrat-SemiBold text-justify">
+                        No se han cargado archivos
+                    </div>
                 </div>
             </v-col>
         </v-row>
         <v-row no-gutters align="start" class="mt-5">
             <div class="textHereSmall d-flex flex-column Montserrat-Bold mb-2"> Extracto: </div>
-            <div class="textHereSmall d-flex flex-column Montserrat-SemiBold text-justify">RENDICIÓN DE CUENTAS N° 01/20 FDO.PTE.GTOS.BIENES DE CONSUMO
-            SERVICIOS NO RESPONSABLE. BS. USO Y TRANF. DCTO M° 2548/20. $1.000.000.00 (MINISTERIO REPARTICIÓN).
-            </div>
+            <div class="textHereSmall d-flex flex-column Montserrat-SemiBold text-justify"> {{ this.datos.extracto }} </div>
+        </v-row>
+        <v-row no-gutters align="start" class="mt-5">
+            <div class="textHereSmall d-flex flex-column Montserrat-Bold mb-2"> Observaciones: </div>
+            <div class="textHereSmall d-flex flex-column Montserrat-SemiBold text-justify"> {{ this.datos.observacion }}</div>
         </v-row>
         <v-row no-gutters align="start" class="mt-5">
             <div class="textHereSmall d-flex flex-column Montserrat-Bold mb-2"> A efectos de: </div>
-            <div class="textHereSmall d-flex flex-column Montserrat-SemiBold text-justify"> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-            </div>
+            <div class="textHereSmall d-flex flex-column Montserrat-SemiBold text-justify"> {{ this.datos.motivo[0].motivo }} </div>
         </v-row>
 
         <v-row no-gutters justify="center" class="mt-8">
@@ -85,7 +91,7 @@ export default {
     components: {Titulo},
     props: {
         show: {type: Boolean, default:false},
-        datos: Number,
+        datos: Object,
     },
 
     computed: mapGetters(['allExpedientes', 'get_archivos']),
@@ -95,7 +101,7 @@ export default {
 
         getArchiv(){
             let files = {
-                id: this.datos,
+                id: this.datos.expediente_id,
                 download: true
             }
             this.getArchivos(files)
