@@ -82,6 +82,7 @@
       <div class="mt-4">
         <label-input texto="Observaciones:"/>
         <v-textarea
+          v-model="expe.observacion"
           outlined
           name="textarea"
           color="amber accent-4"
@@ -174,6 +175,7 @@ export default {
       nro_fojas: '',
       prioridad: '',
       tipo_exp_id: 0,
+      observacion: '',
       descripcion_extracto: '',
       area_id: '',
       archivos: '',
@@ -204,6 +206,7 @@ export default {
       formData.append('user_id', this.getIdUser);
       formData.append('iniciador_id', this.expe.iniciador_id);
       formData.append('nro_fojas', this.expe.nro_fojas);
+      formData.append('observacion', this.expe.observacion);
       formData.append('nro_expediente', this.nroExpediente);
       formData.append('prioridad_id',  this.expe.prioridad);
       formData.append('tipo_exp_id',this.expe.tipo_exp_id);
