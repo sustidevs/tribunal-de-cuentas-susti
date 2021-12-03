@@ -80,6 +80,7 @@ class ExpedienteController extends Controller
                     $caratula->expediente_id = $expediente->id;
                     $caratula->iniciador_id = $request->iniciador_id;
                     $caratula->extracto_id = $extracto->id;
+                    $caratula->observacion = $request->observacion;
                     if($caratula->save())
                     {
                         $user = User::findOrFail($request->user_id);
