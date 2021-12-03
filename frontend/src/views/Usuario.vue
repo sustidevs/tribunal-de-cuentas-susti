@@ -78,10 +78,9 @@
                         <v-img max-height="170" width="170" src='/img/usuario.png'></v-img>
                     </v-col>
                     <v-col cols="12" sm="12" lg="8">
-                        <v-flex class="textHereBig Montserrat-SemiBold pb-2">MARÍA GONZALEZ</v-flex>
-                        <v-flex class="textHereSmall Montserrat-SemiBold pt-2">ÁREA: Auditoría</v-flex>
-                        <v-flex class="textHereSmall Montserrat-Regular pt-2">CUIL: 27-35456789-1</v-flex>
-                        <v-flex class="textHereSmall Montserrat-Regular pt-2">CORREO: mariagonzalez@gmail.com</v-flex>
+                        <v-flex class="textHereBig Montserrat-SemiBold pb-2 text-uppercase">{{this.$store.getters.getNombreApellido}} </v-flex>
+                        <v-flex class="textHereSmall Montserrat-SemiBold pt-2">ÁREA: <span class="Montserrat-Regular">{{this.$store.getters.getArea}}</span> </v-flex>
+                        <v-flex class="textHereSmall Montserrat-SemiBold pt-2">CUIL: <span class="Montserrat-Regular">{{this.$store.getters.getCuil}}</span> </v-flex>
                     </v-col>
                 </v-row>
             </v-col>
@@ -91,6 +90,8 @@
 
 <script>
 import LabelInput from "../components/LabelInput";
+import {mapActions} from "vuex";
+
 export default {
   name: 'Usuario',
   components: {LabelInput},
@@ -102,6 +103,9 @@ export default {
             mostrar: false,
             mostrar2: false,
         }
+    },
+     methods:{
+        ...mapActions(['getApellido', 'getNombre', 'getArea', 'getCuil']),
     },
 }
 </script>
