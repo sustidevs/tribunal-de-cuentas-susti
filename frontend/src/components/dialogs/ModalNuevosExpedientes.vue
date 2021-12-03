@@ -23,7 +23,7 @@
       <div class="Montserrat-Regular mb-6 text-justify sizeDM">{{ dato[2] }}</div>
 
       <div class="Montserrat-Bold mb-2 sizeTM">Observación:</div>
-      <div class="Montserrat-Regular mb-6 text-justify sizeDM">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. </div>
+      <div class="Montserrat-Regular mb-6 text-justify sizeDM"> Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatibus sit, commodi deleniti ad illo assumenda eius fuga aliquid. Laudantium voluptatum, delectus voluptate aperiam vel incidunt numquam architecto, adipisci laborum dolores, corrupti eaque fugiat soluta veniam debitis voluptatem. Saepe quasi, eveniet nihil delectus hic laudantium nobis </div>
 
       <v-row no-gutters justify="center" class="py-4">
 
@@ -75,9 +75,8 @@
 
             <div class="d-flex flex-column pad">
               <div class="Montserrat-SemiBold sizeAll">Observación:</div>
-              <!-- MÁXIMO DE 120 PALABRAS DE LOREM IPSUM -->
               <div class="Montserrat-Regular sizeAll text-justify">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Rem fuga quisquam enim molestias maiores, dolorem nulla repellendus aliquam reprehenderit, ducimus architecto praesentium ut autem libero iusto similique laboriosam esse provident commodi voluptas tenetur quas? Culpa, est. Enim molestiae vitae consectetur quaerat, odit nisi ad doloribus debitis illum. Officia, facilis itaque animi cumque excepturi maxime autem voluptate sapiente ad distinctio veniam praesentium facere enim repellat deserunt numquam natus error quos voluptatum recusandae adipisci ea velit! Perspiciatis odit numquam, error odio voluptatum, architecto beatae voluptates amet, placeat in possimus rem assumenda labore excepturi quos illum! Sed officia sint eveniet, sit recusandae et perferendis, quibusdam, nulla inventore accusantium voluptatibus. Rem laborum accusamus delectus excepturi recusandae natus earum culpa numquam ipsa? Dolorem, sed dolorum!
+              Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatibus sit, commodi deleniti ad illo assumenda eius fuga aliquid. Laudantium voluptatum, delectus voluptate aperiam vel incidunt numquam architecto, adipisci laborum dolores, corrupti eaque fugiat soluta veniam debitis voluptatem. Saepe quasi, eveniet nihil delectus hic laudantium nobis
               </div>
             </div>
           </section>
@@ -109,6 +108,12 @@
                 <div class="Montserrat-SemiBold sizeAll">Extracto:</div>
                 <div class="Montserrat-Regular sizeAll">{{ dato[2] }}</div>
               </div>
+              <div class="d-flex flex-column pad">
+                <div class="Montserrat-SemiBold sizeAll">Observación:</div>
+                <div class="Montserrat-Regular sizeAll text-justify">
+                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatibus sit, commodi deleniti ad illo assumenda eius fuga aliquid. Laudantium voluptatum, delectus voluptate aperiam vel incidunt numquam architecto, adipisci laborum dolores, corrupti eaque fugiat soluta veniam debitis voluptatem. Saepe quasi, eveniet nihil delectus hic laudantium nobis
+              </div>
+            </div>
             </section>
           </section>
         </div>
@@ -153,13 +158,13 @@ export default {
 </script>
 <style>
 .container1 {
-  height: 800px;
+  height: 650px;
   width: auto;
   display: flex;
   flex-direction: row;
 }
 .container2 {
-  height: 200px;
+  height: 350px;
   display: flex;
   flex-direction: row;
 }
