@@ -31,17 +31,18 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 //EXPEDIENTE////////////////////////////////////////////////////////////////////////
-Route::get('/indexExp',       [ExpedienteController::class, 'index']);
-Route::get('/createExp',      [ExpedienteController::class, 'create']);
-Route::post('/storeExp',      [ExpedienteController::class, 'store']);
-Route::get('/updateExp',      [ExpedienteController::class, 'update']);
-Route::post('/nroExp',        [ExpedienteController::class, 'createNroExpediente']);
-Route::post('/showExp',       [ExpedienteController::class, 'show']);
-Route::post('/indexExpArea',  [ExpedienteController::class, 'indexPorAreas']);
-Route::post('/buscar-expediente',  [ExpedienteController::class, 'buscarExpediente']);
-Route::get('/all-expedientes',  [ExpedienteController::class, 'AllExpedientes']);
-//Route::get('/zip',         [ExpedienteController::class, 'descargarZip']);//TODO ruta back 8000
-Route::post('/zip',       [ExpedienteController::class, 'descargarZip']);  
+Route::get('/indexExp',             [ExpedienteController::class, 'index']);
+Route::get('/createExp',            [ExpedienteController::class, 'create']);
+Route::post('/storeExp',            [ExpedienteController::class, 'store']);
+Route::get('/updateExp',            [ExpedienteController::class, 'update']);
+Route::post('/nroExp',              [ExpedienteController::class, 'createNroExpediente']);
+Route::post('/showExp',             [ExpedienteController::class, 'show']);
+Route::post('/indexExpArea',        [ExpedienteController::class, 'indexPorAreas']);
+Route::post('/buscar-expediente',   [ExpedienteController::class, 'buscarExpediente']);
+Route::get('/all-expedientes',      [ExpedienteController::class, 'AllExpedientes']);
+Route::get('/zip',                  [ExpedienteController::class, 'descargarZip']);//TODO ruta back 8000
+//Route::post('/zip',               [ExpedienteController::class, 'descargarZip']);
+Route::get('/show-detalle',        [ExpedienteController::class, 'showDetalleExpediente']);
 ////////////////////////////////////////////////////////////////////////////////////
 /// NUEVO INICIADOR
 Route::get('/createTipoEntidad',      [IniciadorController::class, 'create']);
@@ -66,8 +67,8 @@ Route::post('/updateUser', [UserController::class, 'update']);
 Route::get('/bajaUser', [UserController::class, 'delete']);
 Route::get('/restoreUser', [UserController::class, 'restore']);
 
-Route::get('/login',[LoginController::Class, 'showLoginForm'] );
-Route::post('/login',[LoginController::Class, 'authenticate'] );
+Route::get('/login',[LoginController::class, 'showLoginForm'] );
+Route::post('/login',[LoginController::class, 'authenticate'] );
 
 ///////INICIADORES//////////////////////////////////////////////////////////////////////////
 Route::get('/index-iniciador',  [IniciadorController::Class, 'index']);
