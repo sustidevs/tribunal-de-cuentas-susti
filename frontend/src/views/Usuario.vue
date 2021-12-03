@@ -45,6 +45,7 @@
                                 @click:append="show2 = !show2"
                                 background-color="white"
                                 outlined
+                                v-model="user.password"
                             ></v-text-field>
                         </v-col>
                     </v-row>
@@ -58,10 +59,11 @@
                                 @click:append="show3 = !show3"
                                 background-color="white"
                                 outlined
+                                v-model="repetirPass"
                             ></v-text-field>
                         </v-col>
                         <v-col cols="12">
-                            <v-btn type="submit" class="pa-5 Montserrat-SemiBold" height="55" elevation="0" color="#FACD89" block>
+                            <v-btn @click="nuevoPassword()" type="submit" class="pa-5 Montserrat-SemiBold" height="55" elevation="0" color="#FACD89" block>
                                 <v-icon class="pr-5">  mdi-content-save </v-icon>
                                 <div> Guardar </div>
                             </v-btn>
@@ -90,13 +92,19 @@
 
 <script>
 import LabelInput from "../components/LabelInput";
-import {mapActions} from "vuex";
+import {mapGetters, mapActions} from "vuex";
 
 export default {
   name: 'Usuario',
   components: {LabelInput},
     data() {
         return {
+            user:{
+                id:  this.$store.getters.getIdUser, 
+                password: '',
+            },
+
+            repetirPass:'',
             show1: false,
             show2: false,
             show3: false,
@@ -104,9 +112,23 @@ export default {
             mostrar2: false,
         }
     },
-     methods:{
-        ...mapActions(['getApellido', 'getNombre', 'getArea', 'getCuil']),
+  computed: mapGetters('getIdUser'),
+
+  methods:{
+    ...mapActions(['getApellido', 'getNombre','editPassword', 'nuevaContrasena']),
+
+  nuevoPassword() {
+      if (this.user.password == this.repetirPass){
+          this.nuevaContrasena(this.user)
+          return true;
+      }
+      else{ 
+          return false;
+      }
+  }
     },
+  
+
 }
 </script>
 
