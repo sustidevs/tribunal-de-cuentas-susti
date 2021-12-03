@@ -22,12 +22,12 @@ class NotificacionController extends Controller
 
     public function store(Request $request)
     {
-        $notificacion = new Notificacion;
+        /*$notificacion = new Notificacion;
         $notificacion->expediente_id = $request->expediente_id;
         $notificacion->user_id = $request->user_id;
         $notificacion->estado = "1"; //Pendiente
         $notificacion->save();
-        return response()->json($notificacion, 200);
+        return response()->json($notificacion, 200);*/
     }
 
     public function show($id)
@@ -47,8 +47,7 @@ class NotificacionController extends Controller
         $notificacion->fecha = Carbon::now();
         $notificacion->estado = "2"; //Aceptado
         $notificacion->save();
-        dd($notificacion);
-        //return response()->json($notificacion->getDatos(), 200);
+        return response()->json($notificacion->getDatos(), 200);
     }
 
     public function destroy($id)
