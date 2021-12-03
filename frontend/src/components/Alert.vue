@@ -7,9 +7,10 @@
         prominent
         dismissible
         text
-        type="info"
+        :type="type"
         class="alert Montserrat-Regular"
         close-icon="mdi-close"
+
     >
       {{ texto }}
     </v-alert>
@@ -20,6 +21,7 @@ export default {
   name: 'Alert',
   props:{
     texto: String,
+    type: String,
     condicion: {type: Boolean, default: false},
   }
 }

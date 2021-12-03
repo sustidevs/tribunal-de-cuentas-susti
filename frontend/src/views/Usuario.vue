@@ -4,6 +4,7 @@
             <v-col cols="12" sm="12" lg="6" class="pb-6">
                 <h1 class="d-flex justify-start Montserrat-Bold pb-3 mt-6"> Cambiar contraseña </h1>
                 <v-divider color="#393B44" class="mt-2"></v-divider>
+                <alert-sucess texto="La contraseña se actualizo con éxito" :condicion="this.show1" />
                 <label-input  class="pt-10" texto="Ingrese su contraseña actual"/>
                 <v-row cols="6" no-gutters justify="start" class="pb-6">
                     <v-col cols="12">
@@ -36,6 +37,7 @@
                             >
                                 Su contraseña debe tener al menos 8 caracteres, un número y una letra.
                             </v-alert>
+                            <alert type="error" texto="Las constrañas no coinciden" :condicion="this.show2" />                            
                         </v-col>
                         <v-col cols="12">
                             <v-text-field
@@ -52,6 +54,8 @@
                     <label-input texto="Repita la nueva contraseña"/>
                     <v-row no-gutters justify="start" class="pb-16">
                         <v-col cols="12">
+                            <alert type="error" texto="Las constrañas no coinciden" :condicion="this.show2" />
+
                             <v-text-field
                                 color="amber accent-4"
                                 :append-icon="show3 ? 'mdi-eye' : 'mdi-eye-off'"
@@ -92,18 +96,19 @@
 
 <script>
 import LabelInput from "../components/LabelInput";
+import AlertSucess from "../components/AlertSucess"
+import Alert from "../components/Alert"
 import {mapGetters, mapActions} from "vuex";
 
 export default {
   name: 'Usuario',
-  components: {LabelInput},
+  components: {LabelInput, AlertSucess, Alert},
     data() {
         return {
             user:{
                 id:  this.$store.getters.getIdUser, 
                 password: '',
             },
-
             repetirPass:'',
             show1: false,
             show2: false,
@@ -112,7 +117,7 @@ export default {
             mostrar2: false,
         }
     },
-  computed: mapGetters('getIdUser'),
+  computed: mapGetters('getIdUser', 'getNewPass', 'cambiado'),
 
   methods:{
     ...mapActions(['getApellido', 'getNombre','editPassword', 'nuevaContrasena']),
@@ -120,10 +125,11 @@ export default {
   nuevoPassword() {
       if (this.user.password == this.repetirPass){
           this.nuevaContrasena(this.user)
-          return true;
+          this.show1 = true;
+          this.show2 = false;
       }
       else{ 
-          return false;
+          this.show2 = true;
       }
   }
     },
