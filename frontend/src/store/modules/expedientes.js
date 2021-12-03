@@ -117,9 +117,8 @@ const actions = {
                 commit('set_finalizado', false)
             })
     },
-
     recuperar({ commit }, expediente) {
-        axios.post(process.env.VUE_APP_API_URL+ '/api/update-estado-cuerpo', expediente).
+        axios.post(process.env.VUE_APP_API_URL+ '/api/update-estado', expediente).
         then(response => {
             console.log(response)
             commit('recuperado', true)

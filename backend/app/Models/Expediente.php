@@ -51,6 +51,11 @@ class Expediente extends Model
         return $this->hasMany(Historial::class);
     }
 
+    public function cedulas()
+    {
+        return $this->hasMany(Cedula::class);
+    }
+
     public function cantidadCuerpos()
     {
         return ceil($this->fojas/200);
@@ -259,7 +264,6 @@ class Expediente extends Model
                                             ->where('tipo_expediente', 3)
                                             ->where('descripcion','LIKE',"%$valor%")
                                             ->get();                      
-    
                     foreach ($consulta as $item) {
                         $expediente = Expediente::FindOrFail($item->id);
                         $lista_expedientes->push($expediente->getDatos());
