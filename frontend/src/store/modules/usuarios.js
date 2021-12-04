@@ -33,6 +33,14 @@ const getters = {
 };
 
 const actions = {
+
+    verificar ({commit}){
+        axios.get(process.env.VUE_APP_API_URL+ '/api/verificar')
+            .then(response => {
+                console.log(response)
+                commit('setAuthenticated', true)
+            })
+    },
    login ({ commit }, user) {
         axios.get('/sanctum/csrf-cookie');
         axios.post(process.env.VUE_APP_API_URL+ '/api/login', user)
@@ -62,6 +70,7 @@ const actions = {
     },
 
     logout ({ commit }) {
+
         commit('clearUserData')
     },
     

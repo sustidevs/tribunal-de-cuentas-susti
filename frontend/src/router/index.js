@@ -14,7 +14,10 @@ import layout from '../layout/Layout'
 import Expedientes from "../views/Expedientes";
 import Enviados from "../views/Enviados";
 import Usuario from "../views/Usuario";
-
+import auth from "../middleware/auth";
+import guest from "../middleware/guest";
+import middlewarePipeline from "./middlewarePipeline";
+import store from "../store/index"
 Vue.use(VueRouter)
 
 const routes = [
@@ -27,19 +30,19 @@ const routes = [
         path: '/',
         name: 'Home',
         component: Home,
-        meta: {title: 'Inicio',  layout: layout }
+        meta: {title: 'Inicio',  layout: layout, middleware: [auth] }
       },
       {
         path: '/nuevo-expediente',
         name: 'Nuevo',
         component: NuevoExpediente,
-        meta: { title: 'Nuevo Expediente' }
+        meta: { title: 'Nuevo Expediente', middleware: [auth]}
       },
       {
         path: '/expedientes',
         name: 'Expedientes',
         component: Expedientes,
-        meta: { title: 'Expedientes' }
+        meta: { title: 'Expedientes', middleware: [auth] }
       },
       {
         path: '/expedientes-pendientes',
@@ -107,7 +110,7 @@ const routes = [
     path: '/login',
     name: 'LoginGeneral',
     component: LoginGeneral,
-    meta: { title: 'Ingresar' }
+    meta: { title: 'Ingresar',  middleware: [guest]  }
   },
 ]
 
@@ -120,6 +123,20 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
   document.title = to.meta.title;
   next();
+});
+
+router.beforeEach((to, from, next) => {
+  const middleware = to.meta.middleware;
+  const context = { to, from, next, store };
+
+  if (!middleware) {
+    return next();
+  }
+
+  middleware[0]({
+    ...context,
+    next: middlewarePipeline(context, middleware, 1),
+  });
 });
 
 export default router
