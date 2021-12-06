@@ -71,6 +71,7 @@ class ExpedienteController extends Controller
             $expediente->estado_expediente_id = '1';
             $expediente->area_actual_id = '13';
             $expediente->monto = $request->monto;
+            $expediente->expediente_id = $request->expediente_id;
             if($expediente->save());
             {
                 $extracto = new Extracto;
@@ -121,7 +122,7 @@ class ExpedienteController extends Controller
                             {
                                 $estado_actual = Area::findOrFail($request->area_id);
                                 //ARCHIVOS/////////////////////////////////////////////////////////////////////////////
-                                
+
                                 if(($request->allFiles()) != null)
                                 {
                                     $zip = new ZipArchive;
@@ -154,9 +155,9 @@ class ExpedienteController extends Controller
                                     $notificacion->user_id = $request->user_id;
                                     $notificacion->fecha = Carbon::now()->format('Y-m-d');
                                     $notificacion->estado = "1"; //Pendiente
-                                    $notificacion->save(); 
+                                    $notificacion->save();
                                 }
-                                //(2 = separacion barras, 80 = ancho de la barra) 
+                                //(2 = separacion barras, 80 = ancho de la barra)
                                 $codigoBarra = $cod->getBarcodeHTML($expediente->nro_expediente, 'C39',2,80,'black', true);
                                 $datos = [$expediente->fecha, $caratula->iniciador->nombre, $extracto->descripcion, $estado_actual, $path, $expediente->nro_expediente, $codigoBarra, $caratula->iniciador->email, $caratula->observacion ];
                                 return response()->json($datos,200);
@@ -170,12 +171,10 @@ class ExpedienteController extends Controller
     }
     /*Ejemplo para el postman
     {
-        "nro_expediente" : "02221-2510-123122023/2021",
+        "nro_expediente" : "42221-2510-123122023/2021",
         "nro_fojas" : "250",
-        "prioridad" : "1",
-        "fecha" : "2021-10-25 21:21:57",
+        "prioridad_id" : "1",
         "tipo_exp_id" : "1",
-        "area_actual_id" : "6",
         "monto" : "100",
         "user_id" : "1",
         "area_id" : "1",
@@ -184,10 +183,114 @@ class ExpedienteController extends Controller
     }
     */
 
+    public function union(Request $request)
+    {
+        $exp_padre = Expediente::findOrFail($request->exp_padre);
+        $exp_hijo = Expediente::findOrFail($request->exp_hijo);
+
+        if($exp_hijo->expediente_id == "")
+        {
+            $exp_hijo->expediente_id = $exp_padre->id;
+            if($exp_hijo->save())
+            {
+                $historial = new Historial;
+                $historial->expediente_id = $exp_hijo->id;
+                $historial->user_id = $request->user_id;
+                $historial->area_origen_id = $exp_hijo->historiales->last()->area_origen_id;
+                $historial->area_destino_id = $exp_hijo->historiales->last()->area_destino_id;
+                $historial->fojas = $exp_hijo->fojas;
+                $historial->fecha = Carbon::now()->format('Y-m-d');
+                $historial->hora = Carbon::now()->format('h:i');
+                $historial->motivo = "union";
+                $historial->estado = "3";//Mi expediente
+                $historial->save();
+                $exp_padre->fojas = $exp_padre->fojas + $exp_hijo->fojas;//cantidad total de fojas
+                $exp_padre->save();
+                return response()->json([$exp_padre->first(),$exp_padre->hijos,$exp_hijo->padre ],200);
+            };
+        }
+        else
+        {
+            return response()->json("ERROR",400);
+        }
+    }
+
+    /*{
+        "exp_padre" : "1",
+        "exp_hijo" : "2"
+    }*/
+
+    public function desgloce(Request $request)
+    {
+        $exp_hijo = Expediente::findOrFail($request->exp_hijo);
+        $exp_padre = $exp_hijo->expediente_id;
+        if($exp_hijo->expediente_id != "")
+        {
+            $exp_hijo->expediente_id = "";
+            if($exp_padre->fojas > $request->fojas_hijo)
+            {
+                $exp_hijo->fojas = $request->fojas_hijo;
+                $exp_padre->fojas = $exp_padre->fojas - $exp_hijo->fojas;
+                if($exp_hijo->save() && $exp_padre->save())
+                {
+                    $historial = new Historial;
+                    $historial->expediente_id = $exp_hijo->id;
+                    $historial->user_id = $request->user_id;
+                    $historial->area_origen_id = $exp_padre->historiales->last()->area_origen_id;
+                    $historial->area_destino_id = $exp_padre->historiales->last()->area_destino_id;
+                    $historial->fojas = $exp_hijo->fojas;
+                    $historial->fecha = Carbon::now()->format('Y-m-d');
+                    $historial->hora = Carbon::now()->format('h:i');
+                    $historial->motivo = "desgloce";
+                    $historial->estado = "3";//Mi expediente
+                    $historial_padre = new Historial;
+                    $historial_padre->expediente_id = $exp_padre->id;
+                    $historial_padre->user_id = $request->user_id;
+                    $historial_padre->area_origen_id = $exp_padre->historiales->last()->area_origen_id;
+                    $historial_padre->area_destino_id = $exp_padre->historiales->last()->area_destino_id;
+                    $historial_padre->fojas = $exp_padre->fojas;
+                    $historial_padre->fecha = Carbon::now()->format('Y-m-d');
+                    $historial_padre->hora = Carbon::now()->format('h:i');
+                    $historial_padre->motivo = "desgloce expediente_id: ". $exp_hijo->id;
+                    $historial_padre->estado = "3";//Mi expediente
+                    if($historial_padre->save() && $historial->save())
+                    {
+                        return response()->json("operacion realizada con exitos wey!",200);
+                    }
+                    else
+                    {
+                        return response()->json("ERROR, NOSE QUE PASO???",400);
+                    }
+                }
+            }
+            else
+            {
+                return response()->json("nùmero de fojas incorrecto menso!",400);
+            }
+        }
+        else
+        {
+            return response()->json("Error",400);
+        }
+    }
+
+    /*{
+        "exp_padre" : "1",
+        "exp_hijo" : "2",
+        "user_id" : "1",
+        "fojas_hijo" : 1
+    }*/
+
+    public function createDesgloce(Request $request)
+    {
+        $exp_padre = Expediente::findOrFail($request->exp_padre);
+        return response()->json($exp_padre->hijos,200);
+    }
+
 
     public function show(Request $request)
     {
-        $expediente = Expediente::findOrFail($request->expediente_id);
+        $expediente = Expediente::where('expediente_id',null)->findOrFail($request->expediente_id);
         $iniciador = $expediente->caratula->iniciador;
         $extracto = $expediente->caratula->extracto;
         $fecha_sistema = $expediente->created_at->format('Y-m-d');
@@ -286,7 +389,7 @@ class ExpedienteController extends Controller
     */
     public function AllExpedientes()
     {
-        $expedientes = Expediente::all();
+        $expedientes = Expediente::where('expediente_id',null)->where('expediente_id',null)->get();
         $listado_expedientes = Collect([]);
         foreach ($expedientes as $expediente) {
             $listado_expedientes->push($expediente->datosExpediente());
@@ -352,10 +455,10 @@ class ExpedienteController extends Controller
        //echo $cod->getBarcodeHTML('4445645656', 'PHARMA2T');
         /*echo '<img src="data:image/png,' . $cod->getBarcodePNG('4', 'C39+') . '" alt="barcode"   />';
         echo $cod->getBarcodePNGPath('4445645656', 'PHARMA2T');
-        echo '<img src="data:image/png;base64,' . $cod->getBarcodePNG('4', 'C39+') . '" alt="barcode"   />';*/      
+        echo '<img src="data:image/png;base64,' . $cod->getBarcodePNG('4', 'C39+') . '" alt="barcode"   />';*/
     }
 
-    
+
     /*
     - Método que retorna el detalle del expediente para mostrarlo en bandeja de entrada antes de aceptar
     - @param: expediente_id

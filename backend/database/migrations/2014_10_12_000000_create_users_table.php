@@ -22,7 +22,7 @@ class CreateUsersTable extends Migration
             $table->foreignId('tipo_user_id')->constrained('tipo_users');
             //$table->unsignedBigInteger('area_id');
             $table->unsignedBigInteger('cuil')->unique();
-            $table->string('password');
+            $table->string('password')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();
             $table->timestamps();

@@ -56,6 +56,11 @@ Route::post('/ListadoExp',       [ExpedienteController::class, 'bandeja']);
 Route::post('/contarExp',         [ExpedienteController::class, 'contadorBandejaEntrada']);
 ///////////////////////////////////////////////////////////////////////////////////
 
+//PRUEBA UNION-DESGLOCE////////////////////////////////////////////////////////////////////////////
+Route::post('/unionExp',       [ExpedienteController::class, 'union']);
+Route::post('/createDesgloceExp',       [ExpedienteController::class, 'createDesgloce']);
+Route::post('/desgloceExp',       [ExpedienteController::class, 'desgloce']);
+//////////////////////////////////////////////////////////////////////////////////////////////////
 Route::post('/historial',                [HistorialController::class, 'create']);
 Route::post('/historial-expediente',     [HistorialController::class, 'store']);
 Route::post('/update-estado',     [HistorialController::class, 'updateEstado']);
