@@ -16,6 +16,7 @@ import Enviados from "../views/Enviados";
 import Usuario from "../views/Usuario";
 import auth from "../middleware/auth";
 import guest from "../middleware/guest";
+import mesa_entrada from "../middleware/mesa_entrada";
 import middlewarePipeline from "./middlewarePipeline";
 import store from "../store/index"
 Vue.use(VueRouter)
@@ -36,7 +37,7 @@ const routes = [
         path: '/nuevo-expediente',
         name: 'Nuevo',
         component: NuevoExpediente,
-        meta: { title: 'Nuevo Expediente', middleware: [auth]}
+        meta: { title: 'Nuevo Expediente', middleware: [auth, mesa_entrada]}
       },
       {
         path: '/expedientes',
@@ -48,13 +49,13 @@ const routes = [
         path: '/expedientes-pendientes',
         name: 'Expedientes Pendientes',
         component: BandejaDeEntrada,
-        meta: { title: 'Pendientes' }
+        meta: { title: 'Pendientes' , middleware: [auth] }
       },
       {
         path: '/mis-expedientes',
         name: 'MisExpedientes',
         component: MisExpedientes,
-        meta: { title: 'Mis Expedientes' }
+        meta: { title: 'Mis Expedientes' , middleware: [auth] }
       },
       // {
       //   path: '/nueva-reunion',
@@ -66,43 +67,37 @@ const routes = [
         path: '/nuevo-pase',
         name: 'NuevoPase',
         component: NuevoPase,
-        meta: { title: 'Nuevo Pase' }
+        meta: { title: 'Nuevo Pase', middleware: [auth]  }
       },
       {
         path: '/ver-historiales',
         name: 'VerHistoriales',
         component: VerSeguimientos,
-        meta: { title: 'Ver Historiales' }
+        meta: { title: 'Ver Historiales', middleware: [auth]  }
       },
       {
         path: '/nuevo-iniciador',
         name: 'NuevoIniciador',
         component: NuevoIniciador,
-        meta: { title: 'Nuevo Iniciador' }
+        meta: { title: 'Nuevo Iniciador', middleware: [auth, mesa_entrada] }
       },
       {
         path: '/iniciadores',
         name: 'Iniciadores',
         component: Iniciadores,
-        meta: { title: 'Iniciadores' }
-      },
-      {
-        path: '/expedientes',
-        name: 'Expedientes',
-        component: Expedientes,
-        meta: { title: 'Nueva Reunion' }
+        meta: { title: 'Iniciadores', middleware: [auth, mesa_entrada] }
       },
       {
         path: '/enviados',
         name: 'Enviados',
         component: Enviados,
-        meta: { title: 'Enviados' }
+        meta: { title: 'Enviados' , middleware: [auth] }
       },
       {
         path: '/usuario',
         name: 'Usuario',
         component: Usuario,
-        meta: { title: 'Usuario' }
+        meta: { title: 'Usuario', middleware: [auth]  }
       },
     ]
   },

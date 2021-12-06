@@ -1,5 +1,5 @@
 export default function auth({ next, store }) {
-    if (!(store.getters.getIdUser > 0)) {
+    if (!(store.getters.authenticated)) {
         next("/login")
     } else {
         next();

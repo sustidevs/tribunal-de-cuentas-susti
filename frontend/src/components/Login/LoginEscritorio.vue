@@ -78,6 +78,7 @@ export default {
       show1: false,
       errorPassword: false,
       errorCuil: false,
+      loading: false,
       credentials: {
         cuil: null,
         password: null,
@@ -112,9 +113,10 @@ export default {
     }),
 
     onLogin() {
+      this.loading = true;
       this.login(this.credentials)
-    },
   }
+}
 };
 </script>
 <style>

@@ -1,5 +1,5 @@
 export default function guest({ next, store }) {
-    if (store.getters.getIdUser > 0) {
+    if (store.getters.authenticated) {
         next("/")
     } else {
         next();
