@@ -51,7 +51,7 @@
         <v-row no-gutters align="start" class="mt-5">
             <v-col>
                 <div class="d-flex">
-                    <div class="textHereSmall Montserrat-Bold mr-3"> Archivos adjuntos: </div>
+                    <div class="textHereSmall Montserrat-Bold mr-2"> Archivos adjuntos: </div>
                     <div v-if="this.datos.archivo !== null">
                         <v-chip class="textHereSmall Montserrat-Regular" @click="getArchiv()"> Descargar</v-chip>
                     </div>
@@ -62,15 +62,11 @@
             </v-col>
         </v-row>
         <v-row no-gutters align="start" class="mt-5">
-            <div class="textHereSmall d-flex flex-column Montserrat-Bold mb-2"> Extracto: </div>
+            <div class="textHereSmall d-flex flex-column Montserrat-Bold mb-2 mr-2"> Extracto: </div>
             <div class="textHereSmall d-flex flex-column Montserrat-SemiBold text-justify"> {{ this.datos.extracto }} </div>
         </v-row>
         <v-row no-gutters align="start" class="mt-5">
-            <div class="textHereSmall d-flex flex-column Montserrat-Bold mb-2"> Observaciones: </div>
-            <div class="textHereSmall d-flex flex-column Montserrat-SemiBold text-justify"> {{ this.datos.observacion }}</div>
-        </v-row>
-        <v-row no-gutters align="start" class="mt-5">
-            <div class="textHereSmall d-flex flex-column Montserrat-Bold mb-2"> A efectos de: </div>
+            <div class="textHereSmall d-flex flex-column Montserrat-Bold mb-2 mr-2"> A efectos de: </div>
             <div class="textHereSmall d-flex flex-column Montserrat-SemiBold text-justify"> {{ this.datos.motivo[0].motivo }} </div>
         </v-row>
 
