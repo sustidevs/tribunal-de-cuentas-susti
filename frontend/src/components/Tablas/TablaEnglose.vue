@@ -61,10 +61,13 @@
                 </v-row>
                 <v-divider class="my-5"></v-divider>
               </v-list-item-content>
-
             </v-list-item>
           </v-list>
         </v-card>
+
+        <v-btn @click="confirmarEnglose">
+          Confirmar
+        </v-btn>
       </v-col>
     </v-row>
   </div>
@@ -89,8 +92,17 @@ export default {
 
   methods: {
     ...mapActions([
-      "recuperar"
+      "englosar"
     ]),
+
+    confirmarEnglose(){
+      let expedientes_englose = {
+            user_id: this.$store.getters.getIdUser,
+            exp_padre: this.seleccionados[0].expediente_id,
+            exp_hijo: this.seleccionados[1].expediente_id,
+      }
+      this.englosar(expedientes_englose)
+    },
 
     quitar (item){
       console.log(item)

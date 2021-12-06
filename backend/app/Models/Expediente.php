@@ -51,20 +51,14 @@ class Expediente extends Model
         return $this->hasMany(Historial::class);
     }
 
-    //public function expediente()
-    //{
-    //    return $this->hasOne('App\Models\Expediente', 'id', 'expediente_id');
-    //}
-    //return $this->hasOne('App\Models\TipoExpediente','id','tipo_expediente'
-
-    public function cedulas()
+    public function hijos()
     {
-        return $this->hasMany(Cedula::class);
+        return $this->hasMany(Expediente::class,'expediente_id');
     }
 
-    public function notificacion()
+    public function padre()
     {
-        return $this->hasMany(Notificacion::class);
+        return $this->belongsTo(Expediente::class,'expediente_id');
     }
 
     public function cantidadCuerpos()
@@ -109,7 +103,7 @@ class Expediente extends Model
 
     public static function index()
     {
-        $expedientes = Expediente::all();
+        $expedientes = Expediente::where('expediente_id',null)->get();
         $array_expediente = collect([]);
         foreach ($expedientes as $exp)
         {
@@ -141,7 +135,7 @@ class Expediente extends Model
 
     public static function listadoExpedientes($user_id,$estado,$bandeja)
     {
-        $Expedientes = Expediente::all();
+        $Expedientes = Expediente::where('expediente_id',null)->get();
         $user = User::findOrFail($user_id);
         $array_expediente = collect([]);
 
@@ -224,7 +218,7 @@ class Expediente extends Model
         switch ($busqueda)
         {
             case "1": //Busca por nro_expediente
-                $expediente = Expediente::where('nro_expediente', $valor)->get()->first();//Deberia retornar solo un expediente
+                $expediente = Expediente::where('expediente_id',null)->where('nro_expediente', $valor)->get()->first();//Deberia retornar solo un expediente
                 if ($expediente != null)
                 {
                     $lista_expedientes->push($expediente->getDatos());
@@ -259,7 +253,7 @@ class Expediente extends Model
                 }
                 break;
             case "5": //Busca por nro_expediente_ext
-                $expedienteExt = Expediente::where('nro_expediente_ext', $valor)->get()->values();
+                $expedienteExt = Expediente::where('expediente_id',null)->where('nro_expediente_ext', $valor)->get()->values();
                 if ($expedienteExt != null)
                 {
                     foreach ($expedienteExt as $expediente)
