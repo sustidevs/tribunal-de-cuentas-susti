@@ -11,10 +11,12 @@ const state = {
     incorrecto: false,
     authenticated: false,
     cuil: {},
-    newPass:false
+    newPass:false,
+    loading: false,
 };
 
 const getters = {
+    getLoading: state => state.loading,
     getUser: state => state.user,
     incorrecto: state => state.incorrecto,
     getIdUser: state => state.user.user_id,
@@ -26,13 +28,21 @@ const getters = {
     errorC: state => state.errorC,
     errorP: state => state.errorP,
     errorAmbos: state => state.errorAmbos,
-    authenticated: state => state.authenticated,
+    authenticated: state => state.user.logueado,
     getTipoUsuario: state=> state.user.tipo_user,
     getCuil: state => state.user.cuil,
     getNewPass: state => state.newPass
 };
 
 const actions = {
+
+    verificar ({commit}){
+        axios.get(process.env.VUE_APP_API_URL+ '/api/verificar')
+            .then(response => {
+                console.log(response)
+                commit('setAuthenticated', true)
+            })
+    },
    login ({ commit }, user) {
         axios.get('/sanctum/csrf-cookie');
         axios.post(process.env.VUE_APP_API_URL+ '/api/login', user)
@@ -46,7 +56,6 @@ const actions = {
                 }
             })
             .catch(error => {
-                console.log(error)
                         commit('setAuthenticated', false)
                         commit('set_errorCuil', error.response.data.errors.cuil)
                         commit('set_errorC', false)
@@ -63,6 +72,7 @@ const actions = {
 
     logout ({ commit }) {
         commit('clearUserData')
+        commit('setAuthenticated', false)
     },
     
     // editPassword({commit}, user) {

@@ -48,6 +48,16 @@ class LoginController extends Controller
         return "Vista Login.";
     }
 
+    public function verificar(){
+        return Auth::guest();
+    }
+
+    public function logout()
+    {
+        Auth::logout();
+        return ('ola');
+    }
+
     public function authenticate(LoginRequest $request)
     {
        /*
@@ -55,15 +65,15 @@ class LoginController extends Controller
         $request->cuil = '20101234564';
         $request->password = 'password';
         */
-            if ($request->validated()) 
+            if ($request->validated())
             {
                 $credentials = ['cuil'=> $request->cuil,'password'=>$request->password];
 
-                if (Auth::attempt($credentials)) 
+                if (Auth::attempt($credentials))
                 {
                     $user = Auth::user();
                     //$token = $user->createToken('my-app-token')->plainTextToken;
-                    if ($user->remember_token != null) 
+                    if ($user->remember_token != null)
                     {
                         $token = $user->createToken($user->remember_token)->plainTextToken;
                     }
@@ -74,7 +84,7 @@ class LoginController extends Controller
                     $response = ["user" => $user->datos_user(), "token" => $token];
                     return response()->json($response, 200);
                     //return response($response, 201);
-                } 
+                }
                 else
                 {
                     $response = "El CUIL y la contraseña no coinciden. Vuelva a intentarlo.";
