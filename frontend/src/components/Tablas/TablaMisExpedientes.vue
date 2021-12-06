@@ -48,11 +48,8 @@
       </template>
     </v-data-table>
 
-    
-
       <modal-ver-detalle-exp
-            :expediente_id="expediente_id"
-            :nro_expediente="nro_expediente"
+            :datos="datos"
             :show="show_modal"
             @close="closeModal"
       />
@@ -100,8 +97,8 @@ export default {
     },
 
     detalle(item) {
-      this.expediente_id = item.expediente_id
-      this.nro_expediente = item.nro_expediente
+      this.show_modal = true;
+      this.datos = item
       this.show_modal = true;
     },
 
