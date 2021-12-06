@@ -6,23 +6,25 @@ use ZipArchive;
 use Carbon\Carbon;
 use App\Models\Area;
 use App\Models\User;
-use Milon\Barcode\DNS1D;
-use Milon\Barcode\DNS2D;
 use App\Models\Caratula;
 use App\Models\Extracto;
+use Milon\Barcode\DNS1D;
+use Milon\Barcode\DNS2D;
 use App\Models\Historial;
 use App\Models\Iniciador;
 use App\Models\Expediente;
 use App\Models\TipoEntidad;
+use Illuminate\Support\Arr;
+use App\Models\Notificacion;
 use Illuminate\Http\Request;
 use App\Models\TipoExpediente;
 use App\Models\PrioridadExpediente;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\StoreExpedienteRequest;
 use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Database\Eloquent\Relations\Relation;
-use Illuminate\Support\Facades\Storage;
 
 class ExpedienteController extends Controller
 {
@@ -80,6 +82,7 @@ class ExpedienteController extends Controller
                     $caratula->expediente_id = $expediente->id;
                     $caratula->iniciador_id = $request->iniciador_id;
                     $caratula->extracto_id = $extracto->id;
+                    $caratula->observacion = $request->observacion;
                     if($caratula->save())
                     {
                         $user = User::findOrFail($request->user_id);
@@ -91,8 +94,15 @@ class ExpedienteController extends Controller
                         $historial->fojas = $request->nro_fojas;
                         $historial->fecha = Carbon::now()->format('Y-m-d');
                         $historial->hora = Carbon::now()->format('h:i');
-                        $historial->motivo = "created";
+                        $historial->motivo = "Expediente creado";
                         $historial->estado = 1;
+                        if(($request->allFiles()) != null)
+                        {
+                            $fileName = $request->nro_expediente;
+                            $fileName = str_replace("/","-",$fileName).'.zip';
+                            $path =storage_path()."/app/public/archivos_expedientes/".$fileName;
+                            $historial->nombre_archivo = $fileName;
+                        }
                         if($historial->save())
                         {
                             /*
@@ -106,18 +116,19 @@ class ExpedienteController extends Controller
                             $historial->fojas = $request->nro_fojas;
                             $historial->fecha = Carbon::now()->format('Y-m-d');
                             $historial->hora = Carbon::now()->format('h:i');
-                            $historial->motivo = "pase";
+                            $historial->motivo = $request->observacion;
                             $historial->estado = "1";//Enviado
                             if($historial->save())
                             {
                                 $estado_actual = Area::findOrFail($request->area_id);
                                 //ARCHIVOS/////////////////////////////////////////////////////////////////////////////
-                                if(!is_null($request->allFiles()))
+                                
+                                if(($request->allFiles()) != null)
                                 {
                                     $zip = new ZipArchive;
                                     $fileName = $request->nro_expediente;
                                     $fileName = str_replace("/","-",$fileName).'.zip';
-                                    $path =storage_path()."/app/public/archivos_expedientes/".$fileName. ".zip";
+                                    $path =storage_path()."/app/public/archivos_expedientes/".$fileName;
                                     if($zip->open($path ,ZipArchive::CREATE) === true)
                                     {
                                         foreach ($request->allFiles() as $key => $value)
@@ -128,13 +139,27 @@ class ExpedienteController extends Controller
                                         $zip->close();
                                     }
                                     $expediente->archivos = $fileName;
+                                    $historial->nombre_archivo = $fileName;
                                     $expediente->save();
+                                    $historial->save();
                                 }
+                                $fileName = $request->nro_expediente;
+                                $fileName = str_replace("/","-",$fileName).'.zip';
+                                $path =storage_path()."/app/public/archivos_expedientes/".$fileName;
                                 ///////////////////////////////////////////////////////////////////////////////////////
                                 $cod = new DNS1D;
+                                if ($request->tipo_exp_id == 3)
+                                {
+                                    $notificacion = new Notificacion;
+                                    $notificacion->expediente_id = $expediente->id;
+                                    $notificacion->user_id = $request->user_id;
+                                    $notificacion->fecha = Carbon::now()->format('Y-m-d');
+                                    $notificacion->estado = "1"; //Pendiente
+                                    $notificacion->save(); 
+                                }
                                 //(2 = separacion barras, 80 = ancho de la barra) 
                                 $codigoBarra = $cod->getBarcodeHTML($expediente->nro_expediente, 'C39',2,80,'black', true);
-                                $datos = [$expediente->fecha,$caratula->iniciador->nombre,$extracto->descripcion,$estado_actual,$path, $expediente->nro_expediente,$codigoBarra];
+                                $datos = [$expediente->fecha,$caratula->iniciador->nombre,$extracto->descripcion,$estado_actual,$path, $expediente->nro_expediente,$codigoBarra,$caratula->iniciador->email];
                                 return response()->json($datos,200);
                             }
                         }
@@ -269,16 +294,53 @@ class ExpedienteController extends Controller
         $extracto = $expediente->caratula->extracto;
         $fecha_sistema = $expediente->created_at->format('Y-m-d');
         $fecha_exp = $expediente->fecha;
-        $nro_cuerpos = $expediente->caratula->cuerpos()->count();
+        $nro_cuerpos = $expediente->cantidadCuerpos();
         $fojas = $expediente->fojas;
+        if ($expediente->archivos == '')
+        {
+            $posee_archivo = '';
+        }
+        else
+        {
+            $posee_archivo = "si";
+        }
         $detalle = [$expediente->nro_expediente,
                     $iniciador->nombre,
                     $extracto->descripcion,
                     $fecha_sistema,
                     $fecha_exp,
                     $nro_cuerpos,
-                    $fojas];
+                    $fojas,
+                    $posee_archivo];
         return response()->json($detalle,200);
+    }
+
+
+    public function descargarZip(Request $request) //TODO hasta que tenga boton
+    {
+        //$request = new Request;
+        //$request->id = 1;//verificar que cuenta con archivos
+        //$request->download = true;
+        $expediente = Expediente::findOrFail($request->id);
+        if($request->download == true)
+        {
+            //Define Dir Folder
+            $public_dir = public_path()."/storage/archivos_expedientes/". $expediente->archivos;
+            $fileName = $expediente->nro_expediente;
+            $fileName = str_replace("/","-",$fileName).'.zip';
+            // Zip File Name
+            $zipFileName = $expediente->archivos;
+            if(file_exists($public_dir))
+            {
+                //return view('zip');
+                $headers = array('Content-Type'=>'arraybuffer',);
+                return response()->download($public_dir , $fileName, $headers);
+            }
+            else
+            {
+                return 'no existe archivo';
+            }
+        }
     }
 
     //TODO revisar utilidad
@@ -306,13 +368,12 @@ class ExpedienteController extends Controller
 
     public function contadorBandejaEntrada(Request $request)
     {
-        $user_area = $request->area_id;
         $contador = Expediente::listadoExpedientes($request->user_id,1,1)->count();
         return response()->json($contador, 200);
     }
 
     /*
-    * Busca los expedientes por: 1-nro_expediente, 2-cuit iniciador, 3-nro_cheque, 4-iniciador, 5-nro_expediente_ext
+    * Busca los expedientes por: 1-nro_expediente, 2-cuit iniciador, 3-nro_cheque, 4-iniciador, 5-nro_expediente_ext, 6-norma legal
     */
     public function buscarExpediente(Request $request)
     {
@@ -348,7 +409,7 @@ class ExpedienteController extends Controller
        //echo $cod2->getBarcodeHTML('4445645656', 'PDF417');
 
        //echo $cod->getBarcodeHTML('4445645656', 'PHARMA2T',3,33,'green', true);
-       
+
        echo "<br>";
        echo "<br>";
        echo "<br>";
@@ -393,8 +454,28 @@ class ExpedienteController extends Controller
        //echo $cod->getBarcodeHTML('4445645656', 'PHARMA2T');
         /*echo '<img src="data:image/png,' . $cod->getBarcodePNG('4', 'C39+') . '" alt="barcode"   />';
         echo $cod->getBarcodePNGPath('4445645656', 'PHARMA2T');
-        echo '<img src="data:image/png;base64,' . $cod->getBarcodePNG('4', 'C39+') . '" alt="barcode"   />';*/
-       
+        echo '<img src="data:image/png;base64,' . $cod->getBarcodePNG('4', 'C39+') . '" alt="barcode"   />';*/      
     }
+
+    
+    /*
+    - Método que retorna el detalle del expediente para mostrarlo en bandeja de entrada antes de aceptar
+    - @param: expediente_id
+    */
+    public function showDetalleExpediente(Request $request)
+    {
+        $expediente = Expediente::findOrFail($request);
+        $detalle = Collect([]);
+        foreach ($expediente as $exp)
+        {
+            $detalle->push($exp->datosExpediente());
+        }
+        return response()->json($detalle, 200);
+    }
+
+    /*public function notificarExpediente(Request $request)
+    {
+        $contar = Expediente::notificacion($user_id, $tipo_expediente);
+    }*/
 
 }

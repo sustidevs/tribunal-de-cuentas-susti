@@ -70,28 +70,33 @@ class User extends Authenticatable
         return $this->belongsTo(Area::class);
     }
 
-    public function persona() 
+    public function persona()
     {
         return $this->hasOne('App\Models\Persona','id','persona_id');
     }
 
-    public function historial() 
+    public function historial()
     {
         return $this->hasMany('App\Models\Historial');
     }
 
-    public function tipoUser() 
+    public function tipoUser()
     {
         return $this->belongsTo('App\Models\TipoUser');
     }
 
-    public function get_tipo_area() 
+    public function notificacion()
+    {
+        return $this->hasMany(Notificacion::class);
+    }
+
+    public function get_tipo_area()
     {
         $tipo_area = Str::of($this->area_type)->basename()->lower()->ucfirst();
         return $tipo_area;
     }
 
-    public function datos_user() 
+    public function datos_user()
     {
         $nombreArea = "";
         if (!is_null($this->area)){
@@ -108,8 +113,9 @@ class User extends Authenticatable
                           'apellido' => $this->persona->apellido,
                           'email' => $this->persona->email,
                           'telefono' => $this->persona->telefono,
-                          'direccion' => $this->persona->direccion]);
-        
+                          'direccion' => $this->persona->direccion,
+                        'logueado' => true]);
+
         return $datos;
     }
 

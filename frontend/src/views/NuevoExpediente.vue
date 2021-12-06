@@ -79,6 +79,16 @@
         </v-col>
       </v-row>
 
+      <div class="mt-4">
+        <label-input texto="Observaciones:"/>
+        <v-textarea
+          v-model="expe.observacion"
+          outlined
+          name="textarea"
+          color="amber accent-4"
+        ></v-textarea>
+      </div>
+
       <v-row no-gutters justify="center">
         <v-col cols="12" sm="12" lg="6" class="pr-lg-2 pb-3">
           <label-error/>
@@ -122,8 +132,8 @@
         <input type="file" multiple @change="handleFileUpload( $event )"/>
       </v-card>
 
-      <v-row no-gutters justify="center" class="mt-8">
-        <v-col cols="12" sm="6" md="6" lg="6" class="pb-16 px-sm-2">
+      <v-row no-gutters justify="center" class="py-16">
+        <v-col cols="12" sm="6" md="6" lg="6" class="px-sm-2">
           <v-btn type="submit" class="pa-5 color Montserrat-SemiBold" height="55" elevation="0" color="#FACD89" block>
             <v-icon class="px-5">
               mdi-check-bold
@@ -135,8 +145,8 @@
         </v-col>
       </v-row>
     </form>
-
     <modal-nuevos-expedientes :show="creado" :dato="expediente_new" @close="cerrarModal"/>
+
   </div>
 </template>
 <script>
@@ -165,6 +175,7 @@ export default {
       nro_fojas: '',
       prioridad: '',
       tipo_exp_id: 0,
+      observacion: '',
       descripcion_extracto: '',
       area_id: '',
       archivos: '',
@@ -195,6 +206,7 @@ export default {
       formData.append('user_id', this.getIdUser);
       formData.append('iniciador_id', this.expe.iniciador_id);
       formData.append('nro_fojas', this.expe.nro_fojas);
+      formData.append('observacion', this.expe.observacion);
       formData.append('nro_expediente', this.nroExpediente);
       formData.append('prioridad_id',  this.expe.prioridad);
       formData.append('tipo_exp_id',this.expe.tipo_exp_id);

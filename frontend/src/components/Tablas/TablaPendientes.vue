@@ -17,7 +17,7 @@
       </v-col>
     </v-row>
 
-    <a>
+
       <v-data-table
           :headers="headers"
           :items="items"
@@ -27,7 +27,6 @@
           mobile-breakpoint="300"
           class="elevation-1 mytable"
           v-model="selected"
-          @click:row="recibirI"
           loading-text="Cargando expedientes. Por favor, espere."
           :loading="loading"
           no-data-text="No hay Expedientes Pendientes por aceptar"
@@ -41,13 +40,13 @@
           </v-chip>
         </template>
 
-        <template v-slot:item.action="{ }">
-          <v-btn fab small color="#FACD89" depressed>
+        <template v-slot:item.action= "{item}">
+          <v-btn @click="recibirI(item)" fab small color="#FACD89" depressed>
             <v-icon> mdi-text-box-check </v-icon>
           </v-btn>
         </template>
       </v-data-table>
-    </a>
+
 
   </div>
 </template>
@@ -87,7 +86,7 @@ export default {
 
     getColor (prioridades) {
       if (prioridades === 'alta') return 'red lighten-3'
-      if (prioridades === 'media') return 'grey lighten-2'
+      if (prioridades === 'normal') return 'grey lighten-2'
     },
     getIcon (prioridades) {
       if (prioridades === 'alta') return 'mdi-exclamation-thick'

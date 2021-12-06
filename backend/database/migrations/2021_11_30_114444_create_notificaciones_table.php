@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCaratulasTable extends Migration
+class CreateNotificacionesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,13 @@ class CreateCaratulasTable extends Migration
      */
     public function up()
     {
-        Schema::create('caratulas', function (Blueprint $table) {
+        Schema::create('notificaciones', function (Blueprint $table) 
+        {
             $table->bigIncrements('id');
             $table->foreignId('expediente_id')->constrained('expedientes');
-            $table->foreignId('iniciador_id')->constrained('iniciadores');
-            $table->foreignId('extracto_id')->constrained('extractos');
-            $table->string('observacion', 150)->nullable();
+            $table->integer('user_id');
+            $table->date('fecha')->nullable();
+            $table->integer('estado')->nullable();
             $table->timestamps();
         });
     }
@@ -30,6 +31,6 @@ class CreateCaratulasTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('caratulas');
+        Schema::dropIfExists('notificaciones');
     }
 }

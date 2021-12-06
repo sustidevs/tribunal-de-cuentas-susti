@@ -17,6 +17,8 @@ const state = {
     todos_expedientes: [],
     historial: [],
     historial_nro: '',
+    archivos: [],
+    descargado: false,
 };
 
 const getters = {
@@ -36,7 +38,9 @@ const getters = {
     get_encontrado: state => state.encontrado,
     todos_expp: state => state.todos_expedientes,
     get_Historial: state => state.historial,
-    get_historial_nro: state => state.historial_nro
+    get_historial_nro: state => state.historial_nro,
+    get_archivos: state => state.archivos,
+    get_descargado: state => state.descargado,
 };
 
 const actions = {
@@ -82,6 +86,28 @@ const actions = {
             })
     },
 
+    getArchivos ({ commit }, archivo)  {
+        axios.post(process.env.VUE_APP_API_URL+ '/api/zip', archivo, {
+            responseType: 'arraybuffer',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/zip'
+            }
+        })
+        .then(response => {
+            var fileURL = window.URL.createObjectURL(new Blob([response.data]));
+            var fileLink = document.createElement('a');
+
+            var nro_expediente = archivo.nro_expediente
+            fileLink.href = fileURL;
+            fileLink.setAttribute('download', nro_expediente + '.zip');
+            document.body.appendChild(fileLink);
+
+            fileLink.click();
+            commit('set_decargado', true)
+        })
+    },
+
     cerrarModal ({ commit }){
         commit('creado',false)
     },
@@ -117,9 +143,8 @@ const actions = {
                 commit('set_finalizado', false)
             })
     },
-
     recuperar({ commit }, expediente) {
-        axios.post(process.env.VUE_APP_API_URL+ '/api/update-estado-cuerpo', expediente).
+        axios.post(process.env.VUE_APP_API_URL+ '/api/update-estado', expediente).
         then(response => {
             console.log(response)
             commit('recuperado', true)
@@ -145,8 +170,10 @@ const mutations = {
     set_todos_expedientes: (state,todos_expedientes) => state.todos_expedientes = todos_expedientes,
     set_historial: (state,historial) => state.historial = historial,
     set_nro_historial: (state,historial_nro) => state.historial_nro = historial_nro,
+    set_archivos: (state, archivos) => state.archivos = archivos,
+    set_decargado: (state, descargado) => state.descargado = descargado,
 };
-
+ 
 export default {
     namespace: true,
     state,

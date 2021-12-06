@@ -94,7 +94,8 @@ class Expediente extends Model
                           'caratula'=>$this->caratula->id,
                           'fojas'=>$this->fojas,
                           'area_actual' => $this->area->descripcion,
-                          'area_origen'=>$this->historiales->last()->areaOrigen->descripcion
+                          'area_origen'=>$this->historiales->last()->areaOrigen->descripcion,
+                          'archivo'=>$this->archivos
             ]);
 
         return $array;
@@ -174,7 +175,10 @@ class Expediente extends Model
                 //'area_actual_id'=>$exp->area_actual_id,
                 //'area_actual'=>$exp->area->descripcion,
                 'estado'=>$estado_expediente,
-                'user_id'=>$exp->historiales->last()->user_id
+                'user_id'=>$exp->historiales->last()->user_id,
+                'archivo'=>$exp->archivos,
+                'observacion'=>$exp->caratula->observacion,
+                'motivo'=>$exp->historiales->sortByDesc('id')->skip(1)->take(1)->values()
             ]);
 
         }
@@ -258,8 +262,36 @@ class Expediente extends Model
                     }
                 }
                 break;
+
+                case "6": //Busca por Norma Legal
+                    $valor = 'NORMA LEGAL: '.$valor;
+                    /*Hice asi porque de esta forma: $lista_expedientes = $lista_expedientes->where('extracto','LIKE',"%$valor%");
+                    no me funcionaba la parte del: 'LIKE',"%$valor%"*/
+                    $consulta = DB::table('expedientes')->join('caratulas', 'expedientes.id', '=', 'caratulas.expediente_id')
+                                            ->join('extractos', 'caratulas.extracto_id', '=', 'extractos.id')
+                                            ->select('expedientes.*', 'caratulas.expediente_id', 'extractos.descripcion')
+                                            ->where('tipo_expediente', 3)
+                                            ->where('descripcion','LIKE',"%$valor%")
+                                            ->get();                      
+                    foreach ($consulta as $item) {
+                        $expediente = Expediente::FindOrFail($item->id);
+                        $lista_expedientes->push($expediente->getDatos());
+                        
+                    }
+                    break;
         }
         return $lista_expedientes;
     }
 
+/*    public function notificacion($user_id)
+    {
+        /*$lista_areas = Collect([]);
+        $area = User::findOrFail($user_id)->area_id;
+        $expediente = $this->tipo_expediente->where('id', 3);*/
+    /*    $expediente = Expediente::all()->where('tipo_expediente', 3);
+        $user = User::all()->where('area_id', 6)->orWhere('area_id', 14);
+        $user = DB::table('users')->where('area_id', 6)->orWhere('area_id', 14)->get('id');
+        $datos = [$expediente, $user];
+        return $datos;
+    }*/
 }

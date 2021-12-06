@@ -9,10 +9,14 @@ const state = {
     errorP: false,
     errorAmbos: false,
     incorrecto: false,
-    authenticated: false
+    authenticated: false,
+    cuil: {},
+    newPass:false,
+    loading: false,
 };
 
 const getters = {
+    getLoading: state => state.loading,
     getUser: state => state.user,
     incorrecto: state => state.incorrecto,
     getIdUser: state => state.user.user_id,
@@ -24,11 +28,14 @@ const getters = {
     errorC: state => state.errorC,
     errorP: state => state.errorP,
     errorAmbos: state => state.errorAmbos,
-    authenticated: state => state.authenticated,
-    getTipoUsuario: state=> state.user.tipo_user
+    authenticated: state => state.user.logueado,
+    getTipoUsuario: state=> state.user.tipo_user,
+    getCuil: state => state.user.cuil,
+    getNewPass: state => state.newPass
 };
 
 const actions = {
+
    login ({ commit }, user) {
         axios.get('/sanctum/csrf-cookie');
         axios.post(process.env.VUE_APP_API_URL+ '/api/login', user)
@@ -42,7 +49,6 @@ const actions = {
                 }
             })
             .catch(error => {
-                console.log(error)
                         commit('setAuthenticated', false)
                         commit('set_errorCuil', error.response.data.errors.cuil)
                         commit('set_errorC', false)
@@ -59,8 +65,23 @@ const actions = {
 
     logout ({ commit }) {
         commit('clearUserData')
-    }
+        commit('setAuthenticated', false)
+    },
+    
+    // editPassword({commit}, user) {
+    //     axios.get(process.env.VUE_APP_API_URL+ '/api/editUser',user)
+    //         .then(response => {
+    //             console.log(response)
+    //             commit('set_user', response.data)
+    //         })
+    // }
 
+    nuevaContrasena({commit}, newPass){
+        axios.post(process.env.VUE_APP_API_URL+ '/api/updateUser', newPass)
+            .then(
+                commit('setNewPass', true)
+            )
+    }
 };
 
 const mutations = {
@@ -72,9 +93,11 @@ const mutations = {
     set_errorPass: (state, errorPass) => state.errorPass = errorPass,
     setIncorrecto: (state, incorrecto) => state.incorrecto = incorrecto,
     setAuthenticated: (state, authenticated) => state.authenticated = authenticated,
+    setCuil: (state, cuil) => state.cuil = cuil,
     clearUserData: () => {
         localStorage.removeItem('user')
-    }
+    },
+    setNewPass: (state, newPass) => state.newPass = newPass
 };
 
 export default {

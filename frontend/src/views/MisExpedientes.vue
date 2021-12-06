@@ -13,6 +13,7 @@ import {mapActions, mapGetters} from "vuex";
 import TablaMisExpedientes from "../components/Tablas/TablaMisExpedientes";
 import AlertSucess from "../components/AlertSucess"
 
+
 export default {
   name: 'MisExpedientes',
   components: {TablaMisExpedientes, Titulo, AlertSucess},
@@ -26,7 +27,8 @@ export default {
         {text: 'Trámite', value: 'tramite'},
         {text: 'Cuerpo', value: 'cant_cuerpos'},
         {text: 'Fojas', value: 'fojas'},
-        {text: 'Realizar Pase', value: 'action', sortable: false},
+        {text: 'Ver Detalle', value: 'action1', sortable: false},
+        {text: 'Realizar Pase', value: 'action2', sortable: false},
         {class: "display-4"},
       ],
     }
@@ -36,6 +38,7 @@ export default {
 
     mounted() {
       this.getExpe();
+     
     },
 
     methods: {
@@ -50,6 +53,7 @@ export default {
         this.getExpedientes(exp)
       },
 
+  
       /**
        this.$api.post("ListadoExp", bandeja).then((response) => {
         this.BandejaEntrada = response.data;
