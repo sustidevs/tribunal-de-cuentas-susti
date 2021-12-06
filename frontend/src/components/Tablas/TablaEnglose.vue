@@ -59,15 +59,15 @@
                 <v-row @click="quitar(item)"  no-gutters>
                   <v-icon class="red--text">mdi-close</v-icon><div class="pt-1 Montserrat-Regular red--text">Quitar Seleccion</div>
                 </v-row>
-                <v-divider class="my-5"></v-divider>
+                <v-divider class="my-2"></v-divider>
               </v-list-item-content>
             </v-list-item>
           </v-list>
 
           <div v-if="!(seleccionados.length === 0)" class="contentSize Montserrat-Regular pa-4">
             <v-row justify="center" align="center">
-              <v-btn @click="confirmarEnglose" class="pa-2 color Montserrat-SemiBold" height="55" elevation="0" color="#FACD89">
-                <v-icon class="px-5">
+              <v-btn @click="confirmarEnglose" class="pa-1 color Montserrat-SemiBold px-9" height="55" elevation="0" color="#FACD89">
+                <v-icon class="px-2">
                   mdi-check-bold
                 </v-icon>
                 <div class="">
