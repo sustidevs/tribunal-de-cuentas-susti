@@ -158,7 +158,7 @@ class ExpedienteController extends Controller
                                 }
                                 //(2 = separacion barras, 80 = ancho de la barra) 
                                 $codigoBarra = $cod->getBarcodeHTML($expediente->nro_expediente, 'C39',2,80,'black', true);
-                                $datos = [$expediente->fecha,$caratula->iniciador->nombre,$extracto->descripcion,$estado_actual,$path, $expediente->nro_expediente,$codigoBarra,$caratula->iniciador->email];
+                                $datos = [$expediente->fecha, $caratula->iniciador->nombre, $extracto->descripcion, $estado_actual, $path, $expediente->nro_expediente, $codigoBarra, $caratula->iniciador->email, $caratula->observacion ];
                                 return response()->json($datos,200);
                             }
                         }
