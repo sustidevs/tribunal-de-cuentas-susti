@@ -2,7 +2,7 @@
   <div>
     <titulo texto="Expedientes" icono="mdi-text-box-multiple"/>
     <div class="descripcion text-justify py-4">Si desea <strong>ver detalle e historial</strong> de un expediente, haga clic en el botón de la tabla.</div>
-    <tabla-expedientes class="mt-2" :headers="headers" :data="todos_expp" :loading="get_finalizado"/>
+    <tabla-expedientes class="mb-15 pb-15" :headers="headers" :data="todos_expp" :loading="get_finalizado"/>
   </div>
 </template>
 <script>
