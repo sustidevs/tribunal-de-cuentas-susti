@@ -126,6 +126,12 @@
                 <ButtonBig class="my-4 mx-5" texto="Desglose" link="" icon="mdi-file-percent"/>
             </span>          
           </v-col>
+
+          <v-col cols="12" md="12" lg="6" v-if="getArea == 'DIRECCIÓN DE REGISTRACIONES'">
+            <titulo-inicio texto="Cedulas" class="my-2"/>
+            <ButtonBig class="my-4 mx-5" texto="Cedula"  link="/cedula" icon="mdi-card-account-details"/>
+          </v-col>
+
         </v-row>
       </div>
 

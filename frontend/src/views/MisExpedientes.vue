@@ -3,7 +3,7 @@
     <titulo texto="Mis Expedientes" icono="mdi-file-document" />
     <div class="descripcion text-justify py-4">Si desea <strong>realizar un pase</strong>, haga clic en el botón de la tabla.</div>
     <alert-sucess texto="El expediente ha sido asignado con éxito" :condicion="this.$store.getters.asignado"/>
-    <tabla-mis-expedientes :headers="headers" :data="allExpedientes" :loading="get_finalizado"/>
+    <tabla-mis-expedientes class="mb-15 pb-15" :headers="headers" :data="allExpedientes" :loading="get_finalizado"/>
   </div>
 </template>
 
