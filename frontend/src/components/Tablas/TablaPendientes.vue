@@ -17,7 +17,7 @@
       </v-col>
     </v-row>
 
-    
+
       <v-data-table
           :headers="headers"
           :items="items"
@@ -46,7 +46,7 @@
           </v-btn>
         </template>
       </v-data-table>
-    
+
 
   </div>
 </template>
