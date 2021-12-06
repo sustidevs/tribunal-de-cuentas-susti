@@ -21,6 +21,7 @@ import mesa_entrada from "../middleware/mesa_entrada";
 import middlewarePipeline from "./middlewarePipeline";
 import store from "../store/index";
 import Englose from "../views/Englose"
+import Cedula from "../views/Cedula"
 
 Vue.use(VueRouter)
 
@@ -113,6 +114,12 @@ const routes = [
         name: 'Usuario',
         component: Usuario,
         meta: { title: 'Usuario', middleware: [auth]  }
+      },
+      {
+        path: '/cedula',
+        name: 'Cedula',
+        component: Cedula,
+        meta: { title: 'Cedula', middleware: [auth]  }
       },
     ]
   },
