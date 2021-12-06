@@ -4,7 +4,7 @@
             <v-col cols="12" sm="12" lg="6" class="pb-6">
                 <h1 class="d-flex justify-start Montserrat-Bold pb-3 mt-6"> Cambiar contraseña </h1>
                 <v-divider color="#393B44" class="mt-2"></v-divider>
-                <alert-sucess texto="La contraseña se actualizo con éxito" :condicion="this.show1" />
+                <alert-sucess texto="La contraseña se actualizo con éxito" :condicion="this.error1" />
                 <label-input  class="pt-10" texto="Ingrese su contraseña actual"/>
                 <v-row cols="6" no-gutters justify="start" class="pb-6">
                     <v-col cols="12">
@@ -37,7 +37,7 @@
                             >
                                 Su contraseña debe tener al menos 8 caracteres, un número y una letra.
                             </v-alert>
-                            <alert type="error" texto="Las constrañas no coinciden" :condicion="this.show2" />                            
+                            <alert type="error" texto="Las constrañas no coinciden" :condicion="this.error2" />                            
                         </v-col>
                         <v-col cols="12">
                             <v-text-field
@@ -54,7 +54,7 @@
                     <label-input texto="Repita la nueva contraseña"/>
                     <v-row no-gutters justify="start" class="pb-16">
                         <v-col cols="12">
-                            <alert type="error" texto="Las constrañas no coinciden" :condicion="this.show2" />
+                            <alert type="error" texto="Las constrañas no coinciden" :condicion="this.error2" />
 
                             <v-text-field
                                 color="amber accent-4"
@@ -113,6 +113,8 @@ export default {
             show1: false,
             show2: false,
             show3: false,
+            error1: false,
+            error2: false,
             mostrar: false,
             mostrar2: false,
         }
@@ -125,11 +127,11 @@ export default {
   nuevoPassword() {
       if (this.user.password == this.repetirPass){
           this.nuevaContrasena(this.user)
-          this.show1 = true;
-          this.show2 = false;
+          this.error1 = true;
+          this.error2 = false;
       }
       else{ 
-          this.show2 = true;
+          this.error2 = true;
       }
   }
     },
