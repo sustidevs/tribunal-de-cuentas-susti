@@ -122,7 +122,7 @@ class ExpedienteController extends Controller
                             {
                                 $estado_actual = Area::findOrFail($request->area_id);
                                 //ARCHIVOS/////////////////////////////////////////////////////////////////////////////
-                                
+
                                 if(($request->allFiles()) != null)
                                 {
                                     $zip = new ZipArchive;
@@ -155,9 +155,9 @@ class ExpedienteController extends Controller
                                     $notificacion->user_id = $request->user_id;
                                     $notificacion->fecha = Carbon::now()->format('Y-m-d');
                                     $notificacion->estado = "1"; //Pendiente
-                                    $notificacion->save(); 
+                                    $notificacion->save();
                                 }
-                                //(2 = separacion barras, 80 = ancho de la barra) 
+                                //(2 = separacion barras, 80 = ancho de la barra)
                                 $codigoBarra = $cod->getBarcodeHTML($expediente->nro_expediente, 'C39',2,80,'black', true);
                                 $datos = [$expediente->fecha,$caratula->iniciador->nombre,$extracto->descripcion,$estado_actual,$path, $expediente->nro_expediente,$codigoBarra,$caratula->iniciador->email];
                                 return response()->json($datos,200);
@@ -182,11 +182,12 @@ class ExpedienteController extends Controller
         "descripcion_extracto": "Extracto"
     }
     */
-    
+
     public function union(Request $request)
     {
-        $exp_hijo = Expediente::findOrFail($request->exp_hijo);
         $exp_padre = Expediente::findOrFail($request->exp_padre);
+        $exp_hijo = Expediente::findOrFail($request->exp_hijo);
+
         if($exp_hijo->expediente_id == "")
         {
             $exp_hijo->expediente_id = $exp_padre->id;
@@ -254,7 +255,7 @@ class ExpedienteController extends Controller
                     $historial_padre->estado = "3";//Mi expediente
                     if($historial_padre->save() && $historial->save())
                     {
-                        return response()->json("operacion realizada con exitos wey!",200);  
+                        return response()->json("operacion realizada con exitos wey!",200);
                     }
                     else
                     {
@@ -283,7 +284,7 @@ class ExpedienteController extends Controller
     public function createDesgloce(Request $request)
     {
         $exp_padre = Expediente::findOrFail($request->exp_padre);
-        return response()->json($exp_padre->hijos,200); 
+        return response()->json($exp_padre->hijos,200);
     }
 
 
@@ -454,10 +455,10 @@ class ExpedienteController extends Controller
        //echo $cod->getBarcodeHTML('4445645656', 'PHARMA2T');
         /*echo '<img src="data:image/png,' . $cod->getBarcodePNG('4', 'C39+') . '" alt="barcode"   />';
         echo $cod->getBarcodePNGPath('4445645656', 'PHARMA2T');
-        echo '<img src="data:image/png;base64,' . $cod->getBarcodePNG('4', 'C39+') . '" alt="barcode"   />';*/      
+        echo '<img src="data:image/png;base64,' . $cod->getBarcodePNG('4', 'C39+') . '" alt="barcode"   />';*/
     }
 
-    
+
     /*
     - Método que retorna el detalle del expediente para mostrarlo en bandeja de entrada antes de aceptar
     - @param: expediente_id
