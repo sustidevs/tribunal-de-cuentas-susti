@@ -14,6 +14,7 @@
       :headers="headers"
       :data="allExpedientes"
       :loading="get_finalizado"
+      class="mb-15 pb-15"
     />
   </div>
 </template>
