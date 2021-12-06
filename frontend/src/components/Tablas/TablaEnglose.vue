@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="pb-12">
     <v-row>
       <v-col cols="12" lg="4">
         <v-text-field
@@ -56,18 +56,29 @@
               <v-list-item-content>
                 <v-list-item-title class="contentSize Montserrat-SemiBold" v-text="item.nro_expediente"></v-list-item-title>
                 <v-list-item-content class="contentSize Montserrat-Regular" v-text="item.extracto"/>
-                <v-row  @click="quitar(item)" no-gutters>
+                <v-row @click="quitar(item)"  no-gutters>
                   <v-icon class="red--text">mdi-close</v-icon><div class="pt-1 Montserrat-Regular red--text">Quitar Seleccion</div>
                 </v-row>
                 <v-divider class="my-5"></v-divider>
               </v-list-item-content>
             </v-list-item>
           </v-list>
+
+          <div v-if="!(seleccionados.length === 0)" class="contentSize Montserrat-Regular pa-4">
+            <v-row justify="center" align="center">
+              <v-btn @click="confirmarEnglose" class="pa-2 color Montserrat-SemiBold" height="55" elevation="0" color="#FACD89">
+                <v-icon class="px-5">
+                  mdi-check-bold
+                </v-icon>
+                <div class="">
+                  Confirmar
+                </div>
+              </v-btn>
+            </v-row>
+          </div>
         </v-card>
 
-        <v-btn @click="confirmarEnglose">
-          Confirmar
-        </v-btn>
+
       </v-col>
     </v-row>
   </div>
@@ -96,16 +107,21 @@ export default {
     ]),
 
     confirmarEnglose(){
+      let expediente_hijo = [];
+
+      for (var i = 1; i < this.seleccionados.length; i++) {
+        expediente_hijo.push(this.seleccionados[i].expediente_id);
+      }
+
       let expedientes_englose = {
-            user_id: this.$store.getters.getIdUser,
-            exp_padre: this.seleccionados[0].expediente_id,
-            exp_hijo: this.seleccionados[1].expediente_id,
+           user_id: this.$store.getters.getIdUser,
+           exp_padre: this.seleccionados[0].expediente_id,
+          exp_hijos: expediente_hijo
       }
       this.englosar(expedientes_englose)
     },
 
     quitar (item){
-      console.log(item)
       this.seleccionados.splice(item)
     },
 
