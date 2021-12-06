@@ -1,5 +1,5 @@
 <template>
-    <div class="mb-12">
+    <div class="mb-16">
         <form @submit.prevent="storeIniciador(inicia)" >
             <titulo texto="Nuevo Iniciador" icono="mdi-account-plus" class="pb-8"/>
             <v-row no-gutters justify="center" class="mt-2 mb-3">
@@ -50,7 +50,7 @@
                 </v-col>
             </v-row>
 
-            <v-row no-gutters justify="center" class="mt-8">
+            <v-row no-gutters justify="center" class="my-4">
                 <v-col cols="12" sm="6" md="6" lg="6" class="py-6 px-sm-2">
                     <SecondaryButton link="/" texto="Volver a inicio" icono="mdi-keyboard-backspace"/>
                 </v-col>
@@ -64,8 +64,8 @@
                     <modal-exito-nuevo-iniciador :show="showModal" @close="closeModalExitoNuevoIniciador"/>
                 </v-col>
             </v-row>
-      </form>
-  </div>
+        </form>
+    </div>
 </template>
 
 <script>
