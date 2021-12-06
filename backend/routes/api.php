@@ -26,9 +26,12 @@ use App\Http\Controllers\api\NotificacionController;
 /*
 |Cuando se implemente middleware usar auth:sanctum en lugar de auth:api
 */
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/salir',[LoginController::class, 'logout'] );
 });
+
+Route::get('/verificar',[LoginController::class, 'verificar'] );
 
 //EXPEDIENTE////////////////////////////////////////////////////////////////////////
 Route::get('/indexExp',             [ExpedienteController::class, 'index']);

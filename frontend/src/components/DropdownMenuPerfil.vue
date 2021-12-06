@@ -16,8 +16,7 @@
             >mdi-account-circle</v-icon
           >
           <v-icon :class="hover ? 'amber--text text--lighten-3' : 'white--text'"
-            >mdi-chevron-down</v-icon
-          >
+            >mdi-chevron-down</v-icon>
         </v-btn>
       </v-hover>
     </template>
@@ -56,7 +55,7 @@
 
       <div>
         <v-hover v-slot="{ hover }" class="d-flex justify-end py-2 ">
-          <v-btn block x-large depressed text @click="logout()">
+          <v-btn block x-large depressed text @click="onLogout()">
             <h5
               class="px-2 Montserrat-Regular"
               :class="hover ? 'amber--text text--lighten-3' : 'white--text'"
@@ -75,6 +74,8 @@
 </template>
 
 <script>
+import {mapActions} from "vuex";
+
 export default {
   props: {
     nombre: String,
@@ -83,12 +84,15 @@ export default {
     area: String,
     link: String,
   },
-  
+
   methods: {
-    logout() {
-      this.$store.dispatch("logout").then(() => {
-        this.$router.push({ name: "LoginGeneral" });
-      });
+    ...mapActions({
+      salir: 'logout',
+    }),
+
+    onLogout() {
+      this.salir();
+      this.$router.go(0);
     },
   },
 };
