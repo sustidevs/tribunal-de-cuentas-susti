@@ -10,6 +10,7 @@ import NuevoPase from '../views/NuevoPase.vue'
 import VerSeguimientos from '../views/VerSeguimientos.vue'
 import NuevoIniciador from '../views/NuevoIniciador.vue'
 import Iniciadores from '../views/Iniciadores.vue'
+import EditarIniciador from '../views/EditarIniciador.vue'
 import layout from '../layout/Layout'
 import Expedientes from "../views/Expedientes";
 import Enviados from "../views/Enviados";
@@ -18,7 +19,9 @@ import auth from "../middleware/auth";
 import guest from "../middleware/guest";
 import mesa_entrada from "../middleware/mesa_entrada";
 import middlewarePipeline from "./middlewarePipeline";
-import store from "../store/index"
+import store from "../store/index";
+import Englose from "../views/Englose"
+
 Vue.use(VueRouter)
 
 const routes = [
@@ -32,6 +35,12 @@ const routes = [
         name: 'Home',
         component: Home,
         meta: {title: 'Inicio',  layout: layout, middleware: [auth] }
+      },
+      {
+        path: '/englose',
+        name: 'Englose',
+        component: Englose,
+        meta: { title: 'Englose', middleware: [auth]}
       },
       {
         path: '/nuevo-expediente',
@@ -86,6 +95,12 @@ const routes = [
         name: 'Iniciadores',
         component: Iniciadores,
         meta: { title: 'Iniciadores', middleware: [auth, mesa_entrada] }
+      },
+      {
+        path: '/editar-iniciador',
+        name: 'EditarIniciador',
+        component: EditarIniciador,
+        meta: { title: 'Editar Iniciador', middleware: [auth, mesa_entrada] }
       },
       {
         path: '/enviados',
