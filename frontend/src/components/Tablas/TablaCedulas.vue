@@ -79,7 +79,7 @@ export default {
       else return "mdi-check-bold";
     },
 
-    ...mapActions(["getHistorial"]),
+    ...mapActions(["getExpedientes"]),
 
     // historial_pase: function (item) {
     //   console.log(item);
