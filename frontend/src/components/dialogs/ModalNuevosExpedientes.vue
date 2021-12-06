@@ -7,23 +7,41 @@
       </div>
       <v-divider color="#393B44"></v-divider>
 
-      <div class="Montserrat-Bold mb-2 mt-8 sizeTM"> Fecha:</div>
-      <div class="Montserrat-Regular mb-6 ml-1 sizeDM"> {{ dato[0] }}</div>
+      <v-row no-gutters>
+        <v-col sm="6">
+          <div class="Montserrat-Bold mb-2 mt-8  sizeTM"> Iniciador:</div>
+          <div class="Montserrat-Regular mb-6 text-justify sizeDM">{{ dato[1] }}</div>
+        </v-col>
+        <v-col sm="6">
+          <div class="Montserrat-Bold mb-2 mt-8 sizeTM"> Fecha:</div>
+          <div class="Montserrat-Regular mb-6 ml-1 sizeDM"> {{ dato[0] }}</div>
+        </v-col>
+      </v-row>
 
-      <div class="Montserrat-Bold mr-1 mb-2 sizeTM"> Iniciador:</div>
-      <div class="Montserrat-Regular mb-6 text-justify sizeDM">{{ dato[1] }}</div>
+      <v-row no-gutters>
+        <v-col sm="6">
+          <div class="Montserrat-Bold mb-2 sizeTM"> Se derivó al área:</div>
+          <div class="Montserrat-Regular mb-6 text-justify sizeDM">{{ dato[3].descripcion }}</div>
+        </v-col>
+        <v-col sm="6" v-if="dato[7] !== null">
+          <div class="Montserrat-Bold mr-1 mb-2 sizeTM"> Email:</div>
+          <div class="Montserrat-Regular mb-6 text-justify sizeDM">{{dato[7]}}</div>
+        </v-col>
+      </v-row>
 
-      <div class="Montserrat-Bold mr-1 mb-2 sizeTM"> Email:</div>
-      <div class="Montserrat-Regular mb-6 text-justify sizeDM"> correo@gmail.com</div>
+      <v-row no-gutters>
+        <v-col sm="12">
+          <div class="Montserrat-Bold mb-2 sizeTM"> Extracto:</div>
+          <div class="Montserrat-Regular mb-6 text-justify sizeDM">{{ dato[2] }}</div>
+        </v-col>
+      </v-row>
 
-      <div class="Montserrat-Bold mb-2 sizeTM"> Se derivó al área:</div>
-      <div class="Montserrat-Regular mb-6 text-justify sizeDM">{{ dato[3].descripcion }}</div>
-
-      <div class="Montserrat-Bold mb-2 sizeTM"> Extracto:</div>
-      <div class="Montserrat-Regular mb-6 text-justify sizeDM">{{ dato[2] }}</div>
-
-      <div class="Montserrat-Bold mb-2 sizeTM">Observación:</div>
-      <div class="Montserrat-Regular mb-6 text-justify sizeDM"> Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatibus sit, commodi deleniti ad illo assumenda eius fuga aliquid. Laudantium voluptatum, delectus voluptate aperiam vel incidunt numquam architecto, adipisci laborum dolores, corrupti eaque fugiat soluta veniam debitis voluptatem. Saepe quasi, eveniet nihil delectus hic laudantium nobis </div>
+      <v-row no-gutters>
+        <v-col sm="12">
+          <div class="Montserrat-Bold mb-2 sizeTM">Observación:</div>
+          <div class="Montserrat-Regular mb-6 text-justify sizeDM">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatibus sit, commodi deleniti ad illo assumenda eius fuga aliquid. Laudantium voluptatum, delectus voluptate aperiam vel incidunt numquam architecto, adipisci laborum dolores, corrupti eaque fugiat soluta veniam debitis voluptatem. Saepe quasi, eveniet nihil delectus hic laudantium nobis </div>
+        </v-col>
+      </v-row>
 
       <v-row no-gutters justify="center" class="py-4">
 
@@ -54,25 +72,31 @@
             <div class="Montserrat-Bold sizeExpediente paddExp"> EXPEDIENTE Nº{{ dato[5] }} </div>
 
             <div class="direction pad">
-              <div class="Montserrat-SemiBold sizeAll pl">Fecha: </div>
-              <div class="Montserrat-Regular sizeAll">{{ dato[0] }}</div>
-            </div>
-
-            <div class="direction pad">
               <div class="Montserrat-SemiBold sizeAll pl"> Iniciador:</div>
               <div class="Montserrat-Regular pl-3 sizeAll"> {{ dato[1] }} </div>
             </div>
 
-            <div class="direction pad">
-              <div class="Montserrat-SemiBold sizeAll pl"> Email:</div>
-              <div class="Montserrat-Regular pl-3 sizeAll"> correo@gmail.com </div>
-            </div>
+            <v-row no-gutters>
+              <v-col sm="5">
+                <div class="direction pad">
+                  <div class="Montserrat-SemiBold sizeAll pl">Fecha: </div>
+                  <div class="Montserrat-Regular sizeAll">{{ dato[0] }}</div>
+                </div>
+              </v-col>
+              <v-col sm="7">
+                <div class="direction pad" v-if="dato[7] !== null">
+                  <div class="Montserrat-SemiBold sizeAll pl"> Email:</div>
+                  <div class="Montserrat-Regular pl-3 sizeAll"> {{dato[7]}}</div>
+                </div>
+              </v-col>
+            </v-row>
 
             <div class="d-flex flex-column pad">
               <div class="Montserrat-SemiBold sizeAll">Extracto:</div>
               <div class="Montserrat-Regular sizeAll">{{ dato[2] }}</div>
             </div>
 
+         
             <div class="d-flex flex-column pad">
               <div class="Montserrat-SemiBold sizeAll">Observación:</div>
               <div class="Montserrat-Regular sizeAll text-justify">
@@ -84,26 +108,33 @@
         <div class="container2">
           <section>
             <hr class="dashed">
+
             <section>
               <div class="Montserrat-Bold sizeAll paddExp"> EXPEDIENTE Nº{{ dato[5] }} </div>
             </section>
 
             <section>
-              <div class="direction pad">
-                <div class="Montserrat-SemiBold sizeAll pl">Fecha: </div>
-                <div class="Montserrat-Regular sizeAll">{{ dato[0] }}</div>
-              </div>
 
               <div class="direction pad">
                 <div class="Montserrat-SemiBold sizeAll pl"> Iniciador:</div>
                 <div class="Montserrat-Regular pl-3 sizeAll"> {{ dato[1] }} </div>
               </div>
 
-              <div class="direction pad">
-                <div class="Montserrat-SemiBold sizeAll pl"> Email:</div>
-                <div class="Montserrat-Regular pl-3 sizeAll"> correo@gmail.com </div>
-              </div>
-
+              <v-row no-gutters>
+                <v-col sm="5">
+                  <div class="direction pad">
+                    <div class="Montserrat-SemiBold sizeAll pl">Fecha: </div>
+                    <div class="Montserrat-Regular sizeAll">{{ dato[0] }}</div>
+                  </div>
+                </v-col>
+                <v-col sm="7">
+                  <div class="direction pad" v-if="dato[7] !== null">
+                    <div class="Montserrat-SemiBold sizeAll pl"> Email:</div>
+                    <div class="Montserrat-Regular pl-3 sizeAll"> {{dato[7]}}</div>
+                  </div>
+                </v-col>
+              </v-row>
+            
               <div class="d-flex flex-column pad">
                 <div class="Montserrat-SemiBold sizeAll">Extracto:</div>
                 <div class="Montserrat-Regular sizeAll">{{ dato[2] }}</div>
@@ -112,9 +143,10 @@
                 <div class="Montserrat-SemiBold sizeAll">Observación:</div>
                 <div class="Montserrat-Regular sizeAll text-justify">
                 Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatibus sit, commodi deleniti ad illo assumenda eius fuga aliquid. Laudantium voluptatum, delectus voluptate aperiam vel incidunt numquam architecto, adipisci laborum dolores, corrupti eaque fugiat soluta veniam debitis voluptatem. Saepe quasi, eveniet nihil delectus hic laudantium nobis
+                </div>
               </div>
-            </div>
             </section>
+
           </section>
         </div>
       </section>
