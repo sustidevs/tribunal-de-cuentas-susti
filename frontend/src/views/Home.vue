@@ -137,48 +137,49 @@
 
 
       <!--<v-row>
-        <v-col cols="12" sm="6" lg="3">
-          <boton-horizontal link="/nuevo-expediente" texto="Nuevo Expediente" icono="mdi-file-plus-outline" alto="55" ancho="100%"/>
-        </v-col>
-        <v-col cols="12" sm="6" lg="3">
-          <v-hover v-slot="{ hover }" >
-            <v-btn
-              :class="hover ? 'orange accent-1' : 'grey lighten-2'"
-              class="pa-8 Montserrat-Bold grey--text text--darken-3"
-              @click="abrirModalConsultar()"
-              width="100%"
-            >
-              <v-icon class="px-4" left large color="#393B44">
-                mdi-text-box-search-outline
-              </v-icon>
-              Consultar Expediente
-            </v-btn>
-          </v-hover>
-        </v-col>
-        <v-col cols="12" sm="6" lg="3">
-          <boton-horizontal  @click="cargar()" link="/bandeja" texto="Bandeja de Entrada" icono="mdi-bell-outline" alto="55" ancho="100%"/>
-        </v-col>
-        <v-col cols="12" sm="6" lg="3">
-          <boton-horizontal link="/mis-expedientes-asignados" texto="Realizar Pase" icono="mdi-file-send-outline" alto="55" ancho="100%"/>
-        </v-col>
-      </v-row>
-      <titulo-inicio texto="Expedientes" class="my-6"/>
-      <v-row>
-        <v-col cols="12">
-          <boton-vertical :datos="expedientes"/>
-        </v-col>
-      </v-row>
+          <v-col cols="12" sm="6" lg="3">
+            <boton-horizontal link="/nuevo-expediente" texto="Nuevo Expediente" icono="mdi-file-plus-outline" alto="55" ancho="100%"/>
+          </v-col>
+          <v-col cols="12" sm="6" lg="3">
+            <v-hover v-slot="{ hover }" >
+              <v-btn
+                :class="hover ? 'orange accent-1' : 'grey lighten-2'"
+                class="pa-8 Montserrat-Bold grey--text text--darken-3"
+                @click="abrirModalConsultar()"
+                width="100%"
+              >
+                <v-icon class="px-4" left large color="#393B44">
+                  mdi-text-box-search-outline
+                </v-icon>
+                Consultar Expediente
+              </v-btn>
+            </v-hover>
+          </v-col>
+          <v-col cols="12" sm="6" lg="3">
+            <boton-horizontal  @click="cargar()" link="/bandeja" texto="Bandeja de Entrada" icono="mdi-bell-outline" alto="55" ancho="100%"/>
+          </v-col>
+          <v-col cols="12" sm="6" lg="3">
+            <boton-horizontal link="/mis-expedientes-asignados" texto="Realizar Pase" icono="mdi-file-send-outline" alto="55" ancho="100%"/>
+          </v-col>
+        </v-row>
+        <titulo-inicio texto="Expedientes" class="my-6"/>
+        <v-row>
+          <v-col cols="12">
+            <boton-vertical :datos="expedientes"/>
+          </v-col>
+        </v-row>
 
-      <v-row>
-        <v-col cols="12" lg="6">
-          <titulo-inicio texto="Documentos Oficiales" class="my-6"/>
-          <boton-vertical :datos="documentos"/>
-        </v-col>
-        <v-col cols="12" lg="6">
-          <titulo-inicio texto="Comunicaciones Oficiales" class="my-6"/>
-          <boton-vertical :datos="comunicaciones"/>
-        </v-col>
+        <v-row>
+          <v-col cols="12" lg="6">
+            <titulo-inicio texto="Documentos Oficiales" class="my-6"/>
+            <boton-vertical :datos="documentos"/>
+          </v-col>
+          <v-col cols="12" lg="6">
+            <titulo-inicio texto="Comunicaciones Oficiales" class="my-6"/>
+            <boton-vertical :datos="comunicaciones"/>
+          </v-col>
       </v-row>-->
+      
     </div>
   </div>
 </template>
