@@ -11,7 +11,7 @@ import TablaCedulas from "../components/Tablas/TablaCedulas";
 import {mapActions,mapGetters} from "vuex";
 
 export default {
-  name: 'BandejaDeEntrada',
+  name: 'Cedula',
   components: {TablaCedulas, Titulo, },
   data() {
     return {
