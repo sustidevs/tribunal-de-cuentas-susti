@@ -60,6 +60,7 @@
 
 <script>
 import LabelInput from "../components/LabelInput";
+//import {mapActions} from "vuex";
 
 export default {
   name: 'EditarIniciador',
@@ -68,6 +69,10 @@ export default {
         return {
         }
     },
+ 
+    /* methods: {
+        ...mapActions([ 'getIniciadores']),
+      }**/
 }
 </script>
 

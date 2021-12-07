@@ -27,7 +27,7 @@
       no-data-text="No hay iniciadores cargados en el sistema"
     >
       <template v-slot:item.action="{}">
-          <v-btn fab small color="#FACD89" depressed>
+          <v-btn @click="enviarId()" fab small color="#FACD89" depressed>
             <v-icon>mdi-pencil</v-icon>
           </v-btn>
       </template>
@@ -36,6 +36,7 @@
 </template>
 
 <script>
+import {mapActions} from "vuex";
 export default {
     components: {},
     props: {
@@ -61,6 +62,18 @@ export default {
                 {name: 'María Anabella', tipo: 'Persona Física', cuil: '27352223331', cuit: '', correo: 'prueba2@gmail.com', telefono: '3794124578', direccion: 'Madrid 1750'},
             ],
         }
+    },
+
+    methods: {
+      ...mapActions([ 'getIniciadores']),
+
+        enviarId() {
+          let idIniciador = { 
+            id : 48,
+          }
+          this.getIniciadores(idIniciador)
+          this.$router.push({ name: "EditarIniciador" });
+        },
     },
 }
 </script>
