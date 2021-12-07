@@ -5,7 +5,7 @@
       type="success"
       :condicion="this.recuperado"
     />
-    <titulo texto="Expedientes Enviados" icono="mdi-email-fast" />
+    <titulo texto="Recuperar" icono="mdi-email-fast" />
     <div class="descripcion text-justify py-4">
       Si desea <strong>recuperar</strong> un expediente, haga clic en el botón
       de la tabla.
