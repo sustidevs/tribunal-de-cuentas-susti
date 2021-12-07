@@ -13,12 +13,16 @@ const state = {
     cuil: {},
     newPass:false,
     loading: false,
+    misEnviados: [],
+    finalizado: true,
 };
 
 const getters = {
+    getMisEnviados: state => state.misEnviados,
     getLoading: state => state.loading,
     getUser: state => state.user,
     incorrecto: state => state.incorrecto,
+    getAreaId: state => state.user.area_id,
     getIdUser: state => state.user.user_id,
     getArea: state => state.user.area,
     getNombreApellido: state => state.user.nombre + "  " + state.user.apellido,
@@ -31,7 +35,8 @@ const getters = {
     authenticated: state => state.user.logueado,
     getTipoUsuario: state=> state.user.tipo_user,
     getCuil: state => state.user.cuil,
-    getNewPass: state => state.newPass
+    getNewPass: state => state.newPass,
+    get_finalizado: state => state.finalizado,
 };
 
 const actions = {
@@ -81,10 +86,20 @@ const actions = {
             .then(
                 commit('setNewPass', true)
             )
+    },
+
+    mis_enviados({commit}, expediente){
+        axios.post(process.env.VUE_APP_API_URL+ '/api/mis-enviados', expediente)
+            .then(response => {
+                commit('set_expedientesEnviados', response.data),
+                commit('set_finalizado', false)
+            })
     }
 };
 
 const mutations = {
+    set_finalizado: (state, finalizado) => state.finalizado = finalizado,
+    set_expedientesEnviados: (state, expedientes) => state.misEnviados = expedientes,
     set_user: (state, user) => state.user = user,
     set_errorCuil: (state, errorCuil) => state.errorCuil = errorCuil,
     set_errorC: (state, errorC) => state.errorC = errorC,
