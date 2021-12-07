@@ -9,6 +9,7 @@ import areas from "./modules/areas";
 import nuevo_expediente from "./modules/nuevo_expediente";
 import nuevo_pase from "./modules/nuevo_pase"
 import iniciador from "./modules/iniciadores"
+import cedula from "./modules/cedula"
 import englose from "./modules/englose";
 
 Vue.use(Vuex)
@@ -25,6 +26,7 @@ export default new Vuex.Store({
         nuevo_expediente,
         nuevo_pase,
         iniciador,
-        englose
+        englose,
+        cedula
     },
 })

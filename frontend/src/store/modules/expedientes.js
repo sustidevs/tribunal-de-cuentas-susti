@@ -2,6 +2,7 @@ import axios from "axios";
 
 const state = {
     expedientes: [],
+    expediente: '',
     extracto: '', //para guardar el extracto v-model
     nro_expediente: '000 - 0000000 - 0000',
     bandeja: false,
