@@ -12,6 +12,7 @@ use App\Models\Expediente;
 use App\Models\TipoEntidad;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreHistorialRequest;
 
 class HistorialController extends Controller
 {
@@ -42,59 +43,63 @@ class HistorialController extends Controller
     /*
     * Recibe datos para registrar el pase de un expediente a otra área
     */
-    public function store(Request $request)
+    public function store(StoreHistorialRequest $request)
     {
-        $user = User::findOrFail($request->user_id);
-        $expediente = Expediente::findOrFail($request->expediente_id);
-        $historial = new Historial;
-        $historial->expediente_id = $expediente->id;
-        $historial->user_id = $request->user_id;
-        $historial->area_origen_id = $user->area_id;
-        $historial->area_destino_id = $request->area_destino_id;
-        $historial->fojas = $request->fojas;
-        $historial->fecha = Carbon::now()->format('Y-m-d');
-        $historial->hora = Carbon::now()->format('h:i');
-        $historial->motivo = $request->motivo;
-        //$historial->nombre_archivo = $request->nombre_archivo;
-        $historial->estado = 1;//pendiente para la bandeja del area destino, enviado para la bandeja origen
-        $expediente->estado_expediente_id = '1';
-        $expediente->fojas += $historial->fojas;
-        //ARCHIVOS/////////////////////////////////////////////////////////////////////////////
-        if(!is_null($request->allFiles()))
+        if($request->validated())
         {
-            $zip = new ZipArchive;
-            $fileName = $expediente->nro_expediente;
-            $fileName = str_replace("/","-",$fileName).'.zip';
-            $path =storage_path()."/app/public/archivos_expedientes/".$fileName;
-            if($zip->open($path ,ZipArchive::CREATE) === true)
+            $user = User::findOrFail($request->user_id);
+            $expediente = Expediente::findOrFail($request->expediente_id);
+            $historial = new Historial;
+            $historial->expediente_id = $expediente->id;
+            $historial->user_id = $request->user_id;
+            $historial->area_origen_id = $user->area_id;
+            $historial->area_destino_id = $request->area_destino_id;
+            $historial->fojas = $request->fojas;
+            $historial->fecha = Carbon::now()->format('Y-m-d');
+            $historial->hora = Carbon::now()->format('h:i');
+            $historial->motivo = $request->motivo;
+            //$historial->nombre_archivo = $request->nombre_archivo;
+            $historial->estado = 1;//pendiente para la bandeja del area destino, enviado para la bandeja origen
+            $expediente->estado_expediente_id = '1';
+            $expediente->fojas += $historial->fojas;
+            //ARCHIVOS/////////////////////////////////////////////////////////////////////////////
+            if(!is_null($request->allFiles()))
             {
-                foreach ($request->allFiles() as $key => $value)
+                $zip = new ZipArchive;
+                $fileName = $expediente->nro_expediente;
+                $fileName = str_replace("/","-",$fileName).'.zip';
+                $path =storage_path()."/app/public/archivos_expedientes/".$fileName;
+                if($zip->open($path ,ZipArchive::CREATE) === true)
                 {
-                    $relativeNameInZipFile = $value->getClientOriginalName();
-                    $zip->addFile($value, $relativeNameInZipFile);
+                    foreach ($request->allFiles() as $key => $value)
+                    {
+                        $relativeNameInZipFile = $value->getClientOriginalName();
+                        $zip->addFile($value, $relativeNameInZipFile);
+                    }
+                    $zip->close();
                 }
-                $zip->close();
+                $expediente->archivos = $fileName;
+                $historial->nombre_archivo = $fileName;
+                $expediente->save();
+                $historial->save();
             }
-            $expediente->archivos = $fileName;
-            $historial->nombre_archivo = $fileName;
-            $expediente->save();
-            $historial->save();
+            ///////////////////////////////////////////////////////////////////////////////////////
+                $expediente->save();
+                $historial->save();
+                $area_destino = $historial->areaDestino->descripcion;
+                $fecha = $historial->fecha = Carbon::now()->format('Y-m-d');
+                $fojas = $historial->fojas = $request->fojas;
+                $data = [
+                    $area_destino,
+                    $fecha,
+                    $historial->hora,
+                    $fojas,
+                    $user->persona->nombre. " ".$user->persona->apellido,
+                    $historial->motivo,
+                    $expediente->nro_expediente,
+                    $expediente->caratula->extracto->descripcion];
+            return response()->json($data, 200);
         }
-        ///////////////////////////////////////////////////////////////////////////////////////
-        $expediente->save();
-        $historial->save();
-        $area_destino = $historial->areaDestino->descripcion;
-        $fecha = $historial->fecha = Carbon::now()->format('Y-m-d');
-        $fojas = $historial->fojas = $request->fojas;
-        $data = [$area_destino,
-                 $fecha,
-                 $historial->hora,
-                 $fojas,
-                 $user->persona->nombre. " ".$user->persona->apellido,
-                 $historial->motivo,
-                $expediente->nro_expediente,
-                $expediente->caratula->extracto->descripcion];
-        return response()->json($data, 200);
     }
 
      /*
