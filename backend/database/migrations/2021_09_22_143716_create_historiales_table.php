@@ -22,7 +22,7 @@ class CreateHistorialesTable extends Migration
             $table->integer('fojas');
             $table->date('fecha');
             $table->time('hora');
-            $table->string('motivo')->nullable();
+            $table->string('motivo');
             $table->string('nombre_archivo')->nullable();
             $table->integer('estado');
             $table->timestamps();
