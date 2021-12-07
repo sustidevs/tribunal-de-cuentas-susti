@@ -65,13 +65,13 @@ export default {
     },
 
     methods: {
-      ...mapActions([ 'getIniciadores']),
+      ...mapActions([ 'getIniciador']),
 
         enviarId() {
           let idIniciador = { 
-            id : 48,
+            id : 52,
           }
-          this.getIniciadores(idIniciador)
+          this.getIniciador(idIniciador)
           this.$router.push({ name: "EditarIniciador" });
         },
     },

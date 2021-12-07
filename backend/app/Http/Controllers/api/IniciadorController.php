@@ -63,7 +63,7 @@ class IniciadorController extends Controller
     public function edit(Request $request)
     {
         $iniciador = Iniciador::findOrFail($request->id);
-        $data = ["iniciador" =>$iniciador];
+        $data = [$iniciador, $iniciador->tipoEntidad->descripcion];
         return response()->json($data, 200);
     }
 
