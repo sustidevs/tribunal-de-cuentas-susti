@@ -42,7 +42,7 @@
       </template>
     </v-data-table>
 
-    <modal-nueva-cedula :show="show_modal" @close="closeModal" />
+    <modal-nueva-cedula :show="show_modal" @close="closeModal" :datos="this.datos"/>
   </div>
 </template>
 
@@ -63,6 +63,11 @@ export default {
       show_modal: false,
       selected: [],
       search: "",
+      datos:{
+        id: '',
+        nro_expediente: '',
+        extracto: '',
+      },
     };
   },
 
@@ -80,8 +85,9 @@ export default {
     ...mapActions(["getExpedientes"]),
 
     AbrirModalCedula(item) {
-      this.show_modal = true;
-      this.datos = item;
+      this.datos.id = item.id,
+      this.datos.nro_expediente = item.nro_expediente,
+      this.datos.extracto = item.extracto,
       this.show_modal = true;
     },
 
