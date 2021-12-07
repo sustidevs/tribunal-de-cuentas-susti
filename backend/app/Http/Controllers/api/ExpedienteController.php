@@ -186,34 +186,39 @@ class ExpedienteController extends Controller
     public function union(Request $request)
     {
         $exp_padre = Expediente::findOrFail($request->exp_padre);
-        $exp_hijo = Expediente::findOrFail($request->exp_hijo);
+        $exp_hijos = Expediente::find($request->exp_hijos);
 
-        if($exp_hijo->expediente_id == "")
+        foreach ($exp_hijos as $exp_hijo) 
         {
-            $exp_hijo->expediente_id = $exp_padre->id;
-            if($exp_hijo->save())
+            if($exp_hijo->expediente_id == "")
             {
-                $historial = new Historial;
-                $historial->expediente_id = $exp_hijo->id;
-                $historial->user_id = $request->user_id;
-                $historial->area_origen_id = $exp_hijo->historiales->last()->area_origen_id;
-                $historial->area_destino_id = $exp_hijo->historiales->last()->area_destino_id;
-                $historial->fojas = $exp_hijo->fojas;
-                $historial->fecha = Carbon::now()->format('Y-m-d');
-                $historial->hora = Carbon::now()->format('h:i');
-                $historial->motivo = "union";
-                $historial->estado = "3";//Mi expediente
-                $historial->save();
-                $exp_padre->fojas = $exp_padre->fojas + $exp_hijo->fojas;//cantidad total de fojas
-                $exp_padre->save();
-                return response()->json([$exp_padre->first(),$exp_padre->hijos,$exp_hijo->padre ],200);
-            };
+                $exp_hijo->expediente_id = $exp_padre->id;
+                if($exp_hijo->save())
+                {
+                    $historial = new Historial;
+                    $historial->expediente_id = $exp_hijo->id;
+                    $historial->user_id = $request->user_id;
+                    $historial->area_origen_id = User::find($request->user_id)->area_id;
+                    $historial->area_destino_id = User::find($request->user_id)->area_id;
+                    $historial->fojas = $exp_hijo->fojas;
+                    $historial->fecha = Carbon::now()->format('Y-m-d');
+                    $historial->hora = Carbon::now()->format('h:i');
+                    $historial->motivo = "union";
+                    $historial->estado = "3";//Mi expediente
+                    $historial->save();
+                    //$exp_padre->fojas = $exp_padre->fojas + $exp_hijo->fojas;//cantidad total de fojas
+                    $exp_padre->save();   
+                }
+            }
+            else
+            {
+                return response()->json("ERROR, ya posee padre el expediente seleccionado",400);
+            }
+            $exp_padre->fojas = $exp_padre->fojas + $exp_hijo->fojas;
         }
-        else
-        {
-            return response()->json("ERROR",400);
-        }
+        return response()->json("Exitoooo");
     }
+    //return response()->json([$exp_padre->first(),$exp_padre->hijos,$exp_hijo->padre ],200);
 
     /*{
         "exp_padre" : "1",
