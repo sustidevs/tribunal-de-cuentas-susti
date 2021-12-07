@@ -13,7 +13,7 @@ class StoreHistorialRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
