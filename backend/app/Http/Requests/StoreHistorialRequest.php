@@ -22,6 +22,7 @@ class StoreHistorialRequest extends FormRequest
      * @return array
      */
     public function rules()
+    {
         return [
             'area_destino_id'   => 'required',
             'motivo'            => 'required|max:255',
