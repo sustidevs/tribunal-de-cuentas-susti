@@ -15,7 +15,7 @@ class Iniciador extends Model
 
     public function tipoEntidad()
     {
-        return $this->belongsTo(TipoEntidad::class);
+        return $this->hasOne(TipoEntidad::class, 'id','id_tipo_entidad');
     }
 
     public function extractos()
