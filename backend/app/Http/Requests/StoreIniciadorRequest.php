@@ -16,14 +16,14 @@ class StoreIniciadorRequest extends FormRequest
     {
         return [
             'nombre'            => 'required|regex:/^[A-ZÁÀÂÇÉÈÊËÍÎÏÓÔÚÛÙÜŸÑÆŒa-záàâçéèêëíîïóôúûùüÿñæœ ]+$/|max:255',
-            'apellido'          => 'regex:/^[A-ZÁÀÂÇÉÈÊËÍÎÏÓÔÚÛÙÜŸÑÆŒa-záàâçéèêëíîïóôúûùüÿñæœ ]+$/|max:255',
-            'id_tipo_entidad'   => 'required',
-            'dni'               => 'integer|digits_between:7, 8',
-            'cuit'              => 'integer|digits_between:11, 11',
-            'cuil'              => 'integer|digits_between:11, 11',
-            'telefono'          => 'integer|digits_between:7, 15',
-            'email'             => 'max:255|email',
-            'direccion'         => 'max:50|string',
+            'apellido'          => 'regex:/^[A-ZÁÀÂÇÉÈÊËÍÎÏÓÔÚÛÙÜŸÑÆŒa-záàâçéèêëíîïóôúûùüÿñæœ ]+$/|max:255|nullable',
+            'tipo_entidad'   => 'required',
+            'dni'               => 'integer|digits_between:7, 8|nullable',
+            'cuit'              => 'integer|digits_between:11, 11|nullable',
+            'cuil'              => 'integer|digits_between:11, 11|nullable',
+            'telefono'          => 'integer|digits_between:7, 15|nullable',
+            'email'             => 'max:255|email|nullable',
+            'direccion'         => 'max:50|string|nullable',
         ];
     }
 
@@ -35,7 +35,7 @@ class StoreIniciadorRequest extends FormRequest
             'nombre.max'                => 'Límite de caracteres alcanzado.',
             'apellido.regex'            => 'Solo puede ingresar letras.',
             'apellido.max'              => 'Límite de caracteres alcanzado.',
-            'id_tipo_entidad.required'  => 'Seleccione el tipo de iniciador.',
+            'tipo_entidad.required'  => 'Seleccione el tipo de iniciador.',
             'dni.integer'               => 'Solo puede ingresar números.',
             'dni.digits_between'        => 'Debe ingresar un numero de 7 u 8 dígitos.',
             'cuit.integer'              => 'Solo puede ingresar números.',

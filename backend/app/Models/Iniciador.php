@@ -27,4 +27,55 @@ class Iniciador extends Model
     {
         return $this->hasMany(Caratula::class);
     }
+
+    public function getCuilAttribute($value)
+    {
+        if($value == "")
+        {
+            return "-";
+        }
+
+        return $value;
+    }
+
+    public function getCuitAttribute($value)
+    {
+        if($value == "")
+        {
+            return "-";
+        }
+
+        return $value;
+    }
+
+    public function getDireccionAttribute($value)
+    {
+        if($value == "")
+        {
+            return "-";
+        }
+
+        return $value;
+    }
+
+    public function getEmailAttribute($value)
+    {
+        if($value == "")
+        {
+            return "-";
+        }
+
+        return $value;
+    }
+
+    public function getTelefonoAttribute($value)
+    {
+        if($value == "")
+        {
+            return "-";
+        }
+
+        return $value;
+    }
+
 }
