@@ -94,7 +94,7 @@ class ExpedienteController extends Controller
                         $historial->fojas = $request->nro_fojas;
                         $historial->fecha = Carbon::now()->format('Y-m-d');
                         $historial->hora = Carbon::now()->format('h:i');
-                        $historial->motivo = "Expediente creado";
+                        $historial->motivo = "Expediente creado.";
                         $historial->estado = 1;
                         if(($request->allFiles()) != null)
                         {
@@ -116,7 +116,9 @@ class ExpedienteController extends Controller
                             $historial->fojas = $request->nro_fojas;
                             $historial->fecha = Carbon::now()->format('Y-m-d');
                             $historial->hora = Carbon::now()->format('h:i');
-                            $historial->motivo = $request->observacion;
+                            //$historial->motivo = $request->observacion; TODO
+                            $historial->motivo = "Pase al área: ".Area::find( $historial->area_destino_id)->descripcion. ".";
+                            $historial->observacion = $request->observacion;
                             $historial->estado = "1";//Enviado
                             if($historial->save())
                             {
@@ -187,7 +189,7 @@ class ExpedienteController extends Controller
     {
         $exp_padre = Expediente::findOrFail($request->exp_padre);
         $exp_hijos = Expediente::find($request->exp_hijos);
-
+        $expedientes_hijos = "";
         foreach ($exp_hijos as $exp_hijo) 
         {
             if($exp_hijo->expediente_id == "")
@@ -203,11 +205,12 @@ class ExpedienteController extends Controller
                     $historial->fojas = $exp_hijo->fojas;
                     $historial->fecha = Carbon::now()->format('Y-m-d');
                     $historial->hora = Carbon::now()->format('h:i');
-                    $historial->motivo = "union";
+                    $historial->motivo = "Expediente Nro: ". $exp_hijo->nro_expediente . " unido al Expediente Nro: " . $exp_padre->nro_expediente .".";
                     $historial->estado = "3";//Mi expediente
                     $historial->save();
+                    $expedientes_hijos = $exp_hijo->nro_expediente. ", " . $expedientes_hijos . ", ";
                     //$exp_padre->fojas = $exp_padre->fojas + $exp_hijo->fojas;//cantidad total de fojas
-                    //$exp_padre->save();   
+                    //$exp_padre->save();
                 }
             }
             else
@@ -225,7 +228,7 @@ class ExpedienteController extends Controller
         $historial_padre->fojas = $exp_padre->fojas;
         $historial_padre->fecha = Carbon::now()->format('Y-m-d');
         $historial_padre->hora = Carbon::now()->format('h:i');
-        $historial_padre->motivo = "union (padre)";
+        $historial_padre->motivo = "Expediente Nro: ". Expediente::find($historial_padre->expediente_id)->nro_expediente . " unido a los Expedientes: " . $expedientes_hijos;
         $historial_padre->estado = "3";
         $historial_padre->save();
         return response()->json("Exitoooo");
