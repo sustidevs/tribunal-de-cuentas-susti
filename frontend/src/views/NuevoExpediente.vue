@@ -37,8 +37,6 @@
         </v-col>
       </v-row>
 
-      <label-error :texto="this.motivo_error"/>
-
       <v-row no-gutters justify="start"  class="pb-3">
         <v-col cols="12" sm="12" lg="6" class="pr-lg-2">
             <LabelInput texto="Motivo del Expediente"/>
