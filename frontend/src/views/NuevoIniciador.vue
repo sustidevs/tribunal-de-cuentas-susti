@@ -34,7 +34,7 @@
 
                 <v-col cols="12" sm="12" lg="6" class="pl-lg-2">
                     <label-input texto="Correo electrónico"/>
-                    <text-field v-model="inicia.correo"/>
+                    <text-field v-model="inicia.email"/>
                 </v-col>
             </v-row>
 
@@ -88,8 +88,9 @@ export default {
                 cuit: '',
                 cuil: '',
                 area_reparticiones: '',
-                correo: '',
+                email: '',
                 telefono: '',
+                direccion: '',
             },
             showModal: false,
     }),
