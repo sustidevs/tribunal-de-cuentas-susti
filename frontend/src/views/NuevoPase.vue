@@ -110,7 +110,7 @@
                     elevation="0"
                     color="#FACD89"
                     block
-                    @click="e1 = 2"
+                    @click ="validate"
                   >
                     <div class="pr-5">Continuar</div>
                     <v-icon> mdi-arrow-right </v-icon>
@@ -185,6 +185,7 @@ export default {
     },
     files: "",
     loader: null,
+    valid: true,
   }),
 
   computed: {
@@ -230,6 +231,9 @@ export default {
 
     handleFileUpload(event) {
       this.files = event.target.files;
+    },   
+    validate () {
+      this.$refs.form.validate()
     },
   },
 };
