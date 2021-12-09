@@ -113,7 +113,7 @@ class ExpedienteController extends Controller
                             $historial->user_id = $request->input("user_id");
                             $historial->area_origen_id = 13 ;
                             $historial->area_destino_id = $request->area_id;
-                            $historial->fojas = $request->nro_fojas;
+                            $historial->fojas = 0;
                             $historial->fecha = Carbon::now()->format('Y-m-d');
                             $historial->hora = Carbon::now()->format('h:i');
                             //$historial->motivo = $request->observacion; TODO
@@ -225,7 +225,7 @@ class ExpedienteController extends Controller
         $historial_padre->user_id = $request->user_id;
         $historial_padre->area_origen_id = User::find($request->user_id)->area_id;
         $historial_padre->area_destino_id = User::find($request->user_id)->area_id;
-        $historial_padre->fojas = $exp_padre->fojas;
+        $historial_padre->fojas = $exp_padre->historiales->last()->fojas;
         $historial_padre->fecha = Carbon::now()->format('Y-m-d');
         $historial_padre->hora = Carbon::now()->format('h:i');
         $historial_padre->motivo = "Expediente Nro: ". Expediente::find($historial_padre->expediente_id)->nro_expediente . " unido a los Expedientes: " . $expedientes_hijos;
@@ -244,15 +244,13 @@ class ExpedienteController extends Controller
     public function desgloce(Request $request)
     {
         $exp_padre = Expediente::findOrFail($request->exp_padre);
-        //$exp_hijos = $exp_padre->hijos;
         $ultimo_hijo = $exp_padre->hijos->last();
-        $ultimo_hijo->fojas = Expediente::findOrFail($exp_padre->id)->historiales->last()->fojas + Expediente::findOrFail($ultimo_hijo->id)->historiales->last()->fojas;
-        return $ultimo_hijo->fojas;
+        $ultimo_hijo->fojas = Expediente::findOrFail($exp_padre->id)->historiales->where('estado',1)->last()->fojas + Expediente::findOrFail($ultimo_hijo->id)->historiales->last()->fojas;
         $ultimo_hijo->expediente_id = "";
         $ultimo_hijo->save();
         $historial_ultimo_hijo = new Historial;
         $historial_ultimo_hijo->expediente_id = $ultimo_hijo->id;
-        $historial_ultimo_hijo->user_id = $ultimo_hijo->user_id;
+        $historial_ultimo_hijo->user_id = $request->user_id;
         $historial_ultimo_hijo->area_origen_id = User::find($request->user_id)->area_id;
         $historial_ultimo_hijo->area_destino_id = User::find($request->user_id)->area_id;
         $historial_ultimo_hijo->fojas = $ultimo_hijo->fojas;
@@ -335,7 +333,7 @@ class ExpedienteController extends Controller
         $historial_padre->user_id = $request->user_id;
         $historial_padre->area_origen_id = User::find($request->user_id)->area_id;
         $historial_padre->area_destino_id = User::find($request->user_id)->area_id;
-        $historial_padre->fojas = $exp_padre->fojas;
+        $historial_padre->fojas = $exp_padre->historiales->where('expediente_id',$exp_padre->id)->where('estado',$exp_padre->id)->sum("fojas");
         $historial_padre->fecha = Carbon::now()->format('Y-m-d');
         $historial_padre->hora = Carbon::now()->format('h:i');
         $historial_padre->motivo = "desgloce";
@@ -346,10 +344,8 @@ class ExpedienteController extends Controller
 
     /*{
         "exp_padre" : "1",
-        "exp_hijo" : "2",
-        "user_id" : "1",
-        "fojas_hijo" : 1
-    }*/
+        "user_id" : "1"
+}}*/
 
     public function createDesgloce(Request $request)
     {
