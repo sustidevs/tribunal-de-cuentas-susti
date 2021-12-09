@@ -20,8 +20,9 @@ import guest from "../middleware/guest";
 import mesa_entrada from "../middleware/mesa_entrada";
 import middlewarePipeline from "./middlewarePipeline";
 import store from "../store/index";
-import Englose from "../views/Englose"
-import Cedula from "../views/Cedula"
+import Englose from "../views/Englose";
+import Cedula from "../views/Cedula";
+import MisEnviados from "../views/MisEnviados";
 
 Vue.use(VueRouter)
 
@@ -36,6 +37,12 @@ const routes = [
         name: 'Home',
         component: Home,
         meta: {title: 'Inicio',  layout: layout, middleware: [auth] }
+      },
+      {
+        path: '/mis-enviados',
+        name: 'MisEnviados',
+        component: MisEnviados,
+        meta: { title: 'Mis enviados', middleware: [auth]}
       },
       {
         path: '/englose',
@@ -104,10 +111,10 @@ const routes = [
         meta: { title: 'Editar Iniciador', middleware: [auth, mesa_entrada] }
       },
       {
-        path: '/enviados',
-        name: 'Enviados',
+        path: '/recuperar',
+        name: 'Recuperar',
         component: Enviados,
-        meta: { title: 'Enviados' , middleware: [auth] }
+        meta: { title: 'Recuperar' , middleware: [auth] }
       },
       {
         path: '/usuario',
