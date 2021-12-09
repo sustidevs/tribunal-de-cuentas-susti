@@ -1,10 +1,9 @@
 <template>
   <div>
-    <titulo texto="Nuevo Pase" icono="mdi-file-document" class="pb-8"/>
+    <titulo texto="Nuevo Pase" icono="mdi-file-document" class="pb-8" />
     <template>
-      <form @submit.prevent="storePas()" >
+      <form @submit.prevent="storePas()">
         <v-stepper v-model="e1" class="mb-16">
-
           <v-card color="#facd89" class="Montserrat-Regular text-justify">
             <v-stepper-header>
               <v-stepper-step color="grey darken-3" :complete="e1 > 1" step="1">
@@ -21,153 +20,217 @@
           <v-stepper-items>
             <v-stepper-content step="1">
               <v-card elevation="0" class="mb-12">
+                <v-row class="my-n8">
+                  <v-col cols="12" lg="6">
+                    <!--<label-error :texto="this.pase_a_error" />-->
+                  </v-col>
 
-                <label-input texto="Pase a:"/>
+                  <v-col cols="12" lg="12">
+                    <label-error />
+                    <label-input texto="Pase a:" />
+                    <v-autocomplete
+                      class="Montserrat-Regular text-justify"
+                      color="amber accent-4"
+                      outlined
+                      item-value="idd"
+                      single-line
+                      return-object
+                      item-color="amber accent-4"
+                      :items="get_areas"
+                      item-text="descripcion"
+                      v-model="area"
+                    >
+                    </v-autocomplete>
+                  </v-col>
+                </v-row>
 
-                <v-autocomplete
-                    class="Montserrat-Regular text-justify"
-                    color="amber accent-4"
-                    outlined
-                    item-value="idd"
-                    single-line
-                    return-object
-                    item-color="amber accent-4"
-                    :items="get_areas"
-                    item-text="descripcion"
-                    v-model="area"
-                >
-                </v-autocomplete>
-                
-                <label-input texto="A efectos de:"/>
-                <v-textarea
-                  v-model="pase.motivo"
-                  outlined
-                  name="textarea"
-                  color="amber accent-4"
-                ></v-textarea>
+                <v-row class="my-n7">
+                  <v-col cols="12" lg="6">
+                    <label-error :texto="this.a_afectosde_error" />
+                  </v-col>
+                  <v-col cols="12" lg="12">
+                    <label-input texto="A efectos de:" />
+                    <v-textarea
+                      v-model="pase.motivo"
+                      outlined
+                      name="textarea"
+                      color="amber accent-4"
+                    ></v-textarea>
+                  </v-col>
+                  <label-error />
+                </v-row>
+
+                <v-row class="justify-end my-n7">
+                  <v-col cols="12" lg="4">
+                    <label-error :texto="this.nrofojas_error" />
+                  </v-col>
+                </v-row>
 
                 <v-row>
                   <v-col cols="12" lg="4">
-                    <label-input texto="Fecha y Hora del Pase:"/>
+                    <label-input texto="Fecha y Hora del Pase:" />
                     <v-text-field
-                        class="Montserrat-Regular text-justify"
-                        color="amber accent-4"
-                        outlined
-                        readonly
-                        v-model="fecha"
+                      class="Montserrat-Regular text-justify"
+                      color="amber accent-4"
+                      outlined
+                      readonly
+                      v-model="fecha"
                     ></v-text-field>
                   </v-col>
 
                   <v-col cols="12" lg="4">
-                    <label-input texto="Agente que redacta el pase"/>
-                    <text-field v-model="this.$store.getters.getNombreApellido"/>
+                    <label-input texto="Agente que redacta el pase" />
+                    <text-field
+                      v-model="this.$store.getters.getNombreApellido"
+                    />
                   </v-col>
 
                   <v-col cols="12" lg="4">
-                    <label-input texto="Fojas"/>
-                    <text-field v-model="pase.nro_fojas"/>
+                    <label-input texto="Fojas" />
+                    <text-field v-model="pase.nro_fojas" />
                   </v-col>
                 </v-row>
+                <label-error />
 
                 <v-card color="#FFF5E6" class="pa-5">
-                  <label-input texto="Adjuntar Archivos al Pase"/>
-                  <input type="file" multiple @change="handleFileUpload( $event )"/>
+                  <label-input texto="Adjuntar Archivos al Pase" />
+                  <input
+                    type="file"
+                    multiple
+                    @change="handleFileUpload($event)"
+                  />
                 </v-card>
               </v-card>
 
               <v-row justify="center" class="ma-8">
                 <v-col cols="4">
-                    <v-btn  class="pa-5 Montserrat-SemiBold" height="55" elevation="0" color="#FACD89" block @click="e1 = 2">
-                      <div class="pr-5"> Continuar </div><v-icon>  mdi-arrow-right </v-icon>
-                    </v-btn>
+                  <v-btn
+                    class="pa-5 Montserrat-SemiBold"
+                    height="55"
+                    elevation="0"
+                    color="#FACD89"
+                    block
+                    @click="e1 = 2"
+                  >
+                    <div class="pr-5">Continuar</div>
+                    <v-icon> mdi-arrow-right </v-icon>
+                  </v-btn>
                 </v-col>
               </v-row>
             </v-stepper-content>
 
             <v-stepper-content step="2">
-              <modal-detalle-pase :data="this.pase" :dataArea="this.area"/>
-              <v-row  justify="center" class="ma-8">
+              <modal-detalle-pase :data="this.pase" :dataArea="this.area" />
+              <v-row justify="center" class="ma-8">
                 <v-col cols="4">
-                    <v-btn @click="e1 = 1" class="pa-5 Montserrat-SemiBold" height="55" elevation="0" block>
-                      <v-icon class="pr-5"> mdi-arrow-left </v-icon> <div> Volver </div>
-                    </v-btn>
+                  <v-btn
+                    @click="e1 = 1"
+                    class="pa-5 Montserrat-SemiBold"
+                    height="55"
+                    elevation="0"
+                    block
+                  >
+                    <v-icon class="pr-5"> mdi-arrow-left </v-icon>
+                    <div>Volver</div>
+                  </v-btn>
                 </v-col>
                 <v-col cols="4">
-                    <v-btn type="submit" class="pa-5 Montserrat-SemiBold" height="55" elevation="0" color="#FACD89" block>
-                      <div class="pr-5"> Confirmar Pase </div><v-icon> mdi-check </v-icon>
-                    </v-btn>
+                  <v-btn
+                    type="submit"
+                    class="pa-5 Montserrat-SemiBold"
+                    height="55"
+                    elevation="0"
+                    color="#FACD89"
+                    block
+                  >
+                    <div class="pr-5">Confirmar Pase</div>
+                    <v-icon> mdi-check </v-icon>
+                  </v-btn>
                 </v-col>
               </v-row>
             </v-stepper-content>
           </v-stepper-items>
         </v-stepper>
 
-        <modal-exito-pase :show="creado_exito" :dato="expediente_exito"/>
+        <modal-exito-pase :show="creado_exito" :dato="expediente_exito" />
       </form>
     </template>
   </div>
 </template>
 <script>
-
-import Titulo from "../components/Titulo";
 import LabelInput from "../components/LabelInput";
+import Titulo from "../components/Titulo";
+import { mapActions, mapGetters } from "vuex";
 import TextField from "../components/TextField";
-import {mapActions, mapGetters} from "vuex";
 import ModalDetallePase from "../components/dialogs/ModalDetallePase";
 import ModalExitoPase from "../components/dialogs/ModalExitoPase";
+import LabelError from "../components/LabelError";
 
 export default {
-    name: 'Nuevo Pase',
-    components: {Titulo,LabelInput, TextField, ModalDetallePase,ModalExitoPase},
-    data: () => ({
-      e1: 1,
-      area: [],
-      pase:{
-        motivo: '',
-        nro_fojas: 0,
-      },
-      files:'',
-      loader: null,
-
-    }),
+  name: "Nuevo Pase",
+  components: {
+    Titulo,
+    LabelInput,
+    TextField,
+    ModalDetallePase,
+    ModalExitoPase,
+    LabelError,
+  },
+  data: () => ({
+    e1: 1,
+    area: [],
+    pase: {
+      motivo: "",
+      nro_fojas: 0,
+    },
+    files: "",
+    loader: null,
+  }),
 
   computed: {
-    ... mapGetters(['creado_exito','expediente_exito','get_areas','fecha','getIdUser','expedientePase','idExpedientePase'])
+    ...mapGetters([
+      "creado_exito",
+      "expediente_exito",
+      "get_areas",
+      "fecha",
+      "getIdUser",
+      "expedientePase",
+      "idExpedientePase",
+      "pase_a_error",
+      "a_afectosde_error",
+      "nrofojas_error",
+    ]),
   },
 
   methods: {
-      ...mapActions([
-          'storePase',
-          'getNuevoPase'
-      ]),
+    ...mapActions(["storePase", "getNuevoPase"]),
 
     storePas() {
       let formData = new FormData();
 
-      for( var i = 0; i < this.files.length; i++ ){
+      for (var i = 0; i < this.files.length; i++) {
         let file = this.files[i];
 
-        formData.append('archivo' + i + '', file);
+        formData.append("archivo" + i + "", file);
       }
 
-      let cantidad = (this.files.length).toString()
-      formData.append('user_id', this.$store.getters.getIdUser);
-      formData.append('expediente_id', this.$store.getters.idExpedientePase);
-      formData.append('fojas', this.pase.nro_fojas);
-      formData.append('area_destino_id', this.area.id);
-      formData.append('area_destino_type', this.area.tipo_area);
-      formData.append('motivo', this.pase.motivo);
-      formData.append('archivos', null);
-       formData.append('estado_expediente', 1);
-      formData.append('archivos_length', cantidad);
+      let cantidad = this.files.length.toString();
+      formData.append("user_id", this.$store.getters.getIdUser);
+      formData.append("expediente_id", this.$store.getters.idExpedientePase);
+      formData.append("fojas", this.pase.nro_fojas);
+      formData.append("area_destino_id", this.area.id);
+      formData.append("area_destino_type", this.area.tipo_area);
+      formData.append("motivo", this.pase.motivo);
+      formData.append("archivos", null);
+      formData.append("estado_expediente", 1);
+      formData.append("archivos_length", cantidad);
 
-      this.storePase(formData)
+      this.storePase(formData);
     },
 
-    handleFileUpload( event ){
+    handleFileUpload(event) {
       this.files = event.target.files;
     },
   },
-
-}
+};
 </script>
