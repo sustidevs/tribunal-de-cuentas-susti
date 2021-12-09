@@ -103,6 +103,11 @@ class UserController extends Controller
 
     public function update(Request $request)
     {
+        //return response()->json($request, 200);
+        $user = User::findOrFail($request->id);
+        $user_old_password = $user->password;
+        return response()->json($user_old_password, 200);
+        
         /*
         $request = new Request;
         $request->id = '23';
