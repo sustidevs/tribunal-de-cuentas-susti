@@ -16,7 +16,7 @@
 
     <v-data-table
       :headers="headers"
-      :items="items"
+      :items="data"
       :search="search"
       :items-per-page="5"
       disable-sort
@@ -48,18 +48,13 @@ export default {
         return {
             search: "",
             headers: [
-                { text: 'Nombre', value: 'name' },
-                { text: 'Tipo', value: 'tipo' },
+                { text: 'Nombre', value: 'nombre' },
                 { text: 'CUIL', value: 'cuil' },
                 { text: 'CUIT', value: 'cuit' },
-                { text: 'Correo', value: 'correo' },
+                { text: 'Correo', value: 'email' },
                 { text: 'Teléfono', value: 'telefono' },
                 { text: 'Dirección', value: 'direccion' },
                 {text: 'Editar', value: 'action', align: 'center', sortable: false},
-            ],
-            items: [
-                {name: 'Ministerio de Seguridad', tipo: 'Ministerios y Reparticiones', cuil: '', cuit: '123456789', correo: 'prueba@gmail.com', telefono: '379465689', direccion: 'Perú 1400'},
-                {name: 'María Anabella', tipo: 'Persona Física', cuil: '27352223331', cuit: '', correo: 'prueba2@gmail.com', telefono: '3794124578', direccion: 'Madrid 1750'},
             ],
         }
     },
