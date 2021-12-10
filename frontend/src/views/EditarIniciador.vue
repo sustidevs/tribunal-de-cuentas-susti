@@ -36,8 +36,8 @@
                             <v-card class="pa-6" color="#FACD89"> 
                                 <v-flex class="sizeTextBig Montserrat-SemiBold pt-2">Nombre:<span class="sizeTextSmall Montserrat-Regular"> {{this.$store.getters.iniciador[0].nombre}}</span> </v-flex> 
                                 <v-flex class="sizeTextSmall Montserrat-SemiBold pt-2">Tipo:<span class="sizeTextSmall Montserrat-Regular"> {{this.$store.getters.iniciador[1]}}</span> </v-flex> 
-                                <v-flex v-if="this.$store.getters.iniciador[0].cuil !== null" class="sizeTextSmall Montserrat-SemiBold pt-2">CUIL:<span class="sizeTextSmall Montserrat-Regular"> {{this.$store.getters.iniciador[0].cuil}} </span> </v-flex> 
-                                <v-flex v-if="this.$store.getters.iniciador[0].cuit !== null" class="sizeTextSmall Montserrat-SemiBold pt-2">CUIT:<span class="sizeTextSmall Montserrat-Regular"> {{this.$store.getters.iniciador[0].cuit}} </span> </v-flex> 
+                                <v-flex v-if="this.$store.getters.iniciador[0].cuil !== '-'" class="sizeTextSmall Montserrat-SemiBold pt-2">CUIL:<span class="sizeTextSmall Montserrat-Regular"> {{this.$store.getters.iniciador[0].cuil}} </span> </v-flex> 
+                                <v-flex v-if="this.$store.getters.iniciador[0].cuit !== '-'" class="sizeTextSmall Montserrat-SemiBold pt-2">CUIT:<span class="sizeTextSmall Montserrat-Regular"> {{this.$store.getters.iniciador[0].cuit}} </span> </v-flex> 
                             </v-card> 
                         </v-col> 
                     </v-row> 
