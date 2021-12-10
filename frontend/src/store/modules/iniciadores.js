@@ -5,6 +5,15 @@ const state = {
     iniciador: [],
     finalizado: true,
     listado: [],
+
+    error_nombre: '',
+    error_tipo_entidad: '',
+    error_cuit: '',
+    error_cuil: '',
+    error_telefono: '',
+    error_email: '',
+    error_direccion: '',
+    exito_iniciador: false,
 };
 
 const getters = {
@@ -13,6 +22,15 @@ const getters = {
     get_tipoSelected: state => state.tipoSelected,
     get_finalizado: state => state.finalizado,
     get_listado: state => state.listado,
+
+    get_error_nombre: state => state.error_nombre,
+    get_error_tipo_entidad: state => state.error_tipo_entidad,
+    get_error_cuit: state => state.error_cuit,
+    get_error_cuil : state => state.error_cuil,
+    get_error_telefono: state => state.error_telefono,
+    get_error_email: state => state.error_email,
+    get_error_direccion: state => state.error_direccion,
+    get_iniciador_creado: state => state.exito_iniciador,
 };
 
 const actions = {
@@ -27,6 +45,16 @@ const actions = {
         axios.post(process.env.VUE_APP_API_URL+ '/api/storeIniciador', iniciador)
             .then(response => {
                 commit('set_iniciador', response.data)
+                commit('set_exito_iniciador', true)
+            })
+            .catch(error => {
+                commit('set_error_nombre', error.response.data.errors.nombre[0])
+                commit('set_error_tipo_entidad', error.response.data.errors.tipo_entidad[0])
+                commit('set_error_cuit', error.response.data.errors.cuit[0])
+                commit('set_error_cuil', error.response.data.errors.cuil[0])
+                commit('set_error_email', error.response.data.errors.email)
+                commit('set_error_telefono', error.response.data.errors.telefono[0])
+                commit('set_error_direccion', error.response.data.errors.direccion[0])
             })
     },
 
@@ -57,6 +85,15 @@ const mutations = {
     set_iniciador: (state, iniciador) => state.iniciador = iniciador,
     set_finalizado: (state, finalizado) => state.finalizado = finalizado,
     set_listado: (state, listado) => state.listado = listado,
+    set_exito_iniciador: (state, exito_iniciador) => state.exito_iniciador = exito_iniciador,
+
+    set_error_nombre: (state, error_nombre) => state.error_nombre = error_nombre,
+    set_error_tipo_entidad: (state, error_tipo_entidad) => state.error_tipo_entidad = error_tipo_entidad,
+    set_error_cuit: (state, error_cuit) => state.error_cuit = error_cuit,
+    set_error_cuil : (state, error_cuil) => state.error_cuil = error_cuil,
+    set_error_telefono: (state, error_telefono) => state.error_telefono = error_telefono,
+    set_error_email: (state, error_email) => state.error_email = error_email,
+    set_error_direccion: (state, error_direccion) => state.error_direccion = error_direccion,
 };
 
 export default {
