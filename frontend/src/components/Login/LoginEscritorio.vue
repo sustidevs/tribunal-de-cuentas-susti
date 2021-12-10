@@ -4,13 +4,11 @@
           <v-row justify="start">
               <v-card color="rgb(255, 255, 255, 0.7)" class="py-5 px-5 ml-lg-16" height="w-full" width="30rem" style="border-radius: 20px" elevation="20" align="center" >
                   <v-card-text>
-                      <v-img
-                          src="/img/tribunal-login.png"
-                          class="pb-2"
-                      />
+                    <img class="mt-4 pa-4" :src="('./img/logo-tribunal.svg')">
+                    <v-divider color="#393B44" class="mt-2"></v-divider>
 
                     <form @submit.prevent="onLogin">
-                      <div class="size Montserrat-Bold text-justify pb-2 pt-4 black--text">
+                      <div class="size Montserrat-Bold text-justify pb-2 pt-8 black--text">
                         <v-icon color="#000000">mdi-account</v-icon>
                         CUIL:
                       </div>

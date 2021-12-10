@@ -5,7 +5,7 @@
     </v-row>
     <v-divider color="#393B44" class="my-4"></v-divider>
 
-    <div v-if="getArea == 'DPTO. MESA DE ENTRADAS Y SALIDAS'">
+    <div v-if="getArea === 'DPTO. MESA DE ENTRADAS Y SALIDAS'">
       <v-row class="phone">
 
         <v-col cols="12" sm="12" lg="6">
@@ -90,7 +90,7 @@
           <titulo-inicio texto="Expedientes" class="my-2"/>
           <ButtonBig class="my-4 mx-5" texto="Pase" link="/mis-expedientes" icon="mdi-file-move"/>
 
-          <span v-if="getArea == 'VOCALIA A'">
+          <span v-if="(getArea == 'VOCALIA A')">
               <ButtonBig class="my-4 mx-5" texto="Englose" link="/englose" icon="mdi-file-plus"/>
               <ButtonBig class="my-4 mx-5" texto="Desglose" link="" icon="mdi-file-percent"/>
             </span>
