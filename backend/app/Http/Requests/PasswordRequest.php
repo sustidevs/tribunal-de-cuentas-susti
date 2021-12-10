@@ -33,7 +33,8 @@ class PasswordRequest extends FormRequest
         return [
             'id.required'               => 'El id del usuario es requerido',
             'password.required'         => 'Debe ingresar la contraseña',
-            'password.digits_between'   => 'Debe ingresar entre 8 y 15 caracteres'
+            'password.min'   => 'Debe ingresar mas de 8 caracteres',
+            'password.max'   => 'Debe ingresar menos de 15 caracteres'
         ];
     }
 }
