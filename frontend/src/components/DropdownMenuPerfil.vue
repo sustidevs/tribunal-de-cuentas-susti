@@ -1,5 +1,5 @@
 <template>
-  <v-menu min-width="20px" rounded offset-y transition="scale-transition">
+  <v-menu rounded="b-xl" min-width="20px" offset-y transition="scale-transition">
     <template v-slot:activator="{ on }">
       <v-hover v-slot="{ hover }">
         <v-btn

@@ -8,11 +8,11 @@
               elevation="0"
               file
               :class="hover ? 'amber--text text--lighten-3' : 'white--text'"
-              class="pa-8 Montserrat-SemiBold white--text"
+              class="px-9 Montserrat-SemiBold white--text"
               v-bind="attrs"
               v-on="on"
           >
-            {{ titulo }}
+            {{ titulo }} <v-icon class="pl-3">mdi-menu-down</v-icon>
           </v-btn>
         </v-hover>
       </template>
