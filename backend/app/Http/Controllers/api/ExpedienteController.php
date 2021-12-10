@@ -113,7 +113,7 @@ class ExpedienteController extends Controller
                             $historial->user_id = $request->input("user_id");
                             $historial->area_origen_id = 13 ;
                             $historial->area_destino_id = $request->area_id;
-                            $historial->fojas = 0;
+                            $historial->fojas = $historial->fojas = $request->nro_fojas;
                             $historial->fecha = Carbon::now()->format('Y-m-d');
                             $historial->hora = Carbon::now()->format('h:i');
                             //$historial->motivo = $request->observacion; TODO
@@ -225,7 +225,7 @@ class ExpedienteController extends Controller
         $historial_padre->user_id = $request->user_id;
         $historial_padre->area_origen_id = User::find($request->user_id)->area_id;
         $historial_padre->area_destino_id = User::find($request->user_id)->area_id;
-        $historial_padre->fojas = $exp_padre->historiales->last()->fojas;
+        $historial_padre->fojas = $exp_padre->fojas;
         $historial_padre->fecha = Carbon::now()->format('Y-m-d');
         $historial_padre->hora = Carbon::now()->format('h:i');
         $historial_padre->motivo = "Expediente Nro: ". Expediente::find($historial_padre->expediente_id)->nro_expediente . " unido a los Expedientes: " . $expedientes_hijos;
@@ -245,7 +245,13 @@ class ExpedienteController extends Controller
     {
         $exp_padre = Expediente::findOrFail($request->exp_padre);
         $ultimo_hijo = $exp_padre->hijos->last();
-        $ultimo_hijo->fojas = Expediente::findOrFail($exp_padre->id)->historiales->where('estado',1)->last()->fojas + Expediente::findOrFail($ultimo_hijo->id)->historiales->last()->fojas;
+        $exp_hijos = $exp_padre->hijos;
+        $fojas_padre = $exp_padre->fojas;
+        foreach ($exp_hijos as $exp_hijo)
+        {
+            $fojas_padre =  $fojas_padre - $exp_hijo->fojas;
+        }
+        $ultimo_hijo->fojas = ($fojas_padre - $exp_padre->historiales->first()->fojas) + Expediente::findOrFail($ultimo_hijo->id)->historiales->last()->fojas;
         $ultimo_hijo->expediente_id = "";
         $ultimo_hijo->save();
         $historial_ultimo_hijo = new Historial;
@@ -259,7 +265,11 @@ class ExpedienteController extends Controller
         $historial_ultimo_hijo->motivo = "desgloce";
         $historial_ultimo_hijo->estado = "3";
         $historial_ultimo_hijo->save();
+        $exp_padre->fojas = $exp_padre->fojas - $historial_ultimo_hijo->fojas;
+        $exp_padre->save();
+        $exp_padre->historiales->last()->fojas = $exp_padre->fojas;
         $exp_hijos = Expediente::findOrFail($request->exp_padre)->hijos;
+        $fojas_hijos_acum = 0;
         foreach ($exp_hijos as $exp_hijo) 
         {
             /*if($exp_hijo->expediente_id != "")
@@ -324,16 +334,19 @@ class ExpedienteController extends Controller
             $historial->hora = Carbon::now()->format('h:i');
             $historial->motivo = "desgloce";
             $historial->estado = "3";//Mi expediente
-            $exp_padre->fojas = $exp_padre->fojas - $exp_hijo->fojas;
-            $exp_padre->save();
+            //$exp_padre->fojas = $exp_padre->fojas - $exp_hijo->fojas;
+            //$exp_padre->save();
             $historial->save();
+            $fojas_hijos_acum = $fojas_hijos_acum + $exp_hijo->fojas;
         }
+        $exp_padre->fojas = $exp_padre->fojas - $fojas_hijos_acum;
+        $exp_padre->save();
         $historial_padre = new Historial;
         $historial_padre->expediente_id = $exp_padre->id;
         $historial_padre->user_id = $request->user_id;
         $historial_padre->area_origen_id = User::find($request->user_id)->area_id;
         $historial_padre->area_destino_id = User::find($request->user_id)->area_id;
-        $historial_padre->fojas = $exp_padre->historiales->where('expediente_id',$exp_padre->id)->where('estado',$exp_padre->id)->sum("fojas");
+        $historial_padre->fojas = $exp_padre->fojas;
         $historial_padre->fecha = Carbon::now()->format('Y-m-d');
         $historial_padre->hora = Carbon::now()->format('h:i');
         $historial_padre->motivo = "desgloce";
