@@ -75,6 +75,9 @@ Route::post('/updateUser', [UserController::class, 'update']);
 Route::get('/bajaUser', [UserController::class, 'delete']);
 Route::get('/restoreUser', [UserController::class, 'restore']);
 
+Route::post('/validarPassword', [UserController::class, 'validar_password']);
+Route::post('/actualizaPassword', [UserController::class, 'actualiza_password']);
+
 Route::get('/login',[LoginController::class, 'showLoginForm'] );
 Route::post('/login',[LoginController::class, 'authenticate'] );
 

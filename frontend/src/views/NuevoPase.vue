@@ -20,86 +20,94 @@
           <v-stepper-items>
             <v-stepper-content step="1">
               <v-card elevation="0" class="mb-12">
-                <v-row class="my-n8">
-                  <v-col cols="12" lg="6">
-                    <!--<label-error :texto="this.pase_a_error" />-->
-                  </v-col>
+                <v-form ref="form">
+                  <v-row class="my-n8">
+                    <v-col cols="12" lg="6">
+                      <!-- <label-error :texto="this.pase_a_error" /> -->
+                    </v-col>
 
-                  <v-col cols="12" lg="12">
-                    <label-error />
-                    <label-input texto="Pase a:" />
-                    <v-autocomplete
-                      class="Montserrat-Regular text-justify"
-                      color="amber accent-4"
-                      outlined
-                      item-value="idd"
-                      single-line
-                      return-object
-                      item-color="amber accent-4"
-                      :items="get_areas"
-                      item-text="descripcion"
-                      v-model="area"
-                    >
-                    </v-autocomplete>
-                  </v-col>
-                </v-row>
+                    <v-col cols="12" lg="12">
+                      <!-- <label-error /> -->
+                      <label-input texto="Pase a:" />
+                      <v-autocomplete
+                        class="Montserrat-Regular text-justify"
+                        color="amber accent-4"
+                        outlined
+                        item-value="idd"
+                        single-line
+                        return-object
+                        item-color="amber accent-4"
+                        :items="get_areas"
+                        item-text="descripcion"
+                        v-model="area"
+                        :rules="paseRules"
+                      >
+                      </v-autocomplete>
+                    </v-col>
+                  </v-row>
 
-                <v-row class="my-n7">
-                  <v-col cols="12" lg="6">
-                    <label-error :texto="this.a_afectosde_error" />
-                  </v-col>
-                  <v-col cols="12" lg="12">
-                    <label-input texto="A efectos de:" />
-                    <v-textarea
-                      v-model="pase.motivo"
-                      outlined
-                      name="textarea"
-                      color="amber accent-4"
-                    ></v-textarea>
-                  </v-col>
-                  <label-error />
-                </v-row>
+                  <v-row class="my-n7">
+                    <v-col cols="12" lg="6">
+                      <!-- <label-error :texto="this.a_afectosde_error" /> -->
+                    </v-col>
+                    <v-col cols="12" lg="12">
+                      <label-input texto="A afectos de:" />
+                      <v-textarea
+                        v-model="pase.motivo"
+                        outlined
+                        name="textarea"
+                        :rules="motivoRules"
+                        color="amber accent-4"
+                      ></v-textarea>
+                    </v-col>
+                    <!-- <label-error /> -->
+                  </v-row>
 
-                <v-row class="justify-end my-n7">
-                  <v-col cols="12" lg="4">
-                    <label-error :texto="this.nrofojas_error" />
-                  </v-col>
-                </v-row>
+                  <v-row class="justify-end my-n7">
+                    <v-col cols="12" lg="4">
+                      <!-- <label-error :texto="this.nrofojas_error" /> -->
+                    </v-col>
+                  </v-row>
 
-                <v-row>
-                  <v-col cols="12" lg="4">
-                    <label-input texto="Fecha y Hora del Pase:" />
-                    <v-text-field
-                      class="Montserrat-Regular text-justify"
-                      color="amber accent-4"
-                      outlined
-                      readonly
-                      v-model="fecha"
-                    ></v-text-field>
-                  </v-col>
+                  <v-row>
+                    <v-col cols="12" lg="4">
+                      <label-input texto="Fecha y Hora del Pase:" />
+                      <v-text-field
+                        class="Montserrat-Regular text-justify"
+                        color="amber accent-4"
+                        outlined
+                        readonly
+                        v-model="fecha"
+                      ></v-text-field>
+                    </v-col>
 
-                  <v-col cols="12" lg="4">
-                    <label-input texto="Agente que redacta el pase" />
-                    <text-field
-                      v-model="this.$store.getters.getNombreApellido"
+                    <v-col cols="12" lg="4">
+                      <label-input texto="Agente que redacta el pase" />
+                      <text-field
+                        v-model="this.$store.getters.getNombreApellido"
+                      />
+                    </v-col>
+
+                    <v-col cols="12" lg="4">
+                      <label-input texto="Fojas" />
+                      <v-text-field
+                        v-model="pase.nro_fojas"
+                        outlined
+                        :rules="nameRules"
+                      ></v-text-field>
+                    </v-col>
+                  </v-row>
+                  <!-- <label-error /> -->
+
+                  <v-card color="#FFF5E6" class="pa-5">
+                    <label-input texto="Adjuntar Archivos al Pase" />
+                    <input
+                      type="file"
+                      multiple
+                      @change="handleFileUpload($event)"
                     />
-                  </v-col>
-
-                  <v-col cols="12" lg="4">
-                    <label-input texto="Fojas" />
-                    <text-field v-model="pase.nro_fojas" />
-                  </v-col>
-                </v-row>
-                <label-error />
-
-                <v-card color="#FFF5E6" class="pa-5">
-                  <label-input texto="Adjuntar Archivos al Pase" />
-                  <input
-                    type="file"
-                    multiple
-                    @change="handleFileUpload($event)"
-                  />
-                </v-card>
+                  </v-card>
+                </v-form>
               </v-card>
 
               <v-row justify="center" class="ma-8">
@@ -110,7 +118,7 @@
                     elevation="0"
                     color="#FACD89"
                     block
-                    @click="e1 = 2"
+                    @click="validate"
                   >
                     <div class="pr-5">Continuar</div>
                     <v-icon> mdi-arrow-right </v-icon>
@@ -164,7 +172,7 @@ import { mapActions, mapGetters } from "vuex";
 import TextField from "../components/TextField";
 import ModalDetallePase from "../components/dialogs/ModalDetallePase";
 import ModalExitoPase from "../components/dialogs/ModalExitoPase";
-import LabelError from "../components/LabelError";
+// import LabelError from "../components/LabelError";
 
 export default {
   name: "Nuevo Pase",
@@ -174,7 +182,7 @@ export default {
     TextField,
     ModalDetallePase,
     ModalExitoPase,
-    LabelError,
+    // LabelError,
   },
   data: () => ({
     e1: 1,
@@ -185,6 +193,23 @@ export default {
     },
     files: "",
     loader: null,
+    valid: true,
+    nameRules: [
+      (v) =>
+        Number.isInteger(Number(v)) || "Los valores solo pueden ser numéricos",
+      (v) => !!v || "El número de Fojas es Requerido",
+      (v) => v > 0 || "El valor debe ser mayor a 0",
+      (v) => (v && v <= 1000) || "El máximo de fojas es 1000",
+    ],
+    motivoRules: [
+      (v) => !!v || "El campo es Requerido",
+      (v) =>
+        (v && v.length <= 255) ||
+        "El campo no puede tener más de 255 caracteres",
+    ],
+    paseRules: [
+      (v) => (v && v.length == null) || "Seleccione un área de destino",
+    ],
   }),
 
   computed: {
@@ -230,6 +255,11 @@ export default {
 
     handleFileUpload(event) {
       this.files = event.target.files;
+    },
+    validate() {
+      if (this.$refs.form.validate()) {
+        this.e1 = 2;
+      }
     },
   },
 };
