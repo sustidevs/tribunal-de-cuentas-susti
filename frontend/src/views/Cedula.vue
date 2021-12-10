@@ -2,6 +2,7 @@
   <div>
     <titulo texto="Cedulas" icono="mdi-credit-card-edit"/>
     <div class="descripcion text-justify py-4">Si desea <strong>agregar una cedula</strong> a un expediente, haga clic en el botón de la tabla.</div>
+    <alert-sucess texto="La cedula ha sido cargada con exito" :condicion="this.cargado"/>
     <tabla-cedulas class="mb-15 pb-15" :headers="headers" :data="todos_expp" :loading="get_finalizado"/>
   </div>
 </template>
@@ -11,7 +12,7 @@ import TablaCedulas from "../components/Tablas/TablaCedulas";
 import {mapActions,mapGetters} from "vuex";
 
 export default {
-  name: 'BandejaDeEntrada',
+  name: 'Cedula',
   components: {TablaCedulas, Titulo, },
   data() {
     return {

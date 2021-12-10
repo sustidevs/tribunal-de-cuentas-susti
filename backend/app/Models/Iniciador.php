@@ -15,7 +15,7 @@ class Iniciador extends Model
 
     public function tipoEntidad()
     {
-        return $this->belongsTo(TipoEntidad::class);
+        return $this->hasOne(TipoEntidad::class, 'id','id_tipo_entidad');
     }
 
     public function extractos()
@@ -27,4 +27,55 @@ class Iniciador extends Model
     {
         return $this->hasMany(Caratula::class);
     }
+
+    public function getCuilAttribute($value)
+    {
+        if($value == "")
+        {
+            return "-";
+        }
+
+        return $value;
+    }
+
+    public function getCuitAttribute($value)
+    {
+        if($value == "")
+        {
+            return "-";
+        }
+
+        return $value;
+    }
+
+    public function getDireccionAttribute($value)
+    {
+        if($value == "")
+        {
+            return "-";
+        }
+
+        return $value;
+    }
+
+    public function getEmailAttribute($value)
+    {
+        if($value == "")
+        {
+            return "-";
+        }
+
+        return $value;
+    }
+
+    public function getTelefonoAttribute($value)
+    {
+        if($value == "")
+        {
+            return "-";
+        }
+
+        return $value;
+    }
+
 }

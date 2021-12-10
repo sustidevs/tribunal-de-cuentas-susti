@@ -2,49 +2,58 @@
     <div class="mb-16">
         <form @submit.prevent="storeIniciador(inicia)" >
             <titulo texto="Nuevo Iniciador" icono="mdi-account-plus" class="pb-8"/>
-            <v-row no-gutters justify="center" class="mt-2 mb-3">
+
+            <v-row no-gutters justify="center">
                 <v-col cols="12" sm="12" lg="6" class="pr-lg-2">
+                    <label-error :texto="this.get_error_nombre"/>
                     <label-input texto="Nombre entidad / persona"/>
                     <text-field v-model="inicia.nombre"/>
                 </v-col>
 
                 <v-col cols="12" sm="12" lg="6" class="pl-lg-2">
+                    <label-error :texto="this.get_error_tipo_entidad"/>
                     <label-input texto="Tipo"/>
                     <autocomplete-field :data="allTipoEntidad" nombre="descripcion" v-model="inicia.tipo_entidad"/>
                 </v-col>
             </v-row>
 
-            <v-row no-gutters justify="start" class="mt-2 mb-3">
+            <v-row no-gutters justify="start">
                 <v-col cols="12" sm="12" lg="6" class="pr-lg-2">
+                    <label-error :texto="this.get_error_cuit"/>
                     <label-input texto="CUIT"/>
                     <text-field tipo="number" v-model="inicia.cuit"/>
                 </v-col>
 
                 <v-col cols="12" sm="12" lg="6" class="pl-lg-2">
+                    <label-error :texto="this.get_error_cuil"/>
                     <label-input texto="CUIL"/>
                     <text-field tipo="number" v-model="inicia.cuil"/>
                 </v-col>
             </v-row>
 
-            <v-row no-gutters justify="start" class="mt-2 mb-3">
+            <v-row no-gutters justify="start">
                 <v-col cols="12" sm="12" lg="6" class="pr-lg-2">
+                    <label-error/>
                     <label-input texto="Área de reparticiones"/>
                     <text-field v-model="inicia.area_reparticiones"/>
                 </v-col>
 
                 <v-col cols="12" sm="12" lg="6" class="pl-lg-2">
+                    <label-error :texto="this.get_error_email"/>
                     <label-input texto="Correo electrónico"/>
-                    <text-field v-model="inicia.correo"/>
+                    <text-field v-model="inicia.email"/>
                 </v-col>
             </v-row>
 
-            <v-row no-gutters justify="start" class="mt-2 mb-3">
+            <v-row no-gutters justify="start">
                 <v-col cols="12" sm="12" lg="6" class="pr-lg-2">
+                    <label-error :texto="this.get_error_telefono"/>
                     <label-input texto="Teléfono"/>
                     <text-field tipo="number" v-model="inicia.telefono"/>
                 </v-col>
 
                 <v-col cols="12" sm="12" lg="6" class="pl-lg-2">
+                    <label-error :texto="this.get_error_direccion"/>
                     <label-input texto="Dirección"/>
                     <text-field v-model="inicia.direccion"/>
                 </v-col>
@@ -61,7 +70,7 @@
                         </v-icon>
                         Confirmar
                     </v-btn>
-                    <modal-exito-nuevo-iniciador :show="showModal" @close="closeModalExitoNuevoIniciador"/>
+                    <modal-exito-nuevo-iniciador :show="get_iniciador_creado" @close="closeModalExitoNuevoIniciador"/>
                 </v-col>
             </v-row>
         </form>
@@ -76,10 +85,11 @@ import AutocompleteField from "../components/AutocompleteField";
 import {mapActions, mapGetters} from "vuex";
 import SecondaryButton from "../components/SecondaryButton";
 import ModalExitoNuevoIniciador from '../components/dialogs/ModalExitoNuevoIniciador.vue'
+import LabelError from "../components/LabelError"
 
 export default {
     name: 'NuevoIniciador',
-    components: {Titulo, LabelInput, TextField, AutocompleteField, SecondaryButton, ModalExitoNuevoIniciador},
+    components: {Titulo, LabelInput, TextField, AutocompleteField, SecondaryButton, ModalExitoNuevoIniciador, LabelError},
 
     data: () => ({
             inicia: {
@@ -88,8 +98,9 @@ export default {
                 cuit: '',
                 cuil: '',
                 area_reparticiones: '',
-                correo: '',
+                email: '',
                 telefono: '',
+                direccion: '',
             },
             showModal: false,
     }),
@@ -111,7 +122,17 @@ export default {
     },
 
     computed: {
-        ... mapGetters(['allTipoEntidad',])
+        ... mapGetters([
+            'allTipoEntidad',
+            'get_error_tipo_entidad',
+            'get_error_cuit',
+            'get_error_cuil',
+            'get_error_telefono',
+            'get_error_email',
+            'get_error_direccion',
+            'get_error_nombre',
+            'get_iniciador_creado'
+        ])
     },
 }
 </script>

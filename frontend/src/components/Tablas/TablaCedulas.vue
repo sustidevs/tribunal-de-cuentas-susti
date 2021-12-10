@@ -14,47 +14,44 @@
       </v-col>
     </v-row>
 
-    <a>
-      <v-data-table
-        :headers="headers"
-        :items="data"
-        :search="search"
-        :items-per-page="5"
-        disable-sort
-        mobile-breakpoint="300"
-        class="elevation-1 mytable"
-        loading-text="Cargando expedientes. Por favor, espere."
-        :loading="loading"
-        no-data-text="No tienes Expedientes"
-      >
-        <template v-slot:item.prioridad="{ item }">
-          <v-chip :color="getColor(item.prioridad)">
-            <v-icon size="20px" class="mr-1">{{
-              getIcon(item.prioridad)
-            }}</v-icon>
-            <h5 class="font-weight-regular">{{ item.prioridad }}</h5>
-          </v-chip>
-        </template>
+    <v-data-table
+      :headers="headers"
+      :items="data"
+      :search="search"
+      :items-per-page="5"
+      disable-sort
+      mobile-breakpoint="300"
+      class="elevation-1 mytable"
+      loading-text="Cargando expedientes. Por favor, espere."
+      :loading="loading"
+      no-data-text="No tienes Expedientes"
+    >
+      <template v-slot:item.prioridad="{ item }">
+        <v-chip :color="getColor(item.prioridad)">
+          <v-icon size="20px" class="mr-1">{{
+            getIcon(item.prioridad)
+          }}</v-icon>
+          <h5 class="font-weight-regular">{{ item.prioridad }}</h5>
+        </v-chip>
+      </template>
 
-        <template v-slot:item.action="{  }">
-          <v-btn
-            fab
-            small
-            color="#FACD89"
-            depressed
-          >
-            <v-icon> mdi-card-account-details </v-icon>
-          </v-btn>
-        </template>
-      </v-data-table>
-    </a>
+      <template v-slot:item.action="{ item }">
+        <v-btn @click="AbrirModalCedula(item)" fab small color="#FACD89" depressed>
+          <v-icon> mdi-card-account-details </v-icon>
+        </v-btn>
+      </template>
+    </v-data-table>
+
+    <modal-nueva-cedula :show="show_modal" @close="closeModal" :datos="this.datos"/>
   </div>
 </template>
 
 <script>
 import { mapActions } from "vuex";
+import ModalNuevaCedula from "../../components/dialogs/ModalNuevaCedula";
 
 export default {
+  components: { ModalNuevaCedula },
   props: {
     headers: Array,
     data: Array,
@@ -63,8 +60,14 @@ export default {
 
   data() {
     return {
+      show_modal: false,
       selected: [],
       search: "",
+      datos:{
+        id: '',
+        nro_expediente: '',
+        extracto: '',
+      },
     };
   },
 
@@ -81,12 +84,16 @@ export default {
 
     ...mapActions(["getExpedientes"]),
 
-    // historial_pase: function (item) {
-    //   console.log(item);
-    //   this.getHistorial(item);
-    //   this.$router.push({ name: "VerHistoriales" });
-    //   //console.log(item)
-    // },
+    AbrirModalCedula(item) {
+      this.datos.id = item.id,
+      this.datos.nro_expediente = item.nro_expediente,
+      this.datos.extracto = item.extracto,
+      this.show_modal = true;
+    },
+
+    closeModal() {
+      this.show_modal = false;
+    },
   },
 };
 </script>
