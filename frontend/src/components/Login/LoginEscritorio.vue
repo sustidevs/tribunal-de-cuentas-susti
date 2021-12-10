@@ -49,7 +49,10 @@
                             <label-error :texto="this.$store.getters.errorAmbos"/>
                           </div>
                         </v-alert>
-                      <Button class="mt-6" type="submit" texto="ingresar" icono="mdi-arrow-right-thin-circle-outline"/>
+                      <v-btn :loading="loading" :disabled="loading" type="submit" class="mt-6 pa-5 color Montserrat-SemiBold" height="55" elevation="0" color="#FACD89" block>
+                        <v-icon class="pr-5"> mdi-arrow-right-thin-circle-outline </v-icon>
+                        Ingresar
+                      </v-btn>
                     </form>
 
                   </v-card-text>
@@ -60,13 +63,12 @@
 </template>
 
 <script>
-import Button from "../Button";
 import LabelError from "../LabelError";
 
 import {mapActions, mapGetters} from "vuex";
 
 export default {
-  components: {Button, LabelError},
+  components: {LabelError},
   name: 'App',
 
   data() {
@@ -76,6 +78,7 @@ export default {
       show1: false,
       errorPassword: false,
       errorCuil: false,
+      loader: null,
       loading: false,
       credentials: {
         cuil: null,
@@ -101,7 +104,16 @@ export default {
   watch: {
     isAuthenticated(value) {
       if(value) this.$router.push("/")
-    }
+    },
+
+    loader () {
+      const l = this.loader
+      this[l] = !this[l]
+
+      setTimeout(() => (this[l] = false), 3000)
+
+      this.loader = null
+    },
   },
 
   methods: {
@@ -111,7 +123,7 @@ export default {
     }),
 
     onLogin() {
-      this.loading = true;
+      this.loader = 'loading',
       this.login(this.credentials)
   }
 }
