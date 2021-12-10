@@ -112,7 +112,7 @@
           {{ this.datos.extracto }}
         </div>
       </v-row>
-      <v-row no-gutters align="start" class="mt-5">
+      <v-row no-gutters align="start" class="mt-5" v-if="getArea == 'DPTO. MESA DE ENTRADAS Y SALIDAS' ">
         <div class="textHereSmall d-flex flex-column Montserrat-Bold mb-2 mr-2">
           A efectos de:
         </div>
@@ -120,6 +120,17 @@
           class="textHereSmall d-flex flex-column Montserrat-SemiBold text-justify"
         >
           {{ this.datos.motivo[0].motivo }}
+        </div>
+      </v-row>
+
+      <v-row no-gutters align="start" class="mt-5" v-else>
+        <div class="textHereSmall d-flex flex-column Montserrat-Bold mb-2 mr-2">
+          A efectos de:
+        </div>
+        <div
+          class="textHereSmall d-flex flex-column Montserrat-SemiBold text-justify"
+        >
+          {{ this.datos.observacion_pase }}
         </div>
       </v-row>
 
@@ -150,7 +161,7 @@ export default {
     datos: Object,
   },
 
-  computed: mapGetters(["allExpedientes", "get_archivos"]),
+  computed: mapGetters(["allExpedientes", "get_archivos", "getArea"]),
 
   methods: {
     ...mapActions(["getExpedientes", "getArchivos"]),

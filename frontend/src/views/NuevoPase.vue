@@ -92,6 +92,7 @@
                       <label-input texto="Fojas" />
                       <v-text-field
                         v-model="pase.nro_fojas"
+                        color="amber accent-4"
                         outlined
                         :rules="nameRules"
                       ></v-text-field>
@@ -197,8 +198,8 @@ export default {
     nameRules: [
       (v) =>
         Number.isInteger(Number(v)) || "Los valores solo pueden ser numéricos",
+      (v) => v > -1 || "El valor no puede ser menor a 0",
       (v) => !!v || "El número de Fojas es Requerido",
-      (v) => v > 0 || "El valor debe ser mayor a 0",
       (v) => (v && v <= 1000) || "El máximo de fojas es 1000",
     ],
     motivoRules: [
@@ -245,7 +246,7 @@ export default {
       formData.append("fojas", this.pase.nro_fojas);
       formData.append("area_destino_id", this.area.id);
       formData.append("area_destino_type", this.area.tipo_area);
-      formData.append("motivo", this.pase.motivo);
+      formData.append("observacion", this.pase.observacion);
       formData.append("archivos", null);
       formData.append("estado_expediente", 1);
       formData.append("archivos_length", cantidad);
