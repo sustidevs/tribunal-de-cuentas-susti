@@ -53,7 +53,7 @@
                     <v-col cols="12" lg="12">
                       <label-input texto="A afectos de:" />
                       <v-textarea
-                        v-model="pase.motivo"
+                        v-model="pase.observacion"
                         outlined
                         name="textarea"
                         :rules="motivoRules"
@@ -188,7 +188,7 @@ export default {
     e1: 1,
     area: [],
     pase: {
-      motivo: "",
+      observacion: "",
       nro_fojas: 0,
     },
     files: "",
