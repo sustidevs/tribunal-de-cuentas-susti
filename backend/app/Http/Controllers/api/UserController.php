@@ -11,7 +11,9 @@ use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
+use App\Http\Requests\PasswordRequest;
 use App\Http\Requests\StoreUserRequest;
+use phpDocumentor\Reflection\PseudoTypes\True_;
 
 class UserController extends Controller
 {
@@ -101,6 +103,39 @@ class UserController extends Controller
                      "areas" => Area::all_areas(),
                      "user" => [$user->datos_user()]];
         return response()->json($data,200);
+    }
+
+    /*
+    Método que permite validar la contraseña ingresada y compararla con la password hash de la BD
+    @params: id
+    @params: password
+    @return True: si encuentra coincidencia entre la clave ingresada y la almacenada
+    @return False: si no encuentra coincidencia. 
+    **/
+    public function validar_password(PasswordRequest $request)
+    {
+        $user = User::findOrFail($request->id);
+        if(Hash::check($request->password, $user->password))
+        {
+            return response()->json(true, 200);
+        }
+        else
+        {
+            return response()->json(false, 404);
+        }
+    }
+
+    /*
+    Método que cambia la contraseña del usuario
+    @params: id
+    @params: password
+    **/
+    public function actualiza_password(PasswordRequest $request)
+    {
+        $user = User::findOrFail($request->id);
+        $user->password = Hash::make($request->password);
+        $user->update();
+        return response()->json(true, 200);
     }
 
     public function update(Request $request)
