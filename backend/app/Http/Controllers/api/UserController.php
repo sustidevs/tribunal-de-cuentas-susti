@@ -5,13 +5,13 @@ namespace App\Http\Controllers\Api;
 use App\Models\Area;
 use App\Models\User;
 use App\Models\Persona;
-use App\Models\SubArea;
 use App\Models\TipoUser;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
+use App\Http\Requests\StoreUserRequest;
 
 class UserController extends Controller
 {
@@ -29,7 +29,7 @@ class UserController extends Controller
         return response()->json($data,200);
     }
 
-    public function store(Request $request)
+    public function store(StoreUserRequest $request)
     {
         /*
         $request = new Request;
@@ -46,41 +46,43 @@ class UserController extends Controller
         $request->comfirm_password = 'password';
         $request->tipo_user = '1';
         */
-        
-        $persona = New Persona();
-        $persona->dni = $request->dni;
-        $persona->nombre = $request->nombre;
-        $persona->apellido = $request->apellido;
-        $persona->telefono = $request->telefono;
-        $persona->email = $request->email;
-        $persona->direccion = $request->direccion;
-        if($persona->save())
+        if($request->validated()) 
         {
-            $user = New User();
-            $user->area_id = $request->area_id;
-            $user->persona_id = $persona->id;
-            $user->tipo_user_id = $request->tipo_user;
-            $user->cuil = $request->cuil;
-            $user->password = Hash::make($request->password);
-            //$user->assignRole(Role::find($request->role_id)->name);
-            if($request->adminArea == "on")
+            $persona = New Persona();
+            $persona->dni = $request->dni;
+            $persona->nombre = $request->nombre;
+            $persona->apellido = $request->apellido;
+            $persona->telefono = $request->telefono;
+            $persona->email = $request->email;
+            $persona->direccion = $request->direccion;
+            if($persona->save())
             {
-                $user->giverPermissionTo(['name' => 'AGREGAR INICIADOR']);
-                $user->giverPermissionTo(['name' => 'LISTAR EXPEDIENTES DE SU AREA']);
-                $user->giverPermissionTo(['name' => 'LISTAR EXPEDIENTES (TODAS)']);
-                $user->giverPermissionTo(['name' => 'REALIZAR PASES']);
+                $user = New User();
+                $user->area_id = $request->area_id;
+                $user->persona_id = $persona->id;
+                $user->tipo_user_id = $request->tipo_user;
+                $user->cuil = $request->cuil;
+                $user->password = Hash::make($request->password);
+                //$user->assignRole(Role::find($request->role_id)->name);
+                if($request->adminArea == "on")
+                {
+                    $user->giverPermissionTo(['name' => 'AGREGAR INICIADOR']);
+                    $user->giverPermissionTo(['name' => 'LISTAR EXPEDIENTES DE SU AREA']);
+                    $user->giverPermissionTo(['name' => 'LISTAR EXPEDIENTES (TODAS)']);
+                    $user->giverPermissionTo(['name' => 'REALIZAR PASES']);
+                }
+                if($request->empleado == "on")
+                {
+                    $user->giverPermissionTo(['name' => 'VER EXPEDIENTE']);
+                    $user->giverPermissionTo(['name' => 'REASIGNAR PASE']);
+                }
+                if($user->save())
+                {
+                    return response()->json($user->datos_user(), 200);
+                }
             }
-            if($request->empleado == "on")
-            {
-                $user->giverPermissionTo(['name' => 'VER EXPEDIENTE']);
-                $user->giverPermissionTo(['name' => 'REASIGNAR PASE']);
-            }
-            if($user->save())
-            {
-                return response()->json($user->datos_user(), 200);
-            }
+            return response()->json([], 401);
         }
-        return response()->json([], 401);
     }
 
     /**

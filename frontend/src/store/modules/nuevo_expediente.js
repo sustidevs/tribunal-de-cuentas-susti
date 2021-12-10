@@ -15,7 +15,6 @@ const state = {
     iniciador_iderror: '',
     nro_fojaserror: '',
     prioridaderror: '',
-    motivoerror: '',
 };
 
 const getters = {
@@ -33,7 +32,6 @@ const getters = {
     iniciador_id_error: state => state.iniciador_iderror,
     nro_fojas_error:  state => state.nro_fojaserror,
     prioridad_error:  state => state.prioridaderror,
-    motivo_error:  state => state.motivoerror,
 };
 
 const actions = {
@@ -77,8 +75,7 @@ const actions = {
                 commit('set_descripcion_extracto_error', error.response.data.errors.descripcion_extracto[0])
                 commit('set_iniciador_id_error', error.response.data.errors.iniciador_id[0])
                 commit('set_nro_fojas_error', error.response.data.errors.nro_fojas[0])
-                commit('set_prioridad_error', error.response.data.errors.prioridad[0])
-                commit('set_motivo_error', error.response.data.errors.tipo_exp_id[0])
+                commit('set_prioridad_error', error.response.data.errors.prioridad_id[0])
             })
     },
 };
@@ -98,7 +95,6 @@ const mutations = {
     set_iniciador_id_error: (state,iniciador_iderror ) => state.iniciador_iderror = iniciador_iderror,
     set_nro_fojas_error:  (state,nro_fojaserror ) => state.nro_fojaserror = nro_fojaserror,
     set_prioridad_error:  (state,prioridaderror ) => state.prioridaderror = prioridaderror,
-    set_motivo_error:  (state,motivo_error ) => state.motivoerror = motivo_error,
 };
 
 export default {

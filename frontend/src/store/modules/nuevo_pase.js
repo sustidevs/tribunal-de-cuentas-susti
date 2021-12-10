@@ -6,6 +6,10 @@ const state = {
     areas: [],
     expediente: '',
     exitopase: false,
+
+    pase_aerror: '',
+    aafectetosde_error: '',
+    nrofojas_error: '',
 };
 
 const getters = {
@@ -14,7 +18,11 @@ const getters = {
     get_areas: state => state.areas,
     fechaPase: state => state.fecha,
     expediente_exito: state => state.expediente,
-    creado_exito:state => state.exitopase
+    creado_exito:state => state.exitopase,
+
+    pase_a_error: state => state.pase_aerror,
+    a_afectosde_error: state => state.aafectetosde_error,
+    nrofojas_error: state => state.nrofojas_error,
  };
 
 const actions = {
@@ -36,6 +44,12 @@ const actions = {
             commit('save_newPase', response.data)
             commit('set_creado', true)
         })
+        .catch(error => {
+            console.log (error.response.data.errors)
+            // commit('set_pase_a_error', error.response.data.errors.area_destino_id)
+            commit('set_a_afectos_de_error', error.response.data.errors.motivo[0])
+            commit('set_nrofojas_error', error.response.data.errors.fojas[0])
+        })
     },
 
     cerrarModal ({ commit }){
@@ -49,6 +63,10 @@ const mutations = {
     set_areas: (state, areas) => state.areas = areas,
     save_newPase: (state, expediente) => state.expediente = expediente,
     set_creado: (state, exitopase) => state.exitopase = exitopase,
+
+    set_pase_a_error: (state, pase_aerror) => state.pase_aerror = pase_aerror,
+    set_a_afectos_de_error: (state, aafectetosde_error) => state.aafectetosde_error = aafectetosde_error,
+    set_nrofojas_error: (state, nrofojas_error) => state.nrofojas_error = nrofojas_error,
 };
 
 export default {
