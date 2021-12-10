@@ -118,7 +118,7 @@ class ExpedienteController extends Controller
                             $historial->hora = Carbon::now()->format('h:i');
                             //$historial->motivo = $request->observacion; TODO
                             $historial->motivo = "Pase al área: ".Area::find( $historial->area_destino_id)->descripcion. ".";
-                            $historial->observacion = $request->observacion;
+                            $historial->observacion = "";
                             $historial->estado = "1";//Enviado
                             if($historial->save())
                             {
