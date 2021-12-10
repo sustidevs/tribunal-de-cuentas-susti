@@ -18,6 +18,7 @@ use Illuminate\Support\Arr;
 use App\Models\Notificacion;
 use Illuminate\Http\Request;
 use App\Models\TipoExpediente;
+use Illuminate\Support\Facades\DB;
 use App\Models\PrioridadExpediente;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -61,6 +62,7 @@ class ExpedienteController extends Controller
     {
         if ($request->validated())
         {
+            DB::beginTransaction();
             $expediente = new Expediente;
             $expediente->nro_expediente = $request->nro_expediente;
             $expediente->nro_expediente_ext = $request->nro_expediente_ext;
@@ -143,14 +145,17 @@ class ExpedienteController extends Controller
                                     $expediente->archivos = $fileName;
                                     $historial->nombre_archivo = $fileName;
                                     $expediente->save();
-                                    $historial->save();
+                                    if($historial->save())
+                                    {
+                                        DB::commit();
+                                    };
                                 }
-                                $fileName = $request->nro_expediente;
-                                $fileName = str_replace("/","-",$fileName).'.zip';
-                                $path =storage_path()."/app/public/archivos_expedientes/".$fileName;
+                                // $fileName = $request->nro_expediente;
+                                // $fileName = str_replace("/","-",$fileName).'.zip';
+                                // $path =storage_path()."/app/public/archivos_expedientes/".$fileName;
                                 ///////////////////////////////////////////////////////////////////////////////////////
                                 $cod = new DNS1D;
-                                if ($request->tipo_exp_id == 3)
+                                if ($request->tipo_exp_id == 3) //TODO verificar si funciona
                                 {
                                     $notificacion = new Notificacion;
                                     $notificacion->expediente_id = $expediente->id;
@@ -161,7 +166,7 @@ class ExpedienteController extends Controller
                                 }
                                 //(2 = separacion barras, 80 = ancho de la barra)
                                 $codigoBarra = $cod->getBarcodeHTML($expediente->nro_expediente, 'C39',2,80,'black', true);
-                                $datos = [$expediente->fecha, $caratula->iniciador->nombre, $extracto->descripcion, $estado_actual, $path, $expediente->nro_expediente, $codigoBarra, $caratula->iniciador->email, $caratula->observacion ];
+                                $datos = [$expediente->fecha, $caratula->iniciador->nombre, $extracto->descripcion, $estado_actual, $expediente->nro_expediente, $codigoBarra, $caratula->iniciador->email, $caratula->observacion ];
                                 return response()->json($datos,200);
                             }
                         }
