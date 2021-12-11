@@ -3,16 +3,17 @@ import axios from "axios";
 const state = {
     tipoEntidad: [],
     iniciador: [],
-    finalizado: true,
     listado: [],
 
-    error_nombre: '',
-    error_tipo_entidad: '',
-    error_cuit: '',
-    error_cuil: '',
-    error_telefono: '',
-    error_email: '',
-    error_direccion: '',
+
+    //errores
+    error_nombre: [],
+    error_tipo_entidad: [],
+    error_cuit: [],
+    error_cuil: [],
+    error_telefono: [],
+    error_email: [],
+    error_direccion: [],
     exito_iniciador: false,
 };
 
@@ -20,7 +21,6 @@ const getters = {
     iniciador: state => state.iniciador,
     allTipoEntidad: state => state.tipoEntidad,
     get_tipoSelected: state => state.tipoSelected,
-    get_finalizado: state => state.finalizado,
     get_listado: state => state.listado,
 
     get_error_nombre: state => state.error_nombre,
@@ -48,13 +48,13 @@ const actions = {
                 commit('set_exito_iniciador', true)
             })
             .catch(error => {
-                commit('set_error_nombre', error.response.data.errors.nombre[0])
-                commit('set_error_tipo_entidad', error.response.data.errors.tipo_entidad[0])
-                commit('set_error_cuit', error.response.data.errors.cuit[0])
-                commit('set_error_cuil', error.response.data.errors.cuil[0])
+                commit('set_error_nombre', error.response.data.errors.nombre)
+                commit('set_error_tipo_entidad', error.response.data.errors.tipo_entidad)
+                commit('set_error_cuit', error.response.data.errors.cuit)
+                commit('set_error_cuil', error.response.data.errors.cuil)
                 commit('set_error_email', error.response.data.errors.email)
-                commit('set_error_telefono', error.response.data.errors.telefono[0])
-                commit('set_error_direccion', error.response.data.errors.direccion[0])
+                commit('set_error_telefono', error.response.data.errors.telefono)
+                commit('set_error_direccion', error.response.data.errors.direccion)
             })
     },
 
@@ -83,7 +83,6 @@ const actions = {
 const mutations = {
     set_tipoSelected: (state, tipoEntidad) => state.tipoEntidad = tipoEntidad,
     set_iniciador: (state, iniciador) => state.iniciador = iniciador,
-    set_finalizado: (state, finalizado) => state.finalizado = finalizado,
     set_listado: (state, listado) => state.listado = listado,
     set_exito_iniciador: (state, exito_iniciador) => state.exito_iniciador = exito_iniciador,
 
