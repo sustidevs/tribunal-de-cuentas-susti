@@ -6,29 +6,32 @@
                 <v-divider color="#393B44" class="mt-2"></v-divider>
                 <alert-sucess texto="La contraseña se actualizo con éxito" :condicion="getNewPass" />
 
-                <v-row v-if="!(getVerificarPass === true)" cols="6" no-gutters justify="start" class="pb-6">
-                    <label-input  class="pt-10" texto="Ingrese su contraseña actual"/>
-                    <label-error :texto="getErrorPassOld"/>
-                    <label-error :texto="getErrorPassFail"/>
-                    <v-col cols="12">
-                      <v-text-field
-                          color="amber accent-4"
-                          v-model="passwordOld"
-                          :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
-                          :type="show1 ? 'text' : 'password'"
-                          @click:append="show1 = !show1"
-                          background-color="white"
-                          outlined
-                      ></v-text-field>
-                    </v-col>
+              <div v-if="!(getVerificarPass === true)" >
+                <label-error :texto="getErrorPassOld"/>
+                <label-error :texto="getErrorPassFail"/>
+                <v-row cols="6" no-gutters justify="start" class="pb-6">
+                  <label-input  class="pt-10" texto="Ingrese su contraseña actual"/>
+                  <v-col cols="12">
+                    <v-text-field
+                        color="amber accent-4"
+                        v-model="passwordOld"
+                        :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
+                        :type="show1 ? 'text' : 'password'"
+                        @click:append="show1 = !show1"
+                        background-color="white"
+                        outlined
+                    ></v-text-field>
+                  </v-col>
 
-                    <v-col cols="12">
-                      <v-btn @click="verificarPassword"  class="pa-5 Montserrat-SemiBold" height="55" elevation="0" color="#FACD89" block>
-                        <v-icon class="pr-5">  mdi-check-bold </v-icon>
-                        <div> Aceptar </div>
-                      </v-btn>
-                    </v-col>
+                  <v-col cols="12">
+                    <v-btn @click="verificarPassword"  class="pa-5 Montserrat-SemiBold" height="55" elevation="0" color="#FACD89" block>
+                      <v-icon class="pr-5">  mdi-check-bold </v-icon>
+                      <div> Aceptar </div>
+                    </v-btn>
+                  </v-col>
                 </v-row>
+              </div>
+
 
                 <div v-if="getVerificarPass === true">
                   <label-error :texto="getErrorPass"/>
