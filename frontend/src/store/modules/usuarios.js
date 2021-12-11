@@ -14,10 +14,26 @@ const state = {
     newPass:false,
     loading: false,
     misEnviados: [],
+
     finalizado: true,
+    verificarPass: false,
+    updatePass: false,
+
+
+    //errores
+    error_passwordOld: '',
+    error_password: '',
+    error_passwordFail: '',
 };
 
 const getters = {
+
+    getErrorPass: state=>state.error_password,
+    getUpdatePass: state =>state.updatePass,
+    getErrorPassOld: state=>state.error_passwordOld,
+    getErrorPassFail: state=>state.error_passwordFail,
+
+    getVerificarPass: state => state.verificarPass,
     getMisEnviados: state => state.misEnviados,
     getLoading: state => state.loading,
     getUser: state => state.user,
@@ -72,7 +88,21 @@ const actions = {
         commit('clearUserData')
         commit('setAuthenticated', false)
     },
-    
+
+    verificarPass({commit}, newPass){
+        axios.post(process.env.VUE_APP_API_URL+ '/api/validarPassword', newPass)
+            .then(response => {
+                if (response.status === 201){
+                    commit('set_error_passFail', response.data)
+                }else{
+                    commit('setVerificarPass', response.data)
+                }
+            })
+            .catch(error => {
+                commit('set_error_passOld', error.response.data.errors.password[0])
+            })
+    },
+
     // editPassword({commit}, user) {
     //     axios.get(process.env.VUE_APP_API_URL+ '/api/editUser',user)
     //         .then(response => {
@@ -82,10 +112,14 @@ const actions = {
     // }
 
     nuevaContrasena({commit}, newPass){
-        axios.post(process.env.VUE_APP_API_URL+ '/api/updateUser', newPass)
-            .then(
-                commit('setNewPass', true)
-            )
+        axios.post(process.env.VUE_APP_API_URL+ '/api/actualizaPassword', newPass)
+            .then(response => {
+                commit('setNewPass', response.data)
+                commit('set_error_pass', '')
+            })
+            .catch(error => {
+                commit('set_error_pass', error.response.data.errors.password[0])
+            })
     },
 
     mis_enviados({commit}, expediente){
@@ -98,6 +132,13 @@ const actions = {
 };
 
 const mutations = {
+
+
+    set_error_passFail: (state, error_passwordFail) => state.error_passwordFail = error_passwordFail,
+    set_error_pass: (state, error_password) => state.error_password = error_password,
+    set_update_pass: (state, updatePass) => state.updatePass = updatePass,
+    set_error_passOld: (state, error_passwordOld) => state.error_passwordOld = error_passwordOld,
+    setVerificarPass: (state, verificarPass) => state.verificarPass = verificarPass,
     set_finalizado: (state, finalizado) => state.finalizado = finalizado,
     set_expedientesEnviados: (state, expedientes) => state.misEnviados = expedientes,
     set_user: (state, user) => state.user = user,
