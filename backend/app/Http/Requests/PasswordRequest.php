@@ -25,7 +25,7 @@ class PasswordRequest extends FormRequest
     {
         return [
             'id'        => 'required',
-            'password'  => 'required|min:8|max:15'];
+            'password'  => 'required|string|min:8|max:15'];
     }
 
     public function messages()
