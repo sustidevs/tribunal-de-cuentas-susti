@@ -121,7 +121,8 @@ class UserController extends Controller
         }
         else
         {
-            return response()->json(false, 404);
+            $response = "La contraseña ingresada no es correcta";
+            return response()->json($response, 201);
         }
     }
 

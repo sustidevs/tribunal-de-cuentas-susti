@@ -4,11 +4,12 @@
             <v-col cols="12" sm="12" lg="6" class="pb-6">
                 <h1 class="d-flex justify-start Montserrat-Bold pb-3 mt-6"> Cambiar contraseña </h1>
                 <v-divider color="#393B44" class="mt-2"></v-divider>
-                <alert-sucess texto="La contraseña se actualizo con éxito" :condicion="this.error1" />
+                <alert-sucess texto="La contraseña se actualizo con éxito" :condicion="getNewPass" />
 
                 <v-row v-if="!(getVerificarPass === true)" cols="6" no-gutters justify="start" class="pb-6">
                     <label-input  class="pt-10" texto="Ingrese su contraseña actual"/>
                     <label-error :texto="getErrorPassOld"/>
+                    <label-error :texto="getErrorPassFail"/>
                     <v-col cols="12">
                       <v-text-field
                           color="amber accent-4"
@@ -34,7 +35,7 @@
                     <v-row no-gutters justify="start" class="pb-2">
                         <v-col cols="12" class="pb-3">
                             <label-input class="mt-8" texto="Ingrese una nueva contraseña"/>
-                            <alert type="error" texto="Las constraseñas no coinciden" :condicion="this.error2" />
+                            <alert type="error" texto="Las contraseñas no coinciden" :condicion="this.error2" />
                         </v-col>
                         <v-col cols="12">
                             <v-text-field
@@ -123,7 +124,7 @@ export default {
         }
     },
 
-  computed: mapGetters(['getIdUser', 'getNewPass', 'cambiado', 'getVerificarPass','getErrorPassOld','getErrorPass']),
+  computed: mapGetters(['getErrorPassFail','getIdUser', 'getNewPass', 'cambiado', 'getVerificarPass','getErrorPassOld','getErrorPass']),
 
   methods:{
     ...mapActions(['getApellido', 'getNombre','editPassword', 'nuevaContrasena', 'verificarPass']),

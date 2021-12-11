@@ -23,6 +23,7 @@ const state = {
     //errores
     error_passwordOld: '',
     error_password: '',
+    error_passwordFail: '',
 };
 
 const getters = {
@@ -30,7 +31,7 @@ const getters = {
     getErrorPass: state=>state.error_password,
     getUpdatePass: state =>state.updatePass,
     getErrorPassOld: state=>state.error_passwordOld,
-
+    getErrorPassFail: state=>state.error_passwordFail,
 
     getVerificarPass: state => state.verificarPass,
     getMisEnviados: state => state.misEnviados,
@@ -91,10 +92,13 @@ const actions = {
     verificarPass({commit}, newPass){
         axios.post(process.env.VUE_APP_API_URL+ '/api/validarPassword', newPass)
             .then(response => {
-                commit('setVerificarPass', response.data)
+                if (response.status === 201){
+                    commit('set_error_passFail', response.data)
+                }else{
+                    commit('setVerificarPass', response.data)
+                }
             })
             .catch(error => {
-                console.log (error.response.data.errors)
                 commit('set_error_passOld', error.response.data.errors.password[0])
             })
     },
@@ -111,9 +115,9 @@ const actions = {
         axios.post(process.env.VUE_APP_API_URL+ '/api/actualizaPassword', newPass)
             .then(response => {
                 commit('setNewPass', response.data)
+                commit('set_error_pass', '')
             })
             .catch(error => {
-                console.log (error.response.data.errors)
                 commit('set_error_pass', error.response.data.errors.password[0])
             })
     },
@@ -128,6 +132,9 @@ const actions = {
 };
 
 const mutations = {
+
+
+    set_error_passFail: (state, error_passwordFail) => state.error_passwordFail = error_passwordFail,
     set_error_pass: (state, error_password) => state.error_password = error_password,
     set_update_pass: (state, updatePass) => state.updatePass = updatePass,
     set_error_passOld: (state, error_passwordOld) => state.error_passwordOld = error_passwordOld,
