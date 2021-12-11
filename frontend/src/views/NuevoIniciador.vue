@@ -3,57 +3,100 @@
         <form @submit.prevent="storeIniciador(inicia)" >
             <titulo texto="Nuevo Iniciador" icono="mdi-account-plus" class="pb-8"/>
 
+          <v-row no-gutters>
+            <v-col cols="12" sm="12" lg="6" class="pr-lg-2">
+              <label-error :texto="this.get_error_nombre"/>
+            </v-col>
+
+            <v-col cols="12" sm="12" lg="6" class="pl-lg-2">
+              <label-error :texto="this.get_error_tipo_entidad"/>
+            </v-col>
+          </v-row>
+
             <v-row no-gutters justify="center">
                 <v-col cols="12" sm="12" lg="6" class="pr-lg-2">
-                    <label-error :texto="this.get_error_nombre"/>
                     <label-input texto="Nombre entidad / persona"/>
                     <text-field v-model="inicia.nombre"/>
                 </v-col>
 
                 <v-col cols="12" sm="12" lg="6" class="pl-lg-2">
-                    <label-error :texto="this.get_error_tipo_entidad"/>
                     <label-input texto="Tipo"/>
                     <autocomplete-field :data="allTipoEntidad" nombre="descripcion" v-model="inicia.tipo_entidad"/>
                 </v-col>
             </v-row>
 
+
+          <v-row no-gutters>
+            <v-col cols="12" sm="12" lg="6" class="pr-lg-2">
+              <label-error :texto="this.get_error_cuit"/>
+            </v-col>
+
+            <v-col cols="12" sm="12" lg="6" class="pl-lg-2">
+              <label-error :texto="this.get_error_cuil"/>
+            </v-col>
+          </v-row>
+
             <v-row no-gutters justify="start">
                 <v-col cols="12" sm="12" lg="6" class="pr-lg-2">
-                    <label-error :texto="this.get_error_cuit"/>
-                    <label-input texto="CUIT"/>
+
+                  <label-input texto="CUIT"/>
                     <text-field tipo="number" v-model="inicia.cuit"/>
                 </v-col>
 
                 <v-col cols="12" sm="12" lg="6" class="pl-lg-2">
-                    <label-error :texto="this.get_error_cuil"/>
+
                     <label-input texto="CUIL"/>
                     <text-field tipo="number" v-model="inicia.cuil"/>
                 </v-col>
             </v-row>
 
+
+          <v-row no-gutters>
+            <v-col cols="12" sm="12" lg="6" class="pr-lg-2">
+              <label-error/>
+            </v-col>
+
+            <v-col cols="12" sm="12" lg="6" class="pl-lg-2">
+              <label-error :texto="this.get_error_email"/>
+            </v-col>
+          </v-row>
+
             <v-row no-gutters justify="start">
                 <v-col cols="12" sm="12" lg="6" class="pr-lg-2">
-                    <label-error/>
                     <label-input texto="Área de reparticiones"/>
                     <text-field v-model="inicia.area_reparticiones"/>
                 </v-col>
 
+
                 <v-col cols="12" sm="12" lg="6" class="pl-lg-2">
-                    <label-error :texto="this.get_error_email"/>
+
                     <label-input texto="Correo electrónico"/>
                     <text-field v-model="inicia.email"/>
                 </v-col>
             </v-row>
 
+
+          <v-row no-gutters>
+            <v-col cols="12" sm="12" lg="6" class="pr-lg-2">
+              <label-error :texto="this.get_error_telefono"/>
+            </v-col>
+
+            <v-col cols="12" sm="12" lg="6" class="pl-lg-2">
+              <label-error :texto="this.get_error_direccion"/>
+            </v-col>
+          </v-row>
+
             <v-row no-gutters justify="start">
+
                 <v-col cols="12" sm="12" lg="6" class="pr-lg-2">
-                    <label-error :texto="this.get_error_telefono"/>
+
                     <label-input texto="Teléfono"/>
                     <text-field tipo="number" v-model="inicia.telefono"/>
                 </v-col>
 
+
                 <v-col cols="12" sm="12" lg="6" class="pl-lg-2">
-                    <label-error :texto="this.get_error_direccion"/>
+
                     <label-input texto="Dirección"/>
                     <text-field v-model="inicia.direccion"/>
                 </v-col>
@@ -124,14 +167,15 @@ export default {
     computed: {
         ... mapGetters([
             'allTipoEntidad',
+            'get_iniciador_creado',
+            'get_error_nombre',
             'get_error_tipo_entidad',
             'get_error_cuit',
             'get_error_cuil',
             'get_error_telefono',
             'get_error_email',
             'get_error_direccion',
-            'get_error_nombre',
-            'get_iniciador_creado'
+
         ])
     },
 }

@@ -15,7 +15,7 @@ const state = {
     loading: false,
     misEnviados: [],
 
-    finalizado: true,
+    finalizadoEnviados: true,
     verificarPass: false,
     updatePass: false,
 
@@ -52,7 +52,7 @@ const getters = {
     getTipoUsuario: state=> state.user.tipo_user,
     getCuil: state => state.user.cuil,
     getNewPass: state => state.newPass,
-    get_finalizado: state => state.finalizado,
+    get_finalizadoEnviados: state => state.finalizadoEnviados,
 };
 
 const actions = {
@@ -126,7 +126,7 @@ const actions = {
         axios.post(process.env.VUE_APP_API_URL+ '/api/mis-enviados', expediente)
             .then(response => {
                 commit('set_expedientesEnviados', response.data),
-                commit('set_finalizado', false)
+                commit('set_finalizadoEnviados', false)
             })
     }
 };
@@ -139,7 +139,7 @@ const mutations = {
     set_update_pass: (state, updatePass) => state.updatePass = updatePass,
     set_error_passOld: (state, error_passwordOld) => state.error_passwordOld = error_passwordOld,
     setVerificarPass: (state, verificarPass) => state.verificarPass = verificarPass,
-    set_finalizado: (state, finalizado) => state.finalizado = finalizado,
+    set_finalizadoEnviados: (state, finalizadoEnviados) => state.finalizadoEnviados = finalizadoEnviados,
     set_expedientesEnviados: (state, expedientes) => state.misEnviados = expedientes,
     set_user: (state, user) => state.user = user,
     set_errorCuil: (state, errorCuil) => state.errorCuil = errorCuil,

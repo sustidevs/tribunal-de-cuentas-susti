@@ -17,10 +17,8 @@
 
         <v-col cols="12" sm="12" lg="6">
           <titulo-inicio texto="Iniciadores" class="mt-5"/>
-          <v-col cols="12" sm="12" lg="6">
             <ButtonBig class="my-4 mx-5" texto="Nuevo" link="/nuevo-iniciador" icon="mdi-account-plus"/>
             <ButtonBig class="my-4 mx-5" texto="Ver todos" link="/iniciadores" icon="mdi-account-group"/>
-          </v-col>
         </v-col>
       </v-row>
 

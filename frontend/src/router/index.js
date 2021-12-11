@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
-import LoginGeneral from '../views/LoginGeneral.vue'
+import Login from '../views/Login.vue'
 import NuevoExpediente from '../views/NuevoExpediente.vue'
 import BandejaDeEntrada from '../views/BandejaDeEntrada.vue'
 import MisExpedientes from '../views/MisExpedientes.vue'
@@ -29,14 +29,14 @@ Vue.use(VueRouter)
 const routes = [
 
   {
-    path: '',
-    name: 'layout',
+    path: '/',
+    name: '',
     component: layout,
     children: [{
         path: '/',
         name: 'Home',
         component: Home,
-        meta: {title: 'Inicio',  layout: layout, middleware: [auth] }
+        meta: {title: 'Inicio', middleware: [auth] }
       },
       {
         path: '/mis-enviados',
@@ -132,8 +132,8 @@ const routes = [
   },
   {
     path: '/login',
-    name: 'LoginGeneral',
-    component: LoginGeneral,
+    name: 'Login',
+    component: Login,
     meta: { title: 'Ingresar',  middleware: [guest]  }
   },
 ]

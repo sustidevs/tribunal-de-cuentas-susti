@@ -5,7 +5,7 @@ const state = {
 };
 
 const getters = {
-    allAreas: state => state.areas
+
 };
 
 const actions = {
