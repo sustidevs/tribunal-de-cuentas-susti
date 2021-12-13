@@ -23,30 +23,38 @@
       </v-row>
 
       <v-divider color="#393B44" class="mt-10 d-none d-sm-block"></v-divider>
-      <titulo-inicio texto="Expedientes" class="my-2 mt-5"/>
-      <v-hover v-slot="{ hover }">
-        <v-btn
-            rounded
-            width="150"
-            height="150"
-            @click="abrirModalConsultar()"
-            :class="hover ? 'orange accent-1' : 'grey lighten-3'"
-            class="pa-8 mx-5 Montserrat-Bold grey--text text--darken-3"
-        >
-          <div class="d-flex flex-column justify-center">
-            <v-icon size="70" class="py-2" :color="hover ? 'grey darken-1' : '#FDBC3F'">mdi-magnify</v-icon>
 
-            <div class="sizeBig pt-4">
-              Consultar
-            </div>
-          </div>
-        </v-btn>
-      </v-hover>
-      <modal-consultar-nro-exp :show="showModalConsultarNroExp" @close="closeModalConsultarNroExp"/>
-      <ButtonBig class="my-4 mx-5" texto="Nuevo" link="/nuevo-expediente" icon="mdi-text-box-plus"/>
-      <ButtonBig class="my-4 mx-5" texto="Pase" link="/mis-expedientes" icon="mdi-file-move"/>
-      <ButtonBig class="my-4 mx-5" texto="Recuperar" link="/recuperar" icon="mdi-file-undo"/>
+      <v-row class="phone">
+        <v-col cols="12" md="12" lg="6" >
+          <titulo-inicio texto="Expedientes" class="my-2 mt-5"/>
+          <v-hover v-slot="{ hover }">
+            <v-btn
+                rounded
+                width="150"
+                height="150"
+                @click="abrirModalConsultar()"
+                :class="hover ? 'orange accent-1' : 'grey lighten-3'"
+                class="pa-8 mx-5 Montserrat-Bold grey--text text--darken-3"
+            >
+              <div class="d-flex flex-column justify-center">
+                <v-icon size="70" class="py-2" :color="hover ? 'grey darken-1' : '#FDBC3F'">mdi-magnify</v-icon>
 
+                <div class="sizeBig pt-4">
+                  Consultar
+                </div>
+              </div>
+            </v-btn>
+          </v-hover>
+          <modal-consultar-nro-exp :show="showModalConsultarNroExp" @close="closeModalConsultarNroExp"/>
+          <ButtonBig class="my-4 mx-5" texto="Nuevo" link="/nuevo-expediente" icon="mdi-text-box-plus"/>
+          <ButtonBig class="my-4 mx-5" texto="Pase" link="/mis-expedientes" icon="mdi-file-move"/>
+          <ButtonBig class="my-4 mx-5" texto="Recuperar" link="/recuperar" icon="mdi-file-undo"/>
+        </v-col>
+        <v-col cols="12" md="12" lg="6" >
+          <titulo-inicio texto="Cedulas" class="my-2"/>
+          <ButtonBig class="my-4 mx-5" texto="Cedula" link="/cedula" icon="mdi-card-account-details"/>
+        </v-col>
+      </v-row>
     </div>
 
     <div v-else>
@@ -126,6 +134,8 @@
           <titulo-inicio texto="Cedulas" class="my-2"/>
           <ButtonBig class="my-4 mx-5" texto="Cedula" link="/cedula" icon="mdi-card-account-details"/>
         </v-col>
+
+
 
       </v-row>
     </div>
