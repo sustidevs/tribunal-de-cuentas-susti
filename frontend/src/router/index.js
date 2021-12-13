@@ -23,6 +23,7 @@ import store from "../store/index";
 import Englose from "../views/Englose";
 import Cedula from "../views/Cedula";
 import MisEnviados from "../views/MisEnviados";
+import Desglose from "../views/Desglose"
 
 Vue.use(VueRouter)
 
@@ -51,6 +52,12 @@ const routes = [
         meta: { title: 'Englose', middleware: [auth]}
       },
       {
+        path: '/desglose',
+        name: 'Desglose',
+        component: Desglose,
+        meta: { title: 'Desglose', middleware: [auth]}
+      },
+      {
         path: '/nuevo-expediente',
         name: 'Nuevo',
         component: NuevoExpediente,
@@ -74,12 +81,6 @@ const routes = [
         component: MisExpedientes,
         meta: { title: 'Mis Expedientes' , middleware: [auth] }
       },
-      // {
-      //   path: '/nueva-reunion',
-      //   name: 'Nueva reunion',
-      //   component: NuevaReunion,
-      //   meta: { title: 'Nueva Reunion' }
-      // },
       {
         path: '/nuevo-pase',
         name: 'NuevoPase',

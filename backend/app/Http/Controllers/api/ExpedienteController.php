@@ -147,7 +147,7 @@ class ExpedienteController extends Controller
                                     $expediente->archivos = $fileName;
                                     $historial->nombre_archivo = $fileName;
                                     $expediente->save();
-                                    $historial->save();                                        
+                                    $historial->save();
                                 }
                                 // $fileName = $request->nro_expediente;
                                 // $fileName = str_replace("/","-",$fileName).'.zip';
@@ -211,7 +211,7 @@ class ExpedienteController extends Controller
             $expediente->monto = $request->monto;
             $expediente->expediente_id = $request->expediente_id;
             $expediente->save();
-        
+
             $extracto = new Extracto;
             $extracto->descripcion = $request->descripcion_extracto;
             $extracto->save();
@@ -280,7 +280,7 @@ class ExpedienteController extends Controller
                 $expediente->archivos = $fileName;
                 $historial->nombre_archivo = $fileName;
                 $expediente->save();
-                $historial->save();                                        
+                $historial->save();
             }
             if ($request->tipo_exp_id == 3) //TODO verificar si funciona
             {
@@ -292,12 +292,12 @@ class ExpedienteController extends Controller
                 $notificacion->save();
             }
             DB::commit();
-            
+
                 //(2 = separacion barras, 80 = ancho de la barra)
                 $cod = new DNS1D;
                 $codigoBarra = $cod->getBarcodeHTML($expediente->nro_expediente, 'C39',2,80,'black', true);
                 $datos = [$expediente->fecha, $caratula->iniciador->nombre, $extracto->descripcion, $estado_actual, $expediente->nro_expediente, $codigoBarra, $caratula->iniciador->email, $caratula->observacion ];
-                return response()->json($datos,200);            
+                return response()->json($datos,200);
         }
     }
 
@@ -307,7 +307,7 @@ class ExpedienteController extends Controller
         $exp_padre = Expediente::findOrFail($request->exp_padre);
         $exp_hijos = Expediente::find($request->exp_hijos);
         $expedientes_hijos = "";
-        foreach ($exp_hijos as $exp_hijo) 
+        foreach ($exp_hijos as $exp_hijo)
         {
             if($exp_hijo->expediente_id == "")
             {
@@ -387,7 +387,7 @@ class ExpedienteController extends Controller
         $exp_padre->historiales->last()->fojas = $exp_padre->fojas;
         $exp_hijos = Expediente::findOrFail($request->exp_padre)->hijos;
         $fojas_hijos_acum = 0;
-        foreach ($exp_hijos as $exp_hijo) 
+        foreach ($exp_hijos as $exp_hijo)
         {
             /*if($exp_hijo->expediente_id != "")
             {
@@ -479,7 +479,7 @@ class ExpedienteController extends Controller
 
     public function createDesgloce(Request $request)
     {
-        $exp_padre = Expediente::findOrFail($request->exp_padre);
+        $exp_padre = Expediente::findOrFail($request->id);
         return response()->json([$exp_padre->first() ,$exp_padre->hijos],200);
     }
 
