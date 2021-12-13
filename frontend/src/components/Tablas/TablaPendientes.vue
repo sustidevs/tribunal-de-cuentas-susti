@@ -40,6 +40,12 @@
           </v-chip>
         </template>
 
+        <template v-slot:item.action1= "{item}">
+          <v-btn @click="detalle(item)" fab small color="#FACD89" depressed>
+            <v-icon> mdi-eye </v-icon>
+          </v-btn>
+        </template>
+
         <template v-slot:item.action= "{item}">
           <v-btn @click="recibirI(item)" fab small color="#FACD89" depressed>
             <v-icon> mdi-text-box-check </v-icon>
@@ -47,16 +53,24 @@
         </template>
       </v-data-table>
 
-
+      <modal-ver-detalle-exp
+            :datos="datos"
+            :show="show_modal"
+            @close="closeModal"
+      />
   </div>
 </template>
 
 <script>
 import {mapActions} from "vuex";
+import ModalVerDetalleExp from "../../components/dialogs/ModalVerDetalleExp";
+
 
 export default {
+  components: { ModalVerDetalleExp },
   props: {
     items: Array,
+    data: Array,
     loading: {type: Boolean, default: false},
   },
 
@@ -72,9 +86,12 @@ export default {
         {text: 'Cuerpo', value: 'cant_cuerpos'},
         {text: 'Fojas', value: 'fojas'},
         {text: 'Área Origen', value:'area_origen'},
+        {text: 'Ver detalle', value: 'action1', align: 'center', sortable: false},
         {text: 'Aceptar', value: 'action', align: 'center', sortable: false},
       ],
       search: '',
+      show_modal: false,
+      expediente_id:0,
     }
   },
 
@@ -103,6 +120,16 @@ export default {
           item.bandeja= 1,
           item.user_id= this.$store.getters.getIdUser,
           this.recibir(item)
+    },
+    
+    detalle(item) {
+      this.show_modal = true;
+      this.datos = item
+      this.show_modal = true;
+    },
+
+    closeModal() {
+      this.show_modal = false;
     }
   },
 }

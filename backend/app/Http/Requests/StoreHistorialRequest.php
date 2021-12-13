@@ -25,7 +25,7 @@ class StoreHistorialRequest extends FormRequest
     {
         return [
             'area_destino_id'   => 'required',
-            'motivo'            => 'required|max:255',
+            'observacion'            => 'required|max:255',
             'fojas'             => 'required|max:1000|integer'
         ];
     }
@@ -34,8 +34,8 @@ class StoreHistorialRequest extends FormRequest
     {
         return [
             'area_destino_id.required'      => 'Debe indicar un area destino.',
-            'motivo.required'               => 'Campo requerido.',
-            'motivo.max'                    => 'Máximo 255 caracteres.',
+            'observacion.required'               => 'Campo requerido.',
+            'observacion.max'                    => 'Máximo 255 caracteres.',
             'fojas.required'                => 'Debe ingresar cantidad de fojas.',
             'fojas.max'                     => 'Máximo 1000 fojas.',
             'fojas.integer'                 => 'Debe ingresar números.'

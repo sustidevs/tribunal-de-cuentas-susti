@@ -4,40 +4,41 @@
             <v-col cols="12" sm="12" lg="6" class="pb-6">
                 <h1 class="d-flex justify-start Montserrat-Bold pb-3 mt-6"> Cambiar contraseña </h1>
                 <v-divider color="#393B44" class="mt-2"></v-divider>
-                <alert-sucess texto="La contraseña se actualizo con éxito" :condicion="this.error1" />
-                <label-input  class="pt-10" texto="Ingrese su contraseña actual"/>
+                <alert-sucess texto="La contraseña se actualizo con éxito" :condicion="getNewPass" />
+
+              <div v-if="!(getVerificarPass === true)" >
+                <label-error :texto="getErrorPassOld"/>
+                <label-error :texto="getErrorPassFail"/>
                 <v-row cols="6" no-gutters justify="start" class="pb-6">
-                    <v-col cols="12">
-                        <v-text-field
-                            color="amber accent-4"
-                            :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
-                            :type="show1 ? 'text' : 'password'"
-                            @click:append="show1 = !show1"
-                            background-color="white"
-                            outlined
-                        ></v-text-field>
-                    </v-col>
-                    <v-col cols="12">
-                        <v-btn type="submit" @click="mostrar = !mostrar" class="pa-5 Montserrat-SemiBold" height="55" elevation="0" color="#FACD89" block>
-                            <v-icon class="pr-5">  mdi-check-bold </v-icon>
-                            <div> Aceptar </div>
-                        </v-btn>
-                    </v-col>
+                  <label-input  class="pt-10" texto="Ingrese su contraseña actual"/>
+                  <v-col cols="12">
+                    <v-text-field
+                        color="amber accent-4"
+                        v-model="passwordOld"
+                        :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
+                        :type="show1 ? 'text' : 'password'"
+                        @click:append="show1 = !show1"
+                        background-color="white"
+                        outlined
+                    ></v-text-field>
+                  </v-col>
+
+                  <v-col cols="12">
+                    <v-btn @click="verificarPassword"  class="pa-5 Montserrat-SemiBold" height="55" elevation="0" color="#FACD89" block>
+                      <v-icon class="pr-5">  mdi-check-bold </v-icon>
+                      <div> Aceptar </div>
+                    </v-btn>
+                  </v-col>
                 </v-row>
-                <div v-if="this.mostrar == true">
+              </div>
+
+
+                <div v-if="getVerificarPass === true">
+                  <label-error :texto="getErrorPass"/>
                     <v-row no-gutters justify="start" class="pb-2">
                         <v-col cols="12" class="pb-3">
                             <label-input class="mt-8" texto="Ingrese una nueva contraseña"/>
-                            <v-alert
-                                icon="mdi-alert-outline"
-                                dense
-                                text
-                                type="warning"
-                                class="alert Montserrat-Regular pa-4"
-                            >
-                                Su contraseña debe tener al menos 8 caracteres, un número y una letra.
-                            </v-alert>
-                            <alert type="error" texto="Las constrañas no coinciden" :condicion="this.error2" />                            
+                            <alert type="error" texto="Las contraseñas no coinciden" :condicion="this.error2" />
                         </v-col>
                         <v-col cols="12">
                             <v-text-field
@@ -51,11 +52,10 @@
                             ></v-text-field>
                         </v-col>
                     </v-row>
+
                     <label-input texto="Repita la nueva contraseña"/>
                     <v-row no-gutters justify="start" class="pb-16">
                         <v-col cols="12">
-                            <alert type="error" texto="Las constrañas no coinciden" :condicion="this.error2" />
-
                             <v-text-field
                                 color="amber accent-4"
                                 :append-icon="show3 ? 'mdi-eye' : 'mdi-eye-off'"
@@ -66,12 +66,14 @@
                                 v-model="repetirPass"
                             ></v-text-field>
                         </v-col>
+
                         <v-col cols="12">
                             <v-btn @click="nuevoPassword()" type="submit" class="pa-5 Montserrat-SemiBold" height="55" elevation="0" color="#FACD89" block>
                                 <v-icon class="pr-5">  mdi-content-save </v-icon>
                                 <div> Guardar </div>
                             </v-btn>
                         </v-col>
+
                     </v-row>
                 </div>
             </v-col>
@@ -97,19 +99,24 @@
 <script>
 import LabelInput from "../components/LabelInput";
 import AlertSucess from "../components/AlertSucess"
-import Alert from "../components/Alert"
+import Alert from "../components/Alert";
+import LabelError from "../components/LabelError";
+
 import {mapGetters, mapActions} from "vuex";
 
 export default {
   name: 'Usuario',
-  components: {LabelInput, AlertSucess, Alert},
+  components: {LabelInput, AlertSucess, Alert, LabelError},
     data() {
         return {
             user:{
-                id:  this.$store.getters.getIdUser, 
+                id: this.$store.getters.getIdUser,
                 password: '',
             },
-            repetirPass:'',
+            passwordOld:'',
+            passwordNew:'',
+            repetirPass: '',
+
             show1: false,
             show2: false,
             show3: false,
@@ -119,18 +126,26 @@ export default {
             mostrar2: false,
         }
     },
-  computed: mapGetters('getIdUser', 'getNewPass', 'cambiado'),
+
+  computed: mapGetters(['getErrorPassFail','getIdUser', 'getNewPass', 'cambiado', 'getVerificarPass','getErrorPassOld','getErrorPass']),
 
   methods:{
-    ...mapActions(['getApellido', 'getNombre','editPassword', 'nuevaContrasena']),
+    ...mapActions(['getApellido', 'getNombre','editPassword', 'nuevaContrasena', 'verificarPass']),
+
+    verificarPassword () {
+      let user = {
+        id: this.$store.getters.getIdUser,
+        password: this.passwordOld,
+      }
+      this.verificarPass(user)
+    },
 
   nuevoPassword() {
-      if (this.user.password == this.repetirPass){
+      if (this.user.password === this.repetirPass){
+          this.error2 = false,
           this.nuevaContrasena(this.user)
-          this.error1 = true;
-          this.error2 = false;
       }
-      else{ 
+      else{
           this.error2 = true;
       }
   }

@@ -57,7 +57,7 @@ class HistorialController extends Controller
             $historial->fojas = $request->fojas;
             $historial->fecha = Carbon::now()->format('Y-m-d');
             $historial->hora = Carbon::now()->format('h:i');
-            $historial->motivo = $request->motivo;
+            $historial->observacion = $request->observacion;
             //$historial->nombre_archivo = $request->nombre_archivo;
             $historial->estado = 1;//pendiente para la bandeja del area destino, enviado para la bandeja origen
             $expediente->estado_expediente_id = '1';
@@ -95,7 +95,7 @@ class HistorialController extends Controller
                     $historial->hora,
                     $fojas,
                     $user->persona->nombre. " ".$user->persona->apellido,
-                    $historial->motivo,
+                    $historial->observacion,
                     $expediente->nro_expediente,
                     $expediente->caratula->extracto->descripcion];
             return response()->json($data, 200);

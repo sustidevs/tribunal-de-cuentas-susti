@@ -178,7 +178,8 @@ class Expediente extends Model
                 'user_id'=>$exp->historiales->last()->user_id,
                 'archivo'=>$exp->archivos,
                 'observacion'=>$exp->caratula->observacion,
-                'motivo'=>$exp->historiales->sortByDesc('id')->skip(1)->take(1)->values()
+                'motivo'=>$exp->historiales->sortByDesc('id')->skip(1)->take(1)->values(),
+                'observacion_pase'=>$exp->historiales->last()->observacion
             ]);
 
         }
