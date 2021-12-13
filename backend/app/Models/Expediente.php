@@ -133,12 +133,11 @@ class Expediente extends Model
         return $nro_exp;
     }
 
-    public static function listadoExpedientes($user_id,$estado,$bandeja)
+    public static function listadoExpedientes($user_id, $estado, $bandeja)
     {
-        $Expedientes = Expediente::where('expediente_id',null)->get();
+        $Expedientes = Expediente::where('expediente_id', null)->get();
         $user = User::findOrFail($user_id);
         $array_expediente = collect([]);
-
 
         foreach ($Expedientes as $exp)
         {

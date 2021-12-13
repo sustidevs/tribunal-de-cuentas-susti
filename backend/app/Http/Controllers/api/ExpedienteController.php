@@ -282,7 +282,7 @@ class ExpedienteController extends Controller
                 $expediente->save();
                 $historial->save();                                        
             }
-            if ($request->tipo_exp_id == 3) //TODO verificar si funciona
+            if ($request->tipo_exp_id == 3 || $request->tipo_exp_id == 4) //TODO verificar si funciona
             {
                 $notificacion = new Notificacion;
                 $notificacion->expediente_id = $expediente->id;
@@ -564,6 +564,12 @@ class ExpedienteController extends Controller
     }
 
     public function contadorBandejaEntrada(Request $request)
+    {
+        $contador = Expediente::listadoExpedientes($request->user_id,1,1)->count();
+        return response()->json($contador, 200);
+    }
+
+    public function contadorSubsidios_aportes(Request $request)
     {
         $contador = Expediente::listadoExpedientes($request->user_id,1,1)->count();
         return response()->json($contador, 200);
