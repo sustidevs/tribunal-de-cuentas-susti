@@ -11,7 +11,7 @@
 import LoginCelular from "../components/Login/LoginCelular";
 import LoginEscritorio from "../components/Login/LoginEscritorio";
 export default {
-  name: 'Login General',
+  name: 'Login',
   components: { LoginCelular, LoginEscritorio},
 }
 </script>

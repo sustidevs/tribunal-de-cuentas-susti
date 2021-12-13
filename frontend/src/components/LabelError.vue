@@ -1,14 +1,25 @@
 <template>
-    <div class="Montserrat-Bold red--text fontError text-start py-2 pt-5">
-      {{ texto }}
+    <div v-if="this.texto" class="Montserrat-Bold red--text fontError text-start py-2 pt-5">
+
+      <div v-if="!(this.texto === undefined)">
+        {{ fullError }}
+      </div>
+
     </div>
 </template>
 
 <script>
 export default {
   props: {
-    texto: String
+    texto: Array ,
+  },
+
+  computed: {
+    fullError: function () {
+      return this.texto.toString()
+    },
   }
+
 }
 </script>
 

@@ -41,7 +41,7 @@
             <div class="fontSmall Montserrat-SemiBold mr-3"> A efectos de: </div>
         </v-col>
         <v-col cols="12" sm="12" lg="12">
-            <div class="fontBig Montserrat-Regular text-justify"> {{ data.motivo}} </div>
+            <div class="fontBig Montserrat-Regular text-justify"> {{ data.observacion}} </div>
         </v-col>
       </v-row>
 

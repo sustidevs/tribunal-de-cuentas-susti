@@ -1,7 +1,7 @@
 <template>
   <div>
     <titulo texto="Expedientes Enviados"/>
-    <tabla-mis-enviados :headers="headers" :data="this.getMisEnviados" :loading="get_finalizado"/>
+    <tabla-mis-enviados :headers="headers" :data="this.getMisEnviados" :loading="get_finalizadoEnviados"/>
   </div>
 </template>
 
@@ -25,7 +25,7 @@ export default {
     }
   },
 
-  computed: mapGetters(['getMisEnviados','get_finalizado']),
+  computed: mapGetters(['getMisEnviados','get_finalizadoEnviados']),
 
   mounted() {
     this.getExpedientesEnviados();

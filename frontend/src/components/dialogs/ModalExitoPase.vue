@@ -40,7 +40,7 @@
         <v-col sm="12">
           <div class=" Montserrat-Bold mb-2 sizeTM">A efectos de:</div>
           <div class="Montserrat-Regular mb-6 text-justify sizeDM">
-            {{ dato[5] }}
+            {{ dato[5]}}
           </div>
         </v-col>
       </v-row>

@@ -21,7 +21,7 @@ class UserController extends Controller
         $users = User::index();
         return response()->json($users,200);
     }
-    
+
     public function create()
     {
         //$data = Collect([]);
@@ -47,7 +47,7 @@ class UserController extends Controller
         $request->comfirm_password = 'password';
         $request->tipo_user = '1';
         */
-        if($request->validated()) 
+        if($request->validated())
         {
             $persona = New Persona();
             $persona->dni = $request->dni;
@@ -97,7 +97,7 @@ class UserController extends Controller
             $request->id = '23';
             */
             $user = User::findOrFail($request->id);
-        
+
             $data = ["tipo_users" => TipoUser::get_tipo_users(),
                      "areas" => Area::all_areas(),
                      "user" => [$user->datos_user()]];
@@ -109,7 +109,7 @@ class UserController extends Controller
     @params: id
     @params: password
     @return True: si encuentra coincidencia entre la clave ingresada y la almacenada
-    @return False: si no encuentra coincidencia. 
+    @return False: si no encuentra coincidencia.
     **/
     public function validar_password(PasswordRequest $request)
     {
@@ -120,7 +120,8 @@ class UserController extends Controller
         }
         else
         {
-            return response()->json(false, 404);
+            $response = "La contraseña ingresada no es correcta";
+            return response()->json($response, 201);
         }
     }
 
@@ -143,7 +144,7 @@ class UserController extends Controller
         $user = User::findOrFail($request->id);
         $user_old_password = $user->password;
         return response()->json($user_old_password, 200);
-        
+
         /*
         $request = new Request;
         $request->id = '23';
@@ -166,7 +167,7 @@ class UserController extends Controller
         $persona->telefono = $request->telefono;
         $persona->email = $request->email;
         $persona->direccion = $request->direccion;
-        $persona->update();*/        
+        $persona->update();*/
         if ($request->password != null) {
             $user->password = Hash::make($request->password);
         }
@@ -189,7 +190,7 @@ class UserController extends Controller
      */
     public function delete(Request $request)
     {
-        /*    
+        /*
         $request = new Request;
         $request->id = '23';
         */
@@ -209,7 +210,7 @@ class UserController extends Controller
         $request = new Request;
         $request->id = '23';
         */
-        $user = User::withTrashed()->findOrFail($request->id);;    
+        $user = User::withTrashed()->findOrFail($request->id);;
         $user->restore();
 
         return response()->json($user->datos_user(),200);
