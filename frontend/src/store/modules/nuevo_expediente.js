@@ -67,16 +67,15 @@ const actions = {
     storeExpediente ({ commit }, expediente) {
         axios.post(process.env.VUE_APP_API_URL+ '/api/storeExp', expediente).
         then(response => {
-            console.log (response.data)
                 commit('saveNewExp', response.data)
                 commit('set_creado', true)
         })
         .catch(error => {
             console.log (error.response.data.errors)
-                commit('set_descripcion_extracto_error', error.response.data.errors.descripcion_extracto[0])
-                commit('set_iniciador_id_error', error.response.data.errors.iniciador_id[0])
-                commit('set_nro_fojas_error', error.response.data.errors.nro_fojas[0])
-                commit('set_prioridad_error', error.response.data.errors.prioridad_id[0])
+                commit('set_descripcion_extracto_error', error.response.data.errors.descripcion_extracto)
+                commit('set_iniciador_id_error', error.response.data.errors.iniciador_id)
+                commit('set_nro_fojas_error', error.response.data.errors.nro_fojas)
+                commit('set_prioridad_error', error.response.data.errors.prioridad_id)
             })
     },
 };
