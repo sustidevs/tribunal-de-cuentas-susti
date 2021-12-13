@@ -480,9 +480,14 @@ class ExpedienteController extends Controller
     public function createDesgloce(Request $request)
     {
         $exp_padre = Expediente::findOrFail($request->exp_padre);
-        return response()->json($exp_padre->hijos,200);
+        return response()->json([$exp_padre->first() ,$exp_padre->hijos],200);
     }
 
+    /*
+    {
+        "exp_padre" : "1"
+    }
+    */
 
     public function show(Request $request)
     {
