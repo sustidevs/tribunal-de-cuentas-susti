@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="show" width="1200px" content-class="round">
+  <v-dialog v-model="show" width="1200px" content-class="round" persistent>
     <v-card class="px-7 pt-1">
       <v-row class="mt-5 mb-2">
         <v-col cols="10">

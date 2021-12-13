@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="show" max-width="1200px" content-class="round">
+  <v-dialog v-model="show" max-width="1200px" content-class="round" persistent>
     <v-card class="px-7 pt-1">
 
       <div class="py-8 Montserrat-Bold  tituloModal">

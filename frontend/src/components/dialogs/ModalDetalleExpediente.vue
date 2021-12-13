@@ -2,6 +2,7 @@
     <v-dialog
             transition="dialog-bottom-transition"
             max-width="800"
+            persistent
     >
         <template v-slot:activator="{ on, attrs }">
             <v-btn
