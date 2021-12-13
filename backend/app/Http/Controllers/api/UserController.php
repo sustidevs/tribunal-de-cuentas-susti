@@ -13,7 +13,6 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\PasswordRequest;
 use App\Http\Requests\StoreUserRequest;
-use phpDocumentor\Reflection\PseudoTypes\True_;
 
 class UserController extends Controller
 {
@@ -117,7 +116,7 @@ class UserController extends Controller
         $user = User::findOrFail($request->id);
         if(Hash::check($request->password, $user->password))
         {
-            return response()->json(true, 200);
+            return response()->json(True, 200);
         }
         else
         {
