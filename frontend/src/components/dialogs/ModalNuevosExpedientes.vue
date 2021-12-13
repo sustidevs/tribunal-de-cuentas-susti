@@ -1,9 +1,9 @@
 <template>
-  <v-dialog v-model="show" max-width="1200px" content-class="round">
+  <v-dialog v-model="show" max-width="1200px" content-class="round" persistent>
     <v-card class="px-7 pt-1">
 
       <div class="py-8 Montserrat-Bold  tituloModal">
-        Se registró con éxito el expediente N° {{dato[5]}}
+        Se registró con éxito el expediente N° {{dato[4]}}
       </div>
       <v-divider color="#393B44"></v-divider>
 
@@ -25,7 +25,7 @@
         </v-col>
         <v-col sm="6" v-if="dato[7] !== '-'">
           <div class="Montserrat-Bold mr-1 mb-2 sizeTM"> Email:</div>
-          <div class="Montserrat-Regular mb-6 text-justify sizeDM">{{dato[7]}}</div>
+          <div class="Montserrat-Regular mb-6 text-justify sizeDM">{{dato[6]}}</div>
         </v-col>
       </v-row>
 
@@ -39,7 +39,7 @@
       <v-row no-gutters  v-if="dato[8] !== '-'">
         <v-col sm="12">
           <div class="Montserrat-Bold mb-2 sizeTM">Observación:</div>
-          <div class="Montserrat-Regular mb-6 text-justify sizeDM">{{dato[8]}}</div>
+          <div class="Montserrat-Regular mb-6 text-justify sizeDM">{{dato[7]}}</div>
         </v-col>
       </v-row>
 

@@ -26,8 +26,8 @@
       :loading="loading"
       no-data-text="No hay iniciadores cargados en el sistema"
     >
-      <template v-slot:item.action="{}">
-          <v-btn @click="enviarId()" fab small color="#FACD89" depressed>
+      <template v-slot:item.action="{ item }">
+          <v-btn @click="enviarId(item)" fab small color="#FACD89" depressed>
             <v-icon>mdi-pencil</v-icon>
           </v-btn>
       </template>
@@ -62,12 +62,13 @@ export default {
     methods: {
       ...mapActions([ 'getIniciador']),
 
-        enviarId() {
-          let idIniciador = { 
-            id : 52,
+        enviarId(item) {
+          let idiniciador = {
+            id: item.id
           }
-          this.getIniciador(idIniciador)
-          this.$router.push({ name: "EditarIniciador" });
+
+        this.getIniciador(idiniciador)
+         // this.$router.push({ name: "EditarIniciador" });
         },
     },
 }

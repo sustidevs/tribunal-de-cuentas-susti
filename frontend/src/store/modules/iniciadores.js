@@ -1,4 +1,5 @@
 import axios from "axios";
+import router from "../../router";
 
 const state = {
     tipoEntidad: [],
@@ -69,6 +70,7 @@ const actions = {
     axios.post(process.env.VUE_APP_API_URL+ '/api/edit-iniciador', idIniciador)
             .then(response => {
                 commit('set_iniciador', response.data)
+                router.push('/editar-iniciador');
             })
     },
 
