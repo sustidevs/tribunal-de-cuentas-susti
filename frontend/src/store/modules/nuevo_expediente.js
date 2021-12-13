@@ -67,6 +67,7 @@ const actions = {
     storeExpediente ({ commit }, expediente) {
         axios.post(process.env.VUE_APP_API_URL+ '/api/storeExp', expediente).
         then(response => {
+            console.log (response.data)
                 commit('saveNewExp', response.data)
                 commit('set_creado', true)
         })
