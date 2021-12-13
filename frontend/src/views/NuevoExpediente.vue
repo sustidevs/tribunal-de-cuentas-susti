@@ -1,9 +1,9 @@
 <template>
   <div class="mb-12">
-    <form @submit.prevent="storeExpe()" >
+    <form @submit.prevent="storeExpe()">
       <v-row class="pt-5">
         <v-col>
-          <h1 class="d-flex justify-start Montserrat-Bold pb-4 ">
+          <h1 class="d-flex justify-start Montserrat-Bold pb-4">
             Nuevo Expediente
           </h1>
         </v-col>
@@ -14,71 +14,96 @@
         </v-col>
       </v-row>
 
-      <v-divider color="#393B44"></v-divider>
+      <v-divider color="#393B44" class="mb-10"></v-divider>
+      <v-row no-gutters>
+        <v-col cols="12" sm="12" lg="6" class="pr-lg-2">
+          <label-error :texto="this.iniciador_id_error" />
+        </v-col>
+      </v-row>
 
-      <label-error :texto="this.iniciador_id_error"/>
       <v-row no-gutters justify="start">
         <v-col cols="12" sm="12" lg="6" class="pr-lg-2">
-          <label-error/>
-          <label-input texto="Iniciador"/>
-          <autocomplete-field :data="allIniciadores" nombre="nombre" @input="cargarExpediente()"  v-model="expe.iniciador_id"/>
+          <label-input texto="Iniciador" />
+          <autocomplete-field
+            :data="allIniciadores"
+            nombre="nombre"
+            @input="cargarExpediente()"
+            v-model="expe.iniciador_id"
+          />
         </v-col>
+
         <v-col cols="12" sm="12" lg="6" class="pl-lg-2">
-          <label-error/>
-          <label-input texto="Nº de Expediente"/>
+          <label-input texto="Nº de Expediente" />
           <v-text-field
-              class="Montserrat-Regular text-justify"
-              color="amber accent-4"
-              outlined
-              readonly
-              v-model="nroExpediente"
+            class="Montserrat-Regular text-justify"
+            color="amber accent-4"
+            outlined
+            readonly
+            v-model="nroExpediente"
           >
           </v-text-field>
         </v-col>
       </v-row>
 
-      <v-row no-gutters justify="start"  class="pb-3">
+      <v-row no-gutters justify="start" class="pb-3">
         <v-col cols="12" sm="12" lg="6" class="pr-lg-2">
-            <LabelInput texto="Motivo del Expediente"/>
-            <autocomplete-field :data="motivoConExtracto" nombre="descripcion"  v-model="expe.tipo_exp_id"/>
+          <LabelInput texto="Motivo del Expediente" />
+          <autocomplete-field
+            :data="motivoConExtracto"
+            nombre="descripcion"
+            v-model="expe.tipo_exp_id"
+          />
         </v-col>
 
         <v-col cols="12" sm="12" lg="6" class="pl-lg-2 pb-3">
           <v-alert
-              icon="mdi-alert-outline"
-              dense
-              text
-              type="warning"
-              class="alert Montserrat-Regular pa-4 mt-10"
+            icon="mdi-alert-outline"
+            dense
+            text
+            type="warning"
+            class="alert Montserrat-Regular pa-4 mt-10"
           >
-            Seleccione un motivo de expediente para cargar la plantilla del extracto.
+            Seleccione un motivo de expediente para cargar la plantilla del
+            extracto.
           </v-alert>
         </v-col>
       </v-row>
 
+      <v-row no-gutters>
+        <v-col cols="12" sm="12" lg="6" class="pr-lg-2">
+          <label-error :texto="this.descripcion_extracto_error" />
+        </v-col>
+      </v-row>
+
       <v-row no-gutters justify="start">
-        <label-error :texto="this.descripcion_extracto_error"/>
         <v-col cols="12" class="pr-lg-2">
-          <label-input texto="Extracto"/>
-          <Extractos v-model="expe.descripcion_extracto" :tipo="expe.tipo_exp_id"/>
+          <label-input texto="Extracto" />
+          <Extractos
+            v-model="expe.descripcion_extracto"
+            :tipo="expe.tipo_exp_id"
+          />
+        </v-col>
+      </v-row>
+
+      <v-row no-gutters justify="end">
+        <v-col cols="12" sm="12" lg="6" class="pl-lg-2">
+          <label-error :texto="this.nro_fojas_error" />
         </v-col>
       </v-row>
 
       <v-row no-gutters justify="center" class="pt-5">
         <v-col cols="12" sm="12" lg="6" class="pr-lg-2 pb-3">
-          <label-error/>
-          <label-input texto="Número SIIF"/>
-          <text-field tipo="number"/>
+          <label-input texto="Número SIIF" />
+          <text-field tipo="number" />
         </v-col>
         <v-col cols="12" sm="12" lg="6" class="pl-lg-2 pb-3">
-          <label-error :texto="this.nro_fojas_error"/>
-          <LabelInput texto="Cantidad de Fojas"/>
+          <Label-input texto="Cantidad de Fojas" />
           <text-field tipo="number" v-model="expe.nro_fojas" />
         </v-col>
       </v-row>
 
       <div class="mt-4">
-        <label-input texto="Observaciones:"/>
+        <label-input texto="Observaciones:" />
         <v-textarea
           v-model="expe.observacion"
           outlined
@@ -87,10 +112,16 @@
         ></v-textarea>
       </div>
 
+      <v-row no-gutters justify="end">
+        <v-col cols="12" sm="12" lg="6" class="pl-lg-2">
+          <label-error :texto="this.prioridad_error" />
+        </v-col>
+      </v-row>
+
       <v-row no-gutters justify="center">
         <v-col cols="12" sm="12" lg="6" class="pr-lg-2 pb-3">
-          <label-error/>
-          <label-input texto="Pase a"/>
+          <label-error />
+          <label-input texto="Pase a" />
 
           <v-autocomplete
             class="Montserrat-Regular text-justify"
@@ -107,179 +138,200 @@
         </v-col>
 
         <v-col cols="12" sm="12" lg="6" class="pl-lg-2 pb-6">
-          <label-error :texto="this.prioridad_error"/>
-          <label-input texto="Seleccione la prioridad"/>
+          <label-input texto="Seleccione la prioridad" />
           <div class="d-flex column justify-center Montserrat-Semibold">
-
-            <v-btn-toggle v-model="expe.prioridad" group class="justify-space-around">
-                <v-btn value="2" x-large class="px-sm-12">
-                    <v-icon large color="rgb(251, 140, 0, 0.7)" class="pr-2"> mdi-check-circle-outline </v-icon>
-                    Normal
-                </v-btn>
-                <v-btn value="1" x-large class="px-sm-12">
-                    <v-icon large color="rgb(244, 67, 54, 0.7)" class="pr-2"> mdi-alert-circle-outline </v-icon>
-                    Alta
-                </v-btn>
+            <v-btn-toggle
+              v-model="expe.prioridad"
+              group
+              class="justify-space-around"
+            >
+              <v-btn value="2" x-large class="px-sm-12">
+                <v-icon large color="rgb(251, 140, 0, 0.7)" class="pr-2">
+                  mdi-check-circle-outline
+                </v-icon>
+                Normal
+              </v-btn>
+              <v-btn value="1" x-large class="px-sm-12">
+                <v-icon large color="rgb(244, 67, 54, 0.7)" class="pr-2">
+                  mdi-alert-circle-outline
+                </v-icon>
+                Alta
+              </v-btn>
             </v-btn-toggle>
           </div>
         </v-col>
       </v-row>
 
-      <v-card  color="#FFF5E6" class="pa-5">
-        <label-input texto="Adjuntar Archivos al Pase"/>
-        <input type="file" multiple @change="handleFileUpload( $event )"/>
+
+      <v-card color="#FFF5E6" class="pa-5">
+        <label-input texto="Adjuntar Archivos al Pase" />
+        <input type="file" multiple @change="handleFileUpload($event)" />
       </v-card>
 
       <v-row no-gutters justify="center" class="py-16">
         <v-col cols="12" sm="6" md="6" lg="6" class="px-sm-2">
-          <v-btn type="submit" class="pa-5 color Montserrat-SemiBold" height="55" elevation="0" color="#FACD89" block>
-            <v-icon class="px-5">
-              mdi-check-bold
-            </v-icon>
-            <div class="">
-              Confirmar
-            </div>
+          <v-btn
+            type="submit"
+            class="pa-5 color Montserrat-SemiBold"
+            height="55"
+            elevation="0"
+            color="#FACD89"
+            block
+          >
+            <v-icon class="px-5"> mdi-check-bold </v-icon>
+            <div class="">Confirmar</div>
           </v-btn>
         </v-col>
       </v-row>
     </form>
-    <modal-nuevos-expedientes :show="creado" :dato="expediente_new" @close="cerrarModal"/>
-
+    <modal-nuevos-expedientes
+      :show="creado"
+      :dato="expediente_new"
+      @close="cerrarModal"
+    />
   </div>
 </template>
 <script>
 import LabelInput from "../components/LabelInput";
 import Extractos from "../components/Extractos/Extractos";
-import {mapActions, mapGetters} from "vuex";
+import { mapActions, mapGetters } from "vuex";
 import InputDate from "../components/InputDate";
 import TextField from "../components/TextField";
 import AutocompleteField from "../components/AutocompleteField";
-import ModalNuevosExpedientes from "../components/dialogs/ModalNuevosExpedientes"
-import LabelError from "../components/LabelError"
+import ModalNuevosExpedientes from "../components/dialogs/ModalNuevosExpedientes";
+import LabelError from "../components/LabelError";
 
 export default {
-  name: 'Home',
-  components: {AutocompleteField, TextField, InputDate, LabelInput,Extractos,ModalNuevosExpedientes,LabelError},
+  name: "Home",
+  components: {
+    AutocompleteField,
+    TextField,
+    InputDate,
+    LabelInput,
+    Extractos,
+    ModalNuevosExpedientes,
+    LabelError,
+  },
   data: () => ({
     radioGroup: 1,
-    toggle_none: null,  
-    agregarIniciador: [{texto: "Agregar Iniciador", imagen: "./img/cards/ver-todos.svg",}],
+    toggle_none: null,
+    agregarIniciador: [
+      { texto: "Agregar Iniciador", imagen: "./img/cards/ver-todos.svg" },
+    ],
     motivo: [],
     showDetalle: false,
-    files:'',
+    files: "",
     loader: null,
-    expe:{
-      iniciador_id: '',
-      nro_fojas: '',
-      prioridad: '',
+    expe: {
+      iniciador_id: "",
+      nro_fojas: "",
+      prioridad: "",
       tipo_exp_id: 0,
-      observacion: '',
-      descripcion_extracto: '',
-      area_id: '',
-      archivos: '',
-    }
+      observacion: "",
+      descripcion_extracto: "",
+      area_id: "",
+      archivos: "",
+    },
   }),
 
   methods: {
-    cargarExpediente () {
-      this.nroExpedienteAleatorio(this.expe)
-      this.capturarIniciador(this.expe.iniciador_id)
+    cargarExpediente() {
+      this.nroExpedienteAleatorio(this.expe);
+      this.capturarIniciador(this.expe.iniciador_id);
     },
 
-    handleFileUpload( event ){
+    handleFileUpload(event) {
       this.files = event.target.files;
     },
 
     storeExpe() {
-
       let formData = new FormData();
 
-      for( var i = 0; i < this.files.length; i++ ){
+      for (var i = 0; i < this.files.length; i++) {
         let file = this.files[i];
 
-        formData.append('archivo' + i + '', file);
+        formData.append("archivo" + i + "", file);
       }
 
-      let cantidad = (this.files.length).toString()
-      formData.append('user_id', this.getIdUser);
-      formData.append('iniciador_id', this.expe.iniciador_id);
-      formData.append('nro_fojas', this.expe.nro_fojas);
-      formData.append('observacion', this.expe.observacion);
-      formData.append('nro_expediente', this.nroExpediente);
-      formData.append('prioridad_id',  this.expe.prioridad);
-      formData.append('tipo_exp_id',this.expe.tipo_exp_id);
-      formData.append('descripcion_extracto',this.extracto);
-      formData.append('area_id',this.expe.area_id);
-      formData.append('archivos_length', cantidad );
+      let cantidad = this.files.length.toString();
+      formData.append("user_id", this.getIdUser);
+      formData.append("iniciador_id", this.expe.iniciador_id);
+      formData.append("nro_fojas", this.expe.nro_fojas);
+      formData.append("observacion", this.expe.observacion);
+      formData.append("nro_expediente", this.nroExpediente);
+      formData.append("prioridad_id", this.expe.prioridad);
+      formData.append("tipo_exp_id", this.expe.tipo_exp_id);
+      formData.append("descripcion_extracto", this.extracto);
+      formData.append("area_id", this.expe.area_id);
+      formData.append("archivos_length", cantidad);
 
-      this.storeExpediente(formData)
-
+      this.storeExpediente(formData);
     },
 
     ...mapActions([
-      'getCreate',
-      'storeExpediente',
-      'nroExpedienteAleatorio',
-      'cerrarModal',
-      'capturarIniciador',
-      'creado',
+      "getCreate",
+      "storeExpediente",
+      "nroExpedienteAleatorio",
+      "cerrarModal",
+      "capturarIniciador",
+      "creado",
     ]),
-
   },
 
   computed: {
-    ... mapGetters(['extracto',
-      'allIniciadores',
-      'fecha',
-      'motivoSinExtracto',
+    ...mapGetters([
+      "extracto",
+      "allIniciadores",
+      "fecha",
+      "motivoSinExtracto",
 
-      'expediente',
-      'getTipoUsuario',
-      'motivoConExtracto',
-      'getIdUser',
-      'get_areas_all',
-    'descripcion_extracto_error',
-    'iniciador_id_error',
-    'nro_fojas_error',
-    'prioridad_error',
-    'motivo_error',
-    'expediente_new']),
+      "get_alle",
+      "expediente",
+      "getTipoUsuario",
+      "motivoConExtracto",
+      "getIdUser",
+      "get_areas_all",
+      "descripcion_extracto_error",
+      "iniciador_id_error",
+      "nro_fojas_error",
+      "prioridad_error",
+      "motivo_error",
+      "expediente_new",
+    ]),
 
     //si el valor de nro expediente cambia, se ejecuta la funcion y el componente reacciona a los cambios
     nroExpediente: {
       get() {
-        return this.$store.getters.nro_expediente
+        return this.$store.getters.nro_expediente;
       },
     },
 
     extracto: {
       get() {
-        return this.$store.getters.extracto
+        return this.$store.getters.extracto;
       },
     },
-
   },
 
   mounted() {
-    this.getCreate()
-  }
-
-}
+    this.getCreate();
+  },
+};
 </script>
 <style>
-.textRadio{
-  font-family: Montserrat-Bold,serif;
+.textRadio {
+  font-family: Montserrat-Bold, serif;
   font-size: 15px !important;
 }
 
-.radioFont{
-    font-family: "Montserrat-Bold";
-    font-size: 18px;
+.radioFont {
+  font-family: "Montserrat-Bold";
+  font-size: 18px;
 }
-.size{
+.size {
   font-size: 22px;
 }
-.alert{
+.alert {
   font-size: 13px;
 }
 @media (max-width: 859px) {
