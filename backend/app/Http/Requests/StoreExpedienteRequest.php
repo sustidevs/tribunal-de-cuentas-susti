@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Orkhanahmadov\ZipValidator\Rules\ZipContent;
 
 class StoreExpedienteRequest extends FormRequest
 {
@@ -24,12 +25,18 @@ class StoreExpedienteRequest extends FormRequest
     public function rules()
     {
         return [
-            'nro_fojas' => 'required|max:1000|integer',
-            'prioridad_id' => 'required',
+            'nro_fojas'             => 'required|max:1000|integer',
+            'prioridad_id'          => 'required',
             //'monto'     => 'required|integer',
-            'descripcion_extracto' => 'required',
-            'iniciador_id' => 'required',
-            'archivos' => 'mimes:docx, txt, pdf, jpg, jpeg, xlsx, xls|file|size:25600'
+            'descripcion_extracto'  => 'required',
+            'iniciador_id'          => 'required',
+            //'archivos' => 'mimes:docx, txt, pdf, jpg, jpeg, xlsx, xls|file|size:25600'
+            'archivos'              => [
+                                        'file',
+                                        new ZipContent( '*.docx',
+                                                        '*.pdf'
+                                        )
+            ],
         ];
     }
 

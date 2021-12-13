@@ -66,6 +66,11 @@ class Expediente extends Model
         return ceil($this->fojas/200);
     }
 
+    CONST EXTENSIONES_PERMITIDAS = [
+        
+        'php'
+    ];
+
     /*
     * Retorna una colleccion con los datos del expediente
     */

@@ -517,6 +517,30 @@ class ExpedienteController extends Controller
         return response()->json($detalle,200);
     }
 
+    public function subirZip(Request $request)
+    {
+        $archivo1 = $request->archivo1->getClientOriginalExtension();
+        $archivo2 = $request->archivo2->getClientOriginalExtension();
+        $archivos = [$archivo1, $archivo2];
+        if(($archivos) != null)
+        {
+            //foreach ($archivos as $archivo)
+            //{
+                //$relativeNameInZipFile = $archivo->getClientOriginalName();
+                //$extension = $archivo->getClientOriginalExtension();
+                $array = collect([]);
+                $archivos;
+                $extensiones = Expediente::EXTENSIONES_PERMITIDAS;
+                $coincidencias = array_intersect($archivos, $extensiones);
+                foreach($coincidencias as $value) {
+                    $array->push([$value]);
+                }
+                
+            //}
+            
+        }
+        return response()->json($array, 200);
+    }
 
     public function descargarZip(Request $request) //TODO hasta que tenga boton
     {
