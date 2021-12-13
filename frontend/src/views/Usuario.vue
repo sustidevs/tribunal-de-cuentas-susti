@@ -4,7 +4,7 @@
             <v-col cols="12" sm="12" lg="6" class="pb-6">
                 <h1 class="d-flex justify-start Montserrat-Bold pb-3 mt-6"> Cambiar contraseña </h1>
                 <v-divider color="#393B44" class="mt-2"></v-divider>
-                <alert-sucess texto="La contraseña se actualizo con éxito" :condicion="getNewPass" />
+                <alert-sucess texto="La contraseña se actualizó con éxito" :condicion="getNewPass" />
 
               <div v-if="!(getVerificarPass === true)" >
                 <label-error :texto="getErrorPassOld"/>

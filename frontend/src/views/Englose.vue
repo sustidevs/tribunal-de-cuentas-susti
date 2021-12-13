@@ -1,7 +1,8 @@
 <template>
   <div>
     <titulo texto="Englose" icono="mdi-text-box-multiple"/>
-        <englose :headers="headers" :data="allExpedientes"/>
+    <englose :headers="headers" :data="allExpedientes"/>
+    <modal-exito-englose :show="true"/>
   </div>
 </template>
 
@@ -9,9 +10,10 @@
 import Englose from "../components/Tablas/TablaEnglose"
 import Titulo from "../components/Titulo";
 import {mapActions, mapGetters} from "vuex";
+import ModalExitoEnglose from '../components/dialogs/ModalExitoEnglose.vue';
 
 export default {
-  components:{Englose,Titulo},
+  components:{Englose,Titulo, ModalExitoEnglose},
 
   data() {
     return {
