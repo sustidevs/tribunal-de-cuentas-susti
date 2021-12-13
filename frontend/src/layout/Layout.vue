@@ -9,9 +9,15 @@
         <NavbarMobile/>
         <Navbar/>
         <v-main class="mt-2 mb-8 mx-4 mx-sm-16">
+
           <div v-if="get_cantPendientes > 0">
             <alert-pendiente :cantidad="get_cantPendientes"/>
           </div>
+
+          <div v-if="getArea === 'DIRECCIÓN DE REGISTRACIONES'">
+            <alerta-registraciones/>
+          </div>
+
           <router-view/>
         </v-main>
         <Footer/>
@@ -24,18 +30,19 @@ import Navbar from "../components/Navbar"
 import Footer from "../components/Footer";
 import NavbarMobile from "../components/NavbarMobile";
 import AlertPendiente from  "../components/AlertPendiente"
+import AlertaRegistraciones from "../components/AlertaRegistraciones";
 
 import {mapActions, mapGetters} from "vuex";
 
 export default {
-  components: { Footer, Navbar, NavbarMobile, AlertPendiente},
+  components: { Footer, Navbar, NavbarMobile, AlertPendiente, AlertaRegistraciones},
 
   data: () => ({
     value: 'recent',
     currentRoute: window.location.pathname
   }),
 
-  computed: mapGetters(['getUser','get_cantPendientes']),
+  computed: mapGetters(['getUser','get_cantPendientes','getArea']),
 
   mounted() {
     this.getCantidad_Pendientes();
