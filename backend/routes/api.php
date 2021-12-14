@@ -117,3 +117,4 @@ Route::get('/index-pagos',      [PagoController::Class, 'index']);
 Route::post('/store-pagos',     [PagoController::Class, 'store']);
 Route::post('/update-pagos',    [PagoController::Class, 'update']);
 ////////////////////////////////////////////////////////////////////////////////////////////
+Route::post('/subir-zip',    [ExpedienteController::class, 'validarZip']);

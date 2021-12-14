@@ -14,7 +14,6 @@ use App\Models\Historial;
 use App\Models\Iniciador;
 use App\Models\Expediente;
 use App\Models\TipoEntidad;
-use Illuminate\Support\Arr;
 use App\Models\Notificacion;
 use Illuminate\Http\Request;
 use App\Models\TipoExpediente;
@@ -24,7 +23,6 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\StoreExpedienteRequest;
-use Hamcrest\Core\IsNot;
 use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Database\Eloquent\Relations\Relation;
 
@@ -554,7 +552,45 @@ class ExpedienteController extends Controller
                     $posee_archivo];
         return response()->json($detalle,200);
     }
+    /* 
+        Metodo para validar las extensiones de los archivos que se van a adjuntar al zip.
+    */
+    public function validarZip(Request $request)
+    {
+        $archivos = $request->allFiles();
+        $array_archivos = collect();
+        // Recorre el array y trae la extension de los archivos
+        foreach ($archivos as $archivo)
+        {
+            $array_archivos->push(
+                $archivo->getClientOriginalExtension()
+            );
+        }
+        $extensiones = Expediente::EXTENSIONES_PERMITIDAS;
+        // Metodo para calcular el peso de los archivos
+        $peso_archivos = Expediente::peso($request);        
 
+        if(($archivos) != null)
+        {
+            $array = collect([]);
+            $array_archivos = $array_archivos->toArray();
+            // Evalua las coincidencias entre el array de archivos que recibe y el array de extensiones permitidas
+            $coincidencias = array_intersect($array_archivos, $extensiones);        
+            foreach($coincidencias as $value) 
+            {
+                $array->push([$value]);
+            }
+        }
+        // Evalua si la cantidad de extensiones validas es igual a la cantidad de archivos que se suben y si el peso total es menor a 25mb
+        if((count($array_archivos) == count($array)) && ($peso_archivos < 25000000))
+        {
+            return response()->json('true', 200);
+        }
+        else
+        {
+            return response()->json('false', 200);
+        }
+    }
 
     public function descargarZip(Request $request) //TODO hasta que tenga boton
     {
