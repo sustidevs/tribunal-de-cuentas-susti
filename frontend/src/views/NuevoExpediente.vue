@@ -243,6 +243,11 @@ export default {
 
     handleFileUpload(event) {
       this.files = event.target.files;
+
+      if (event.target.files[0].type === "application/x-msdownload"){
+        this.files = "";
+        console.log("no rei")
+      }
     },
 
     storeExpe() {
