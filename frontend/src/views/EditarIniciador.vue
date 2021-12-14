@@ -1,7 +1,7 @@
 <template> 
     <div class="mb-16">
-        <form @submit.prevent="guardarCambios()">
-            <v-row no-gutters justify="start" class="my-6">
+        <form @submit.prevent="guardarCambios() ">
+            <v-row no-gutters justify="start" class="my-6"> 
                 <v-col cols="12" sm="12" lg="6" class="pb-6"> 
                     <h1 class="d-flex justify-start Montserrat-Bold pb-3 mt-6"> Editar Iniciador </h1> 
                     <v-divider color="#393B44" class="mt-2"></v-divider>
@@ -63,7 +63,8 @@ export default {
                 email: this.$store.getters.iniciador.email ,
                 telefono: this.$store.getters.iniciador.telefono,
                 direccion: this.$store.getters.iniciador.direccion,
-            }
+            },
+          campoVacio: null,
         }
     },
 
@@ -72,22 +73,33 @@ export default {
     methods: { 
         ...mapActions([ 'updateIniciador']),
 
-      guardarCambios (){
-          let iniciadorUpdate ={
-            id: this.iniciadorA.id,
-            email: this.inic.email,
-            telefono: this.inic.telefono,
-            direccion: this.inic.direccion
-          }
+        guardarCambios (){
+            if(this.inic.email == "-"){
+                this.inic.email = this.campoVacio
+            } 
+            if(this.inic.telefono == "-"){
+                this.inic.telefono = this.campoVacio
+            } 
+            if(this.inic.direccion == "-"){
+                this.inic.direccion = this.campoVacio
+            }
 
-          this.updateIniciador(iniciadorUpdate)
-      },
-       abrirModalExitoEditarIniciador() {
+            let iniciadorUpdate ={
+                id: this.iniciador.id,
+                email: this.inic.email,
+                telefono: this.inic.telefono,
+                direccion: this.inic.direccion
+            }
+
+            this.updateIniciador(iniciadorUpdate)
+        },
+
+        abrirModalExitoEditarIniciador() {
             this.showModal=!this.showModal
         },
         closeModalExitoEditarIniciador() {
             this.showModal = false;
-        },
+        }
     } 
 } 
 </script>

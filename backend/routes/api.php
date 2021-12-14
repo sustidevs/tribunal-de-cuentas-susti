@@ -58,6 +58,7 @@ Route::post('/contarExp',         [ExpedienteController::class, 'contadorBandeja
 
 //PRUEBA UNION-DESGLOCE////////////////////////////////////////////////////////////////////////////
 Route::post('/unionExp',       [ExpedienteController::class, 'union']);
+Route::get('/indexExpPadres',       [ExpedienteController::class, 'indexExpPadres']);
 Route::post('/createDesgloceExp',       [ExpedienteController::class, 'createDesgloce']);
 Route::post('/desgloceExp',       [ExpedienteController::class, 'desgloce']);
 //////////////////////////////////////////////////////////////////////////////////////////////////

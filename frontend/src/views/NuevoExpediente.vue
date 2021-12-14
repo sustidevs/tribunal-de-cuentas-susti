@@ -162,7 +162,6 @@
         </v-col>
       </v-row>
 
-
       <v-card color="#FFF5E6" class="pa-5">
         <label-input texto="Adjuntar Archivos al Pase" />
         <input type="file" multiple @change="handleFileUpload($event)" />
@@ -177,6 +176,7 @@
             elevation="0"
             color="#FACD89"
             block
+            :disabled="this.$store.getters.get_btn_creado"
           >
             <v-icon class="px-5"> mdi-check-bold </v-icon>
             <div class="">Confirmar</div>
@@ -232,6 +232,7 @@ export default {
       area_id: "",
       archivos: "",
     },
+    from_submitting: false,
   }),
 
   methods: {
@@ -242,6 +243,11 @@ export default {
 
     handleFileUpload(event) {
       this.files = event.target.files;
+
+      if (event.target.files[0].type === "application/x-msdownload"){
+        this.files = "";
+        console.log("no rei")
+      }
     },
 
     storeExpe() {
@@ -261,7 +267,7 @@ export default {
       formData.append("nro_expediente", this.nroExpediente);
       formData.append("prioridad_id", this.expe.prioridad);
       formData.append("tipo_exp_id", this.expe.tipo_exp_id);
-      formData.append("descripcion_extracto", this.extracto);
+      formData.append("descripcion_extracto", this.descripcion_extracto);
       formData.append("area_id", this.expe.area_id);
       formData.append("archivos_length", cantidad);
 
@@ -297,6 +303,8 @@ export default {
       "prioridad_error",
       "motivo_error",
       "expediente_new",
+
+      "get_btn_creado",
     ]),
 
     //si el valor de nro expediente cambia, se ejecuta la funcion y el componente reacciona a los cambios
