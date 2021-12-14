@@ -29,7 +29,6 @@ use Illuminate\Database\Eloquent\Relations\Relation;
 
 class ExpedienteController extends Controller
 {
-
     public function index()
     {
         $expediente = Expediente::index();
@@ -192,7 +191,7 @@ class ExpedienteController extends Controller
 
     /*
     Método Store replanteado con transactions para evitar inconsistencias en la DB
-    Autor: Mariano F.
+    M.F.
     */
     public function store(StoreExpedienteRequest $request)
     {
@@ -569,10 +568,28 @@ class ExpedienteController extends Controller
         return response()->json($contador, 200);
     }
 
-    public function contadorSubsidios_aportes(Request $request)
+    /**
+     * Método para notificar al área de Registraciones y Notificaciones cantidad que
+     * ha ingresado de expedientes con motivo Subsidio o Aporte no reintegrable
+     * @params: user_id
+     * A: MF
+     */
+    public function contadorSubsidioAporteNR(Request $request)
     {
-        $contador = Expediente::listadoExpedientes($request->user_id,1,1)->count();
+        $expediente = new Expediente();
+        $contador = Expediente::listadoExpedientesSubsidioAporteNR($request->user_id)->count();
         return response()->json($contador, 200);
+    }
+
+    /**
+     * Método para mostrar información de expedientes con motivo Subsidio y Aporte no reintegrable
+     * para  Registraciones(área:6) y Notificaciones(área:14)
+     * A: MF
+     */
+    public function expSubsidiosNoReintegrables(Request $request)
+    {
+        $expedientes = Expediente::listadoExpedientesSubsidioAporteNR($request->user_id);
+        return response()->json($expedientes);        
     }
 
     /*
