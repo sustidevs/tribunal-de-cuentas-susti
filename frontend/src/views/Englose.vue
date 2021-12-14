@@ -2,7 +2,6 @@
   <div>
     <titulo texto="Englose" icono="mdi-text-box-multiple"/>
     <englose :headers="headers" :data="allExpedientes"/>
-    <modal-exito-englose :show="true"/>
   </div>
 </template>
 
@@ -10,10 +9,9 @@
 import Englose from "../components/Tablas/TablaEnglose"
 import Titulo from "../components/Titulo";
 import {mapActions, mapGetters} from "vuex";
-import ModalExitoEnglose from '../components/dialogs/ModalExitoEnglose.vue';
 
 export default {
-  components:{Englose,Titulo, ModalExitoEnglose},
+  components:{Englose,Titulo},
 
   data() {
     return {
@@ -24,7 +22,6 @@ export default {
       ],
     }
   },
-
 
   computed: mapGetters(['allExpedientes', 'get_finalizado']),
 

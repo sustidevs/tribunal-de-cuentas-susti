@@ -11,8 +11,8 @@
       </v-row>
       <v-divider color="#393B44" class="my-2"></v-divider>
 
-        <div class="textHereSmall Montserrat-SemiBold my-6 mr-2">
-            Los Expedientes <strong>N° 800-00003/2021, 800-00005/2021</strong> se han englosado con éxito al expediente <strong>800-00000/2021</strong>
+        <div class="textHereSmall Montserrat-Regular my-4 mr-2">
+            Los Expedientes <strong>N° 800-00003/2021</strong> y <strong> 800-00005/2021</strong> se han englosado con éxito al expediente <strong>800-00000/2021</strong>
         </div>
 
       <v-row no-gutters justify="center" class="mt-6">
@@ -25,7 +25,7 @@
             color="#FACD89"
             block
           >
-            <v-icon class="px-5"> mdi-check-bold </v-icon>
+            <v-icon class="px-5"> mdi-close-thick </v-icon>
             Cerrar
           </v-btn>
         </v-col>
@@ -42,6 +42,13 @@ export default {
     datos: Object,
   },
 
+   methods: {
+    close() {
+      this.$emit("close");
+      this.$router.go(0);
+    },
+  },
+
 };
 </script>
 <style>
@@ -49,9 +56,9 @@ export default {
   border-radius: 30px;
 }
 .titleBig{
-    font-size: 30px;
+    font-size: 28px;
 }
 .textHereSmall{
-    font-size: 24px;
+    font-size: 22px;
 }
 </style>
