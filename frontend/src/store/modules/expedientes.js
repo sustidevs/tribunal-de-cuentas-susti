@@ -1,4 +1,5 @@
 import axios from "axios";
+import router from "../../router";
 
 const state = {
     expedientes: [],
@@ -58,6 +59,7 @@ const actions = {
             .then(response => {
                 commit('set_nro_historial', response.data[0].nro_expediente)
                 commit('set_historial', response.data)
+                router.push('/ver-historiales');
             })
     },
 

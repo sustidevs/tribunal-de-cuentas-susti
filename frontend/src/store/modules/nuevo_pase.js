@@ -1,4 +1,5 @@
 import axios from "axios";
+import router from "../../router";
 
 const state = {
     expedientes:[] ,
@@ -34,6 +35,7 @@ const actions = {
                 commit('set_expedientes', response.data[0])
                 commit('set_fecha',response.data[2])
                 commit('set_areas',response.data[1])
+                router.push('/nuevo-pase');
             })
     },
 

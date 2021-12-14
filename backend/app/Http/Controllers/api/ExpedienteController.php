@@ -436,7 +436,7 @@ class ExpedienteController extends Controller
                 return response()->json("Error",400);
             }*/
 
-            $exp_hijo->expediente_id = "";
+            $exp_hijo->expediente_id = null;
             //$exp_hijo->fojas = Historial::findOrFail($exp_padre->id)->last()->fojas + Historial::findOrFail($exp_hijo->id)->last()->fojas;
             $exp_hijo->save();
             $historial = new Historial;
@@ -551,7 +551,7 @@ class ExpedienteController extends Controller
                     $posee_archivo];
         return response()->json($detalle,200);
     }
-    /* 
+    /*
         Metodo para validar las extensiones de los archivos que se van a adjuntar al zip.
     */
     public function validarZip(Request $request)
@@ -567,15 +567,15 @@ class ExpedienteController extends Controller
         }
         $extensiones = Expediente::EXTENSIONES_PERMITIDAS;
         // Metodo para calcular el peso de los archivos
-        $peso_archivos = Expediente::peso($request);        
+        $peso_archivos = Expediente::peso($request);
 
         if(($archivos) != null)
         {
             $array = collect([]);
             $array_archivos = $array_archivos->toArray();
             // Evalua las coincidencias entre el array de archivos que recibe y el array de extensiones permitidas
-            $coincidencias = array_intersect($array_archivos, $extensiones);        
-            foreach($coincidencias as $value) 
+            $coincidencias = array_intersect($array_archivos, $extensiones);
+            foreach($coincidencias as $value)
             {
                 $array->push([$value]);
             }
