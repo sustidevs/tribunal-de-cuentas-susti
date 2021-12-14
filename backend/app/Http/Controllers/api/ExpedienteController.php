@@ -28,7 +28,6 @@ use Illuminate\Database\Eloquent\Relations\Relation;
 
 class ExpedienteController extends Controller
 {
-
     public function index()
     {
         $expediente = Expediente::index();
@@ -191,7 +190,7 @@ class ExpedienteController extends Controller
 
     /*
     Método Store replanteado con transactions para evitar inconsistencias en la DB
-    Autor: Mariano F.
+    M.F.
     */
     public function store(StoreExpedienteRequest $request)
     {
@@ -281,7 +280,7 @@ class ExpedienteController extends Controller
                 $expediente->save();
                 $historial->save();
             }
-            if ($request->tipo_exp_id == 3) //TODO verificar si funciona
+            if ($request->tipo_exp_id == 3 || $request->tipo_exp_id == 4) //TODO verificar si funciona
             {
                 $notificacion = new Notificacion;
                 $notificacion->expediente_id = $expediente->id;
@@ -646,6 +645,30 @@ class ExpedienteController extends Controller
     {
         $contador = Expediente::listadoExpedientes($request->user_id,1,1)->count();
         return response()->json($contador, 200);
+    }
+
+    /**
+     * Método para notificar al área de Registraciones y Notificaciones cantidad que
+     * ha ingresado de expedientes con motivo Subsidio o Aporte no reintegrable
+     * @params: user_id
+     * A: MF
+     */
+    public function contadorSubsidioAporteNR(Request $request)
+    {
+        $expediente = new Expediente();
+        $contador = Expediente::listadoExpedientesSubsidioAporteNR($request->user_id)->count();
+        return response()->json($contador, 200);
+    }
+
+    /**
+     * Método para mostrar información de expedientes con motivo Subsidio y Aporte no reintegrable
+     * para  Registraciones(área:6) y Notificaciones(área:14)
+     * A: MF
+     */
+    public function expSubsidiosNoReintegrables(Request $request)
+    {
+        $expedientes = Expediente::listadoExpedientesSubsidioAporteNR($request->user_id);
+        return response()->json($expedientes);        
     }
 
     /*
