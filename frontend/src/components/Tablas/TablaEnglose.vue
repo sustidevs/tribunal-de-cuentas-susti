@@ -77,17 +77,18 @@
             </v-row>
           </div>
         </v-card>
-
-
       </v-col>
     </v-row>
+    <modal-exito-englose :show="show"/>
   </div>
 </template>
 
 <script>
 import {mapActions} from "vuex";
+import ModalExitoEnglose from '../../components/dialogs/ModalExitoEnglose';
 
 export default {
+  components:{ModalExitoEnglose},
   props: {
     headers: Array,
     data: Array,
@@ -98,6 +99,7 @@ export default {
     return {
       seleccionados: [],
       search: "",
+      show: false,
     };
   },
 
@@ -119,6 +121,8 @@ export default {
           exp_hijos: expediente_hijo
       }
       this.englosar(expedientes_englose)
+
+      this.show = true;
     },
 
     quitar (item){
@@ -128,6 +132,8 @@ export default {
     seleccionar: function (item) {
       this.seleccionados.push(item)
     },
+
+
   },
 };
 </script>
