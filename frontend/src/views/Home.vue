@@ -98,35 +98,35 @@
 
           <span v-if="(getArea == 'VOCALIA A')">
               <ButtonBig class="my-4 mx-5" texto="Englose" link="/englose" icon="mdi-file-plus"/>
-              <ButtonBig class="my-4 mx-5" texto="Desglose" link="" icon="mdi-file-percent"/>
+              <ButtonBig class="my-4 mx-5" texto="Desglose" link="/desglose" icon="mdi-file-percent"/>
             </span>
           <span v-if="getArea == 'VOCALIA B'">
               <ButtonBig class="my-4 mx-5" texto="Englose" link="/englose" icon="mdi-file-plus"/>
-              <ButtonBig class="my-4 mx-5" texto="Desglose" link="" icon="mdi-file-percent"/>
+              <ButtonBig class="my-4 mx-5" texto="Desglose" link="/desglose" icon="mdi-file-percent"/>
             </span>
           <span v-if="getArea == 'VOCALIA C'">
               <ButtonBig class="my-4 mx-5" texto="Englose" link="/englose" icon="mdi-file-plus"/>
-              <ButtonBig class="my-4 mx-5" texto="Desglose" link="" icon="mdi-file-percent"/>
+              <ButtonBig class="my-4 mx-5" texto="Desglose" link="/desglose" icon="mdi-file-percent"/>
             </span>
           <span v-if="getArea == 'VOCALIA D'">
                 <ButtonBig class="my-4 mx-5" texto="Englose" link="/englose" icon="mdi-file-plus"/>
-                <ButtonBig class="my-4 mx-5" texto="Desglose" link="" icon="mdi-file-percent"/>
+                <ButtonBig class="my-4 mx-5" texto="Desglose" link="/desglose" icon="mdi-file-percent"/>
             </span>
           <span v-if="getArea == 'RELATORIA A'">
                 <ButtonBig class="my-4 mx-5" texto="Englose" link="/englose" icon="mdi-file-plus"/>
-                <ButtonBig class="my-4 mx-5" texto="Desglose" link="" icon="mdi-file-percent"/>
+                <ButtonBig class="my-4 mx-5" texto="Desglose" link="/desglose" icon="mdi-file-percent"/>
             </span>
           <span v-if="getArea == 'RELATORIA B'">
                 <ButtonBig class="my-4 mx-5" texto="Englose" link="/englose" icon="mdi-file-plus"/>
-                <ButtonBig class="my-4 mx-5" texto="Desglose" link="" icon="mdi-file-percent"/>
+                <ButtonBig class="my-4 mx-5" texto="Desglose" link="/desglose" icon="mdi-file-percent"/>
             </span>
           <span v-if="getArea == 'RELATORIA C'">
                 <ButtonBig class="my-4 mx-5" texto="Englose" link="/englose" icon="mdi-file-plus"/>
-                <ButtonBig class="my-4 mx-5" texto="Desglose" link="" icon="mdi-file-percent"/>
+                <ButtonBig class="my-4 mx-5" texto="Desglose" link="/desglose" icon="mdi-file-percent"/>
             </span>
           <span v-if="getArea == 'RELATORIA D'">
                 <ButtonBig class="my-4 mx-5" texto="Englose" link="/englose" icon="mdi-file-plus"/>
-                <ButtonBig class="my-4 mx-5" texto="Desglose" link="" icon="mdi-file-percent"/>
+                <ButtonBig class="my-4 mx-5" texto="Desglose" link="/desglose" icon="mdi-file-percent"/>
             </span>
         </v-col>
 

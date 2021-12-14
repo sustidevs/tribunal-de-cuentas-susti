@@ -11,6 +11,7 @@ import nuevo_pase from "./modules/nuevo_pase"
 import iniciador from "./modules/iniciadores"
 import cedula from "./modules/cedula"
 import englose from "./modules/englose";
+import desglose from "./modules/desglose";
 
 Vue.use(Vuex)
 
@@ -18,6 +19,7 @@ export default new Vuex.Store({
     useCredentails: true,
     namespace: true,
     modules: {
+        desglose,
         expedientes,
         motivo_expedientes,
         prioridad_expedientes,
