@@ -3,7 +3,7 @@
     <v-card class="px-7 pt-1">
       <v-row class="mt-5 mb-2">
         <v-col cols="10">
-          <div class="Montserrat-Bold titleBig text-justify">Englose realizado con éxito </div>
+          <div class="Montserrat-Bold titleBig text-justify">Englose realizado con éxito</div>
         </v-col>
         <v-col cols="2" align="right">
           <v-icon color="#393B44" large>mdi-check-all</v-icon>
@@ -11,9 +11,9 @@
       </v-row>
       <v-divider color="#393B44" class="my-2"></v-divider>
 
-        <div class="textHereSmall Montserrat-Regular my-4 mr-2">
-            Los Expedientes <strong>N° 800-00003/2021</strong> y <strong> 800-00005/2021</strong> se han englosado con éxito al expediente <strong>800-00000/2021</strong>
-        </div>
+      <div class="textHereSmall Montserrat-Regular my-4 mr-2">
+          {{ this.$store.getters.get_englose.data }}
+      </div>
 
       <v-row no-gutters justify="center" class="mt-6">
         <v-col cols="12" sm="6" md="6" lg="6" class="py-6 px-sm-2">
@@ -39,7 +39,6 @@ export default {
   name: "ModalExitoEnglose",
   props: {
     show: { type: Boolean, default: false },
-    datos: Object,
   },
 
    methods: {
@@ -47,8 +46,7 @@ export default {
       this.$emit("close");
       this.$router.go(0);
     },
-  },
-
+   }
 };
 </script>
 <style>
