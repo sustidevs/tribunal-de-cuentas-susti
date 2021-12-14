@@ -24,7 +24,7 @@ class IniciadorController extends Controller
 
     public function store(StoreIniciadorRequest $request)
     {
-        if($request->validated()) 
+        if($request->validated())
         {
             $iniciador = new Iniciador;
             $iniciador->id_tipo_entidad = $request->tipo_entidad;
@@ -43,7 +43,7 @@ class IniciadorController extends Controller
     }
 
     //DATOS DE PRUEBA
-    /*{     
+    /*{
         "tipo_entidad": 5,
         "nombre": "Valentino",
         "apellido": "Rossi",
@@ -64,20 +64,14 @@ class IniciadorController extends Controller
     public function edit(Request $request)
     {
         $iniciador = Iniciador::findOrFail($request->id);
-        $data = [$iniciador, $iniciador->tipoEntidad->descripcion];
-        return response()->json($data, 200);
+        return response()->json($iniciador, 200);
     }
 
     public function update(Request $request)
     {
         //if($request->validated()) //TODO para cuando haya validaciones
-        //{    
+        //{
             $updateIniciador = Iniciador::findOrFail($request->id);
-            $updateIniciador->nombre = $request->nombre;
-            $updateIniciador->apellido = $request->apellido;
-            $updateIniciador->dni = $request->dni;
-            $updateIniciador->cuil = $request->cuil;
-            $updateIniciador->cuit = $request->cuit;
             $updateIniciador->telefono = $request->telefono;
             $updateIniciador->email = $request->email;
             $updateIniciador->direccion = $request->direccion;

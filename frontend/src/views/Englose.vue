@@ -1,7 +1,7 @@
 <template>
   <div>
     <titulo texto="Englose" icono="mdi-text-box-multiple"/>
-        <englose :headers="headers" :data="allExpedientes"/>
+    <englose :headers="headers" :data="allExpedientes"/>
   </div>
 </template>
 
@@ -22,7 +22,6 @@ export default {
       ],
     }
   },
-
 
   computed: mapGetters(['allExpedientes', 'get_finalizado']),
 

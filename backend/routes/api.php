@@ -61,6 +61,7 @@ Route::post('/expSubsidiosNoReintegrables', [ExpedienteController::class, 'expSu
 
 //PRUEBA UNION-DESGLOCE////////////////////////////////////////////////////////////////////////////
 Route::post('/unionExp',       [ExpedienteController::class, 'union']);
+Route::get('/indexExpPadres',       [ExpedienteController::class, 'indexExpPadres']);
 Route::post('/createDesgloceExp',       [ExpedienteController::class, 'createDesgloce']);
 Route::post('/desgloceExp',       [ExpedienteController::class, 'desgloce']);
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -119,3 +120,4 @@ Route::get('/index-pagos',      [PagoController::Class, 'index']);
 Route::post('/store-pagos',     [PagoController::Class, 'store']);
 Route::post('/update-pagos',    [PagoController::Class, 'update']);
 ////////////////////////////////////////////////////////////////////////////////////////////
+Route::post('/subir-zip',    [ExpedienteController::class, 'validarZip']);

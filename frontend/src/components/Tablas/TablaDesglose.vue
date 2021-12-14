@@ -13,7 +13,7 @@
         />
       </v-col>
     </v-row>
-    <v-row class="mb-16">
+    <v-row>
       <v-col cols="12" lg="7">
         <v-data-table
             :headers="headers"
@@ -28,7 +28,7 @@
             no-data-text="No tienes expedientes"
         >
           <template v-slot:item.action="{ item }">
-            <v-btn @click="seleccionar(item)" fab small color="#FACD89" depressed>
+            <v-btn @click="verHijos(item)" fab small color="#FACD89" depressed>
               <v-icon>mdi-arrow-right-thick</v-icon>
             </v-btn>
           </template>
@@ -38,57 +38,57 @@
       <v-col cols="12" lg="5">
         <v-toolbar
             color="#facd89"
-            dark
             class="Montserrat-SemiBold text--darken-3 grey--text"
         >
           Expedientes seleccionados
         </v-toolbar>
         <v-card class="mx-auto" tile>
           <v-list>
-            <div v-if="seleccionados.length === 0" class="contentSize Montserrat-Regular pa-4">
-              Aún no ha seleccionado ningún expediente para englosar
-            </div>
+            <v-list-item-title class="contentSize Montserrat-SemiBold">
+              <v-icon>mdi-file</v-icon> Expediente Principal: <strong>{{ exp_padreSeleccionado.nro_expediente }}</strong>
+              <v-list-item-content class="contentSize Montserrat-Regular" v-text="exp_padreSeleccionado.extracto"/>
+            </v-list-item-title>
 
-            <v-list-item v-for="item in seleccionados" :key="item.id">
-              <v-list-item-icon>
-                <v-icon>mdi-file</v-icon>
-              </v-list-item-icon>
+            <v-divider color="#393B44" class="mt-2 my-4"></v-divider>
+
+            <v-list-item-title class="contentSize Montserrat-SemiBold">
+              <v-icon>mdi-file</v-icon> Expedientes englosados / hijos
+            </v-list-item-title>
+
+            <v-list-item v-for="item in getExpedientesHijos" :key="item.id">
               <v-list-item-content>
                 <v-list-item-title class="contentSize Montserrat-SemiBold" v-text="item.nro_expediente"></v-list-item-title>
                 <v-list-item-content class="contentSize Montserrat-Regular" v-text="item.extracto"/>
-                <v-row @click="quitar(item)"  no-gutters>
-                  <v-icon class="red--text">mdi-close</v-icon><div class="pt-1 Montserrat-Regular red--text">Quitar Selección</div>
-                </v-row>
                 <v-divider class="my-2"></v-divider>
               </v-list-item-content>
             </v-list-item>
+
           </v-list>
 
-          <div v-if="!(seleccionados.length === 0)" class="contentSize Montserrat-Regular pa-6">
+          <div class="contentSize Montserrat-Regular pa-4">
             <v-row justify="center" align="center">
-              <v-btn @click="confirmarEnglose" class="pa-1 color Montserrat-SemiBold px-9" height="55" elevation="0" color="#FACD89">
+              <v-btn @click="confirmarDesglose" class="pa-1 color Montserrat-SemiBold px-9" height="55" elevation="0" color="#FACD89">
                 <v-icon class="px-2">
                   mdi-check-bold
                 </v-icon>
                 <div class="">
-                  Confirmar
+                  Desglosar
                 </div>
               </v-btn>
             </v-row>
           </div>
         </v-card>
+
+
       </v-col>
     </v-row>
-    <modal-exito-englose :show="show"/>
   </div>
 </template>
 
 <script>
-import {mapActions} from "vuex";
-import ModalExitoEnglose from '../../components/dialogs/ModalExitoEnglose';
+import {mapActions, mapGetters} from "vuex";
 
 export default {
-  components:{ModalExitoEnglose},
   props: {
     headers: Array,
     data: Array,
@@ -99,41 +99,44 @@ export default {
     return {
       seleccionados: [],
       search: "",
-      show: false,
+      exp_padreSeleccionado: '',
+      id_padre: '',
     };
   },
 
+  computed: mapGetters(['getExpedientesHijos','getExpedientesPadres']),
+
   methods: {
     ...mapActions([
-      "englosar"
+      "desglosarVerHijos",
+        'desglose'
     ]),
 
-    confirmarEnglose(){
-      let expediente_hijo = [];
-
-      for (var i = 1; i < this.seleccionados.length; i++) {
-        expediente_hijo.push(this.seleccionados[i].expediente_id);
-      }
-
+    confirmarDesglose(){
       let expedientes_englose = {
-           user_id: this.$store.getters.getIdUser,
-           exp_padre: this.seleccionados[0].expediente_id,
-          exp_hijos: expediente_hijo
+        exp_padre: this.id_padre,
+        user_id:  this.$store.getters.getIdUser
       }
-      this.englosar(expedientes_englose)
-
-      this.show = true;
+      this.desglose(expedientes_englose)
     },
 
     quitar (item){
       this.seleccionados.splice(item)
     },
 
-    seleccionar: function (item) {
-      this.seleccionados.push(item)
+    verHijos: function (item) {
+      this.id_padre = item.id,
+
+      this.exp_padreSeleccionado = {
+        nro_expediente: item.nro_expediente,
+        extracto: item.extracto,
+      };
+
+      let expedientePase = {
+        exp_padre : item.id
+      }
+      this.desglosarVerHijos(expedientePase)
     },
-
-
   },
 };
 </script>

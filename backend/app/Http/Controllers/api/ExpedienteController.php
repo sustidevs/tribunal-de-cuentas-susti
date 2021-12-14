@@ -14,7 +14,6 @@ use App\Models\Historial;
 use App\Models\Iniciador;
 use App\Models\Expediente;
 use App\Models\TipoEntidad;
-use Illuminate\Support\Arr;
 use App\Models\Notificacion;
 use Illuminate\Http\Request;
 use App\Models\TipoExpediente;
@@ -146,7 +145,7 @@ class ExpedienteController extends Controller
                                     $expediente->archivos = $fileName;
                                     $historial->nombre_archivo = $fileName;
                                     $expediente->save();
-                                    $historial->save();                                        
+                                    $historial->save();
                                 }
                                 // $fileName = $request->nro_expediente;
                                 // $fileName = str_replace("/","-",$fileName).'.zip';
@@ -210,7 +209,7 @@ class ExpedienteController extends Controller
             $expediente->monto = $request->monto;
             $expediente->expediente_id = $request->expediente_id;
             $expediente->save();
-        
+
             $extracto = new Extracto;
             $extracto->descripcion = $request->descripcion_extracto;
             $extracto->save();
@@ -279,7 +278,7 @@ class ExpedienteController extends Controller
                 $expediente->archivos = $fileName;
                 $historial->nombre_archivo = $fileName;
                 $expediente->save();
-                $historial->save();                                        
+                $historial->save();
             }
             if ($request->tipo_exp_id == 3 || $request->tipo_exp_id == 4) //TODO verificar si funciona
             {
@@ -291,12 +290,12 @@ class ExpedienteController extends Controller
                 $notificacion->save();
             }
             DB::commit();
-            
+
                 //(2 = separacion barras, 80 = ancho de la barra)
                 $cod = new DNS1D;
                 $codigoBarra = $cod->getBarcodeHTML($expediente->nro_expediente, 'C39',2,80,'black', true);
                 $datos = [$expediente->fecha, $caratula->iniciador->nombre, $extracto->descripcion, $estado_actual, $expediente->nro_expediente, $codigoBarra, $caratula->iniciador->email, $caratula->observacion ];
-                return response()->json($datos,200);            
+                return response()->json($datos,200);
         }
     }
 
@@ -306,7 +305,7 @@ class ExpedienteController extends Controller
         $exp_padre = Expediente::findOrFail($request->exp_padre);
         $exp_hijos = Expediente::find($request->exp_hijos);
         $expedientes_hijos = "";
-        foreach ($exp_hijos as $exp_hijo) 
+        foreach ($exp_hijos as $exp_hijo)
         {
             if($exp_hijo->expediente_id == "")
             {
@@ -324,7 +323,7 @@ class ExpedienteController extends Controller
                     $historial->motivo = "Expediente Nro: ". $exp_hijo->nro_expediente . " unido al Expediente Nro: " . $exp_padre->nro_expediente .".";
                     $historial->estado = "3";//Mi expediente
                     $historial->save();
-                    $expedientes_hijos = $exp_hijo->nro_expediente. ", " . $expedientes_hijos . ", ";
+                    $expedientes_hijos = $expedientes_hijos . $exp_hijo->nro_expediente . ", ";
                     //$exp_padre->fojas = $exp_padre->fojas + $exp_hijo->fojas;//cantidad total de fojas
                     //$exp_padre->save();
                 }
@@ -344,10 +343,10 @@ class ExpedienteController extends Controller
         $historial_padre->fojas = $exp_padre->fojas;
         $historial_padre->fecha = Carbon::now()->format('Y-m-d');
         $historial_padre->hora = Carbon::now()->format('h:i');
-        $historial_padre->motivo = "Expediente Nro: ". Expediente::find($historial_padre->expediente_id)->nro_expediente . " unido a los Expedientes: " . $expedientes_hijos;
+        $historial_padre->motivo =  "El Expediente N° " . $expedientes_hijos . " se ha unido al Expediente ". Expediente::find($historial_padre->expediente_id)->nro_expediente;
         $historial_padre->estado = "3";
         $historial_padre->save();
-        return response()->json("Exitoooo");
+        return $historial_padre->motivo;
     }
     //return response()->json([$exp_padre->first(),$exp_padre->hijos,$exp_hijo->padre ],200);
 
@@ -368,7 +367,7 @@ class ExpedienteController extends Controller
             $fojas_padre =  $fojas_padre - $exp_hijo->fojas;
         }
         $ultimo_hijo->fojas = ($fojas_padre - $exp_padre->historiales->first()->fojas) + Expediente::findOrFail($ultimo_hijo->id)->historiales->last()->fojas;
-        $ultimo_hijo->expediente_id = "";
+        $ultimo_hijo->expediente_id = null;
         $ultimo_hijo->save();
         $historial_ultimo_hijo = new Historial;
         $historial_ultimo_hijo->expediente_id = $ultimo_hijo->id;
@@ -386,7 +385,7 @@ class ExpedienteController extends Controller
         $exp_padre->historiales->last()->fojas = $exp_padre->fojas;
         $exp_hijos = Expediente::findOrFail($request->exp_padre)->hijos;
         $fojas_hijos_acum = 0;
-        foreach ($exp_hijos as $exp_hijo) 
+        foreach ($exp_hijos as $exp_hijo)
         {
             /*if($exp_hijo->expediente_id != "")
             {
@@ -471,17 +470,59 @@ class ExpedienteController extends Controller
         return response()->json("Exitoooo");
     }
 
-    /*{
+    /*
+    {
         "exp_padre" : "1",
         "user_id" : "1"
-}}*/
+    }
+    */
 
     public function createDesgloce(Request $request)
     {
-        $exp_padre = Expediente::findOrFail($request->exp_padre);
-        return response()->json($exp_padre->hijos,200);
+        $exp_padre = Expediente::where('id', $request->exp_padre)->where('expediente_id', null)->first();
+        if($exp_padre !== null && $exp_padre->hijos->count() > 0)
+        {
+            return response()->json([$exp_padre->first() ,$exp_padre->hijos],200);
+        }
+        else
+        {
+            return response()->json("No tiene hijitos",200);
+        }
     }
 
+    /*
+    {
+        "exp_padre" : "1"
+    }
+    */
+
+    public function indexExpPadres()
+    {
+        $exp_padres = Expediente::where('expediente_id', null)->get();
+        $array_exp_padres = collect([]);
+        foreach ($exp_padres as $exp_padre)
+        {
+            if( $exp_padre->hijos->count() > 0)
+            {
+                $array_exp_padres->push(['id' => $exp_padre->id,
+                                        'extracto' => $exp_padre->caratula->extracto->descripcion,
+                                        'area_actual_id' => $exp_padre->area_actual_id,
+                                        'estado_expediente_id' => $exp_padre->estado_expediente_id,
+                                        'tipo_expediente' => $exp_padre->tipo_expediente,
+                                        'prioridad_id' => $exp_padre->prioridad_id,
+                                        'expediente_id' => $exp_padre->expediente_id,
+                                        'nro_expediente' => $exp_padre->nro_expediente,
+                                        'nro_expediente_ext' => $exp_padre->nro_expediente_ext,
+                                        'fojas' => $exp_padre->fojas,
+                                        'fecha' => $exp_padre->fecha,
+                                        'monto' => $exp_padre->monto,
+                                        'archivos' => $exp_padre->archivos,
+                                        'created_at' => $exp_padre->created_at,
+                                        'updated_at' => $exp_padre->updated_at]);
+            }
+        }
+        return response()->json($array_exp_padres,200);
+    }
 
     public function show(Request $request)
     {
@@ -510,7 +551,45 @@ class ExpedienteController extends Controller
                     $posee_archivo];
         return response()->json($detalle,200);
     }
+    /* 
+        Metodo para validar las extensiones de los archivos que se van a adjuntar al zip.
+    */
+    public function validarZip(Request $request)
+    {
+        $archivos = $request->allFiles();
+        $array_archivos = collect();
+        // Recorre el array y trae la extension de los archivos
+        foreach ($archivos as $archivo)
+        {
+            $array_archivos->push(
+                $archivo->getClientOriginalExtension()
+            );
+        }
+        $extensiones = Expediente::EXTENSIONES_PERMITIDAS;
+        // Metodo para calcular el peso de los archivos
+        $peso_archivos = Expediente::peso($request);        
 
+        if(($archivos) != null)
+        {
+            $array = collect([]);
+            $array_archivos = $array_archivos->toArray();
+            // Evalua las coincidencias entre el array de archivos que recibe y el array de extensiones permitidas
+            $coincidencias = array_intersect($array_archivos, $extensiones);        
+            foreach($coincidencias as $value) 
+            {
+                $array->push([$value]);
+            }
+        }
+        // Evalua si la cantidad de extensiones validas es igual a la cantidad de archivos que se suben y si el peso total es menor a 25mb
+        if((count($array_archivos) == count($array)) && ($peso_archivos < 25000000))
+        {
+            return response()->json('true', 200);
+        }
+        else
+        {
+            return response()->json('false', 200);
+        }
+    }
 
     public function descargarZip(Request $request) //TODO hasta que tenga boton
     {

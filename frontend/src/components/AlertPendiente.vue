@@ -7,7 +7,7 @@
       type="error"
       class="alert Montserrat-SemiBold mt-5 sizeAlert"
   >
-    Tienes {{ cantidad }} expedientes pendientes para aceptar.
+    Tienes {{ cantidad }} expedientes pendientes para aceptar. <a href="/expedientes-pendientes"> <strong>  VER </strong> </a>
   </v-alert>
 </template>
 
