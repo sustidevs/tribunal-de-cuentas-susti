@@ -84,9 +84,7 @@ export default {
     ]),
 
     historial_pase: function (item) {
-      console.log(item);
       this.getHistorial(item)
-      this.$router.push({name: 'VerHistoriales'})
     },
 
   }
