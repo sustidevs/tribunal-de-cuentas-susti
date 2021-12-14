@@ -100,6 +100,7 @@ export default {
       seleccionados: [],
       search: "",
       exp_padreSeleccionado: '',
+      id_padre: '',
     };
   },
 
@@ -108,21 +109,15 @@ export default {
   methods: {
     ...mapActions([
       "desglosarVerHijos",
+        'desglose'
     ]),
 
     confirmarDesglose(){
-      let expediente_hijo = [];
-
-      for (var i = 1; i < this.seleccionados.length; i++) {
-        expediente_hijo.push(this.seleccionados[i].expediente_id);
-      }
-
       let expedientes_englose = {
-        user_id: this.$store.getters.getIdUser,
-        exp_padre: this.seleccionados[0].expediente_id,
-        exp_hijos: expediente_hijo
+        exp_padre: this.id_padre,
+        user_id:  this.$store.getters.getIdUser
       }
-      this.englosar(expedientes_englose)
+      this.desglose(expedientes_englose)
     },
 
     quitar (item){
@@ -130,6 +125,8 @@ export default {
     },
 
     verHijos: function (item) {
+      this.id_padre = item.id,
+
       this.exp_padreSeleccionado = {
         nro_expediente: item.nro_expediente,
         extracto: item.extracto,

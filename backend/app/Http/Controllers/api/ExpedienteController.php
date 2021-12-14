@@ -324,7 +324,7 @@ class ExpedienteController extends Controller
                     $historial->motivo = "Expediente Nro: ". $exp_hijo->nro_expediente . " unido al Expediente Nro: " . $exp_padre->nro_expediente .".";
                     $historial->estado = "3";//Mi expediente
                     $historial->save();
-                    $expedientes_hijos = $exp_hijo->nro_expediente. ", " . $expedientes_hijos . ", ";
+                    $expedientes_hijos = $expedientes_hijos . $exp_hijo->nro_expediente . ", ";
                     //$exp_padre->fojas = $exp_padre->fojas + $exp_hijo->fojas;//cantidad total de fojas
                     //$exp_padre->save();
                 }
@@ -344,10 +344,10 @@ class ExpedienteController extends Controller
         $historial_padre->fojas = $exp_padre->fojas;
         $historial_padre->fecha = Carbon::now()->format('Y-m-d');
         $historial_padre->hora = Carbon::now()->format('h:i');
-        $historial_padre->motivo = "Expediente Nro: ". Expediente::find($historial_padre->expediente_id)->nro_expediente . " unido a los Expedientes: " . $expedientes_hijos;
+        $historial_padre->motivo =  "El Expediente N° " . $expedientes_hijos . " se ha unido al Expediente ". Expediente::find($historial_padre->expediente_id)->nro_expediente;
         $historial_padre->estado = "3";
         $historial_padre->save();
-        return response()->json("Exitoooo");
+        return $historial_padre->motivo;
     }
     //return response()->json([$exp_padre->first(),$exp_padre->hijos,$exp_hijo->padre ],200);
 
@@ -368,7 +368,7 @@ class ExpedienteController extends Controller
             $fojas_padre =  $fojas_padre - $exp_hijo->fojas;
         }
         $ultimo_hijo->fojas = ($fojas_padre - $exp_padre->historiales->first()->fojas) + Expediente::findOrFail($ultimo_hijo->id)->historiales->last()->fojas;
-        $ultimo_hijo->expediente_id = "";
+        $ultimo_hijo->expediente_id = null;
         $ultimo_hijo->save();
         $historial_ultimo_hijo = new Historial;
         $historial_ultimo_hijo->expediente_id = $ultimo_hijo->id;
