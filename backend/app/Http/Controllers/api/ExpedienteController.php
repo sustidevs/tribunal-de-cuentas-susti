@@ -552,11 +552,14 @@ class ExpedienteController extends Controller
                     $posee_archivo];
         return response()->json($detalle,200);
     }
-
+    /* 
+        Metodo para validar las extensiones de los archivos que se van a adjuntar al zip.
+    */
     public function validarZip(Request $request)
     {
         $archivos = $request->allFiles();
         $array_archivos = collect();
+        // Recorre el array y trae la extension de los archivos
         foreach ($archivos as $archivo)
         {
             $array_archivos->push(
@@ -564,18 +567,21 @@ class ExpedienteController extends Controller
             );
         }
         $extensiones = Expediente::EXTENSIONES_PERMITIDAS;
-        $peso_archivos = Expediente::peso($request);
+        // Metodo para calcular el peso de los archivos
+        $peso_archivos = Expediente::peso($request);        
 
         if(($archivos) != null)
         {
             $array = collect([]);
             $array_archivos = $array_archivos->toArray();
-            $coincidencias = array_intersect($array_archivos, $extensiones);
+            // Evalua las coincidencias entre el array de archivos que recibe y el array de extensiones permitidas
+            $coincidencias = array_intersect($array_archivos, $extensiones);        
             foreach($coincidencias as $value) 
             {
                 $array->push([$value]);
             }
         }
+        // Evalua si la cantidad de extensiones validas es igual a la cantidad de archivos que se suben y si el peso total es menor a 25mb
         if((count($array_archivos) == count($array)) && ($peso_archivos < 25000000))
         {
             return response()->json('true', 200);
