@@ -15,6 +15,8 @@ const state = {
     iniciador_iderror: '',
     nro_fojaserror: '',
     prioridaderror: '',
+
+    btn_creado: false,
 };
 
 const getters = {
@@ -32,6 +34,8 @@ const getters = {
     iniciador_id_error: state => state.iniciador_iderror,
     nro_fojas_error:  state => state.nro_fojaserror,
     prioridad_error:  state => state.prioridaderror,
+
+    get_btn_creado: state => state.btn_creado,
 };
 
 const actions = {
@@ -65,10 +69,12 @@ const actions = {
     },
 
     storeExpediente ({ commit }, expediente) {
+        commit('set_btn_creado', true);
         axios.post(process.env.VUE_APP_API_URL+ '/api/storeExp', expediente).
         then(response => {
                 commit('saveNewExp', response.data)
                 commit('set_creado', true)
+                commit('set_btn_creado', false)
         })
         .catch(error => {
             console.log (error.response.data.errors)
@@ -95,6 +101,8 @@ const mutations = {
     set_iniciador_id_error: (state,iniciador_iderror ) => state.iniciador_iderror = iniciador_iderror,
     set_nro_fojas_error:  (state,nro_fojaserror ) => state.nro_fojaserror = nro_fojaserror,
     set_prioridad_error:  (state,prioridaderror ) => state.prioridaderror = prioridaderror,
+    
+    set_btn_creado:(state,btn_creado) =>state.btn_creado = btn_creado,
 };
 
 export default {
