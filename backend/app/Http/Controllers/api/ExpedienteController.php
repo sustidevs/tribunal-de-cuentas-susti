@@ -24,6 +24,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\StoreExpedienteRequest;
+use Hamcrest\Core\IsNot;
 use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Database\Eloquent\Relations\Relation;
 
@@ -472,15 +473,24 @@ class ExpedienteController extends Controller
         return response()->json("Exitoooo");
     }
 
-    /*{
+    /*
+    {
         "exp_padre" : "1",
         "user_id" : "1"
-}}*/
+    }
+    */
 
     public function createDesgloce(Request $request)
     {
-        $exp_padre = Expediente::findOrFail($request->id);
-        return response()->json([$exp_padre->first() ,$exp_padre->hijos],200);
+        $exp_padre = Expediente::where('id', $request->exp_padre)->where('expediente_id', null)->first();
+        if($exp_padre !== null && $exp_padre->hijos->count() > 0)
+        {
+            return response()->json([$exp_padre->first() ,$exp_padre->hijos],200);
+        }
+        else
+        {
+            return response()->json("No tiene hijitos",200);
+        }
     }
 
     /*

@@ -20,10 +20,11 @@
                         </v-col> 
 
                         <v-col cols="12"> 
-                            <v-btn type="submit" class="mt-8 pa-5 Montserrat-SemiBold" height="55" elevation="0" color="#FACD89" block> 
+                            <v-btn type="submit" @click="abrirModalExitoEditarIniciador()" class="mt-8 pa-5 Montserrat-SemiBold" height="55" elevation="0" color="#FACD89" block> 
                                 <v-icon class="pr-5"> mdi-content-save </v-icon> 
                                 <div> Guardar </div> 
                             </v-btn> 
+                            <modal-exito-editar-iniciador :show="showModal" @close="closeModalExitoEditarIniciador"/>
                         </v-col> 
                     </v-row> 
                 </v-col>
@@ -48,20 +49,22 @@
 <script> 
 import LabelInput from "../components/LabelInput"; 
 import {mapActions, mapGetters} from "vuex"; 
-import TextField from "../components/TextField"; 
+import TextField from "../components/TextField";  
+import ModalExitoEditarIniciador from '../components/dialogs/ModalExitoEditarIniciador.vue'
  
 export default { 
   name: 'EditarIniciador', 
-  components: {LabelInput, TextField}, 
+  components: {LabelInput, TextField, ModalExitoEditarIniciador}, 
     data() { 
         return {
           iniciadorA: '',
+          showModal: false,
             inic: {
                 email: this.$store.getters.iniciador.email ,
                 telefono: this.$store.getters.iniciador.telefono,
                 direccion: this.$store.getters.iniciador.direccion,
-            },
-        } 
+            }
+        }
     },
 
     computed: mapGetters(['iniciador', 'get_error_nombre']),
@@ -78,7 +81,13 @@ export default {
           }
 
           this.updateIniciador(iniciadorUpdate)
-      }
+      },
+       abrirModalExitoEditarIniciador() {
+            this.showModal=!this.showModal
+        },
+        closeModalExitoEditarIniciador() {
+            this.showModal = false;
+        },
     } 
 } 
 </script>

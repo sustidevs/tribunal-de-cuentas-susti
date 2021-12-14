@@ -31,16 +31,17 @@
         @click:append="show1 = !show1"
         background-color="white"
         outlined
-    ></v-text-field>
-      <Button class="mt-4" @click="login" texto="ingresar" icono="mdi-arrow-right-thin-circle-outline"/>
+      ></v-text-field>
+      <v-btn @click="login" :loading="loading" :disabled="loading" type="submit" class="mt-6 pa-5 color Montserrat-SemiBold" height="55" elevation="0" color="#FACD89" block>
+        <v-icon class="pr-5"> mdi-arrow-right-thin-circle-outline </v-icon>
+        Ingresar
+      </v-btn>
     </v-flex>
   </div>
 </template>
 
 <script>
-import Button from "../Button";
 export default {
-  components: { Button},
   name: 'App',
 
   data() {
@@ -48,13 +49,27 @@ export default {
       show1: false,
       email: '',
       password: '',
+      loader: null,
+      loading: false,
     }
+  },
+
+  watch: {
+    loader () {
+      const l = this.loader
+      this[l] = !this[l]
+
+      setTimeout(() => (this[l] = false), 3000)
+
+      this.loader = null
+    },
   },
 
   methods: {
     login() {
       console.log(this.email);
       console.log(this.password);
+      this.loader = 'loading';
 
       /**if (this.email == "juan123@correo.com" && this.password == "12345678") {
         console.log(this.email);
