@@ -162,7 +162,6 @@
         </v-col>
       </v-row>
 
-
       <v-card color="#FFF5E6" class="pa-5">
         <label-input texto="Adjuntar Archivos al Pase" />
         <input type="file" multiple @change="handleFileUpload($event)" />
@@ -177,6 +176,7 @@
             elevation="0"
             color="#FACD89"
             block
+            :disabled="this.$store.getters.get_btn_creado"
           >
             <v-icon class="px-5"> mdi-check-bold </v-icon>
             <div class="">Confirmar</div>
@@ -232,6 +232,7 @@ export default {
       area_id: "",
       archivos: "",
     },
+    from_submitting: false,
   }),
 
   methods: {
@@ -297,6 +298,8 @@ export default {
       "prioridad_error",
       "motivo_error",
       "expediente_new",
+
+      "get_btn_creado",
     ]),
 
     //si el valor de nro expediente cambia, se ejecuta la funcion y el componente reacciona a los cambios
