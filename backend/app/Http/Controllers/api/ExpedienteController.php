@@ -499,6 +499,33 @@ class ExpedienteController extends Controller
     }
     */
 
+    public function indexExpPadres()
+    {
+        $exp_padres = Expediente::where('expediente_id', null)->get();
+        $array_exp_padres = collect([]);
+        foreach ($exp_padres as $exp_padre)
+        {
+            if( $exp_padre->hijos->count() > 0)
+            {
+                $array_exp_padres->push(['id' => $exp_padre->id,
+                                        'area_actual_id' => $exp_padre->area_actual_id,
+                                        'estado_expediente_id' => $exp_padre->estado_expediente_id,
+                                        'tipo_expediente' => $exp_padre->tipo_expediente,
+                                        'prioridad_id' => $exp_padre->prioridad_id,
+                                        'expediente_id' => $exp_padre->expediente_id,
+                                        'nro_expediente' => $exp_padre->nro_expediente,
+                                        'nro_expediente_ext' => $exp_padre->nro_expediente_ext,
+                                        'fojas' => $exp_padre->fojas,
+                                        'fecha' => $exp_padre->fecha,
+                                        'monto' => $exp_padre->monto,
+                                        'archivos' => $exp_padre->archivos,
+                                        'created_at' => $exp_padre->created_at,
+                                        'updated_at' => $exp_padre->updated_at]);
+            }
+        }
+        return response()->json($array_exp_padres,200);
+    }
+
     public function show(Request $request)
     {
         $expediente = Expediente::where('expediente_id',null)->findOrFail($request->expediente_id);

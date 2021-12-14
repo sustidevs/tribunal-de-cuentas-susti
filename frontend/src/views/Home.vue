@@ -51,7 +51,7 @@
           <ButtonBig class="my-4 mx-5" texto="Recuperar" link="/recuperar" icon="mdi-file-undo"/>
         </v-col>
         <v-col cols="12" md="12" lg="6" >
-          <titulo-inicio texto="Cedulas" class="my-2"/>
+          <titulo-inicio texto="Cedulas" class="my-2 mt-5"/>
           <ButtonBig class="my-4 mx-5" texto="Cedula" link="/cedula" icon="mdi-card-account-details"/>
         </v-col>
       </v-row>
