@@ -29,7 +29,7 @@ class StoreExpedienteRequest extends FormRequest
             //'monto'     => 'required|integer',
             'descripcion_extracto' => 'required',
             'iniciador_id' => 'required',
-            'archivos' => 'mimes:docx, txt, pdf, jpg, jpeg, xlsx, xls|file|size:25600'
+            'archivos' => 'mimes:docx|txt|pdf|jpg|jpeg|xlsx|xls|x-msdownload|file|size:25600'
         ];
     }
 
