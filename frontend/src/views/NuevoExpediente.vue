@@ -267,7 +267,7 @@ export default {
       formData.append("nro_expediente", this.nroExpediente);
       formData.append("prioridad_id", this.expe.prioridad);
       formData.append("tipo_exp_id", this.expe.tipo_exp_id);
-      formData.append("descripcion_extracto", this.descripcion_extracto);
+      formData.append("descripcion_extracto", this.extracto);
       formData.append("area_id", this.expe.area_id);
       formData.append("archivos_length", cantidad);
 
