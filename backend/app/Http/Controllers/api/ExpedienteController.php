@@ -368,7 +368,7 @@ class ExpedienteController extends Controller
             $fojas_padre =  $fojas_padre - $exp_hijo->fojas;
         }
         $ultimo_hijo->fojas = ($fojas_padre - $exp_padre->historiales->first()->fojas) + Expediente::findOrFail($ultimo_hijo->id)->historiales->last()->fojas;
-        $ultimo_hijo->expediente_id = "";
+        $ultimo_hijo->expediente_id = null;
         $ultimo_hijo->save();
         $historial_ultimo_hijo = new Historial;
         $historial_ultimo_hijo->expediente_id = $ultimo_hijo->id;

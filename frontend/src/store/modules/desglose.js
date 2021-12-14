@@ -29,6 +29,13 @@ const actions = {
             })
     },
 
+    desglose ({ commit } , expediente) {
+        axios.post(process.env.VUE_APP_API_URL+ '/api/desgloceExp', expediente)
+            .then(response => {
+                console.log(response)
+                commit('set_desglose', true)
+            })
+    },
 };
 
 const mutations = {
