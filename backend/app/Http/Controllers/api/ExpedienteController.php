@@ -517,29 +517,37 @@ class ExpedienteController extends Controller
         return response()->json($detalle,200);
     }
 
-    public function subirZip(Request $request)
+    public function validarZip(Request $request)
     {
-        $archivo1 = $request->archivo1->getClientOriginalExtension();
-        $archivo2 = $request->archivo2->getClientOriginalExtension();
-        $archivos = [$archivo1, $archivo2];
+        $archivos = $request->allFiles();
+        $array_archivos = collect();
+        foreach ($archivos as $archivo)
+        {
+            $array_archivos->push(
+                $archivo->getClientOriginalExtension()
+            );
+        }
+        $extensiones = Expediente::EXTENSIONES_PERMITIDAS;
+        $peso_archivos = Expediente::peso($request);
+
         if(($archivos) != null)
         {
-            //foreach ($archivos as $archivo)
-            //{
-                //$relativeNameInZipFile = $archivo->getClientOriginalName();
-                //$extension = $archivo->getClientOriginalExtension();
-                $array = collect([]);
-                $archivos;
-                $extensiones = Expediente::EXTENSIONES_PERMITIDAS;
-                $coincidencias = array_intersect($archivos, $extensiones);
-                foreach($coincidencias as $value) {
-                    $array->push([$value]);
-                }
-                
-            //}
-            
+            $array = collect([]);
+            $array_archivos = $array_archivos->toArray();
+            $coincidencias = array_intersect($array_archivos, $extensiones);
+            foreach($coincidencias as $value) 
+            {
+                $array->push([$value]);
+            }
         }
-        return response()->json($array, 200);
+        if((count($array_archivos) == count($array)) && ($peso_archivos < 25000000))
+        {
+            return response()->json('true', 200);
+        }
+        else
+        {
+            return response()->json('false', 200);
+        }
     }
 
     public function descargarZip(Request $request) //TODO hasta que tenga boton

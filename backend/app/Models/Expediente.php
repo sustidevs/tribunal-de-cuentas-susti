@@ -8,6 +8,7 @@ use App\Models\Iniciador;
 use App\Models\EstadoExpediente;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Expediente extends Model
@@ -67,9 +68,26 @@ class Expediente extends Model
     }
 
     CONST EXTENSIONES_PERMITIDAS = [
-        
-        'php'
+        'docx',
+        'pdf',
+        'txt',
+        'jpg', 
+        'jpeg',
+        'xlsx',
+        'xls',
     ];
+
+    //Metodo que calcula peso total de archivos
+    public static function peso(Request $array)
+    {
+        $array = $array->allFiles();
+        $sum = 0;
+        foreach($array as $a)
+        {
+            $sum = $sum + filesize($a);
+        }
+        return $sum;
+    }
 
     /*
     * Retorna una colleccion con los datos del expediente
