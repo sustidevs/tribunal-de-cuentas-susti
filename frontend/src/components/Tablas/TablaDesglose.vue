@@ -38,7 +38,6 @@
       <v-col cols="12" lg="5">
         <v-toolbar
             color="#facd89"
-            dark
             class="Montserrat-SemiBold text--darken-3 grey--text"
         >
           Expedientes seleccionados

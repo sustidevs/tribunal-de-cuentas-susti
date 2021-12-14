@@ -14,7 +14,7 @@ const actions = {
     desglosarVer ({ commit } , expediente) {
         axios.post(process.env.VUE_APP_API_URL+ '/api/createDesgloceExp', expediente)
             .then(response => {
-                console.log(response.data[1])
+                console.log(response.data)
                 commit('set_exp_padres', response.data[0])
                 commit('set_exp_hijos', response.data[1])
             })
