@@ -45,7 +45,8 @@
         <v-card class="mx-auto" tile>
           <v-list>
             <v-list-item-title class="contentSize Montserrat-SemiBold">
-              <v-icon>mdi-file</v-icon> Expediente Principal: <strong>{{ getExpedientePadre.nro_expediente }}</strong>
+              <v-icon>mdi-file</v-icon> Expediente Principal: <strong>{{ exp_padreSeleccionado.nro_expediente }}</strong>
+              <v-list-item-content class="contentSize Montserrat-Regular" v-text="exp_padreSeleccionado.extracto"/>
             </v-list-item-title>
 
             <v-divider color="#393B44" class="mt-2 my-4"></v-divider>
@@ -66,7 +67,7 @@
 
           <div class="contentSize Montserrat-Regular pa-4">
             <v-row justify="center" align="center">
-              <v-btn @click="confirmarEnglose" class="pa-1 color Montserrat-SemiBold px-9" height="55" elevation="0" color="#FACD89">
+              <v-btn @click="confirmarDesglose" class="pa-1 color Montserrat-SemiBold px-9" height="55" elevation="0" color="#FACD89">
                 <v-icon class="px-2">
                   mdi-check-bold
                 </v-icon>
@@ -98,18 +99,18 @@ export default {
     return {
       seleccionados: [],
       search: "",
+      exp_padreSeleccionado: '',
     };
   },
 
-  computed: mapGetters(['getExpedientesHijos','getExpedientePadre']),
+  computed: mapGetters(['getExpedientesHijos','getExpedientesPadres']),
 
   methods: {
     ...mapActions([
-      "desglosarVer",
-        ''
+      "desglosarVerHijos",
     ]),
 
-    confirmarEnglose(){
+    confirmarDesglose(){
       let expediente_hijo = [];
 
       for (var i = 1; i < this.seleccionados.length; i++) {
@@ -129,10 +130,15 @@ export default {
     },
 
     verHijos: function (item) {
+      this.exp_padreSeleccionado = {
+        nro_expediente: item.nro_expediente,
+        extracto: item.extracto,
+      };
+
       let expedientePase = {
-        id : item.expediente_id
+        exp_padre : item.id
       }
-      this.desglosarVer(expedientePase)
+      this.desglosarVerHijos(expedientePase)
     },
   },
 };

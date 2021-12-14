@@ -1,7 +1,7 @@
 <template>
   <div>
     <titulo texto="Desglose" icono="mdi-text-box-multiple"/>
-    <tabla-desglose :headers="headers" :data="allExpedientes"/>
+    <tabla-desglose :headers="headers" :data="getExpedientesPadres"/>
   </div>
 </template>
 
@@ -24,23 +24,15 @@ export default {
     }
   },
 
-  computed: mapGetters(['allExpedientes', 'get_finalizado']),
+  computed: mapGetters(['get_finalizado', 'getExpedientesPadres']),
 
   mounted() {
-    this.getExpe();
+    this.desglosarVerPadres();
   },
 
   methods: {
-    ...mapActions(['getExpedientes','cerrar','getIdUser']),
+    ...mapActions(['desglosarVerPadres','cerrar','getIdUser']),
 
-    getExpe(){
-      let exp = {
-        estado: 3,
-        bandeja: 3,
-        user_id: this.$store.getters.getIdUser,
-      }
-      this.getExpedientes(exp)
-    },
   },
 
 }

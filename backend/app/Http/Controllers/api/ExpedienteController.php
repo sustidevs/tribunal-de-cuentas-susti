@@ -508,6 +508,7 @@ class ExpedienteController extends Controller
             if( $exp_padre->hijos->count() > 0)
             {
                 $array_exp_padres->push(['id' => $exp_padre->id,
+                                        'extracto' => $exp_padre->caratula->extracto->descripcion,
                                         'area_actual_id' => $exp_padre->area_actual_id,
                                         'estado_expediente_id' => $exp_padre->estado_expediente_id,
                                         'tipo_expediente' => $exp_padre->tipo_expediente,
