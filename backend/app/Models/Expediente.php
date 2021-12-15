@@ -306,11 +306,12 @@ class Expediente extends Model
         return $lista_expedientes;
     }
 
-    /**
-     * Método que retorna toos los expedientes correspondientes a
+    /**     EN DESUSO -- mudado a Modelo Notificacion -- Método listadoExpedientesSubsidioAporteNR
+     * Método que retorna todos los expedientes correspondientes a
      * Subsidios y aportes No Reintegrables
      * A: MF
      */
+
     public static function listadoExpedientesSubsidioAporteNR()
     {
         $expedientes = DB::table('expedientes')
@@ -329,5 +330,11 @@ class Expediente extends Model
             ->where('expedientes.tipo_expediente',3)
             ->get();
         return $expedientes;
+    }
+    */
+
+    public static function listadoExpedientesSubsidioAporteNR()
+    {
+
     }
 }
