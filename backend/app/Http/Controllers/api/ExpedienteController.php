@@ -804,9 +804,4 @@ class ExpedienteController extends Controller
     }
     */
 
-    /*public function notificarExpediente(Request $request)
-    {
-        $contar = Expediente::notificacion($user_id, $tipo_expediente);
-    }*/
-
 }
