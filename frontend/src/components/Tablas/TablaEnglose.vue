@@ -64,18 +64,16 @@
             </v-list-item>
           </v-list>
 
-          <div v-if="!(seleccionados.length === 0)" class="contentSize Montserrat-Regular pa-6">
-            <v-row justify="center" align="center">
-              <v-btn @click="confirmarEnglose" class="pa-1 color Montserrat-SemiBold px-9" height="55" elevation="0" color="#FACD89">
-                <v-icon class="px-2">
-                  mdi-check-bold
-                </v-icon>
-                <div class="">
-                  Confirmar
-                </div>
-              </v-btn>
-            </v-row>
-          </div>
+          <v-row justify="center" align="center" v-if="!(seleccionados.length === 0)" class="contentSize Montserrat-Regular pa-6">
+            <v-btn @click="confirmarEnglose" class="pa-1 color Montserrat-SemiBold px-6" height="50" elevation="0" color="#FACD89">
+              <v-icon class="px-2">
+                mdi-check-bold
+              </v-icon>
+              <div class="">
+                Confirmar
+              </div>
+            </v-btn>
+          </v-row>
         </v-card>
       </v-col>
     </v-row>
