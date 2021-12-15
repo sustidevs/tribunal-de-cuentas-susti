@@ -12,6 +12,7 @@ import iniciador from "./modules/iniciadores"
 import cedula from "./modules/cedula"
 import englose from "./modules/englose";
 import desglose from "./modules/desglose";
+import notificaciones from "./modules/notificaciones";
 
 Vue.use(Vuex)
 
@@ -19,6 +20,7 @@ export default new Vuex.Store({
     useCredentails: true,
     namespace: true,
     modules: {
+        notificaciones,
         desglose,
         expedientes,
         motivo_expedientes,

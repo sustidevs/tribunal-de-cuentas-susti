@@ -8,6 +8,7 @@ use App\Models\Iniciador;
 use App\Models\EstadoExpediente;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Expediente extends Model
@@ -64,6 +65,28 @@ class Expediente extends Model
     public function cantidadCuerpos()
     {
         return ceil($this->fojas/200);
+    }
+
+    CONST EXTENSIONES_PERMITIDAS = [
+        'docx',
+        'pdf',
+        'txt',
+        'jpg',
+        'jpeg',
+        'xlsx',
+        'xls',
+    ];
+
+    //Metodo que calcula peso total de archivos
+    public static function peso(Request $array)
+    {
+        $array = $array->allFiles();
+        $sum = 0;
+        foreach($array as $a)
+        {
+            $sum = $sum + filesize($a);
+        }
+        return $sum;
     }
 
     /*
@@ -133,12 +156,11 @@ class Expediente extends Model
         return $nro_exp;
     }
 
-    public static function listadoExpedientes($user_id,$estado,$bandeja)
+    public static function listadoExpedientes($user_id, $estado, $bandeja)
     {
-        $Expedientes = Expediente::where('expediente_id',null)->get();
+        $Expedientes = Expediente::where('expediente_id', null)->get();
         $user = User::findOrFail($user_id);
         $array_expediente = collect([]);
-
 
         foreach ($Expedientes as $exp)
         {
@@ -273,11 +295,11 @@ class Expediente extends Model
                                             ->select('expedientes.*', 'caratulas.expediente_id', 'extractos.descripcion')
                                             ->where('tipo_expediente', 3)
                                             ->where('descripcion','LIKE',"%$valor%")
-                                            ->get();                      
+                                            ->get();
                     foreach ($consulta as $item) {
                         $expediente = Expediente::FindOrFail($item->id);
                         $lista_expedientes->push($expediente->getDatos());
-                        
+
                     }
                     break;
         }
@@ -295,4 +317,29 @@ class Expediente extends Model
         $datos = [$expediente, $user];
         return $datos;
     }*/
+
+    /**
+     * Método que retorna toos los expedientes correspondientes a
+     * Subsidios y aportes No Reintegrables
+     * A: MF
+     */
+    public static function listadoExpedientesSubsidioAporteNR()
+    {
+        $expedientes = DB::table('expedientes')
+            ->join('prioridad_expedientes', 'expedientes.prioridad_id', '=', 'prioridad_expedientes.id')
+            ->join('caratulas', 'expedientes.id', '=', 'caratulas.expediente_id')
+            ->join('estado_expedientes', 'expedientes.estado_expediente_id', '=', 'estado_expedientes.id')
+            ->join('extractos', 'caratulas.extracto_id', '=', 'extractos.id')
+            ->join('tipo_expedientes', 'expedientes.tipo_expediente', '=', 'tipo_expedientes.id')
+            ->select('expedientes.nro_expediente as nroExpediente',
+                     'expedientes.fecha as fecha_creacion',
+                     'prioridad_expedientes.descripcion as prioridad',
+                     'extractos.descripcion as extracto',
+                     'tipo_expedientes.descripcion as tipoExpediente',
+                     'expedientes.fojas as cantFojas',
+                     DB::raw('truncate((expedientes.fojas / 200), 0) + 1 as cantCuerpos'))
+            ->where('expedientes.tipo_expediente',3)
+            ->get();
+        return $expedientes;
+    }
 }

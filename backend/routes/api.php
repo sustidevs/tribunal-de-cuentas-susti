@@ -52,8 +52,13 @@ Route::get('/createTipoEntidad',      [IniciadorController::class, 'create']);
 Route::post('/storeIniciador',      [IniciadorController::class, 'store']);
 
 //BANDEJAS//////////////////////////////////////////////////////////////////////////////////
+
 Route::post('/ListadoExp',       [ExpedienteController::class, 'bandeja']);
 Route::post('/contarExp',         [ExpedienteController::class, 'contadorBandejaEntrada']);
+
+Route::post('/contarSubsidioAporteNR', [ExpedienteController::class, 'contadorSubsidioAporteNR']);
+Route::post('/expSubsidiosNoReintegrables', [ExpedienteController::class, 'expSubsidiosNoReintegrables']);
+
 ///////////////////////////////////////////////////////////////////////////////////
 
 //PRUEBA UNION-DESGLOCE////////////////////////////////////////////////////////////////////////////
@@ -117,3 +122,4 @@ Route::get('/index-pagos',      [PagoController::Class, 'index']);
 Route::post('/store-pagos',     [PagoController::Class, 'store']);
 Route::post('/update-pagos',    [PagoController::Class, 'update']);
 ////////////////////////////////////////////////////////////////////////////////////////////
+Route::post('/subir-zip',    [ExpedienteController::class, 'validarZip']);

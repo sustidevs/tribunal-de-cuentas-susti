@@ -14,7 +14,6 @@ use App\Models\Historial;
 use App\Models\Iniciador;
 use App\Models\Expediente;
 use App\Models\TipoEntidad;
-use Illuminate\Support\Arr;
 use App\Models\Notificacion;
 use Illuminate\Http\Request;
 use App\Models\TipoExpediente;
@@ -24,13 +23,11 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\StoreExpedienteRequest;
-use Hamcrest\Core\IsNot;
 use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Database\Eloquent\Relations\Relation;
 
 class ExpedienteController extends Controller
 {
-
     public function index()
     {
         $expediente = Expediente::index();
@@ -193,7 +190,7 @@ class ExpedienteController extends Controller
 
     /*
     Método Store replanteado con transactions para evitar inconsistencias en la DB
-    Autor: Mariano F.
+    M.F.
     */
     public function store(StoreExpedienteRequest $request)
     {
@@ -283,7 +280,7 @@ class ExpedienteController extends Controller
                 $expediente->save();
                 $historial->save();
             }
-            if ($request->tipo_exp_id == 3) //TODO verificar si funciona
+            if ($request->tipo_exp_id == 3 || $request->tipo_exp_id == 4) //TODO verificar si funciona
             {
                 $notificacion = new Notificacion;
                 $notificacion->expediente_id = $expediente->id;
@@ -326,7 +323,7 @@ class ExpedienteController extends Controller
                     $historial->motivo = "Expediente Nro: ". $exp_hijo->nro_expediente . " unido al Expediente Nro: " . $exp_padre->nro_expediente .".";
                     $historial->estado = "3";//Mi expediente
                     $historial->save();
-                    $expedientes_hijos = $exp_hijo->nro_expediente. ", " . $expedientes_hijos . ", ";
+                    $expedientes_hijos = $expedientes_hijos . $exp_hijo->nro_expediente . ", ";
                     //$exp_padre->fojas = $exp_padre->fojas + $exp_hijo->fojas;//cantidad total de fojas
                     //$exp_padre->save();
                 }
@@ -346,10 +343,10 @@ class ExpedienteController extends Controller
         $historial_padre->fojas = $exp_padre->fojas;
         $historial_padre->fecha = Carbon::now()->format('Y-m-d');
         $historial_padre->hora = Carbon::now()->format('h:i');
-        $historial_padre->motivo = "Expediente Nro: ". Expediente::find($historial_padre->expediente_id)->nro_expediente . " unido a los Expedientes: " . $expedientes_hijos;
+        $historial_padre->motivo =  "El Expediente N° " . $expedientes_hijos . " se ha unido al Expediente ". Expediente::find($historial_padre->expediente_id)->nro_expediente;
         $historial_padre->estado = "3";
         $historial_padre->save();
-        return response()->json("Exitoooo");
+        return $historial_padre->motivo;
     }
     //return response()->json([$exp_padre->first(),$exp_padre->hijos,$exp_hijo->padre ],200);
 
@@ -370,7 +367,7 @@ class ExpedienteController extends Controller
             $fojas_padre =  $fojas_padre - $exp_hijo->fojas;
         }
         $ultimo_hijo->fojas = ($fojas_padre - $exp_padre->historiales->first()->fojas) + Expediente::findOrFail($ultimo_hijo->id)->historiales->last()->fojas;
-        $ultimo_hijo->expediente_id = "";
+        $ultimo_hijo->expediente_id = null;
         $ultimo_hijo->save();
         $historial_ultimo_hijo = new Historial;
         $historial_ultimo_hijo->expediente_id = $ultimo_hijo->id;
@@ -439,7 +436,7 @@ class ExpedienteController extends Controller
                 return response()->json("Error",400);
             }*/
 
-            $exp_hijo->expediente_id = "";
+            $exp_hijo->expediente_id = null;
             //$exp_hijo->fojas = Historial::findOrFail($exp_padre->id)->last()->fojas + Historial::findOrFail($exp_hijo->id)->last()->fojas;
             $exp_hijo->save();
             $historial = new Historial;
@@ -554,7 +551,45 @@ class ExpedienteController extends Controller
                     $posee_archivo];
         return response()->json($detalle,200);
     }
+    /*
+        Metodo para validar las extensiones de los archivos que se van a adjuntar al zip.
+    */
+    public function validarZip(Request $request)
+    {
+        $archivos = $request->allFiles();
+        $array_archivos = collect();
+        // Recorre el array y trae la extension de los archivos
+        foreach ($archivos as $archivo)
+        {
+            $array_archivos->push(
+                $archivo->getClientOriginalExtension()
+            );
+        }
+        $extensiones = Expediente::EXTENSIONES_PERMITIDAS;
+        // Metodo para calcular el peso de los archivos
+        $peso_archivos = Expediente::peso($request);
 
+        if(($archivos) != null)
+        {
+            $array = collect([]);
+            $array_archivos = $array_archivos->toArray();
+            // Evalua las coincidencias entre el array de archivos que recibe y el array de extensiones permitidas
+            $coincidencias = array_intersect($array_archivos, $extensiones);
+            foreach($coincidencias as $value)
+            {
+                $array->push([$value]);
+            }
+        }
+        // Evalua si la cantidad de extensiones validas es igual a la cantidad de archivos que se suben y si el peso total es menor a 25mb
+        if((count($array_archivos) == count($array)) && ($peso_archivos < 25000000))
+        {
+            return response()->json('true', 200);
+        }
+        else
+        {
+            return response()->json('false', 200);
+        }
+    }
 
     public function descargarZip(Request $request) //TODO hasta que tenga boton
     {
@@ -610,6 +645,29 @@ class ExpedienteController extends Controller
     {
         $contador = Expediente::listadoExpedientes($request->user_id,1,1)->count();
         return response()->json($contador, 200);
+    }
+
+    /**
+     * Método para notificar al área de Registraciones y Notificaciones cantidad que
+     * ha ingresado de expedientes con motivo Subsidio o Aporte no reintegrable
+     * @params: user_id
+     * A: MF
+     */
+    public function contadorSubsidioAporteNR()
+    {
+        $contador = Expediente::listadoExpedientesSubsidioAporteNR()->count();
+        return response()->json($contador, 200);
+    }
+
+    /**
+     * Método para mostrar información de expedientes con motivo Subsidio y Aporte no reintegrable
+     * para  Registraciones(área:6) y Notificaciones(área:14)
+     * A: MF
+     */
+    public function expSubsidiosNoReintegrables()
+    {
+        $expedientes = Expediente::listadoExpedientesSubsidioAporteNR();
+        return response()->json($expedientes);
     }
 
     /*

@@ -13,7 +13,7 @@
         />
       </v-col>
     </v-row>
-    <v-row>
+    <v-row class="mb-16">
       <v-col cols="12" lg="7">
         <v-data-table
             :headers="headers"
@@ -57,25 +57,23 @@
                 <v-list-item-title class="contentSize Montserrat-SemiBold" v-text="item.nro_expediente"></v-list-item-title>
                 <v-list-item-content class="contentSize Montserrat-Regular" v-text="item.extracto"/>
                 <v-row @click="quitar(item)"  no-gutters>
-                  <v-icon class="red--text">mdi-close</v-icon><div class="pt-1 Montserrat-Regular red--text">Quitar Seleccion</div>
+                  <v-icon class="red--text">mdi-close</v-icon><div class="pt-1 Montserrat-Regular red--text">Quitar Selección</div>
                 </v-row>
                 <v-divider class="my-2"></v-divider>
               </v-list-item-content>
             </v-list-item>
           </v-list>
 
-          <div v-if="!(seleccionados.length === 0)" class="contentSize Montserrat-Regular pa-4">
-            <v-row justify="center" align="center">
-              <v-btn @click="confirmarEnglose" class="pa-1 color Montserrat-SemiBold px-9" height="55" elevation="0" color="#FACD89">
-                <v-icon class="px-2">
-                  mdi-check-bold
-                </v-icon>
-                <div class="">
-                  Confirmar
-                </div>
-              </v-btn>
-            </v-row>
-          </div>
+          <v-row justify="center" align="center" v-if="!(seleccionados.length === 0)" class="contentSize Montserrat-Regular pa-6">
+            <v-btn @click="confirmarEnglose" class="pa-1 color Montserrat-SemiBold px-6" height="50" elevation="0" color="#FACD89">
+              <v-icon class="px-2">
+                mdi-check-bold
+              </v-icon>
+              <div class="">
+                Confirmar
+              </div>
+            </v-btn>
+          </v-row>
         </v-card>
       </v-col>
     </v-row>
