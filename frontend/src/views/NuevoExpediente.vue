@@ -256,6 +256,7 @@ export default {
 
       if (event.target.files[0].type === "application/x-msdownload") {
         this.showArchivoError = !this.showArchivoError;
+        event.target.value = null;
       }
     },
 
