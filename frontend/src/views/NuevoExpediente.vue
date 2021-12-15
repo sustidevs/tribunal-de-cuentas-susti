@@ -167,9 +167,14 @@
 
       <v-card color="#FFF5E6" class="pa-5">
         <label-input texto="Adjuntar Archivos al Pase" />
-        <input type="file"  multiple @change="handleFileUpload($event)" />
-        <modal-error-tipo-archivo :show="showArchivoError" ref="myFileInput" @close="closeModalErrorArchivo"/>    
+        <input type="file" multiple @change="handleFileUpload($event)" />
+        <modal-error-tipo-archivo
+          :show="showArchivoError"
+          ref="myFileInput"
+          @close="closeModalErrorArchivo"
+        />
       </v-card>
+      <v-progress-linear :active="this.$store.getters.get_btn_creado" indeterminate color="yellow darken-3"></v-progress-linear>
 
       <v-row no-gutters justify="center" class="py-16">
         <v-col cols="12" sm="6" md="6" lg="6" class="px-sm-2">
@@ -210,7 +215,6 @@ import AutocompleteField from "../components/AutocompleteField";
 import ModalNuevosExpedientes from "../components/dialogs/ModalNuevosExpedientes";
 import LabelError from "../components/LabelError";
 import ModalErrorTipoArchivo from "../components/dialogs/ModalErrorTipoArchivo";
-
 
 export default {
   name: "Home",
@@ -254,7 +258,6 @@ export default {
     },
 
     handleFileUpload(event) {
-     
       this.files = event.target.files;
 
       if (event.target.files[0].type === "application/x-msdownload") {
@@ -289,7 +292,6 @@ export default {
 
     closeModalErrorArchivo() {
       this.showArchivoError = false;
-
     },
 
     ...mapActions([
