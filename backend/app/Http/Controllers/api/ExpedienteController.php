@@ -802,4 +802,6 @@ class ExpedienteController extends Controller
         }
         return response()->json($detalle, 200);
     }
+    */
+
 }
