@@ -71,7 +71,7 @@ class Expediente extends Model
         'docx',
         'pdf',
         'txt',
-        'jpg', 
+        'jpg',
         'jpeg',
         'xlsx',
         'xls',
@@ -295,11 +295,11 @@ class Expediente extends Model
                                             ->select('expedientes.*', 'caratulas.expediente_id', 'extractos.descripcion')
                                             ->where('tipo_expediente', 3)
                                             ->where('descripcion','LIKE',"%$valor%")
-                                            ->get();                      
+                                            ->get();
                     foreach ($consulta as $item) {
                         $expediente = Expediente::FindOrFail($item->id);
                         $lista_expedientes->push($expediente->getDatos());
-                        
+
                     }
                     break;
         }
@@ -323,8 +323,8 @@ class Expediente extends Model
      * Subsidios y aportes No Reintegrables
      * A: MF
      */
-    /*
-    public static function listadoExpedientesSubsidioAporteNR($user_id)
+
+    public static function listadoExpedientesSubsidioAporteNR()
     {
         $expedientes = DB::table('expedientes')
             ->join('prioridad_expedientes', 'expedientes.prioridad_id', '=', 'prioridad_expedientes.id')
@@ -338,7 +338,8 @@ class Expediente extends Model
                      'extractos.descripcion as extracto',
                      'tipo_expedientes.descripcion as tipoExpediente',
                      'expedientes.fojas as cantFojas',
-                     DB::raw('truncate((expedientes.fojas / 200), 0) + 1 as cantCuerpos'))                 
+                     DB::raw('truncate((expedientes.fojas / 200), 0) + 1 as cantCuerpos'))
+            ->where('expedientes.tipo_expediente',3)
             ->get();
         return $expedientes;
     }

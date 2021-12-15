@@ -690,7 +690,6 @@ class ExpedienteController extends Controller
         return response()->json($contador, 200);
     }
 
-
     /**
      * Método para mostrar información de expedientes con motivo Subsidio y Aporte no reintegrable
      * para  Registraciones(área:6) y Notificaciones(área:14)
@@ -700,6 +699,7 @@ class ExpedienteController extends Controller
     {
         $expedientes = Notificacion::listadoExpedientesSubsidioAporteNR();
         return response()->json($expedientes);        
+
     }
 
     /*
