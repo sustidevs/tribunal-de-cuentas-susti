@@ -1,7 +1,7 @@
 <template>
   <v-alert
       v-if="true"
-      icon="mdi-check"
+      icon="mdi-information-variant"
       dense
       prominent
       dismissible
@@ -10,7 +10,7 @@
       class="alert Montserrat-SemiBold mt-5 sizeAlert"
       close-icon="mdi-close"
   >
-    Han ingresado 5 expedientes con Motivo de SUBSIDIO y/o E/CTAS.APORTES NO REINTEGRABLE GASTOS
+    Han ingresado {{ texto }} expedientes con Motivo de SUBSIDIO y/o E/CTAS.APORTES NO REINTEGRABLE GASTOS
     <strong class="mx-3" style="text-decoration: underline">Ver Expedientes</strong>
   </v-alert>
 </template>
@@ -18,7 +18,7 @@
 <script>
 export default {
   props: {
-    texto: String,
+    texto: Number,
     condicion: Boolean,
   }
 }

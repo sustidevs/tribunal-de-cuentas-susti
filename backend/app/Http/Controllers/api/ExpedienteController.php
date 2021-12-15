@@ -653,10 +653,9 @@ class ExpedienteController extends Controller
      * @params: user_id
      * A: MF
      */
-    public function contadorSubsidioAporteNR(Request $request)
+    public function contadorSubsidioAporteNR()
     {
-        $expediente = new Expediente();
-        $contador = Expediente::listadoExpedientesSubsidioAporteNR($request->user_id)->count();
+        $contador = Expediente::listadoExpedientesSubsidioAporteNR()->count();
         return response()->json($contador, 200);
     }
 
@@ -665,10 +664,10 @@ class ExpedienteController extends Controller
      * para  Registraciones(área:6) y Notificaciones(área:14)
      * A: MF
      */
-    public function expSubsidiosNoReintegrables(Request $request)
+    public function expSubsidiosNoReintegrables()
     {
-        $expedientes = Expediente::listadoExpedientesSubsidioAporteNR($request->user_id);
-        return response()->json($expedientes);        
+        $expedientes = Expediente::listadoExpedientesSubsidioAporteNR();
+        return response()->json($expedientes);
     }
 
     /*
