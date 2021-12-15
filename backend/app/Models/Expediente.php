@@ -306,18 +306,6 @@ class Expediente extends Model
         return $lista_expedientes;
     }
 
-/*    public function notificacion($user_id)
-    {
-        /*$lista_areas = Collect([]);
-        $area = User::findOrFail($user_id)->area_id;
-        $expediente = $this->tipo_expediente->where('id', 3);*/
-    /*    $expediente = Expediente::all()->where('tipo_expediente', 3);
-        $user = User::all()->where('area_id', 6)->orWhere('area_id', 14);
-        $user = DB::table('users')->where('area_id', 6)->orWhere('area_id', 14)->get('id');
-        $datos = [$expediente, $user];
-        return $datos;
-    }*/
-
     /**
      * Método que retorna toos los expedientes correspondientes a
      * Subsidios y aportes No Reintegrables
