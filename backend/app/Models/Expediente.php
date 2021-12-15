@@ -123,10 +123,12 @@ class Expediente extends Model
 
         return $array;
     }
-
-    public static function index()
+    /**
+     * En desuso
+     */
+    public static function index_old()
     {
-        $expedientes = Expediente::where('expediente_id',null)->get();
+        $expedientes = Expediente::where('expediente_id', null)->get();
         $array_expediente = collect([]);
         foreach ($expedientes as $exp)
         {
@@ -143,6 +145,31 @@ class Expediente extends Model
                             ]);
         }
         return $array_expediente;
+    }
+
+    /**
+     * Método index replanteado para utilizar la db facade
+     * Autor: MF
+     */
+    public static function index()
+    {
+        $expediente = DB::table('expedientes')
+                        ->where('expedientes.expediente_id', '=', null)
+                        ->join('prioridad_expedientes', 'prioridad_expedientes.id', '=', 'expedientes.prioridad_id')
+                        ->join('caratulas', 'caratulas.expediente_id', '=', 'expedientes.id')
+                        ->join('extractos', 'extractos.id', '=', 'caratulas.extracto_id')
+                        ->join('tipo_expedientes', 'tipo_expedientes.id', '=', 'expedientes.tipo_expediente')
+                        ->select(   'expedientes.id as id', 
+                                    'prioridad_expedientes.descripcion',
+                                    'expedientes.nro_expediente',
+                                    'extractos.descripcion as extracto',
+                                    'expedientes.fecha as fecha_creacion',
+                                    'tipo_expedientes.descripcion as tramite',
+                                    DB::raw('ceil(expedientes.fojas / 200) as cantCuerpos'),
+                                    'caratulas.id as caratula',
+                                    'expedientes.fojas')
+                        ->get();
+        return $expediente;
     }
 
     public static function nroExpediente($año_exp)
@@ -321,7 +348,7 @@ class Expediente extends Model
                      'tipo_expedientes.descripcion as tipoExpediente',
                      'expedientes.fojas as cantFojas',
                      DB::raw('truncate((expedientes.fojas / 200), 0) + 1 as cantCuerpos'))
-            ->where('expedientes.tipo_expediente',3)
+            ->where('expedientes.tipo_expediente',3) 
             ->get();
         return $expedientes;
     }
