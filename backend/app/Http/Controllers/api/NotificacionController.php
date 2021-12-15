@@ -54,4 +54,16 @@ class NotificacionController extends Controller
     {
         //
     }
+
+    /**
+     * Método para notificar al área de Registraciones y Notificaciones cantidad que
+     * ha ingresado de expedientes con motivo Subsidio o Aporte no reintegrable
+     * @params: user_id
+     * A: MF
+     */
+    public function contadorSubsidioAporteNR()
+    {
+        $contador = Notificacion::listadoExpedientesSubsidioAporteNR()->count();
+        return response()->json($contador, 200);
+    }
 }

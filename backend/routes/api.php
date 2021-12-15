@@ -45,7 +45,8 @@ Route::post('/buscar-expediente',   [ExpedienteController::class, 'buscarExpedie
 Route::get('/all-expedientes',      [ExpedienteController::class, 'AllExpedientes']);
 //Route::get('/zip',                  [ExpedienteController::class, 'descargarZip']);//TODO ruta back 8000
 Route::post('/zip',               [ExpedienteController::class, 'descargarZip']);
-Route::get('/show-detalle',        [ExpedienteController::class, 'showDetalleExpediente']);
+// Route::get('/show-detalle',        [ExpedienteController::class, 'showDetalleExpediente']); método comentado...
+Route::post('/expSubsidiosNoReintegrables', [ExpedienteController::class, 'expSubsidiosNoReintegrables']);
 ////////////////////////////////////////////////////////////////////////////////////
 /// NUEVO INICIADOR
 Route::get('/createTipoEntidad',      [IniciadorController::class, 'create']);
@@ -55,10 +56,10 @@ Route::post('/storeIniciador',      [IniciadorController::class, 'store']);
 
 Route::post('/ListadoExp',       [ExpedienteController::class, 'bandeja']);
 Route::post('/contarExp',         [ExpedienteController::class, 'contadorBandejaEntrada']);
+    
+Route::post('/contarSubsidioAporteNR', [NotificacionController::class, 'contadorSubsidioAporteNR']);
 
-Route::post('/contarSubsidioAporteNR', [ExpedienteController::class, 'contadorSubsidioAporteNR']);
 Route::post('/expSubsidiosNoReintegrables', [ExpedienteController::class, 'expSubsidiosNoReintegrables']);
-
 ///////////////////////////////////////////////////////////////////////////////////
 
 //PRUEBA UNION-DESGLOCE////////////////////////////////////////////////////////////////////////////
