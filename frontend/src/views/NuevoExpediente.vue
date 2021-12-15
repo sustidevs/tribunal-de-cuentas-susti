@@ -164,7 +164,8 @@
 
       <v-card color="#FFF5E6" class="pa-5">
         <label-input texto="Adjuntar Archivos al Pase" />
-        <input type="file" multiple @change="handleFileUpload($event)" />
+        <input type="file"  multiple @change="handleFileUpload($event)" />
+        <modal-error-tipo-archivo :show="showArchivoError" ref="myFileInput" @close="closeModalErrorArchivo"/>    
       </v-card>
 
       <v-row no-gutters justify="center" class="py-16">
@@ -177,12 +178,17 @@
             color="#FACD89"
             block
             :disabled="this.$store.getters.get_btn_creado"
+            @click="overlay = !overlay"
           >
             <v-icon class="px-5"> mdi-check-bold </v-icon>
             <div class="">Confirmar</div>
           </v-btn>
         </v-col>
       </v-row>
+
+      <v-overlay :value="this.$store.getters.get_btn_creado">
+        <v-progress-circular indeterminate size="64"></v-progress-circular>
+      </v-overlay>
     </form>
     <modal-nuevos-expedientes
       :show="creado"
@@ -200,6 +206,8 @@ import TextField from "../components/TextField";
 import AutocompleteField from "../components/AutocompleteField";
 import ModalNuevosExpedientes from "../components/dialogs/ModalNuevosExpedientes";
 import LabelError from "../components/LabelError";
+import ModalErrorTipoArchivo from "../components/dialogs/ModalErrorTipoArchivo";
+
 
 export default {
   name: "Home",
@@ -211,6 +219,7 @@ export default {
     Extractos,
     ModalNuevosExpedientes,
     LabelError,
+    ModalErrorTipoArchivo,
   },
   data: () => ({
     radioGroup: 1,
@@ -220,7 +229,7 @@ export default {
     ],
     motivo: [],
     showDetalle: false,
-    files: "",
+    files: "dasdas",
     loader: null,
     expe: {
       iniciador_id: "",
@@ -232,7 +241,7 @@ export default {
       area_id: "",
       archivos: "",
     },
-    from_submitting: false,
+    showArchivoError: false,
   }),
 
   methods: {
@@ -242,11 +251,11 @@ export default {
     },
 
     handleFileUpload(event) {
+     
       this.files = event.target.files;
 
-      if (event.target.files[0].type === "application/x-msdownload"){
-        this.files = "";
-        console.log("no rei")
+      if (event.target.files[0].type === "application/x-msdownload") {
+        this.showArchivoError = !this.showArchivoError;
       }
     },
 
@@ -274,6 +283,11 @@ export default {
       this.storeExpediente(formData);
     },
 
+    closeModalErrorArchivo() {
+      this.showArchivoError = false;
+
+    },
+
     ...mapActions([
       "getCreate",
       "storeExpediente",
@@ -291,7 +305,6 @@ export default {
       "fecha",
       "motivoSinExtracto",
 
-      "get_alle",
       "expediente",
       "getTipoUsuario",
       "motivoConExtracto",
@@ -301,7 +314,6 @@ export default {
       "iniciador_id_error",
       "nro_fojas_error",
       "prioridad_error",
-      "motivo_error",
       "expediente_new",
 
       "get_btn_creado",
