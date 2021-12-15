@@ -36,7 +36,7 @@
       </v-col>
 
       <v-col cols="12" lg="5">
-        <v-toolbar
+        <v-toolbar height="59px"
             color="#FACD89"
             class="contentSize Montserrat-SemiBold text--darken-3 grey--text"
         >
@@ -71,8 +71,6 @@
             </v-btn>
           </v-row>
         </v-card>
-
-
       </v-col>
     </v-row>
   </div>
