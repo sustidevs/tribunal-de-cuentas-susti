@@ -112,7 +112,10 @@
         ></v-textarea>
       </div>
 
-      <v-row no-gutters justify="end">
+      <v-row no-gutters justify="start">
+        <v-col cols="12" sm="12" lg="6">
+          <label-error :texto="this.pase_a_error" />
+        </v-col>
         <v-col cols="12" sm="12" lg="6" class="pl-lg-2">
           <label-error :texto="this.prioridad_error" />
         </v-col>
@@ -315,6 +318,7 @@ export default {
       "iniciador_id_error",
       "nro_fojas_error",
       "prioridad_error",
+      "pase_a_error",
       "expediente_new",
 
       "get_btn_creado",
