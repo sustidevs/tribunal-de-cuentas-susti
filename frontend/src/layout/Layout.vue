@@ -14,8 +14,8 @@
             <alert-pendiente :cantidad="get_cantPendientes"/>
           </div>
 
-          <div v-if="getArea === 'DIRECCIÓN DE REGISTRACIONES'">
-            <alerta-registraciones/>
+          <div v-if="(getArea === 'DIRECCIÓN DE REGISTRACIONES') && (getcantidad_subsidioAporteNR > 0) ">
+            <alerta-registraciones :texto="getcantidad_subsidioAporteNR" />
           </div>
 
           <router-view/>
@@ -42,17 +42,22 @@ export default {
     currentRoute: window.location.pathname
   }),
 
-  computed: mapGetters(['getUser','get_cantPendientes','getArea']),
+  computed: mapGetters(['getUser','get_cantPendientes','getArea', 'getcantidad_subsidioAporteNR']),
 
   mounted() {
     this.getCantidad_Pendientes();
+    this.getCantidad_SubsidioAporteNR();
   },
 
   methods: {
-    ...mapActions(['getCantidadPendientes']),
+    ...mapActions(['cantidadPendientes', 'cantidad_subsidioAporteNR']),
+
+    getCantidad_SubsidioAporteNR () {
+      this.cantidad_subsidioAporteNR()
+    },
 
     getCantidad_Pendientes(){
-      this.getCantidadPendientes(this.getUser)
+      this.cantidadPendientes(this.getUser)
     },
 }
 }

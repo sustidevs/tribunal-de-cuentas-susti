@@ -28,7 +28,6 @@ use Illuminate\Database\Eloquent\Relations\Relation;
 
 class ExpedienteController extends Controller
 {
-
     public function index()
     {
         $expediente = Expediente::index();
@@ -191,7 +190,7 @@ class ExpedienteController extends Controller
 
     /*
     Método Store replanteado con transactions para evitar inconsistencias en la DB
-    Autor: Mariano F.
+    M.F.
     */
     public function store(StoreExpedienteRequest $request)
     {
@@ -281,7 +280,7 @@ class ExpedienteController extends Controller
                 $expediente->save();
                 $historial->save();
             }
-            if ($request->tipo_exp_id == 3) //TODO verificar si funciona
+            if ($request->tipo_exp_id == 3 || $request->tipo_exp_id == 4) //TODO verificar si funciona
             {
                 $notificacion = new Notificacion;
                 $notificacion->expediente_id = $expediente->id;
@@ -437,7 +436,7 @@ class ExpedienteController extends Controller
                 return response()->json("Error",400);
             }*/
 
-            $exp_hijo->expediente_id = "";
+            $exp_hijo->expediente_id = null;
             //$exp_hijo->fojas = Historial::findOrFail($exp_padre->id)->last()->fojas + Historial::findOrFail($exp_hijo->id)->last()->fojas;
             $exp_hijo->save();
             $historial = new Historial;
@@ -552,7 +551,7 @@ class ExpedienteController extends Controller
                     $posee_archivo];
         return response()->json($detalle,200);
     }
-    /* 
+    /*
         Metodo para validar las extensiones de los archivos que se van a adjuntar al zip.
     */
     public function validarZip(Request $request)
@@ -568,15 +567,15 @@ class ExpedienteController extends Controller
         }
         $extensiones = Expediente::EXTENSIONES_PERMITIDAS;
         // Metodo para calcular el peso de los archivos
-        $peso_archivos = Expediente::peso($request);        
+        $peso_archivos = Expediente::peso($request);
 
         if(($archivos) != null)
         {
             $array = collect([]);
             $array_archivos = $array_archivos->toArray();
             // Evalua las coincidencias entre el array de archivos que recibe y el array de extensiones permitidas
-            $coincidencias = array_intersect($array_archivos, $extensiones);        
-            foreach($coincidencias as $value) 
+            $coincidencias = array_intersect($array_archivos, $extensiones);
+            foreach($coincidencias as $value)
             {
                 $array->push([$value]);
             }
@@ -646,6 +645,29 @@ class ExpedienteController extends Controller
     {
         $contador = Expediente::listadoExpedientes($request->user_id,1,1)->count();
         return response()->json($contador, 200);
+    }
+
+    /**
+     * Método para notificar al área de Registraciones y Notificaciones cantidad que
+     * ha ingresado de expedientes con motivo Subsidio o Aporte no reintegrable
+     * @params: user_id
+     * A: MF
+     */
+    public function contadorSubsidioAporteNR()
+    {
+        $contador = Expediente::listadoExpedientesSubsidioAporteNR()->count();
+        return response()->json($contador, 200);
+    }
+
+    /**
+     * Método para mostrar información de expedientes con motivo Subsidio y Aporte no reintegrable
+     * para  Registraciones(área:6) y Notificaciones(área:14)
+     * A: MF
+     */
+    public function expSubsidiosNoReintegrables()
+    {
+        $expedientes = Expediente::listadoExpedientesSubsidioAporteNR();
+        return response()->json($expedientes);
     }
 
     /*

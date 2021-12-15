@@ -92,8 +92,6 @@ export default {
     nuevoPase: function(item) {
       console.log(item);
       this.getNuevoPase(item);
-      this.$router.push({ name: "NuevoPase" });
-      //console.log(item)
     },
 
     detalle(item) {
