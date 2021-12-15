@@ -1,6 +1,7 @@
 <template>
   <div>
-    <titulo texto="Desglose" icono="mdi-text-box-multiple"/>
+    <titulo texto="Desglose" icono="mdi-file-percent"/>
+    <div class="descripcion text-justify py-4">Si desea <strong>desglosar</strong> un expediente, seleccione el mismo de la tabla.</div>
     <tabla-desglose :headers="headers" :data="getExpedientesPadres"/>
   </div>
 </template>
@@ -10,7 +11,6 @@ import Titulo from "../components/Titulo";
 import TablaDesglose from "../components/Tablas/TablaDesglose";
 import {mapActions, mapGetters} from "vuex";
 
-
 export default {
   components: {Titulo, TablaDesglose},
 
@@ -19,7 +19,7 @@ export default {
       headers: [
         {text: 'Nro. de Expediente', value: 'nro_expediente'},
         {text: 'Extracto', value: 'extracto'},
-        {text: 'Ver Hijos', value: 'action', sortable: false},
+        {text: 'Seleccionar', value: 'action', sortable: false},
       ],
     }
   },
@@ -32,7 +32,6 @@ export default {
 
   methods: {
     ...mapActions(['desglosarVerPadres','cerrar','getIdUser']),
-
   },
 
 }
