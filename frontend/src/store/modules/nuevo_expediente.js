@@ -82,6 +82,7 @@ const actions = {
                 commit('set_iniciador_id_error', error.response.data.errors.iniciador_id)
                 commit('set_nro_fojas_error', error.response.data.errors.nro_fojas)
                 commit('set_prioridad_error', error.response.data.errors.prioridad_id)
+                commit('set_btn_creado', false)
             })
     },
 };
