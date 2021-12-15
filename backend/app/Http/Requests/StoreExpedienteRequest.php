@@ -29,23 +29,25 @@ class StoreExpedienteRequest extends FormRequest
             //'monto'     => 'required|integer',
             'descripcion_extracto'  => 'required',
             'iniciador_id'          => 'required',
-            'archivos'              => 'mimes:docx|txt|pdf|jpg|jpeg|xlsx|xls|file|size:25600'
+            'archivos'              => 'mimes:docx|txt|pdf|jpg|jpeg|xlsx|xls|file|size:25600',
+            'area_id'               => 'required'
         ];
     }
 
     public function messages()
     {
         return [
-            'nro_fojas.required'    => 'Ingrese cantidad de fojas',
-            'nro_fojas.max'         => 'Número máximo excedido',
-            'nro_fojas.integer'     => 'Solo puede ingresar números',
-            'prioridad_id.required'    => 'Seleccione prioridad del expediente',
+            'nro_fojas.required'    => 'Ingrese cantidad de fojas.',
+            'nro_fojas.max'         => 'Número máximo excedido.',
+            'nro_fojas.integer'     => 'Solo puede ingresar números.',
+            'prioridad_id.required'    => 'Seleccione prioridad del expediente.',
             // 'monto.required'        => 'Ingrese un monto',
             // 'monto.integer'         => 'Solo puede ingresar números',
-            'descripcion_extracto.required' => 'Descripción del extracto requerida',
-            'iniciador_id.required' => 'Seleccione un iniciador',
+            'descripcion_extracto.required' => 'Descripción del extracto requerida.',
+            'iniciador_id.required' => 'Seleccione un iniciador.',
             'archivos.mimes'        => 'Seleccione un archivo con la extensión correcta.',
-            'archivos.size'         => 'El archivo es demasiado pesado.'
+            'archivos.size'         => 'El archivo es demasiado pesado.',
+            'area_id.required'      => 'Seleccione un área.'
         ];
     }
 }
