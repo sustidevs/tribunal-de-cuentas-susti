@@ -1,5 +1,5 @@
 <template>
-    <div v-if="this.texto" class="Montserrat-Bold red--text fontError text-start py-2 pt-5">
+    <div v-if="this.texto" class="Montserrat-Regular red--text fontError text-start py-2">
 
       <div v-if="!(this.texto === undefined)">
         {{ fullError }}

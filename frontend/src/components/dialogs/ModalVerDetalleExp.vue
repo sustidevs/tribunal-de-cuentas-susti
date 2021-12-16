@@ -11,6 +11,17 @@
       </v-row>
       <v-divider color="#393B44" class="mt-2"></v-divider>
 
+      <v-row no-gutters align="start" class="mt-5">
+        <div class="textHereSmall d-flex flex-column Montserrat-Bold mb-2 mr-2">
+          Extracto:
+        </div>
+        <div
+          class="textHereSmall d-flex flex-column Montserrat-SemiBold text-justify"
+        >
+          {{ this.datos.extracto }}
+        </div>
+      </v-row>
+
       <v-row no-gutters align="start" class="pt-6">
         <v-col>
           <div class="d-flex">
@@ -33,40 +44,38 @@
       </v-row>
 
       <v-row no-gutters align="start" class="mt-5">
-        <v-col>
-          <div class="d-flex">
-            <div class="textHereSmall Montserrat-Bold mr-1">Área emisora:</div>
-            <div class="textHereSmall Montserrat-SemiBold ml-1">
-              {{ this.datos.area_origen }}
-            </div>
-          </div>
-        </v-col>
-        <v-col>
-          <div class="d-flex">
-            <div class="textHereSmall Montserrat-Bold mr-1">Cuerpo:</div>
-            <div class="textHereSmall Montserrat-SemiBold ml-1">
-              {{ this.datos.cant_cuerpos }}
-            </div>
-          </div>
-        </v-col>
+        <div class="textHereSmall d-flex flex-column Montserrat-Bold mb-2 mr-2">
+          Observaciones:
+        </div>
+        <div
+          class="textHereSmall d-flex flex-column Montserrat-SemiBold text-justify"
+        >
+          {{ this.datos.observacion }}
+        </div>
       </v-row>
-      <v-row no-gutters align="start" class="mt-5">
-        <v-col>
-          <div class="d-flex">
-            <div class="textHereSmall Montserrat-Bold mr-1">Trámite:</div>
-            <div class="textHereSmall Montserrat-SemiBold ml-1">
-              {{ this.datos.tramite }}
-            </div>
-          </div>
-        </v-col>
-        <v-col>
-          <div class="d-flex">
-            <div class="textHereSmall Montserrat-Bold mr-1">Fojas:</div>
-            <div class="textHereSmall Montserrat-SemiBold ml-1">
-              {{ this.datos.fojas }}
-            </div>
-          </div>
-        </v-col>
+      
+      <v-divider color="#c2c3cc" class="mt-2"></v-divider>
+
+      <v-row no-gutters align="start" class="mt-5" v-if="getArea == 'DPTO. MESA DE ENTRADAS Y SALIDAS' ">
+        <div class="textHereSmall d-flex flex-column Montserrat-Bold mb-2 mr-2">
+          A afectos de:
+        </div>
+        <div
+          class="textHereSmall d-flex flex-column Montserrat-SemiBold text-justify"
+        >
+          {{ this.datos.motivo[0].motivo }}
+        </div>
+      </v-row>
+
+      <v-row no-gutters align="start" class="mt-5" v-else>
+        <div class="textHereSmall d-flex flex-column Montserrat-Bold mb-2 mr-2">
+          A afectos de:
+        </div>
+        <div
+          class="textHereSmall d-flex flex-column Montserrat-SemiBold text-justify"
+        >
+          {{ this.datos.observacion_pase }}
+        </div>
       </v-row>
 
       <v-row no-gutters align="start" class="mt-5">
@@ -91,47 +100,6 @@
             </div>
           </div>
         </v-col>
-      </v-row>
-      <v-row no-gutters align="start" class="mt-5">
-        <div class="textHereSmall d-flex flex-column Montserrat-Bold mb-2 mr-2">
-          Observaciones:
-        </div>
-        <div
-          class="textHereSmall d-flex flex-column Montserrat-SemiBold text-justify"
-        >
-          {{ this.datos.observacion }}
-        </div>
-      </v-row>
-      <v-row no-gutters align="start" class="mt-5">
-        <div class="textHereSmall d-flex flex-column Montserrat-Bold mb-2 mr-2">
-          Extracto:
-        </div>
-        <div
-          class="textHereSmall d-flex flex-column Montserrat-SemiBold text-justify"
-        >
-          {{ this.datos.extracto }}
-        </div>
-      </v-row>
-      <v-row no-gutters align="start" class="mt-5" v-if="getArea == 'DPTO. MESA DE ENTRADAS Y SALIDAS' ">
-        <div class="textHereSmall d-flex flex-column Montserrat-Bold mb-2 mr-2">
-          A efectos de:
-        </div>
-        <div
-          class="textHereSmall d-flex flex-column Montserrat-SemiBold text-justify"
-        >
-          {{ this.datos.motivo[0].motivo }}
-        </div>
-      </v-row>
-
-      <v-row no-gutters align="start" class="mt-5" v-else>
-        <div class="textHereSmall d-flex flex-column Montserrat-Bold mb-2 mr-2">
-          A efectos de:
-        </div>
-        <div
-          class="textHereSmall d-flex flex-column Montserrat-SemiBold text-justify"
-        >
-          {{ this.datos.observacion_pase }}
-        </div>
       </v-row>
 
       <v-row no-gutters justify="center" class="mt-8">

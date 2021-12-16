@@ -35,7 +35,8 @@
               <div class="Montserrat-SemiBold sizeCedula mt-4 mb-1 py-2">
                 Ingrese el nuevo número de cédula para el expediente:
               </div>
-              <text-field v-model="valorCedula" />
+              <label-error :texto="this.get_error" />
+              <text-field class="py-2" v-model="valorCedula" tipo="number"/>
 
               <v-row no-gutters justify="center" class="py-2">
                 <v-col cols="12" lg="6" class="px-sm-2 py-3">
@@ -75,7 +76,7 @@
 
           <v-divider color="#393B44" class="mt-2"></v-divider>
 
-          <div  class="Montserrat-Regular sizeCedula mt-4 mb-1 py-2">
+          <div class="Montserrat-Regular sizeCedula mt-4 mb-1 py-2">
               Se ha guardado con éxito
           </div>
         </v-card>
@@ -87,10 +88,11 @@
 <script>
 import TextField from "../TextField";
 import { mapActions, mapGetters } from "vuex";
+import LabelError from "../../components/LabelError";
 
 export default {
   name: "ModalNuevaCedula",
-  components: { TextField },
+  components: { TextField, LabelError },
   props: {
     show: { type: Boolean, default: false },
     datos: Object,
@@ -102,7 +104,7 @@ export default {
     };
   },
 
-  computed: mapGetters(["todos_expp", "cargado", "getCedula"]),
+  computed: mapGetters(["todos_expp", "cargado", "getCedula", "get_error"]),
 
   methods: {
     ...mapActions(["getExpedientes", "storeCedula"]),
