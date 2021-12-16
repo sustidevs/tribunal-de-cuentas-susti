@@ -2,13 +2,14 @@
 
 namespace App\Models;
 
+use App\Models\Cedula;
 use App\Models\Caratula;
 use App\Models\Historial;
 use App\Models\Iniciador;
+use Illuminate\Http\Request;
 use App\Models\EstadoExpediente;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Expediente extends Model
@@ -67,6 +68,11 @@ class Expediente extends Model
         return ceil($this->fojas/200);
     }
 
+    public function cedulas()
+    {
+        return $this->hasMany(Cedula::class);
+    }
+
     CONST EXTENSIONES_PERMITIDAS = [
         'docx',
         'pdf',
@@ -94,14 +100,16 @@ class Expediente extends Model
     */
     public function getDatos()
     {
-        $array = Collect(["expediente_id" => $this->id,
+        $array = Collect(["expediente_id"   => $this->id,
                           //"nro_expediente" => $this->nroExpediente($this->caratula->iniciador->prefijo, date("d-m",strtotime($this->fecha)),date("Y",strtotime($this->fecha))),
-                          "nro_expediente" => $this->nro_expediente,
-                          "fecha" =>  date("d-m-Y", strtotime($this->fecha)),
-                          "iniciador" => $this->caratula->iniciador->nombre,
-                          "cuit" => $this->caratula->iniciador->cuit,
-                          "extracto" => $this->caratula->extracto->descripcion,
-                          "area_actual" => $this->area->descripcion]);
+                          "nro_expediente"  => $this->nro_expediente,
+                          "fecha"           => date("d-m-Y", strtotime($this->fecha)),
+                          "iniciador"       => $this->caratula->iniciador->nombre,
+                          "cuit"            => $this->caratula->iniciador->cuit,
+                          "extracto"        => $this->caratula->extracto->descripcion,
+                          "area_actual"     => $this->area->descripcion,
+                          "cedulas"         => $this->cedulas->count()
+                        ]);
         return $array;
     }
 

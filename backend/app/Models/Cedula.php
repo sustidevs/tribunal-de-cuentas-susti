@@ -14,6 +14,11 @@ class Cedula extends Model
         return $this->belongsTo(Expediente::class);
     }
 
+    public function user()
+    {
+        return $this->hasOne(User::class, 'id', 'user_id');
+    }
+
     public static function index()
     {
         $cedulas = Cedula::all();
@@ -21,10 +26,11 @@ class Cedula extends Model
         foreach ($cedulas as $cedula)
         {
             $array_cedulas->push([
-                                'cedula_id' => $cedula->id,
-                                'nro_expediente' => $cedula->expediente->nro_expediente,
-                                'extracto' => $cedula->expediente->caratula->extracto->descripcion,
-                                'descripcion' => $cedula->descripcion
+                                'cedula_id'         => $cedula->id,
+                                'user'              => $cedula->user->persona->nombre ." " . $cedula->user->persona->apellido,
+                                'nro_expediente'    => $cedula->expediente->nro_expediente,
+                                'extracto'          => $cedula->expediente->caratula->extracto->descripcion,
+                                'descripcion'       => $cedula->descripcion
                             ]);
         }
         return $array_cedulas;
@@ -34,10 +40,12 @@ class Cedula extends Model
     {
         $array_cedula = collect([]);
         $array_cedula->push([
-                            'cedula_id' => $this->id,
-                            'nro_expediente' => $this->expediente->nro_expediente,
-                            'extracto' => $this->expediente->caratula->extracto->descripcion,
-                            'descripcion' => $this->descripcion
+                            'cedula_id'         => $this->id,
+                            'user'              => $this->user->persona->nombre ." " . $this->user->persona->apellido,
+                            'nro_expediente'    => $this->expediente->nro_expediente,
+                            'extracto'          => $this->expediente->caratula->extracto->descripcion,
+                            'descripcion'       => $this->descripcion,
+                            'cantidad'          => $this->expediente->count()
                            ]);
         return $array_cedula;
     }

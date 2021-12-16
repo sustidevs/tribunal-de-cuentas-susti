@@ -105,11 +105,12 @@ Route::post('/update-solicitud',    [SolicitudController::Class, 'update']);
 Route::get('/prueba-codBarrra',[ExpedienteController::class, 'codigoBarra'] );
 
 ///////CEDULAS//////////////////////////////////////////////////////////////////////////////
-Route::get('/index-cedula',      [CedulaController::Class, 'index']);
+Route::get('/index-cedula',     [CedulaController::Class, 'index']);
 Route::post('/store-cedula',    [CedulaController::Class, 'store']);
-Route::post('/create-cedula',    [CedulaController::Class, 'create']);
-Route::post('/edit-cedula',    [CedulaController::Class, 'edit']);
-Route::post('/update-cedula',    [CedulaController::Class, 'update']);
+Route::post('/create-cedula',   [CedulaController::Class, 'create']);
+Route::post('/edit-cedula',     [CedulaController::Class, 'edit']);
+Route::post('/update-cedula',   [CedulaController::Class, 'update']);
+Route::post('/contar-cedula',   [CedulaController::class, 'contar_cedulas']);
 ////////////////////////////////////////////////////////////////////////////////////////////
 
 ///////NOTIFICACIONES///////////////////////////////////////////////////////////////////////
