@@ -151,6 +151,7 @@ export default {
 .v-data-table > .v-data-table__wrapper > table > tbody > tr > td {
   font-family: "Montserrat-Regular", serif !important;
   font-size: 17px !important;
+  padding: 12px !important;
 }
 
 .v-data-table > .v-data-table__wrapper > table > tbody > tr:hover {
