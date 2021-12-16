@@ -105,7 +105,7 @@ class Expediente extends Model
         return $array;
     }
 
-    public function datosExpediente()
+    public function datosExpediente_old()
     {
         $array = Collect(['id'=>$this->id,
                           'prioridad'=>$this->prioridadExpediente->descripcion,
@@ -123,6 +123,40 @@ class Expediente extends Model
 
         return $array;
     }
+
+    public static function datosExpediente()
+    {
+        $area_origen = DB::table('historiales')
+                        ->select('id', DB::raw('MAX(created_at)'))
+                        ->groupBy('id');
+
+        $query = DB::table('expedientes')
+                        ->select('expedientes.id',
+                                 'prioridad_expedientes.descripcion as prioridad',
+                                 'expedientes.nro_expediente',
+                                 'extractos.descripcion as extracto',
+                                 'expedientes.fecha as fecha_creacion',
+                                 'tipo_expedientes.descripcion as tramite',
+                                 DB::raw('ceil(expedientes.fojas / 200) as cuerpos'),
+                                 'caratulas.id as caratula',
+                                 'expedientes.fojas',
+                                 'area_actual.descripcion as area_actual',
+                                 'area_origen.descripcion as area_origen',
+                                 'expedientes.archivos as archivos',
+                                 DB::raw('MAX(historiales.created_at) as area_origen')
+                                 )
+                        ->where('expedientes.expediente_id', '=', null)     
+                        ->join('prioridad_expedientes', 'prioridad_expedientes.id', '=', 'expedientes.prioridad_id')
+                        ->join('caratulas', 'expedientes.id', '=', 'caratulas.expediente_id')
+                        ->join('extractos', 'caratulas.extracto_id', '=', 'extractos.id')
+                        ->join('tipo_expedientes', 'expedientes.tipo_expediente', '=', 'tipo_expedientes.id')
+                        ->join('areas as area_actual', 'areas.id', '=', 'expedientes.area_actual_id')
+                        ->join('historiales', 'historiales.expediente_id', '=', 'expedientes.id')
+                        ->join('historiales as area_origen', 'historiales.area_origen_id', '=', 'areas.id')
+                        ->get();
+        return $query;
+    }
+
     /**
      * En desuso
      */

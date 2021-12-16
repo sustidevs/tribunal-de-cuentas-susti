@@ -716,9 +716,9 @@ class ExpedienteController extends Controller
     }
 
     /*
-    * Retorna todos los Expedientes
+    * Retorna todos los Expedientes - EN DESUSO
     */
-    public function AllExpedientes()
+    public function AllExpedientes_old()
     {
         $expedientes = Expediente::where('expediente_id',null)->where('expediente_id',null)->get();
         $listado_expedientes = Collect([]);
@@ -726,6 +726,16 @@ class ExpedienteController extends Controller
             $listado_expedientes->push($expediente->datosExpediente());
         }
         return response()->json($listado_expedientes,200);
+    }
+
+    /**
+     * Retorna todos los expedientes usando la DB facade
+     * Autor: MF
+     */
+    public function AllExpedientes()
+    {
+        $expedientes = Expediente::datosExpediente();
+        return response()->json($expedientes, 200);
     }
 
     /*
