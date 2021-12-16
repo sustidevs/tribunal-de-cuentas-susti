@@ -1,8 +1,8 @@
 <template>
   <div>
-    <titulo texto="Cedulas" icono="mdi-credit-card-edit"/>
-    <div class="descripcion text-justify py-4">Si desea <strong>agregar una cedula</strong> a un expediente, haga clic en el botón de la tabla.</div>
-    <alert-sucess texto="La cedula ha sido cargada con exito" :condicion="this.cargado"/>
+    <titulo texto="Cédulas" icono="mdi-credit-card-edit"/>
+    <div class="descripcion text-justify py-4">Si desea <strong>agregar una cédula</strong> a un expediente, haga clic en el botón de la tabla.</div>
+    <!-- <alert-sucess texto="La cédula ha sido cargada con exito" :condicion="this.cargando"/> -->
     <tabla-cedulas class="mb-15 pb-15" :headers="headers" :data="todos_expp" :loading="get_finalizado"/>
   </div>
 </template>
@@ -24,7 +24,7 @@ export default {
         {text: 'Trámite', value: 'tramite'},
         {text: 'Cuerpo', value: 'cuerpos'},
         {text: 'Fojas', value: 'fojas'},
-        {text: 'Agregar Cedula', value: 'action', align: 'center', sortable: false},
+        {text: 'Agregar Cédula', value: 'action', align: 'center', sortable: false},
         {class: "display-4"},
       ],
       estado: 1,
