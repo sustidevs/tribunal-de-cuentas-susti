@@ -356,7 +356,7 @@ class ExpedienteController extends Controller
         "user_id" : "1"
     }*/
 
-    public function desgloce(Request $request)
+    /*public function desgloce(Request $request)
     {
         $exp_padre = Expediente::findOrFail($request->exp_padre);
         $ultimo_hijo = $exp_padre->hijos->last();
@@ -437,7 +437,7 @@ class ExpedienteController extends Controller
                 return response()->json("Error",400);
             }*/
 
-            $exp_hijo->expediente_id = null;
+           /* $exp_hijo->expediente_id = null;
             //$exp_hijo->fojas = Historial::findOrFail($exp_padre->id)->last()->fojas + Historial::findOrFail($exp_hijo->id)->last()->fojas;
             $exp_hijo->save();
             $historial = new Historial;
@@ -469,7 +469,48 @@ class ExpedienteController extends Controller
         $historial_padre->motivo = "Los expedientes :" . $exp_padre->nro_expediente. ", ". $nros_expediente . "se han desglosado.";
         $historial_padre->estado = "3";
         $historial_padre->save();
-        return response()->json($historial_padre->motivo,200);
+        return response()->json($historial_padre->motivo,200);*/
+    /*}*/
+
+    public function desgloce(Request $request)
+    {
+        $exp_padre = Expediente::findOrFail($request->exp_padre);
+        $exp_hijos = $exp_padre->hijos;
+        $exp_padre_fojas_inicio = $exp_padre->historiales->last()->fojas;
+        $exp_padre_fojas_final = $exp_padre->historiales->first()->fojas;
+        $ultimo_hijo = $exp_padre->hijos->last();
+        $user = User::findOrFail($request->user);
+        $i = 0;
+        $cotador_fojas_hijo = 0;
+        $nros_expedientes_hijos = 0;
+        foreach ($exp_hijos as $exp_hijo)
+        {
+            $exp_hijo_desglosado = $exp_padre->hijos[$i];
+            $exp_hijo_desglosado->expediente_id = null;
+            $exp_hijo_desglosado->save();
+            $historial_hijo_desglosado = new Historial;
+            $historial_hijo_desglosado->expediente_id = $exp_hijo_desglosado->id;
+            $historial_hijo_desglosado->user_id = $request->user_id;
+            $historial_hijo_desglosado->area_origen_id = $user->area_id;
+            $historial_hijo_desglosado->area_destino_id = $user->area_id;
+            $historial_hijo_desglosado->fojas = $exp_hijo_desglosado->fojas;
+            $historial_hijo_desglosado->fecha = Carbon::now()->format('Y-m-d');
+            $historial_hijo_desglosado->hora = Carbon::now()->format('h:i');
+            $historial_hijo_desglosado->motivo = "Expediente desglosado por usuario: " . $user->persona->nombre . " " .$user->persona->nombre;
+            $historial_hijo_desglosado->estado = 3;
+            $cotador_fojas_hijo = $cotador_fojas_hijo + $historial_hijo_desglosado->fojas;
+            $historial_hijo_desglosado->update();
+            $nros_expedientes_hijos = $nros_expedientes_hijos . ", " . $exp_hijo_desglosado->nro_expediente . ", ";
+            $i = $i + 1;
+        }
+        $historial_ultimo_hijo = Historial::find($exp_hijo_desglosado->id);
+        $historial_ultimo_hijo->fojas = $ultimo_hijo->fojas + ($exp_padre_fojas_final - $exp_padre_fojas_inicio);
+        $historial_ultimo_hijo->update();
+        $historial_padre = new Historial;
+        $historial_padre->fojas = $exp_padre->historiales->first();
+        $historial_padre->motivo = "Expedientes desglosados: " . $exp_padre->nro_expediente . "," . $nros_expedientes_hijos;
+        $historial_padre->save();
+        return $historial_padre->motivo;
     }
 
     /*
