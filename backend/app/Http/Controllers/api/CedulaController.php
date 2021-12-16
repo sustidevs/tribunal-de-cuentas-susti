@@ -52,15 +52,4 @@ class CedulaController extends Controller
         $cedula->update();
         return response()->json($cedula->getDatos(), 200);
     }
-
-    /*
-        Metodo para (leer nombre)
-        Autor: yop kien +
-    */
-    public function contar_cedulas(Request $request)
-    {
-        $cedula     = Cedula::find($request->id);
-        $expediente = Expediente::find($request->expediente_id);
-        return response()->json($cedula->getDatos(), 200);
-    }
 }

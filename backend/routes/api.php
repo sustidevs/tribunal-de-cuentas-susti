@@ -43,6 +43,7 @@ Route::post('/showExp',             [ExpedienteController::class, 'show']);
 Route::post('/indexExpArea',        [ExpedienteController::class, 'indexPorAreas']);
 Route::post('/buscar-expediente',   [ExpedienteController::class, 'buscarExpediente']);
 Route::get('/all-expedientes',      [ExpedienteController::class, 'AllExpedientes']);
+Route::post('/contar-cedula',       [ExpedienteController::class, 'contar_cedulas']);
 //Route::get('/zip',                  [ExpedienteController::class, 'descargarZip']);//TODO ruta back 8000
 Route::post('/zip',               [ExpedienteController::class, 'descargarZip']);
 // Route::get('/show-detalle',        [ExpedienteController::class, 'showDetalleExpediente']); método comentado...
@@ -110,7 +111,6 @@ Route::post('/store-cedula',    [CedulaController::Class, 'store']);
 Route::post('/create-cedula',   [CedulaController::Class, 'create']);
 Route::post('/edit-cedula',     [CedulaController::Class, 'edit']);
 Route::post('/update-cedula',   [CedulaController::Class, 'update']);
-Route::post('/contar-cedula',   [CedulaController::class, 'contar_cedulas']);
 ////////////////////////////////////////////////////////////////////////////////////////////
 
 ///////NOTIFICACIONES///////////////////////////////////////////////////////////////////////

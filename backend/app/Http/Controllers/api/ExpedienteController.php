@@ -846,5 +846,10 @@ class ExpedienteController extends Controller
         return response()->json($detalle, 200);
     }
     */
-
+    public function contar_cedulas(Request $request)
+    {
+        $expediente = Expediente::find($request->expediente_id);
+        $cont       = $expediente->cedulas->count();
+        return response()->json($expediente->getDatos(), 200);
+    }
 }

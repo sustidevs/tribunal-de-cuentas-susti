@@ -11,7 +11,7 @@ class Cedula extends Model
 
     public function expediente()
     {
-        return $this->belongsTo(Expediente::class);
+        return $this->belongsTo(Expediente::class, 'id', 'expediente_id');
     }
 
     public function user()
@@ -45,7 +45,6 @@ class Cedula extends Model
                             'nro_expediente'    => $this->expediente->nro_expediente,
                             'extracto'          => $this->expediente->caratula->extracto->descripcion,
                             'descripcion'       => $this->descripcion,
-                            'cantidad'          => $this->expediente->count()
                            ]);
         return $array_cedula;
     }
