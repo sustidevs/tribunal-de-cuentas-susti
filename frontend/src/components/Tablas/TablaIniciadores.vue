@@ -73,3 +73,24 @@ export default {
     },
 }
 </script>
+
+<style>
+.v-data-table > .v-data-table__wrapper > table > thead > tr > th > span {
+  font-size: 19px !important;
+}
+
+.mytable thead {
+  background-color: #facd89 !important;
+  font-family: "Montserrat-Regular", serif !important;
+}
+
+.v-data-table > .v-data-table__wrapper > table > tbody > tr > td {
+  font-family: "Montserrat-Regular", serif !important;
+  font-size: 17px !important;
+  padding: 12px !important;
+}
+
+.v-data-table > .v-data-table__wrapper > table > tbody > tr:hover {
+  background-color: #fae3bf !important;
+}
+</style>

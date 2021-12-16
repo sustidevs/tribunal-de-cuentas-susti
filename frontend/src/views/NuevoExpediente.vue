@@ -174,7 +174,11 @@
           @close="closeModalErrorArchivo"
         />
       </v-card>
-      <v-progress-linear :active="this.$store.getters.get_btn_creado" indeterminate color="yellow darken-3"></v-progress-linear>
+      <v-progress-linear
+        :active="this.$store.getters.get_btn_creado"
+        indeterminate
+        color="yellow darken-3"
+      ></v-progress-linear>
 
       <v-row no-gutters justify="center" class="py-16">
         <v-col cols="12" sm="6" md="6" lg="6" class="px-sm-2">
@@ -259,10 +263,11 @@ export default {
 
     handleFileUpload(event) {
       this.files = event.target.files;
-
-      if (event.target.files[0].type === "application/x-msdownload") {
-        this.showArchivoError = !this.showArchivoError;
-        event.target.value = null;
+      for (var i = 0; i < this.files.length; i++) {
+        if (event.target.files[i].type === "application/x-msdownload") {
+          this.showArchivoError = !this.showArchivoError;
+          event.target.value = null;
+        }
       }
     },
 

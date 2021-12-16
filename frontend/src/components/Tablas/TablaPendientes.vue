@@ -80,12 +80,12 @@ export default {
       headers: [
         {text: 'Prioridad', value: 'prioridad'},
         {text: 'Nro. de Expediente', value: 'nro_expediente'},
-        {text: 'Extracto', value: 'extracto'},
-        {text: 'Fecha Creación', value: 'fecha_creacion'},
-        {text: 'Trámite', value: 'tramite'},
-        {text: 'Cuerpo', value: 'cant_cuerpos'},
-        {text: 'Fojas', value: 'fojas'},
+        {text: 'Extracto', value: 'extracto', width: "33%"},
         {text: 'Área Origen', value:'area_origen'},
+        {text: 'Trámite', value: 'tramite', width: "5%"},
+        {text: 'Fecha Creación', value: 'fecha_creacion', width: "5%"},
+        {text: 'Cuerpo', value: 'cant_cuerpos', align: 'center'},
+        {text: 'Fojas', value: 'fojas', align: 'center'},
         {text: 'Ver detalle', value: 'action1', align: 'center', sortable: false},
         {text: 'Aceptar', value: 'action', align: 'center', sortable: false},
       ],
@@ -134,3 +134,24 @@ export default {
   },
 }
 </script>
+
+<style>
+.v-data-table > .v-data-table__wrapper > table > thead > tr > th > span {
+  font-size: 19px !important;
+}
+
+.mytable thead {
+  background-color: #facd89 !important;
+  font-family: "Montserrat-Regular", serif !important;
+}
+
+.v-data-table > .v-data-table__wrapper > table > tbody > tr > td {
+  font-family: "Montserrat-Regular", serif !important;
+  font-size: 17px !important;
+  padding: 12px !important;
+}
+
+.v-data-table > .v-data-table__wrapper > table > tbody > tr:hover {
+  background-color: #fae3bf !important;
+}
+</style>
