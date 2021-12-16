@@ -51,8 +51,8 @@
           <ButtonBig class="my-4 mx-5" texto="Recuperar" link="/recuperar" icon="mdi-file-undo"/>
         </v-col>
         <v-col cols="12" md="12" lg="6" >
-          <titulo-inicio texto="Cedulas" class="my-2 mt-5"/>
-          <ButtonBig class="my-4 mx-5" texto="Cedula" link="/cedula" icon="mdi-card-account-details"/>
+          <titulo-inicio texto="Cédulas" class="my-2 mt-5"/>
+          <ButtonBig class="my-4 mx-5" texto="Cédula" link="/cedula" icon="mdi-card-account-details"/>
         </v-col>
       </v-row>
     </div>
@@ -131,8 +131,8 @@
         </v-col>
 
         <v-col cols="12" md="12" lg="6" v-if="getArea == 'DIRECCIÓN DE REGISTRACIONES'">
-          <titulo-inicio texto="Cedulas" class="my-2"/>
-          <ButtonBig class="my-4 mx-5" texto="Cedula" link="/cedula" icon="mdi-card-account-details"/>
+          <titulo-inicio texto="Cédulas" class="my-2"/>
+          <ButtonBig class="my-4 mx-5" texto="Cédula" link="/cedula" icon="mdi-card-account-details"/>
         </v-col>
 
 

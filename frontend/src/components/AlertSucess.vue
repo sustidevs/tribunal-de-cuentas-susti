@@ -1,6 +1,6 @@
 <template>
   <v-alert
-      v-if=condicion
+      v-if="condicion"
       icon="mdi-check"
       dense
       prominent
