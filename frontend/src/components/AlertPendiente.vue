@@ -7,7 +7,7 @@
       type="error"
       class="alert Montserrat-SemiBold mt-5 sizeAlert"
   >
-    Tienes {{ cantidad }} expedientes pendientes para aceptar. <a href="/expedientes-pendientes" class="mx-2" > <strong class="error--text"> VER </strong> </a>
+    Tienes {{ cantidad }} expedientes pendientes para aceptar. <a href="/expedientes-pendientes" class="mx-2 error--text" > <strong class="error--text"> VER </strong> </a>
   </v-alert>
 </template>
 
@@ -23,8 +23,6 @@ export default {
 .sizeAlert{
   font-size: 16px !important;
 }
-.v-application a {
-    color: #d21919 !important;
-}
+
 </style>
 
