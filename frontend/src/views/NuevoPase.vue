@@ -228,7 +228,7 @@ export default {
       "getIdUser",
       "expedientePase",
       "idExpedientePase",
-      "pase_a_error",
+      "pasea_error",
       "a_afectosde_error",
       "nrofojas_error",
     ]),
