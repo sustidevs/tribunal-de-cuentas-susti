@@ -58,6 +58,7 @@ class HistorialController extends Controller
             $historial->fecha = Carbon::now()->format('Y-m-d');
             $historial->hora = Carbon::now()->format('h:i');
             $historial->observacion = $request->observacion;
+            $historial->motivo = "Pase al area: " . Area::find($request->area_destino_id)->descripcion . ".";
             //$historial->nombre_archivo = $request->nombre_archivo;
             $historial->estado = 1;//pendiente para la bandeja del area destino, enviado para la bandeja origen
             $expediente->estado_expediente_id = '1';
