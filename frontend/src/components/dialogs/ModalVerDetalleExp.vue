@@ -3,13 +3,14 @@
     <v-card class="px-7 pt-1">
       <v-row class="mt-5 mb-2">
         <v-col cols="10">
-          <h2 class="Montserrat-Bold text-justify">Expediente N° {{ this.datos.nro_expediente }}</h2>
+          <h2 class="Montserrat-Bold text-justify">Expediente N° {{ datos.nro_expediente }}</h2>
         </v-col>
         <v-col cols="2" align="right">
           <v-icon color="#393B44" large>mdi-file-document</v-icon>
         </v-col>
       </v-row>
       <v-divider color="#393B44" class="mt-2"></v-divider>
+
 
       <v-row no-gutters align="start" class="mt-5">
         <div class="textHereSmall d-flex flex-column Montserrat-Bold mb-2 mr-2">
@@ -18,7 +19,7 @@
         <div
           class="textHereSmall d-flex flex-column Montserrat-SemiBold text-justify"
         >
-          {{ this.datos.extracto }}
+          {{ datos.extracto }}
         </div>
       </v-row>
 
@@ -27,7 +28,7 @@
           <div class="d-flex">
             <div class="textHereSmall Montserrat-Bold mr-1">Iniciador:</div>
             <div class="textHereSmall Montserrat-SemiBold ml-1">
-              {{ this.datos.iniciador }}
+              {{ datos.iniciador }}
             </div>
           </div>
         </v-col>
@@ -37,7 +38,7 @@
               Fecha de creación:
             </div>
             <div class="textHereSmall Montserrat-SemiBold ml-1">
-              {{ this.datos.fecha_creacion }}
+              {{ datos.fecha_creacion }}
             </div>
           </div>
         </v-col>
@@ -50,7 +51,7 @@
         <div
           class="textHereSmall d-flex flex-column Montserrat-SemiBold text-justify"
         >
-          {{ this.datos.observacion }}
+          {{ datos.observacion }}
         </div>
       </v-row>
       
@@ -63,7 +64,9 @@
         <div
           class="textHereSmall d-flex flex-column Montserrat-SemiBold text-justify"
         >
-          {{ this.datos.motivo[0].motivo }}
+          <div v-if="!(datos.motivo === undefined)">
+            {{ datos.motivo[0].motivo }}
+          </div>
         </div>
       </v-row>
 
@@ -74,7 +77,7 @@
         <div
           class="textHereSmall d-flex flex-column Montserrat-SemiBold text-justify"
         >
-          {{ this.datos.observacion_pase }}
+          {{ datos.observacion_pase }}
         </div>
       </v-row>
 
@@ -84,7 +87,7 @@
             <div class="textHereSmall Montserrat-Bold mr-2">
               Archivos adjuntos:
             </div>
-            <div v-if="this.datos.archivo !== null">
+            <div v-if="datos.archivo !== null">
               <v-chip
                 class="textHereSmall Montserrat-Regular"
                 @click="getArchiv()"

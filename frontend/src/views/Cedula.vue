@@ -3,7 +3,7 @@
     <titulo texto="Cédulas" icono="mdi-credit-card-edit"/>
     <div class="descripcion text-justify py-4">Si desea <strong>agregar una cédula</strong> a un expediente, haga clic en el botón de la tabla.</div>
     <!-- <alert-sucess texto="La cédula ha sido cargada con exito" :condicion="this.cargando"/> -->
-    <tabla-cedulas class="mb-15 pb-15" :headers="headers" :data="todos_expp" :loading="get_finalizado"/>
+    <tabla-cedulas class="mb-15 pb-15" :headers="headers" :data="allExpedientes" :loading="get_finalizado"/>
   </div>
 </template>
 <script>
@@ -35,11 +35,11 @@ export default {
   computed: mapGetters(['todos_expp', 'getIdUser', 'get_finalizado']),
 
   mounted() {
-    this.todos_exp();
+    this.getExpedientes();
   },
 
   methods: {
-    ...mapActions(['cerrar', 'todos_exp']),
+    ...mapActions(['cerrar', 'getExpedientes']),
   }
 }
 </script>

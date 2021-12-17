@@ -2,7 +2,7 @@
   <div>
     <titulo texto="Expedientes" icono="mdi-text-box-multiple"/>
     <div class="descripcion text-justify py-4">Si desea <strong>ver detalle e historial</strong> de un expediente, haga clic en el botón de la tabla.</div>
-    <tabla-expedientes class="mb-15 pb-15" :headers="headers" :data="todos_expp" :loading="get_finalizado"/>
+    <tabla-expedientes class="mb-15 pb-15" :headers="headers" :data="get_todos_expedientes" :loading="get_finalizado"/>
   </div>
 </template>
 <script>
@@ -32,14 +32,14 @@ export default {
     }
   },
 
-  computed: mapGetters(['todos_expp', 'getIdUser', 'get_finalizado']),
+  computed: mapGetters(['get_todos_expedientes', 'getIdUser', 'get_finalizado']),
 
   mounted() {
-    this.todos_exp();
+    this.todosExpedientes();
   },
 
   methods: {
-    ...mapActions(['cerrar', 'todos_exp']),
+    ...mapActions(['cerrar', 'todosExpedientes']),
   }
 }
 </script>
