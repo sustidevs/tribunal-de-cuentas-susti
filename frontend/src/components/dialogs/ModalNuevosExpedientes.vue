@@ -63,7 +63,7 @@
       </v-row>
     </v-card>
 
-    <VueHtml2pdf pdf-content-width="800px" :preview-modal="true" pdf-format="a4" :filename="dato[5]" :manual-pagination="true" :enable-download="true" ref="DownloadComp">
+    <VueHtml2pdf pdf-content-width="800px" :preview-modal="true" pdf-format="a4" :filename="dato[4]" :manual-pagination="true" :enable-download="true" ref="DownloadComp">
       <section slot="pdf-content" class="margin">
         <div class="container1">
           <section>
