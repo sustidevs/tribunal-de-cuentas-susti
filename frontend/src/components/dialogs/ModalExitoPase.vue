@@ -85,7 +85,7 @@
       pdf-content-width="800px"
       :preview-modal="true"
       pdf-format="a4"
-      :filename="dato[5]"
+      :filename="dato[6]"
       :manual-pagination="true"
       :enable-download="true"
       ref="DownloadComp"
