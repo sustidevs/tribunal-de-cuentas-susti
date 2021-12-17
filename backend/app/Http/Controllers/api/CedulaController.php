@@ -25,15 +25,15 @@ class CedulaController extends Controller
 
     public function store(StoreCedulaRequest $request)
     {
-        /*if(validated())
-        {*/
+        if ($request->validated())
+        {
             $cedula = new Cedula;
             $cedula->expediente_id  = $request->expediente_id;
             $cedula->user_id        = $request->user_id;
             $cedula->descripcion    = $request->descripcion;
             $cedula->save();
-            return response()->json($cedula->getDatos(),200);
-        //}
+            return response()->json($cedula->getDatos(), 200);
+        }
     }
 
     public function edit(Request $request)

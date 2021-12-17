@@ -114,13 +114,6 @@ class Expediente extends Model
         return $array;        
     }
 
-    public function detalle_cedulas2()
-    {
-        $cedula = DB::table('cedulas')
-                    ->join('expedientes', 'expediente_id', '=', 'cedulas.expediente_id');
-        return $cedula;
-    }
-
     /*
     * Retorna una colleccion con los datos del expediente
     */
