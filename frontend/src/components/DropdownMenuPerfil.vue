@@ -5,13 +5,11 @@
         <v-btn
           class="pl-1"
           v-on="on"
-          width="225"
-          height="64"
           elevation="0"
           tile
           :color="hover ? '#393b44' : '#393b44'"
         >
-          <h5 class="white--text px-2">{{ nombre }}</h5>
+          <h5 class="white--text px-2 prueba">{{ nombre }}</h5>
           <v-icon :class="hover ? 'amber--text text--lighten-3' : 'white--text'"
             >mdi-account-circle</v-icon
           >
@@ -97,3 +95,11 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+@media (max-width: 1263px) {
+  h5{
+    display: none;
+  }
+}
+</style>

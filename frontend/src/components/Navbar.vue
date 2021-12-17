@@ -1,14 +1,15 @@
 <template>
   <div v-if="$vuetify.breakpoint.mdOnly || $vuetify.breakpoint.lgOnly || $vuetify.breakpoint.xlOnly" >
     <div class="Montserrat-SemiBold" >
-      <v-app-bar class="px-12" height="74" color="#393b44">
-        <v-row no-gutters>
-          <v-col cols="12" lg="3" align="start" align-self="center">
+      <v-app-bar class="px-10" height="74" color="#393b44">
+        <v-row no-gutters class="justify-space-around">
+          
+          <v-col cols="12" lg="2" md="1" align="start" align-self="center">
             <a href="/"><LogoNavbar/></a>
           </v-col>
 
-            <v-col cols="12" lg="6" align="center" align-self="center">
-              <div v-if="getArea === 'DPTO. MESA DE ENTRADAS Y SALIDAS'">
+            <v-col cols="12" lg="7" md="10" align="center" align-self="center">
+              <div v-if="getArea === 'DPTO. MESA DE ENTRADAS Y SALIDAS'" >
                 <DropdownMenu titulo="Bandejas" :data-item="bandejas"/>
                 <DropdownMenu titulo="Expedientes" :data-item="expedientesMesaEntrada"/>
                 <DropdownMenu titulo="Iniciadores" :data-item="iniciadores"/>
@@ -37,7 +38,7 @@
               </div>
             </v-col>
 
-          <v-col cols="12" lg="3" align="end" align-self="center">
+          <v-col cols="12" lg="2" md="1" align="end" align-self="center">
             <DropdownMenuPerfil :nombre="this.$store.getters.getNombreApellido" :cuil="this.$store.getters.getCuil" :area="this.$store.getters.getArea" />
           </v-col>
         </v-row>
