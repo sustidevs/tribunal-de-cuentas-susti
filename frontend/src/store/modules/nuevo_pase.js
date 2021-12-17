@@ -21,7 +21,7 @@ const getters = {
     expediente_exito: state => state.expediente,
     creado_exito:state => state.exitopase,
 
-    pase_a_error: state => state.pase_aerror,
+    pasea_error: state => state.pase_aerror,
     a_afectosde_error: state => state.aafectetosde_error,
     nrofojas_error: state => state.nrofojas_error,
  };
@@ -66,7 +66,7 @@ const mutations = {
     save_newPase: (state, expediente) => state.expediente = expediente,
     set_creado: (state, exitopase) => state.exitopase = exitopase,
 
-    set_pase_a_error: (state, pase_aerror) => state.pase_aerror = pase_aerror,
+    set_pasea_error: (state, pase_aerror) => state.pase_aerror = pase_aerror,
     set_a_afectos_de_error: (state, aafectetosde_error) => state.aafectetosde_error = aafectetosde_error,
     set_nrofojas_error: (state, nrofojas_error) => state.nrofojas_error = nrofojas_error,
 };
