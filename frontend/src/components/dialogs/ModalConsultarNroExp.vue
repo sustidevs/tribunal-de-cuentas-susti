@@ -140,7 +140,7 @@
                 <div class="Montserrat-Bold mt-4">Iniciador:</div>
                 <div class="Montserrat-Regular">{{ item.iniciador }}</div>
 
-                <div class="Montserrat-Bold mt-4">Cuit:</div>
+                <div class="Montserrat-Bold mt-4">CUIT:</div>
                 <div class="Montserrat-Regular">{{ item.cuit }}</div>
 
                 <div class="Montserrat-Bold mt-4">Extracto:</div>
@@ -148,6 +148,11 @@
 
                 <div class="Montserrat-Bold mt-4">Área Actual:</div>
                 <div class="Montserrat-Regular">{{ item.area_actual }}</div>
+
+                <v-btn class="mt-6" @click="historial_pase(item)" depressed>
+                  <v-icon left size="25px"> mdi-eye </v-icon>
+                  Ver Historial
+                </v-btn>
               </v-expansion-panel-content>
             </v-expansion-panel>
           </v-expansion-panels>
@@ -185,7 +190,7 @@ export default {
   computed: mapGetters(["get_busquedaExp", "get_encontrado", "getArea"]),
 
   methods: {
-    ...mapActions(["consultarExpediente"]),
+    ...mapActions(['consultarExpediente', 'getHistorial']),
 
     consultar() {
       this.consultarExpediente(this.busqueda);
@@ -198,6 +203,13 @@ export default {
 
     mostrar() {
       this.showExtracto = !this.showExtracto;
+    },
+
+    historial_pase: function (item) {
+      let id = {
+        id: item.expediente_id
+      }
+      this.getHistorial(id)
     },
   },
 };
