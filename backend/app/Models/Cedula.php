@@ -11,7 +11,7 @@ class Cedula extends Model
 
     public function expediente()
     {
-        return $this->belongsTo(Expediente::class, 'id', 'expediente_id');
+        return $this->hasOne(Expediente::class, 'id', 'expediente_id');
     }
 
     public function user()

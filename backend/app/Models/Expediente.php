@@ -95,7 +95,7 @@ class Expediente extends Model
         return $sum;
     }
 
-    public function detalle_cedulas($expediente_id)
+    public static function detalle_cedulas($expediente_id)
     {
         $expediente = Expediente::find($expediente_id);
         $cedulas = Cedula::all()->where('expediente_id', $expediente_id);
@@ -105,12 +105,20 @@ class Expediente extends Model
             $array->push([
                         'cedula_id'         => $cedula->id,
                         'user'              => $cedula->user->persona->nombre ." " . $cedula->user->persona->apellido,
-                        'nro_expediente'    => $cedula->expediente->nro_expediente,
-                        'extracto'          => $cedula->expediente->caratula->extracto->descripcion,
-                        'descripcion'       => $cedula->descripcion
+                        'nro_expediente'    => $expediente->nro_expediente,
+                        'extracto'          => $expediente->caratula->extracto->descripcion,
+                        'nro_cedula'        => $cedula->descripcion,
+                        'cantidad'          => $expediente->cedulas()->count()
             ]);
         }
         return $array;        
+    }
+
+    public function detalle_cedulas2()
+    {
+        $cedula = DB::table('cedulas')
+                    ->join('expedientes', 'expediente_id', '=', 'cedulas.expediente_id');
+        return $cedula;
     }
 
     /*
