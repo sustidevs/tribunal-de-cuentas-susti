@@ -57,9 +57,9 @@
 
 
                 <v-card-text class="white text--primary">
-                  <div class="Montserrat-Bold pb-2"> Area Origen: </div>
+                  <div class="Montserrat-Bold pb-2"> Área Origen: </div>
                   <p>{{item.area_origen}}</p>
-                  <div class="Montserrat-Bold pb-2"> Derivado al Area: </div>
+                  <div class="Montserrat-Bold pb-2"> Derivado al Área: </div>
                   <p>{{item.area_destino}}</p>
                   <div class="Montserrat-Bold pb-2"> Motivo: </div>
                   <p>{{item.motivo}}</p>
