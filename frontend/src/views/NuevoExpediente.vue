@@ -170,7 +170,6 @@
         <input type="file" multiple @change="handleFileUpload($event)" />
         <modal-error-tipo-archivo
           :show="showArchivoError"
-          ref="myFileInput"
           @close="closeModalErrorArchivo"
         />
       </v-card>
