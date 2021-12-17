@@ -23,7 +23,7 @@
           <div class="Montserrat-Bold mb-2 sizeTM"> Se derivó al área:</div>
           <div class="Montserrat-Regular mb-6 text-justify sizeDM">{{ dato[3].descripcion }}</div>
         </v-col>
-        <v-col sm="6" v-if="dato[7] !== '-'">
+        <v-col sm="6" v-if="dato[6] !== '-'">
           <div class="Montserrat-Bold mr-1 mb-2 sizeTM"> Email:</div>
           <div class="Montserrat-Regular mb-6 text-justify sizeDM">{{dato[6]}}</div>
         </v-col>
@@ -36,7 +36,7 @@
         </v-col>
       </v-row>
 
-      <v-row no-gutters  v-if="dato[8] !== '-'">
+      <v-row no-gutters  v-if="dato[7] !== '-'">
         <v-col sm="12">
           <div class="Montserrat-Bold mb-2 sizeTM">Observación:</div>
           <div class="Montserrat-Regular mb-6 text-justify sizeDM">{{dato[7]}}</div>
