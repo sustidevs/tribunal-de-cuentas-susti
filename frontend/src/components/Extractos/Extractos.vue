@@ -7,7 +7,6 @@
       <fondo-permanente/>
     </div>
     <div v-if="tipo==2">
-      <!--cancelacion-->
       <fondo-permantente-cancelacion/>
     </div>
     <div v-if="tipo==3">
@@ -28,14 +27,18 @@
     <div v-if="tipo == 9" >
       <acordada-08-05/>
     </div>
-    <!-- ID 11 - Notas -->
+    <div v-if="tipo == 11" >
+      <notas/>
+    </div>
     <!-- ID 12 - Cuenta de inversión -->
     <!-- ID 14 - Arancelamiento -->
     <!-- ID 16 - Fondo federal solidario -->
     <div v-if="tipo == 17" >
       <requerimiento/>
     </div>
-    <!-- ID 18 - Oficio -->
+    <div v-if="tipo == 18" >
+      <oficio/>
+    </div>
     <!-- ID 19 - FO.E.SE -->
     <div v-if="tipo==21" >
       <cedula-acordada-32-01/>
@@ -63,7 +66,9 @@ import AporteNoReintegrable from "./AporteNoReintegrable.vue";
 import Acordada3201 from './Acordada-32-01.vue';
 import AcordadasEnGeneral from "./AcordadasEnGeneral.vue";
 import Acordada0805 from './Acordada-08-05.vue';
+import Notas from './Notas.vue';
 import Requerimiento from './Requerimiento.vue';
+import Oficio from './Oficio.vue';
 import CedulaAcordada3201 from "./CedulaAcordada32-01";
 import CedulaCambioResponsable from "./CedulaCambioResponsable";
 import ExtractoGeneral from "./ExtractoGeneral";
@@ -82,7 +87,9 @@ export default {
     Acordada3201,
     AcordadasEnGeneral,
     Acordada0805,
+    Notas,
     Requerimiento,
+    Oficio,
     CedulaAcordada3201,
     CedulaCambioResponsable,
     ExtractoGeneral,
