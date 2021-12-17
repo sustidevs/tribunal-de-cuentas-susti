@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Area;
+use App\Models\Cedula;
 use Illuminate\Support\Str;
 use Laravel\Sanctum\HasApiTokens;
 use Laravel\Jetstream\HasProfilePhoto;
@@ -11,9 +12,9 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Contracts\Auth\CanResetPassword;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Contracts\Auth\CanResetPassword;
 
 class User extends Authenticatable
 {
@@ -91,6 +92,11 @@ class User extends Authenticatable
         return $this->hasMany(Notificacion::class);
     }
 
+    public function cedulas()
+    {
+        return $this->hasMany(Cedula::class);
+    }
+    
     public function get_tipo_area()
     {
         $tipo_area = Str::of($this->area_type)->basename()->lower()->ucfirst();
