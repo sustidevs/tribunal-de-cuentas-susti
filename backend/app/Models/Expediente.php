@@ -95,11 +95,30 @@ class Expediente extends Model
         return $sum;
     }
 
-    public function detalle_cedulas()
+    public static function detalle_cedulas($expediente_id)
     {
+        $expediente = Expediente::find($expediente_id);
+        $cedulas = Cedula::all()->where('expediente_id', $expediente_id);
+        $array = collect([]);
+        foreach ($cedulas as $cedula)
+        {
+            $array->push([
+                        'cedula_id'         => $cedula->id,
+                        'user'              => $cedula->user->persona->nombre ." " . $cedula->user->persona->apellido,
+                        'nro_expediente'    => $expediente->nro_expediente,
+                        'extracto'          => $expediente->caratula->extracto->descripcion,
+                        'nro_cedula'        => $cedula->descripcion,
+                        'cantidad'          => $expediente->cedulas()->count()
+            ]);
+        }
+        return $array;        
+    }
 
-        $array = collect([
-        ]);
+    public function detalle_cedulas2()
+    {
+        $cedula = DB::table('cedulas')
+                    ->join('expedientes', 'expediente_id', '=', 'cedulas.expediente_id');
+        return $cedula;
     }
 
     /*
@@ -134,7 +153,7 @@ class Expediente extends Model
                           'area_actual'         => $this->area->descripcion,
                           'area_origen'         => $this->historiales->last()->areaOrigen->descripcion,
                           'archivo'             => $this->archivos,
-                          "cantidad_cedulas"    => $this->cedulas->count()
+                          'cantidad_cedulas'    => $this->cedulas->count()
             ]);
 
         return $array;
