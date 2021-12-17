@@ -28,4 +28,14 @@ class Caratula extends Model
     {
         return $this->hasOne('App\Models\Iniciador', 'id', 'iniciador_id');
     }
+
+    public function getObservacionAttribute($value)
+    {
+        if($value == "")
+        {
+            return "-";
+        }
+
+        return $value;
+    }
 }
