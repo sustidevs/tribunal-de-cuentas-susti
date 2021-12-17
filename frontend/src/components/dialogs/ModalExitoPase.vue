@@ -85,7 +85,7 @@
       pdf-content-width="800px"
       :preview-modal="true"
       pdf-format="a4"
-      :filename="dato[5]"
+      :filename="dato[6]"
       :manual-pagination="true"
       :enable-download="true"
       ref="DownloadComp"
@@ -101,21 +101,27 @@
         </section>
 
         <section>
-          <div class="Montserrat-Bold sizeExpediente paddExp">
+          <v-row no-gutters class="Montserrat-Bold sizeExpediente paddExp">
             EXPEDIENTE Nº{{ dato[6] }}
-          </div>
+          </v-row>
         </section>
+        
+        <div class="direction pad">
+          <v-row no-gutters class="py-5 direction ">
+            <v-col cols="12" sm="12" lg="12">
+                <div class="Montserrat-SemiBold sizeAll ">Extracto:</div>
+            </v-col>
+            <v-col cols="12" sm="12" lg="12">
+                <div class="Montserrat-Regular pl-3 sizeAll">{{ dato[7] }}</div>
+            </v-col>
+          </v-row>
+        </div>
 
         <section>
-          <div class="direction pad">
-            <div class="Montserrat-SemiBold sizeAll pl">Derivado a:</div>
-            <div class="Montserrat-Regular sizeAll">{{ dato[0] }}</div>
-          </div>
-
-          <div class="direction pad">
+          <div class=" py-5 direction pad">
             <v-row no-gutters>
               <v-col sm="6">
-                <div class="Montserrat-SemiBold sizeAll pl">
+                <div class="Montserrat-SemiBold sizeAll ">
                   Fecha y hora:
                   <span class="Montserrat-Regular sizeAll"
                     >{{ dato[1] }}, {{ dato[2] }}hs.
@@ -123,7 +129,7 @@
                 </div>
               </v-col>
               <v-col sm="6">
-                <div class="Montserrat-SemiBold sizeAll pl">
+                <div class="Montserrat-SemiBold sizeAll ">
                   Fojas:
                   <span class="Montserrat-Regular pl-3 sizeAll">
                     {{ dato[3] }}
@@ -133,7 +139,12 @@
             </v-row>
           </div>
 
-          <div class="direction pad">
+          <div class="py-5 direction pad">
+            <div class="Montserrat-SemiBold sizeAll pl">Derivado a:</div>
+            <div class="Montserrat-Regular sizeAll">{{ dato[0] }}</div>
+          </div>
+          
+          <div class="py-5 direction pad">
             <div class="Montserrat-SemiBold sizeAll pl">
               Agente que redacta el pase:
             </div>
@@ -147,24 +158,9 @@
             <v-col cols="12" sm="12" lg="12">
                 <div class="Montserrat-Regular pl-3 sizeAll">{{ dato[5] }}</div>
             </v-col>
-          </v-row>
-
-          <v-row no-gutters class="py-5 direction pad">
-            <v-col cols="12" sm="12" lg="12">
-                <div class="Montserrat-SemiBold sizeAll pl">Extracto:</div>
-
-            </v-col>
-            <v-col cols="12" sm="12" lg="12">
-                <div class="Montserrat-Regular pl-3 sizeAll">{{ dato[7] }}</div>
-            </v-col>
-          </v-row>
-
-          <div class="direction pad">
-          </div>
-
-
-
+          </v-row>      
         </section>
+
       </section>
     </VueHtml2pdf>
   </v-dialog>

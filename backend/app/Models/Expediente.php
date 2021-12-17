@@ -2,13 +2,14 @@
 
 namespace App\Models;
 
+use App\Models\Cedula;
 use App\Models\Caratula;
 use App\Models\Historial;
 use App\Models\Iniciador;
+use Illuminate\Http\Request;
 use App\Models\EstadoExpediente;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Expediente extends Model
@@ -67,6 +68,11 @@ class Expediente extends Model
         return ceil($this->fojas/200);
     }
 
+    public function cedulas()
+    {
+        return $this->hasMany(Cedula::class);
+    }
+
     CONST EXTENSIONES_PERMITIDAS = [
         'docx',
         'pdf',
@@ -89,36 +95,58 @@ class Expediente extends Model
         return $sum;
     }
 
+    public static function detalle_cedulas($expediente_id)
+    {
+        $expediente = Expediente::find($expediente_id);
+        $cedulas = Cedula::all()->where('expediente_id', $expediente_id);
+        $array = collect([]);
+        foreach ($cedulas as $cedula)
+        {
+            $array->push([
+                        'cedula_id'         => $cedula->id,
+                        'user'              => $cedula->user->persona->nombre ." " . $cedula->user->persona->apellido,
+                        'nro_expediente'    => $expediente->nro_expediente,
+                        'extracto'          => $expediente->caratula->extracto->descripcion,
+                        'nro_cedula'        => $cedula->descripcion,
+                        'cantidad'          => $expediente->cedulas()->count()
+            ]);
+        }
+        return $array;        
+    }
+
     /*
     * Retorna una colleccion con los datos del expediente
     */
     public function getDatos()
     {
-        $array = Collect(["expediente_id" => $this->id,
+        $array = Collect(["expediente_id"   => $this->id,
                           //"nro_expediente" => $this->nroExpediente($this->caratula->iniciador->prefijo, date("d-m",strtotime($this->fecha)),date("Y",strtotime($this->fecha))),
-                          "nro_expediente" => $this->nro_expediente,
-                          "fecha" =>  date("d-m-Y", strtotime($this->fecha)),
-                          "iniciador" => $this->caratula->iniciador->nombre,
-                          "cuit" => $this->caratula->iniciador->cuit,
-                          "extracto" => $this->caratula->extracto->descripcion,
-                          "area_actual" => $this->area->descripcion]);
+                          "nro_expediente"  => $this->nro_expediente,
+                          "fecha"           => date("d-m-Y", strtotime($this->fecha)),
+                          "iniciador"       => $this->caratula->iniciador->nombre,
+                          "cuit"            => $this->caratula->iniciador->cuit,
+                          "extracto"        => $this->caratula->extracto->descripcion,
+                          "area_actual"     => $this->area->descripcion,
+                          "cantidad_cedulas"=> $this->cedulas->count()
+                        ]);
         return $array;
     }
 
     public function datosExpediente_old()
     {
-        $array = Collect(['id'=>$this->id,
-                          'prioridad'=>$this->prioridadExpediente->descripcion,
-                          'nro_expediente'=>$this->nro_expediente,
-                          'extracto'=>$this->caratula->extracto->descripcion,
-                          'fecha_creacion'=>$this->created_at->format('d-m-Y'),
-                          'tramite'=>$this->tipoExpediente->descripcion,
-                          'cuerpos'=>$this->cantidadCuerpos(),
-                          'caratula'=>$this->caratula->id,
-                          'fojas'=>$this->fojas,
-                          'area_actual' => $this->area->descripcion,
-                          'area_origen'=>$this->historiales->last()->areaOrigen->descripcion,
-                          'archivo'=>$this->archivos
+        $array = Collect(['id'                  => $this->id,
+                          'prioridad'           => $this->prioridadExpediente->descripcion,
+                          'nro_expediente'      => $this->nro_expediente,
+                          'extracto'            => $this->caratula->extracto->descripcion,
+                          'fecha_creacion'      => $this->created_at->format('d-m-Y'),
+                          'tramite'             => $this->tipoExpediente->descripcion,
+                          'cuerpos'             => $this->cantidadCuerpos(),
+                          'caratula'            => $this->caratula->id,
+                          'fojas'               => $this->fojas,
+                          'area_actual'         => $this->area->descripcion,
+                          'area_origen'         => $this->historiales->last()->areaOrigen->descripcion,
+                          'archivo'             => $this->archivos,
+                          'cantidad_cedulas'    => $this->cedulas->count()
             ]);
 
         return $array;
