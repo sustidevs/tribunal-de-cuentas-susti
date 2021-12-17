@@ -771,7 +771,7 @@ class ExpedienteController extends Controller
 
     /**
      * Retorna todos los expedientes usando la DB facade
-     * Autor: MF
+     * Autor: Mariano Flores
      */
     public function AllExpedientes()
     {

@@ -124,11 +124,16 @@ class Expediente extends Model
         return $array;
     }
 
+    /**
+     * Método que devuelve todos los expedientes
+     * Autor: Mariano Flores
+     */
     public static function datosExpediente()
     {
         $area_origen = DB::table('historiales')
-                        ->select('id', DB::raw('MAX(created_at)'))
-                        ->groupBy('id');
+                        ->select('expediente_id', DB::raw('MAX(fecha)'), 'areas.descripcion')
+                        ->join('areas', 'areas.id', '=', 'historiales.area_origen_id')
+                        ->groupBy('historiales.expediente_id', 'areas.descripcion');
 
         $query = DB::table('expedientes')
                         ->select('expedientes.id',
@@ -140,19 +145,21 @@ class Expediente extends Model
                                  DB::raw('ceil(expedientes.fojas / 200) as cuerpos'),
                                  'caratulas.id as caratula',
                                  'expedientes.fojas',
-                                 'area_actual.descripcion as area_actual',
-                                 'area_origen.descripcion as area_origen',
-                                 'expedientes.archivos as archivos',
-                                 DB::raw('MAX(historiales.created_at) as area_origen')
+                                 'areas.descripcion as area_actual',
+                                 'areaOrigen.descripcion as area_origen',
+                                 'expedientes.archivos as archivo'
                                  )
-                        ->where('expedientes.expediente_id', '=', null)     
+                        ->where('expedientes.expediente_id', '=', null)
+                        ->joinSub($area_origen, 'areaOrigen', function($join)
+                        {
+                            $join->on('expedientes.id', '=', 'areaOrigen.expediente_id');
+                        })     
                         ->join('prioridad_expedientes', 'prioridad_expedientes.id', '=', 'expedientes.prioridad_id')
                         ->join('caratulas', 'expedientes.id', '=', 'caratulas.expediente_id')
                         ->join('extractos', 'caratulas.extracto_id', '=', 'extractos.id')
                         ->join('tipo_expedientes', 'expedientes.tipo_expediente', '=', 'tipo_expedientes.id')
-                        ->join('areas as area_actual', 'areas.id', '=', 'expedientes.area_actual_id')
-                        ->join('historiales', 'historiales.expediente_id', '=', 'expedientes.id')
-                        ->join('historiales as area_origen', 'historiales.area_origen_id', '=', 'areas.id')
+                        ->join('areas', 'areas.id', '=', 'expedientes.area_actual_id')
+                        ->orderBy('expedientes.id')
                         ->get();
         return $query;
     }
