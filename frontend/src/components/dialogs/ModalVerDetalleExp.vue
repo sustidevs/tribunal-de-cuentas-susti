@@ -23,7 +23,7 @@
             Extracto:
           </div>
           <div
-            class="textHereSmall d-flex flex-column Montserrat-SemiBold text-justify"
+            class="textHereSmall d-flex flex-column Montserrat-Regular text-justify"
           >
             {{ this.datos.extracto }}
           </div>
@@ -34,7 +34,7 @@
         <v-col lg="7" sm="12" xs="12">
           <div class="d-flex pt-6">
             <div class="textHereSmall Montserrat-Bold mr-1">Iniciador:</div>
-            <div class="textHereSmall Montserrat-SemiBold ml-1">
+            <div class="textHereSmall Montserrat-Regular ml-1">
               {{ this.datos.iniciador }}
             </div>
           </div>
@@ -44,7 +44,7 @@
             <div class="textHereSmall Montserrat-Bold mr-1">
               Fecha de creación:
             </div>
-            <div class="textHereSmall Montserrat-SemiBold ml-1">
+            <div class="textHereSmall Montserrat-Regular ml-1">
               {{ this.datos.fecha_creacion }}
             </div>
           </div>
@@ -56,7 +56,7 @@
           Observaciones:
         </div>
         <div
-          class="textHereSmall d-flex flex-column Montserrat-SemiBold text-justify"
+          class="textHereSmall d-flex flex-column Montserrat-Regular text-justify"
         >
           {{ this.datos.observacion }}
         </div>
@@ -71,10 +71,10 @@
         v-if="getArea == 'DPTO. MESA DE ENTRADAS Y SALIDAS'"
       >
         <div class="textHereSmall d-flex flex-column Montserrat-Bold mb-2 mr-2">
-          A afectos de:
+          A efectos de:
         </div>
         <div
-          class="textHereSmall d-flex flex-column Montserrat-SemiBold text-justify"
+          class="textHereSmall d-flex flex-column Montserrat-Regular text-justify"
         >
           {{ this.datos.motivo[0].motivo }}
         </div>
@@ -82,10 +82,10 @@
 
       <v-row no-gutters align="start" class="mt-5" v-else>
         <div class="textHereSmall d-flex flex-column Montserrat-Bold mb-2 mr-2">
-          A afectos de:
+          A efectos de:
         </div>
         <div
-          class="textHereSmall d-flex flex-column Montserrat-SemiBold text-justify"
+          class="textHereSmall d-flex flex-column Montserrat-Regular text-justify"
         >
           {{ this.datos.observacion_pase }}
         </div>
@@ -107,7 +107,7 @@
             </div>
             <div
               v-else
-              class="textHereSmall d-flex flex-column Montserrat-SemiBold text-justify"
+              class="textHereSmall d-flex flex-column Montserrat-Regular text-justify"
             >
               No se han cargado archivos
             </div>

@@ -132,13 +132,12 @@ export default {
         cargaExtracto() {
             this.isEditing = !this.isEditing
             this.hasSaved = true
-            const extracto = "E/REND.CTAS.SUBSIDIO.GTOS  " + this.input1 + "  NORMA LEGAL:  " + this.input2 + "  OTORGÓ:  " + this.input3 + "    IMPORTE: $  " + this. input4 + "  SUBSIDIOS"
+            const extracto = "E/REND.CTAS.SUBSIDIO.GTOS " + this.input1 + ". NORMA LEGAL: " + this.input2 + ". OTORGÓ: " + this.input3 + ". IMPORTE: $" + this. input4 + ". SUBSIDIOS" + ". INICIADOR: " + this.nombreIniciador
             this.extracto(extracto)
         },
 
         cargariniciador(){
             let nombrei = this.allIniciadores.find( item => item.id === this.get_iniciadorSelected)
-            console.log(nombrei.nombre)
             this.nombreIniciador = nombrei.nombre
         },
 
