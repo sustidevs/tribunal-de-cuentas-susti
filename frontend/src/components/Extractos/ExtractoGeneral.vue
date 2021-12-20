@@ -106,13 +106,12 @@ export default {
         cargaExtracto() {
             this.isEditing = !this.isEditing
             this.hasSaved = true
-            const extracto = this.input1 + this.input2 + "    EXTRACTO N° " + this.input3
+            const extracto = this.input1 + ". " + this.input2 + ". EXTRACTO N° " + this.input3 + ". INICIADOR: " + this.nombreIniciador
             this.extracto(extracto)
         },
 
         cargariniciador(){
             let nombrei = this.allIniciadores.find( item => item.id === this.get_iniciadorSelected)
-            console.log(nombrei.nombre)
             this.nombreIniciador = nombrei.nombre
         },
 

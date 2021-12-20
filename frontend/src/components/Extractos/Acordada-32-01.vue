@@ -118,7 +118,7 @@ export default {
         cargaExtracto() {
             this.isEditing = !this.isEditing
             this.hasSaved = true
-            const extracto = "E/REND.CTAS.ACORDADA N° 32/2001. MES:  "+ this.input1 + "   AÑO:  " + this.input2 + "   IMPORTE: $  " + this.input3 + "   ACORDADA 32/01 ESPONTÁNEA"
+            const extracto = "E/REND.CTAS.ACORDADA N° 32/2001. MES: " + this.input1 + ". AÑO: " + this.input2 + ". IMPORTE: $" + this.input3 + ". ACORDADA 32/01 ESPONTÁNEA" + ". INICIADOR: " + this.nombreIniciador
             this.extracto(extracto)
         },
 
