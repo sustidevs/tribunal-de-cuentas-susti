@@ -15,6 +15,20 @@
       </v-row>
 
       <v-divider color="#393B44" class="mb-10"></v-divider>
+
+      <v-row no-gutters class="pb-7" justify="start">
+        <v-col cols="12" sm="12" lg="6" class="pr-lg-2">
+          <v-alert
+            icon="mdi-information-outline orange--text"
+            colored-border
+            dense
+            class="alert Montserrat-Regular pa-4 orange--text text-left pl-0"            
+          >
+            * Campo Obligatorio 
+          </v-alert>
+        </v-col>
+      </v-row>
+
       <v-row no-gutters>
         <v-col cols="12" sm="12" lg="6" class="pr-lg-2">
           <label-error :texto="this.iniciador_id_error" />
@@ -23,7 +37,7 @@
 
       <v-row no-gutters justify="start">
         <v-col cols="12" sm="12" lg="6" class="pr-lg-2">
-          <label-input texto="Iniciador" />
+          <label-input texto="Iniciador *" />
           <autocomplete-field
             :data="allIniciadores"
             nombre="nombre"
@@ -47,7 +61,7 @@
 
       <v-row no-gutters justify="start" class="pb-3">
         <v-col cols="12" sm="12" lg="6" class="pr-lg-2">
-          <LabelInput texto="Motivo del Expediente" />
+          <LabelInput texto="Motivo del Expediente *" />
           <autocomplete-field
             :data="motivoConExtracto"
             nombre="descripcion"
@@ -58,6 +72,7 @@
         <v-col cols="12" sm="12" lg="6" class="pl-lg-2 pb-3">
           <v-alert
             icon="mdi-alert-outline"
+            border="left"
             dense
             text
             type="warning"
@@ -77,7 +92,7 @@
 
       <v-row no-gutters justify="start">
         <v-col cols="12" class="pr-lg-2">
-          <label-input texto="Extracto" />
+          <label-input texto="Extracto *" />
           <Extractos
             v-model="expe.descripcion_extracto"
             :tipo="expe.tipo_exp_id"
@@ -97,7 +112,7 @@
           <text-field tipo="number" />
         </v-col>
         <v-col cols="12" sm="12" lg="6" class="pl-lg-2 pb-3">
-          <Label-input texto="Cantidad de Fojas" />
+          <Label-input texto="Cantidad de Fojas *" />
           <text-field tipo="number" v-model="expe.nro_fojas" />
         </v-col>
       </v-row>
@@ -124,7 +139,7 @@
       <v-row no-gutters justify="center">
         <v-col cols="12" sm="12" lg="6" class="pr-lg-2 pb-3">
           <label-error />
-          <label-input texto="Pase a" />
+          <label-input texto="Pase a *" />
 
           <v-autocomplete
             class="Montserrat-Regular text-justify"
@@ -141,7 +156,7 @@
         </v-col>
 
         <v-col cols="12" sm="12" lg="6" class="pl-lg-2 pb-6">
-          <label-input texto="Seleccione la prioridad" />
+          <label-input texto="Seleccione la prioridad *" />
           <div class="d-flex column justify-center Montserrat-Semibold">
             <v-btn-toggle
               v-model="expe.prioridad"
@@ -170,7 +185,6 @@
         <input type="file" multiple @change="handleFileUpload($event)" />
         <modal-error-tipo-archivo
           :show="showArchivoError"
-          ref="myFileInput"
           @close="closeModalErrorArchivo"
         />
       </v-card>

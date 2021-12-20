@@ -2,13 +2,14 @@
 
 namespace App\Models;
 
+use App\Models\Cedula;
 use App\Models\Caratula;
 use App\Models\Historial;
 use App\Models\Iniciador;
+use Illuminate\Http\Request;
 use App\Models\EstadoExpediente;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Expediente extends Model
@@ -67,6 +68,11 @@ class Expediente extends Model
         return ceil($this->fojas/200);
     }
 
+    public function cedulas()
+    {
+        return $this->hasMany(Cedula::class);
+    }
+
     CONST EXTENSIONES_PERMITIDAS = [
         'docx',
         'pdf',
@@ -89,44 +95,109 @@ class Expediente extends Model
         return $sum;
     }
 
+    public static function detalle_cedulas($expediente_id)
+    {
+        $expediente = Expediente::find($expediente_id);
+        $cedulas = Cedula::all()->where('expediente_id', $expediente_id);
+        $array = collect([]);
+        foreach ($cedulas as $cedula)
+        {
+            $array->push([
+                        'cedula_id'         => $cedula->id,
+                        'user'              => $cedula->user->persona->nombre ." " . $cedula->user->persona->apellido,
+                        'nro_expediente'    => $expediente->nro_expediente,
+                        'extracto'          => $expediente->caratula->extracto->descripcion,
+                        'nro_cedula'        => $cedula->descripcion,
+                        'cantidad'          => $expediente->cedulas()->count()
+            ]);
+        }
+        return $array;        
+    }
+
     /*
     * Retorna una colleccion con los datos del expediente
     */
     public function getDatos()
     {
-        $array = Collect(["expediente_id" => $this->id,
+        $array = Collect(["expediente_id"   => $this->id,
                           //"nro_expediente" => $this->nroExpediente($this->caratula->iniciador->prefijo, date("d-m",strtotime($this->fecha)),date("Y",strtotime($this->fecha))),
-                          "nro_expediente" => $this->nro_expediente,
-                          "fecha" =>  date("d-m-Y", strtotime($this->fecha)),
-                          "iniciador" => $this->caratula->iniciador->nombre,
-                          "cuit" => $this->caratula->iniciador->cuit,
-                          "extracto" => $this->caratula->extracto->descripcion,
-                          "area_actual" => $this->area->descripcion]);
+                          "nro_expediente"  => $this->nro_expediente,
+                          "fecha"           => date("d-m-Y", strtotime($this->fecha)),
+                          "iniciador"       => $this->caratula->iniciador->nombre,
+                          "cuit"            => $this->caratula->iniciador->cuit,
+                          "extracto"        => $this->caratula->extracto->descripcion,
+                          "area_actual"     => $this->area->descripcion,
+                          "cantidad_cedulas"=> $this->cedulas->count()
+                        ]);
         return $array;
     }
 
-    public function datosExpediente()
+    public function datosExpediente_old()
     {
-        $array = Collect(['id'=>$this->id,
-                          'prioridad'=>$this->prioridadExpediente->descripcion,
-                          'nro_expediente'=>$this->nro_expediente,
-                          'extracto'=>$this->caratula->extracto->descripcion,
-                          'fecha_creacion'=>$this->created_at->format('d-m-Y'),
-                          'tramite'=>$this->tipoExpediente->descripcion,
-                          'cuerpos'=>$this->cantidadCuerpos(),
-                          'caratula'=>$this->caratula->id,
-                          'fojas'=>$this->fojas,
-                          'area_actual' => $this->area->descripcion,
-                          'area_origen'=>$this->historiales->last()->areaOrigen->descripcion,
-                          'archivo'=>$this->archivos
+        $array = Collect(['id'                  => $this->id,
+                          'prioridad'           => $this->prioridadExpediente->descripcion,
+                          'nro_expediente'      => $this->nro_expediente,
+                          'extracto'            => $this->caratula->extracto->descripcion,
+                          'fecha_creacion'      => $this->created_at->format('d-m-Y'),
+                          'tramite'             => $this->tipoExpediente->descripcion,
+                          'cuerpos'             => $this->cantidadCuerpos(),
+                          'caratula'            => $this->caratula->id,
+                          'fojas'               => $this->fojas,
+                          'area_actual'         => $this->area->descripcion,
+                          'area_origen'         => $this->historiales->last()->areaOrigen->descripcion,
+                          'archivo'             => $this->archivos,
+                          'cantidad_cedulas'    => $this->cedulas->count()
             ]);
 
         return $array;
     }
 
-    public static function index()
+    /**
+     * Método que devuelve todos los expedientes
+     * Autor: Mariano Flores
+     */
+    public static function datosExpediente()
     {
-        $expedientes = Expediente::where('expediente_id',null)->get();
+        $area_origen = DB::table('historiales')
+                        ->select('expediente_id', DB::raw('MAX(fecha)'), 'areas.descripcion')
+                        ->join('areas', 'areas.id', '=', 'historiales.area_origen_id')
+                        ->groupBy('historiales.expediente_id', 'areas.descripcion');
+
+        $query = DB::table('expedientes')
+                        ->select('expedientes.id',
+                                 'prioridad_expedientes.descripcion as prioridad',
+                                 'expedientes.nro_expediente',
+                                 'extractos.descripcion as extracto',
+                                 'expedientes.fecha as fecha_creacion',
+                                 'tipo_expedientes.descripcion as tramite',
+                                 DB::raw('ceil(expedientes.fojas / 200) as cuerpos'),
+                                 'caratulas.id as caratula',
+                                 'expedientes.fojas',
+                                 'areas.descripcion as area_actual',
+                                 'areaOrigen.descripcion as area_origen',
+                                 'expedientes.archivos as archivo'
+                                 )
+                        ->where('expedientes.expediente_id', '=', null)
+                        ->joinSub($area_origen, 'areaOrigen', function($join)
+                        {
+                            $join->on('expedientes.id', '=', 'areaOrigen.expediente_id');
+                        })     
+                        ->join('prioridad_expedientes', 'prioridad_expedientes.id', '=', 'expedientes.prioridad_id')
+                        ->join('caratulas', 'expedientes.id', '=', 'caratulas.expediente_id')
+                        ->join('extractos', 'caratulas.extracto_id', '=', 'extractos.id')
+                        ->join('tipo_expedientes', 'expedientes.tipo_expediente', '=', 'tipo_expedientes.id')
+                        ->join('areas', 'areas.id', '=', 'expedientes.area_actual_id')
+                        ->orderBy('expedientes.id')
+                        ->get();
+        return $query;
+    }
+
+    /**
+     * En desuso
+     */
+    public static function index_old()
+    {
+        $expedientes = Expediente::where('expediente_id', null)->get();
         $array_expediente = collect([]);
         foreach ($expedientes as $exp)
         {
@@ -143,6 +214,31 @@ class Expediente extends Model
                             ]);
         }
         return $array_expediente;
+    }
+
+    /**
+     * Método index replanteado para utilizar la db facade
+     * Autor: MF
+     */
+    public static function index()
+    {
+        $expediente = DB::table('expedientes')
+                        ->where('expedientes.expediente_id', '=', null)
+                        ->join('prioridad_expedientes', 'prioridad_expedientes.id', '=', 'expedientes.prioridad_id')
+                        ->join('caratulas', 'caratulas.expediente_id', '=', 'expedientes.id')
+                        ->join('extractos', 'extractos.id', '=', 'caratulas.extracto_id')
+                        ->join('tipo_expedientes', 'tipo_expedientes.id', '=', 'expedientes.tipo_expediente')
+                        ->select(   'expedientes.id as id', 
+                                    'prioridad_expedientes.descripcion',
+                                    'expedientes.nro_expediente',
+                                    'extractos.descripcion as extracto',
+                                    'expedientes.fecha as fecha_creacion',
+                                    'tipo_expedientes.descripcion as tramite',
+                                    DB::raw('ceil(expedientes.fojas / 200) as cantCuerpos'),
+                                    'caratulas.id as caratula',
+                                    'expedientes.fojas')
+                        ->get();
+        return $expediente;
     }
 
     public static function nroExpediente($año_exp)
@@ -321,7 +417,7 @@ class Expediente extends Model
                      'tipo_expedientes.descripcion as tipoExpediente',
                      'expedientes.fojas as cantFojas',
                      DB::raw('truncate((expedientes.fojas / 200), 0) + 1 as cantCuerpos'))
-            ->where('expedientes.tipo_expediente',3)
+            ->where('expedientes.tipo_expediente',3) 
             ->get();
         return $expedientes;
     }

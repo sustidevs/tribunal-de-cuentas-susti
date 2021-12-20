@@ -30,7 +30,7 @@ class TipoExpediente extends Model
     public static function motivosConExtractos()
     {
         $extractos = TipoExpediente::all();
-        $sinExtractos = $extractos->except([5,6,11,12,14,16,18,19,22,23]);
+        $sinExtractos = $extractos->except([5,6,12,14,16,19,22,23]);
         return $sinExtractos;
     }
 }

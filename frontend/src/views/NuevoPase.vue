@@ -107,6 +107,10 @@
                       multiple
                       @change="handleFileUpload($event)"
                     />
+                    <modal-error-tipo-archivo
+                      :show="showArchivoError"
+                      @close="closeModalErrorArchivo"
+                    />
                   </v-card>
                 </v-form>
               </v-card>
@@ -173,7 +177,8 @@ import { mapActions, mapGetters } from "vuex";
 import TextField from "../components/TextField";
 import ModalDetallePase from "../components/dialogs/ModalDetallePase";
 import ModalExitoPase from "../components/dialogs/ModalExitoPase";
-// import LabelError from "../components/LabelError";
+import ModalErrorTipoArchivo from "../components/dialogs/ModalErrorTipoArchivo";
+
 
 export default {
   name: "Nuevo Pase",
@@ -183,7 +188,7 @@ export default {
     TextField,
     ModalDetallePase,
     ModalExitoPase,
-    // LabelError,
+    ModalErrorTipoArchivo,
   },
   data: () => ({
     e1: 1,
@@ -211,6 +216,7 @@ export default {
     paseRules: [
       (v) => (v && v.length == null) || "Seleccione un área de destino",
     ],
+    showArchivoError: false,
   }),
 
   computed: {
@@ -222,7 +228,7 @@ export default {
       "getIdUser",
       "expedientePase",
       "idExpedientePase",
-      "pase_a_error",
+      "pasea_error",
       "a_afectosde_error",
       "nrofojas_error",
     ]),
@@ -256,7 +262,18 @@ export default {
 
     handleFileUpload(event) {
       this.files = event.target.files;
+      for (var i = 0; i < this.files.length; i++) {
+        if (event.target.files[i].type === "application/x-msdownload") {
+          this.showArchivoError = !this.showArchivoError;
+          event.target.value = null;
+        }
+      }
     },
+
+    closeModalErrorArchivo() {
+      this.showArchivoError = false;
+    },
+
     validate() {
       if (this.$refs.form.validate()) {
         this.e1 = 2;
