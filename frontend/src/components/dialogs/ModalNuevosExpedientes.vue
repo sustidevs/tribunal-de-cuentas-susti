@@ -21,7 +21,9 @@
       <v-row no-gutters>
         <v-col cols="12" md="12" sm="12" xs="12">
           <div class="Montserrat-Bold mb-2 sizeTM"> Se derivó al área:</div>
-          <div class="Montserrat-Regular mb-6 text-justify sizeDM">{{ dato[3].descripcion }}</div>
+          <div v-if="!(dato[3] === undefined)">
+            <div class="Montserrat-Regular mb-6 text-justify sizeDM">{{ dato[3].descripcion }}</div>
+          </div>
         </v-col>
         <v-col cols="12" md="12" sm="12" xs="12" v-if="dato[6] !== '-'">
           <div class="Montserrat-Bold mr-1 mb-2 sizeTM"> Email:</div>
@@ -180,13 +182,9 @@ export default {
   name: 'ModalNuevosExpedientes',
   components: {Button, VueHtml2pdf},
   props: {
-    show: Function,
+    show: {type: Boolean, default: false},
     dato: Array,
   },
-
-  data: () => ({
-    namefilepdf: this.dato,
-  }),
 
   computed: {
     ...mapGetters(['areas', 'fecha'])

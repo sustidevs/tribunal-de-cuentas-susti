@@ -110,13 +110,13 @@
 
         <v-divider color="#393B44" class="mt-2"></v-divider>
 
-        <div v-if="this.get_busquedaExp.length == 0">
+        <div v-if="this.get_resultado.length == 0">
           <div class="descripcion mt-4 py-2">
             No se han encontrado resultados
           </div>
         </div>
 
-        <div v-if="this.get_busquedaExp.length > 0">
+        <div v-if="this.get_resultado.length > 0">
           <div class="descripcion mt-4 py-2">
             Haga click en el resultado para más detalles
           </div>
@@ -124,7 +124,7 @@
           <v-expansion-panels focusable>
             <v-expansion-panel
               class="my-2"
-              v-for="item in get_busquedaExp"
+              v-for="item in get_resultado"
               :key="item.id"
             >
               <v-expansion-panel-header
@@ -169,6 +169,7 @@ import { mapActions, mapGetters } from "vuex";
 export default {
   name: "ModalConsultarNroExp",
   components: { TextField },
+
   props: {
     show: Boolean,
   },
@@ -187,10 +188,10 @@ export default {
     };
   },
 
-  computed: mapGetters(["get_busquedaExp", "get_encontrado", "getArea"]),
+  computed: mapGetters(["get_resultado", "get_encontrado", "getArea", 'get_historial']),
 
   methods: {
-    ...mapActions(['consultarExpediente', 'getHistorial']),
+    ...mapActions(['consultarExpediente', 'historial_expediente']),
 
     consultar() {
       this.consultarExpediente(this.busqueda);
@@ -209,8 +210,9 @@ export default {
       let id = {
         id: item.expediente_id
       }
-      this.getHistorial(id)
+      this.historial_expediente(id)
     },
+
   },
 };
 </script>

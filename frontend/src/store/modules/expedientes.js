@@ -6,10 +6,12 @@ const state = {
     todos_expedientes: [],
     expedientes: [],
     historial: [],
+    resultado:  [],
 
     //Estado (finalizado)
     finalizado: false,
     aceptado: false,
+    encontrado: false,
 };
 
 const getters = {
@@ -18,6 +20,8 @@ const getters = {
     get_finalizado: state => state.finalizado,
     get_historial: state => state.historial,
     get_aceptado: state => state.aceptado,
+    get_encontrado: state => state.encontrado,
+    get_resultado: state => state.resultado,
 }
 
 const actions = {
@@ -59,6 +63,15 @@ const actions = {
             commit('set_aceptado', true)
         })
     },
+
+    consultarExpediente ({ commit }, busqueda) {
+        axios.post(process.env.VUE_APP_API_URL+ '/api/buscar-expediente', busqueda)
+            .then(response => {
+                commit('set_resultados', response.data)
+                commit('set_encontrado', true)
+            })
+    },
+
 }
 
 const mutations = {
@@ -67,6 +80,8 @@ const mutations = {
     set_finalizado: (state, finalizado) => state.finalizado = finalizado,
     set_historial: (state,historial) => state.historial = historial,
     set_aceptado: (state,aceptado) => state.aceptado = aceptado,
+    set_resultados: (state, resultado) => state.resultado = resultado,
+    set_encontrado: (state, encontrado) => state.encontrado = encontrado
 }
 
 export default {

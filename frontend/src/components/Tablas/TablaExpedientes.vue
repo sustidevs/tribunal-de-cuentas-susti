@@ -41,13 +41,11 @@
         </template>
 
         <template v-slot:item.action="{ item}">
-          <v-btn @click="getHistorial(item)" fab small color="#FACD89" depressed>
+          <v-btn @click="historial_expediente(item)" fab small color="#FACD89" depressed>
             <v-icon> mdi-eye </v-icon>
           </v-btn>
         </template>
       </v-data-table>
-
-
   </div>
 </template>
 
@@ -80,7 +78,7 @@ export default {
     },
 
     ...mapActions([
-      'getHistorial'
+      'historial_expediente'
     ]),
 
   }

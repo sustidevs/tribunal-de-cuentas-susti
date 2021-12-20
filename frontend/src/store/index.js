@@ -1,7 +1,6 @@
 /**estado global **/
 import Vue from 'vue'
 import Vuex from 'vuex'
-import expedientes_bandejas from './modules/expedientes_bandejas';
 import expedientes from "./modules/expedientes";
 import motivo_expedientes from "./modules/motivo_expedientes";
 import prioridad_expedientes from "./modules/prioridad_expedientes";
@@ -24,7 +23,6 @@ export default new Vuex.Store({
         expedientes,
         notificaciones,
         desglose,
-        expedientes_bandejas,
         motivo_expedientes,
         prioridad_expedientes,
         usuarios,

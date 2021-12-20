@@ -3,7 +3,7 @@ import axios from "axios";
 const state = {
     cedula: "",
     cargado: false,
-    error_cedula: '',
+    error_cedula: [],
     cedulas: [],
 };
 
@@ -15,14 +15,12 @@ const getters = {
 };
 
 const actions = {
-
     storeCedula({commit}, expediente) {
         axios
             .post(process.env.VUE_APP_API_URL + '/api/store-cedula', expediente)
             .then((response) => {
-                console.log(response);
                 commit('set_cargado', true)
-                commit("set_cedula", response.data);
+                commit("set_cedula", response.data[0]);
             })
             .catch(error => {
                 commit('set_error_cedula', error.response.data.errors.descripcion)
