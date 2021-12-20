@@ -228,12 +228,14 @@ class Expediente extends Model
                         ->join('caratulas', 'caratulas.expediente_id', '=', 'expedientes.id')
                         ->join('extractos', 'extractos.id', '=', 'caratulas.extracto_id')
                         ->join('tipo_expedientes', 'tipo_expedientes.id', '=', 'expedientes.tipo_expediente')
+                        ->join('areas', 'areas.id', '=', 'expedientes.area_actual_id')
                         ->select(   'expedientes.id as id', 
                                     'prioridad_expedientes.descripcion',
                                     'expedientes.nro_expediente',
                                     'extractos.descripcion as extracto',
                                     'expedientes.fecha as fecha_creacion',
                                     'tipo_expedientes.descripcion as tramite',
+                                    'areas.descripcion as area_actual',
                                     DB::raw('ceil(expedientes.fojas / 200) as cantCuerpos'),
                                     'caratulas.id as caratula',
                                     'expedientes.fojas')
