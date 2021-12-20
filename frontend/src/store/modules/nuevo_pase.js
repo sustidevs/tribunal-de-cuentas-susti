@@ -5,7 +5,7 @@ const state = {
     expedientes:[] ,
     fecha: '',
     areas: [],
-    expediente: '',
+    expediente: [],
     exitopase: false,
 
     pase_aerror: '',
@@ -31,7 +31,6 @@ const actions = {
     getNuevoPase ({ commit }, expediente )  {
         axios.post(process.env.VUE_APP_API_URL+ '/api/historial', expediente)
             .then(response => {
-                console.log(response)
                 commit('set_expedientes', response.data[0])
                 commit('set_fecha',response.data[2])
                 commit('set_areas',response.data[1])
@@ -42,13 +41,10 @@ const actions = {
     storePase ({ commit }, expediente) {
         axios.post(process.env.VUE_APP_API_URL+ '/api/historial-expediente', expediente).
         then(response => {
-            console.log(response)
             commit('save_newPase', response.data)
             commit('set_creado', true)
         })
         .catch(error => {
-            console.log (error.response.data.errors)
-            // commit('set_pase_a_error', error.response.data.errors.area_destino_id)
             commit('set_a_afectos_de_error', error.response.data.errors.motivo[0])
             commit('set_nrofojas_error', error.response.data.errors.fojas[0])
         })

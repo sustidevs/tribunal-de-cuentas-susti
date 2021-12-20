@@ -1,6 +1,5 @@
 import axios from "axios";
 import router from "../../router";
-//import router from "../../router";
 
 const state = {
     //Arrays
@@ -18,19 +17,21 @@ const getters = {
     get_expedientes: state => state.expedientes,
     get_finalizado: state => state.finalizado,
     get_historial: state => state.historial,
+    get_aceptado: state => state.aceptado,
 }
 
 const actions = {
 
+    //muestra el detalle en la linea del tiempo - seguimiento
     historial_expediente ({commit}, expediente) {
         axios.post(process.env.VUE_APP_API_URL+ '/api/historialExp', expediente)
             .then(response => {
-                commit('set_nro_historial', response.data[0].nro_expediente)
                 commit('set_historial', response.data)
                 router.push('/ver-historiales');
             })
     },
 
+    // muestra todos los expedientes
     todosExpedientes ({commit}) {
         axios.get(process.env.VUE_APP_API_URL+ '/api/indexExp')
             .then(response => {
@@ -39,6 +40,10 @@ const actions = {
             })
     },
 
+    //Cambia de acuerdo al nro de bandeja que le pase
+    // Bandeja de Entrada: 1
+    // Mis expedientes: 3
+    // Recuperar / Enviados que todavia no han sido aceptados: 4
     listadoExpedientes ({ commit }, expediente) {
         axios.post(process.env.VUE_APP_API_URL+ '/api/ListadoExp', expediente)
             .then(response => {
@@ -51,9 +56,9 @@ const actions = {
         axios.post(process.env.VUE_APP_API_URL+ '/api/update-estado', expediente).
         then(response => {
             commit('set_expedientes', response.data)
-            commit('aceptado', true)
+            commit('set_aceptado', true)
         })
-    }
+    },
 }
 
 const mutations = {
@@ -61,6 +66,7 @@ const mutations = {
     set_expedientes: (state, expedientes) => state.expedientes = expedientes,
     set_finalizado: (state, finalizado) => state.finalizado = finalizado,
     set_historial: (state,historial) => state.historial = historial,
+    set_aceptado: (state,aceptado) => state.aceptado = aceptado,
 }
 
 export default {

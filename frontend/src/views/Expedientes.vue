@@ -12,7 +12,7 @@ import {mapActions,mapGetters} from "vuex";
 
 export default {
   name: 'BandejaDeEntrada',
-  components: {TablaExpedientes, Titulo, },
+  components: {TablaExpedientes, Titulo},
   data() {
     return {
       headers: [
@@ -22,7 +22,7 @@ export default {
         {text: 'Area Actual', value: 'area_actual'},
         {text: 'Fecha Creación', value: 'fecha_creacion'},
         {text: 'Trámite', value: 'tramite', width: "5%"},
-        {text: 'Cuerpo', value: 'cuerpos', align: 'center'},
+        {text: 'Cuerpo', value: 'cantCuerpos', align: 'center'},
         {text: 'Fojas', value: 'fojas', align: 'center'},
         {text: 'Ver Detalles', value: 'action', align: 'center', sortable: false},
         {class: "display-4"},

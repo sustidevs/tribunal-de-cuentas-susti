@@ -1,9 +1,6 @@
 <template>
     <div>
-      <titulo class="pb-3" texto="Historial del Expediente N°" :nro="this.get_historial_nro" icono="mdi-text-box-search-outline"/>
-
-      {{get_historial}}
-
+      <titulo class="pb-3" texto="Historial del Expediente N°" :nro="this.get_historial[0].nro_expediente" icono="mdi-text-box-search-outline"/>
       <v-row class="pb-6 mb-9" justify="center">
         <v-timeline
             reverse

@@ -1,7 +1,6 @@
 <template>
   <v-dialog v-model="show" width="1320" content-class="round">
     <div>
-      <div v-if="!this.cargado">
         <v-card class="px-7 pt-1 pb-6">
           <v-row class="mt-5">
             <v-col cols="10">
@@ -18,7 +17,6 @@
 
           <v-divider color="#393B44" class="mt-2"></v-divider>
 
-          
           <v-row no-gutters class="py-5">
             <v-col cols="12" sm="12" lg="12">
               <div class="fontSmall Montserrat-SemiBold mr-3">Extracto:</div>
@@ -57,6 +55,7 @@
         </v-card>
       </div>
 
+    <!--
       <div v-else>
         <v-card class="px-7 pt-1 pb-6">
           <v-row class="mt-5">
@@ -81,7 +80,7 @@
           </div>
         </v-card>
       </div>
-    </div>
+    </div>-->
   </v-dialog>
 </template>
 
@@ -104,7 +103,7 @@ export default {
     };
   },
 
-  computed: mapGetters(["todos_expp", "cargado", "getCedula", "get_error"]),
+  computed: mapGetters(["todos_expp",  "getCedula", "get_error"]),
 
   methods: {
     ...mapActions(["getExpedientes", "storeCedula"]),
@@ -113,9 +112,11 @@ export default {
       let exp = {
         expediente_id: this.datos.id,
         descripcion: this.valorCedula,
+        user_id: this.$store.getters.getIdUser,
       };
       this.storeCedula(exp);
     },
+
 
     close() {
       this.$emit("close");

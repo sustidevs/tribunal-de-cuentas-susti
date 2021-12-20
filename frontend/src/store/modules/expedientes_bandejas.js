@@ -1,5 +1,4 @@
 import axios from "axios";
-import router from "../../router";
 
 const state = {
     expedientes: {},
@@ -28,10 +27,10 @@ const getters = {
     allExpedientes: state => state.expedientes,
     expediente: state => state.expediente,
     extracto: state => state.extracto,
-    nro_expediente: state => state.nro_expediente,
+    //nro_expediente: state => state.nro_expediente,
     allBandejaEntrada: state => state.expediente_bandeja,
     aceptado: state => state.aceptado,
-    recuperado: state => state.recuperado,
+    //recuperado: state => state.recuperado,
    // get_finalizado: state => state.finalizado,
     get_busquedaExp: state => state.busquedaExp,
     get_encontrado: state => state.encontrado,
@@ -43,14 +42,7 @@ const getters = {
 };
 
 const actions = {
-    getHistorial ({ commit }, expediente) {
-        axios.post(process.env.VUE_APP_API_URL+ '/api/historialExp', expediente)
-            .then(response => {
-                commit('set_nro_historial', response.data[0].nro_expediente)
-                commit('set_historial', response.data)
-                router.push('/ver-historiales');
-            })
-    },
+
 
     consultarExpediente ({ commit }, busqueda) {
         axios.post(process.env.VUE_APP_API_URL+ '/api/buscar-expediente', busqueda)
@@ -109,29 +101,8 @@ const actions = {
         commit('aceptado',false)
     },
 
-    recibir({ commit }, expediente) {
-        axios.post(process.env.VUE_APP_API_URL+ '/api/update-estado', expediente).
-        then(response => {
-            console.log(response)
-            commit('aceptado', true)
-            commit('set_bandejaEntrada', response.data)
-        })
-    },
 
-    getBandejaEntrada({commit}, bandeja){
-        axios.post(process.env.VUE_APP_API_URL+ '/api/ListadoExp', bandeja)
-            .then(response => {
-                commit('set_bandejaEntrada', response.data)
-                commit('set_finalizado', false)
-            })
-    },
-    recuperar({ commit }, expediente) {
-        axios.post(process.env.VUE_APP_API_URL+ '/api/update-estado', expediente).
-        then(response => {
-            commit('recuperado', true)
-            commit('set_expedientes', response.data)
-        })
-    },
+
 
 };
 
