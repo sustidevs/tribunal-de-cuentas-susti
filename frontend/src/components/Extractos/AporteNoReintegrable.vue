@@ -117,13 +117,12 @@ export default {
         cargaExtracto() {
             this.isEditing = !this.isEditing
             this.hasSaved = true
-            const extracto = "E/REND.CTAS.APORTE NO REINTEGRABLE. GTOS:  "+ this.input1 + "    DCTO:  " + this.input2 + "   IMPORTE: $  " + this.input3 + "   APORTE NO REINTEGRABLE"
+            const extracto = "E/REND.CTAS.APORTE NO REINTEGRABLE. GTOS: "+ this.input1 + ". DCTO: " + this.input2 + ". IMPORTE: $" + this.input3 + ". APORTE NO REINTEGRABLE" + ". INICIADOR: " + this.nombreIniciador
             this.extracto(extracto)
         },
 
         cargariniciador(){
             let nombrei = this.allIniciadores.find( item => item.id === this.get_iniciadorSelected)
-            console.log(nombrei.nombre)
             this.nombreIniciador = nombrei.nombre
         },
 
