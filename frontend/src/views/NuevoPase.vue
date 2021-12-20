@@ -195,7 +195,7 @@ export default {
     areaSeleccionado: {},
     pase: {
       observacion: "",
-      nro_fojas: "",
+      nro_fojas: '',
     },
     files: "",
     loader: null,
