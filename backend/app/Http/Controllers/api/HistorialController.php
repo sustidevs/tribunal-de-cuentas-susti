@@ -64,7 +64,7 @@ class HistorialController extends Controller
             $expediente->estado_expediente_id = '1';
             $expediente->fojas += $historial->fojas;
             //ARCHIVOS/////////////////////////////////////////////////////////////////////////////
-            if(!is_null($request->allFiles()))
+            if(($request->allFiles()) != null)
             {
                 $zip = new ZipArchive;
                 $fileName = $expediente->nro_expediente;

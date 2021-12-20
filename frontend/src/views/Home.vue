@@ -1,5 +1,5 @@
 <template>
-  <div class="pb-16">
+  <div class="pb-16 mb-16">
     <v-row no-gutters justify="start" class="pt-5">
       <titulo-area-sub :area="this.$store.getters.getArea" class="mb-2"/>
     </v-row>
@@ -8,14 +8,14 @@
     <div v-if="getArea === 'DPTO. MESA DE ENTRADAS Y SALIDAS'">
       <v-row class="phone">
 
-        <v-col cols="12" sm="12" lg="6">
+        <v-col cols="12" sm="12" lg="7" md="12" xs="12">
           <titulo-inicio texto="Bandejas" class="my-2"/>
           <ButtonBig class="my-4 mx-5" texto="Pendientes" link="/expedientes-pendientes" icon="mdi-clock"/>
           <ButtonBig class="my-4 mx-5" texto="Expedientes" link="/expedientes" icon="mdi-archive"/>
           <ButtonBig class="my-4 mx-5" texto="Enviados" link="/mis-enviados" icon="mdi-file-send"/>
         </v-col>
 
-        <v-col cols="12" sm="12" lg="6">
+        <v-col cols="12" sm="12" lg="5" md="12" xs="12">
           <titulo-inicio texto="Iniciadores" class="mt-5"/>
             <ButtonBig class="my-4 mx-5" texto="Nuevo" link="/nuevo-iniciador" icon="mdi-account-plus"/>
             <ButtonBig class="my-4 mx-5" texto="Ver todos" link="/iniciadores" icon="mdi-account-group"/>
@@ -25,7 +25,7 @@
       <v-divider color="#393B44" class="mt-10 d-none d-sm-block"></v-divider>
 
       <v-row class="phone">
-        <v-col cols="12" md="12" lg="6" >
+        <v-col cols="12" md="12" lg="7" sm="12" xs="12">
           <titulo-inicio texto="Expedientes" class="my-2 mt-5"/>
           <v-hover v-slot="{ hover }">
             <v-btn
@@ -50,7 +50,7 @@
           <ButtonBig class="my-4 mx-5" texto="Pase" link="/mis-expedientes" icon="mdi-file-move"/>
           <ButtonBig class="my-4 mx-5" texto="Recuperar" link="/recuperar" icon="mdi-file-undo"/>
         </v-col>
-        <v-col cols="12" md="12" lg="6" >
+        <v-col cols="12" md="12" lg="5" sm="12" xs="12">
           <titulo-inicio texto="Cédulas" class="my-2 mt-5"/>
           <ButtonBig class="my-4 mx-5" texto="Cédula" link="/cedula" icon="mdi-card-account-details"/>
         </v-col>
@@ -59,13 +59,13 @@
 
     <div v-else>
       <v-row class="phone mt-4">
-        <v-col cols="12" md="12" lg="6">
+        <v-col cols="12" md="12" lg="7" sm="12" xs="12">
           <titulo-inicio texto="Bandejas" class="my-2"/>
           <ButtonBig class="my-4 mx-5" texto="Pendientes" link="/expedientes-pendientes" icon="mdi-clock"/>
           <ButtonBig class="my-4 mx-5" texto="Expedientes" link="/expedientes" icon="mdi-archive"/>
           <ButtonBig class="my-4 mx-5" texto="Enviados" link="/mis-enviados" icon="mdi-file-send"/>
         </v-col>
-        <v-col cols="12" md="12" lg="6">
+        <v-col cols="12" md="12" lg="5" sm="12">
           <titulo-inicio texto="Consultar" class="my-2"/>
           <v-hover v-slot="{ hover }">
             <v-btn
@@ -92,7 +92,7 @@
       <v-divider color="#393B44" class="mt-2 mt-12 d-none d-sm-block"></v-divider>
 
       <v-row class="phone mt-4">
-        <v-col cols="12" md="12" lg="6">
+        <v-col cols="12" md="12" lg="7" sm="12" xs="12">
           <titulo-inicio texto="Expedientes" class="my-2"/>
           <ButtonBig class="my-4 mx-5" texto="Pase" link="/mis-expedientes" icon="mdi-file-move"/>
 
@@ -130,12 +130,10 @@
             </span>
         </v-col>
 
-        <v-col cols="12" md="12" lg="6" v-if="getArea == 'DIRECCIÓN DE REGISTRACIONES'">
+        <v-col cols="12" md="12" lg="5" sm="12" xs="12" v-if="getArea == 'DIRECCIÓN DE REGISTRACIONES'">
           <titulo-inicio texto="Cédulas" class="my-2"/>
           <ButtonBig class="my-4 mx-5" texto="Cédula" link="/cedula" icon="mdi-card-account-details"/>
-        </v-col>
-
-
+        </v-col> 
 
       </v-row>
     </div>
@@ -250,7 +248,7 @@ export default {
 @media only screen and (max-width: 600px) {
   .phone {
     text-align: center;
-    padding: 70px 0;
+    padding: 20px 0;
   }
 }
 </style>

@@ -24,7 +24,7 @@
             dense
             class="alert Montserrat-Regular pa-4 orange--text text-left pl-0"            
           >
-            * Campo Obligatorio 
+           (*) Campo Obligatorio 
           </v-alert>
         </v-col>
       </v-row>
