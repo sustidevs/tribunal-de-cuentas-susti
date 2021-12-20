@@ -112,7 +112,6 @@ export default {
 
         cargariniciador(){
             let nombrei = this.allIniciadores.find( item => item.id === this.get_iniciadorSelected)
-            console.log(nombrei.nombre)
             this.nombreIniciador = nombrei.nombre
         },
 
