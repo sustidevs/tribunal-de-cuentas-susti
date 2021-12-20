@@ -230,7 +230,7 @@ class Expediente extends Model
                         ->join('tipo_expedientes', 'tipo_expedientes.id', '=', 'expedientes.tipo_expediente')
                         ->join('areas', 'areas.id', '=', 'expedientes.area_actual_id')
                         ->select(   'expedientes.id as id', 
-                                    'prioridad_expedientes.descripcion',
+                                    'prioridad_expedientes.descripcion as prioridad',
                                     'expedientes.nro_expediente',
                                     'extractos.descripcion as extracto',
                                     'expedientes.fecha as fecha_creacion',
