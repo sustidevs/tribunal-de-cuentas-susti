@@ -2,38 +2,46 @@
   <v-dialog v-model="show" width="1200px" content-class="round" persistent>
     <v-card class="px-7 pt-1">
       <v-row class="mt-5 mb-2">
-        <v-col cols="10">
-          <h2 class="Montserrat-Bold text-justify">Expediente N° {{ datos.nro_expediente }}</h2>
+        <v-col cols="12" xl="10" lg="6" sm="10" xs="12">
+          <h2 class="Montserrat-Bold text-justify">
+            Expediente N° {{ datos.nro_expediente }}
+          </h2>
         </v-col>
-        <v-col cols="2" align="right">
-          <v-icon color="#393B44" large>mdi-file-document</v-icon>
+        <v-col cols="12" xl="2" lg="6" sm="2" xs="12" align="right">
+          <v-btn @click="close" icon elevation="0" color="grey lighten-2">
+            <v-icon color="#393B44" large>mdi-file-document</v-icon>
+          </v-btn>
         </v-col>
       </v-row>
       <v-divider color="#393B44" class="mt-2"></v-divider>
 
 
       <v-row no-gutters align="start" class="mt-5">
-        <div class="textHereSmall d-flex flex-column Montserrat-Bold mb-2 mr-2">
-          Extracto:
-        </div>
-        <div
-          class="textHereSmall d-flex flex-column Montserrat-SemiBold text-justify"
-        >
-          {{ datos.extracto }}
-        </div>
+        <v-col cols="12" xl="12" lg="12" sm="12" xs="12">
+          <div
+            class="textHereSmall d-flex flex-column Montserrat-Bold mb-2 mr-2"
+          >
+            Extracto:
+          </div>
+          <div
+            class="textHereSmall d-flex flex-column Montserrat-SemiBold text-justify"
+          >
+            {{datos.extracto }}
+          </div>
+        </v-col>
       </v-row>
 
-      <v-row no-gutters align="start" class="pt-6">
-        <v-col>
-          <div class="d-flex">
+      <v-row no-gutters align="start">
+        <v-col lg="7" sm="12" xs="12">
+          <div class="d-flex pt-6">
             <div class="textHereSmall Montserrat-Bold mr-1">Iniciador:</div>
             <div class="textHereSmall Montserrat-SemiBold ml-1">
               {{ datos.iniciador }}
             </div>
           </div>
         </v-col>
-        <v-col>
-          <div class="d-flex">
+        <v-col lg="5" sm="12" xs="12">
+          <div class="d-flex pt-6">
             <div class="textHereSmall Montserrat-Bold mr-1">
               Fecha de creación:
             </div>
@@ -54,10 +62,15 @@
           {{ datos.observacion }}
         </div>
       </v-row>
-      
+
       <v-divider color="#c2c3cc" class="mt-2"></v-divider>
 
-      <v-row no-gutters align="start" class="mt-5" v-if="getArea == 'DPTO. MESA DE ENTRADAS Y SALIDAS' ">
+      <v-row
+        no-gutters
+        align="start"
+        class="mt-5"
+        v-if="getArea == 'DPTO. MESA DE ENTRADAS Y SALIDAS'"
+      >
         <div class="textHereSmall d-flex flex-column Montserrat-Bold mb-2 mr-2">
           A afectos de:
         </div>

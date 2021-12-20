@@ -1,11 +1,30 @@
 <template>
-    <div>
+    <div class="mb-16 pb-10">
       <titulo class="pb-3" texto="Historial del Expediente N°" :nro="this.get_historial[0].nro_expediente" icono="mdi-text-box-search-outline"/>
-      <v-row class="pb-6 mb-9" justify="center">
+      <!--
+      <v-row>
+        <v-btn @click="refColores=!refColores" color="grey lighten-2" class="mt-4 ml-3"> Referencia de colores
+          <v-icon right>
+            mdi-chevron-right
+          </v-icon>
+        </v-btn>
+
+        <div class="text-center mt-3 pl-3" v-show="refColores">
+          <v-chip
+            class="ma-2"
+            color="blue-grey darken-1"
+            label
+            text-color="white"
+          >
+            Departamento de Administración
+          </v-chip>
+        </div>
+      </v-row>-->
+
         <v-timeline
             reverse
             align-top
-            :dense="$vuetify.breakpoint.smAndDown"
+            :dense="$vuetify.breakpoint.mdAndDown"
         >
             <v-timeline-item
               v-for="item in get_historial"
@@ -18,7 +37,6 @@
               fill-dot
             >
               <v-card
-                  width="1400"
                   :color="item.color"
               >
                 <v-card color="amber lighten-4">
@@ -48,7 +66,6 @@
               </v-card>
             </v-timeline-item>
         </v-timeline>
-      </v-row>
     </div>
 </template>
 <script>

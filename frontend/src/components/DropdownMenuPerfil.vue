@@ -36,12 +36,12 @@
       <div >
         <v-hover v-slot="{ hover }" class="d-flex justify-end py-2" >
           <v-btn block x-large depressed text href="/usuario">
-            <h5
+            <h6
               class="px-2 Montserrat-Regular"
               :class="hover ? 'amber--text text--lighten-3' : 'white--text'"
             >
               Editar Perfil
-            </h5>
+            </h6>
             <v-icon
               :class="hover ? 'amber--text text--lighten-3' : 'white--text'"
               >mdi-account</v-icon
@@ -54,12 +54,12 @@
       <div>
         <v-hover v-slot="{ hover }" class="d-flex justify-end py-2 ">
           <v-btn block x-large depressed text @click="onLogout()">
-            <h5
+            <h6
               class="px-2 Montserrat-Regular"
               :class="hover ? 'amber--text text--lighten-3' : 'white--text'"
             >
               Salir
-            </h5>
+            </h6>
             <v-icon
               :class="hover ? 'amber--text text--lighten-3' : 'white--text'"
               >mdi-logout</v-icon
