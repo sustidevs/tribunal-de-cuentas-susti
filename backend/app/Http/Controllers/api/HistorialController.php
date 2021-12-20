@@ -117,7 +117,7 @@ class HistorialController extends Controller
         $historial->user_id = $user->id;
         $historial->area_origen_id = $expediente->historiales->last()->area_origen_id;
         $historial->area_destino_id = $user->area_id;
-        $historial->fojas = $expediente->fojas;
+        $historial->fojas = $expediente->historiales->last()->fojas;
         $historial->fecha = Carbon::now()->format('Y-m-d');
         $historial->hora = Carbon::now()->format('h:i');
         $historial->motivo = "Pase aceptado";

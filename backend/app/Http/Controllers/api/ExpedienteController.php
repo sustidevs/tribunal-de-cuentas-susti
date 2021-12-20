@@ -249,7 +249,7 @@ class ExpedienteController extends Controller
             $historial->user_id = $request->input("user_id");
             $historial->area_origen_id = 13 ;
             $historial->area_destino_id = $request->area_id;
-            $historial->fojas = $historial->fojas = $request->nro_fojas;
+            $historial->fojas = 0;
             $historial->fecha = Carbon::now()->format('Y-m-d');
             $historial->hora = Carbon::now()->format('h:i');
             //$historial->motivo = $request->observacion; TODO
@@ -343,7 +343,7 @@ class ExpedienteController extends Controller
         $historial_padre->fojas = $exp_padre->fojas;
         $historial_padre->fecha = Carbon::now()->format('Y-m-d');
         $historial_padre->hora = Carbon::now()->format('h:i');
-        $historial_padre->motivo =  "El Expediente N° " . $expedientes_hijos . " se ha unido al Expediente ". Expediente::find($historial_padre->expediente_id)->nro_expediente;
+        $historial_padre->motivo =  "El Expediente N° " . $expedientes_hijos . " se ha unido al Expediente N° ". $exp_padre->nro_expediente;
         $historial_padre->estado = "3";
         $historial_padre->save();
         return $historial_padre->motivo;
@@ -501,7 +501,7 @@ class ExpedienteController extends Controller
             $historial_hijo_desglosado->motivo = "Desglosado del expediente: " . $exp_padre->nro_expediente . ", por el usuario: " .  $user->persona->apellido . " " . $user->persona->nombre;
             $historial_hijo_desglosado->estado = 3;
             $historial_hijo_desglosado->save();
-            $exp_hijos_desglosados = $exp_hijo_desglosado->nro_expediente . ", " . $exp_hijos_desglosados . ", ";
+            $exp_hijos_desglosados = $exp_hijos_desglosados . $exp_hijo_desglosado->nro_expediente . ", ";
             $fojas_total =  $fojas_total + $exp_hijo_desglosado->fojas; 
             /*$exp_hijo_desglosado->expediente_id = null;
             $exp_hijo_desglosado->save();
@@ -537,7 +537,7 @@ class ExpedienteController extends Controller
         $historial_padre->fecha = Carbon::now()->format('Y-m-d');
         $historial_padre->hora = Carbon::now()->format('h:i');
         $historial_padre->estado = "3";
-        $historial_padre->motivo = "Expedientes desglosados: " . $exp_padre->nro_expediente . ", " . $exp_hijos_desglosados;
+        $historial_padre->motivo = "El expediente N° ". $exp_hijos_desglosados." se ha desglosado del expediente N° " .  $exp_padre->nro_expediente . ".";
         $historial_padre->save();
         
         DB::commit();
