@@ -95,6 +95,7 @@
         <v-col cols="12" md="12" lg="7" sm="12" xs="12">
           <titulo-inicio texto="Expedientes" class="my-2"/>
           <ButtonBig class="my-4 mx-5" texto="Pase" link="/mis-expedientes" icon="mdi-file-move"/>
+          <ButtonBig class="my-4 mx-5" texto="Recuperar" link="/recuperar" icon="mdi-file-undo"/>
 
           <span v-if="(getArea == 'VOCALIA A')">
               <ButtonBig class="my-4 mx-5" texto="Englose" link="/englose" icon="mdi-file-plus"/>

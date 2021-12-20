@@ -1,6 +1,5 @@
 import axios from "axios";
 
-
 const state = {
     cantidad_subsidioAporteNR: 0,
     cantidad_pendientes: 0,
@@ -17,7 +16,6 @@ const actions = {
     cantidad_subsidioAporteNR ({ commit } , id_usuario) {
         axios.post(process.env.VUE_APP_API_URL+ '/api/contarSubsidioAporteNR', id_usuario)
             .then(response => {
-                console.log(response.data)
                 commit('setcantidad_subsidioAporteNR', response.data)
             })
     },

@@ -1,14 +1,8 @@
 <template>
   <div>
     <v-row>
-      <v-col
-          cols="12"
-          sm="4"
-      >
-        <v-text-field
-            color="#8D93AB"
-            v-model="search"
-            append-icon="mdi-magnify"
+      <v-col cols="12" sm="4">
+        <v-text-field color="#8D93AB" v-model="search" append-icon="mdi-magnify"
             label="Buscar"
             hide-details
             outlined
@@ -16,7 +10,6 @@
         />
       </v-col>
     </v-row>
-
 
       <v-data-table
           :headers="headers"
@@ -54,7 +47,7 @@
       </v-data-table>
 
       <modal-ver-detalle-exp
-            :datos="datos"
+            :datos="datosSeleccionado"
             :show="show_modal"
             @close="closeModal"
       />
@@ -65,12 +58,10 @@
 import {mapActions} from "vuex";
 import ModalVerDetalleExp from "../../components/dialogs/ModalVerDetalleExp";
 
-
 export default {
   components: { ModalVerDetalleExp },
   props: {
     items: Array,
-    data: Array,
     loading: {type: Boolean, default: false},
   },
 
@@ -92,13 +83,13 @@ export default {
       search: '',
       show_modal: false,
       expediente_id:0,
+      datosSeleccionado: {}
     }
   },
 
   methods: {
-
     ...mapActions([
-      'recibir'
+      'cambiarEstado'
     ]),
 
     getColor (prioridades) {
@@ -109,22 +100,17 @@ export default {
       if (prioridades === 'alta') return 'mdi-exclamation-thick'
       else return 'mdi-check-bold'
     },
-    openExpediente (item) {
-      this.editedIndex = this.data.indexOf(item)
-      this.editedItem = Object.assign({}, item)
-      this.dialogExpediente = true
-    },
+
     recibirI (item) {
           item.estado_expediente = 3
           item.estado= 1,
           item.bandeja= 1,
           item.user_id= this.$store.getters.getIdUser,
-          this.recibir(item)
+          this.cambiarEstado(item)
     },
     
     detalle(item) {
-      this.show_modal = true;
-      this.datos = item
+      this.datosSeleccionado = item
       this.show_modal = true;
     },
 

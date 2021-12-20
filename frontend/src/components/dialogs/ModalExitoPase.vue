@@ -171,16 +171,12 @@ import VueHtml2pdf from "vue-html2pdf";
 import { mapGetters } from "vuex";
 
 export default {
-  name: "ModalInvitacionesEnviadas",
+  name: "ModalExitoPase",
   components: { Button, VueHtml2pdf },
   props: {
     show: Boolean,
     dato: Array,
   },
-
-  data: () => ({
-    namefilepdf: this.dato,
-  }),
 
   computed: {
     ...mapGetters(["areas", "fecha"]),

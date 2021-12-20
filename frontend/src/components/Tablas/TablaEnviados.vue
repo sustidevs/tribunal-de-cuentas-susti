@@ -80,7 +80,7 @@ export default {
       item.estado= 1,
       item.bandeja= 1,
       item.user_id= this.$store.getters.getIdUser,
-      this.recuperar(item);
+      this.cambiarEstado(item);
     },
   },
 };
