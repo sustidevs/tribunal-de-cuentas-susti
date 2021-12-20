@@ -47,7 +47,6 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
 import ModalNuevaCedula from "../../components/dialogs/ModalNuevaCedula";
 
 export default {
@@ -82,10 +81,9 @@ export default {
       else return "mdi-check-bold";
     },
 
-    ...mapActions(["getExpedientes"]),
 
     AbrirModalCedula(item) {
-      this.datos.id = item.id,
+      this.datos.id = item.expediente_id,
       this.datos.nro_expediente = item.nro_expediente,
       this.datos.extracto = item.extracto,
       this.show_modal = true;

@@ -1,6 +1,8 @@
 import axios from "axios";
 
 const state = {
+    nro_expediente: '000 - 0000000 - 0000',
+
     iniciadores: [],
     fecha: '',
     motivoSinExtracto: [],
@@ -10,6 +12,7 @@ const state = {
     iniciadorSelected: 0,
     creado: false,
     expediente: [],
+    extracto: '', //para guardar el extracto v-model
 
     descripcion_extractoerror: '',
     iniciador_iderror: '',
@@ -21,6 +24,7 @@ const state = {
 };
 
 const getters = {
+    nro_expediente: state => state.nro_expediente,
     expediente_new: state => state.expediente,
     allIniciadores: state => state.iniciadores,
     fecha: state => state.fecha,
@@ -31,6 +35,7 @@ const getters = {
     get_areas_all: state => state.areas_nuevo,
     creado: state => state.creado,
 
+    extracto: state => state.extracto,
     descripcion_extracto_error: state => state.descripcion_extractoerror,
     iniciador_id_error: state => state.iniciador_iderror,
     nro_fojas_error:  state => state.nro_fojaserror,
@@ -49,7 +54,6 @@ const actions = {
     getCreate ({ commit })  {
         axios.get(process.env.VUE_APP_API_URL+ '/api/createExp')
             .then(response => {
-                console.log(response)
                 let fec= response.data[0];
                 commit('set_fecha', fec)
 
@@ -70,6 +74,14 @@ const actions = {
             })
     },
 
+    nroExpedienteAleatorio ({ commit }, expediente) {
+        axios.post(process.env.VUE_APP_API_URL+ '/api/nroExp', expediente)
+            .then(response => {
+                commit('saveNewNroExpediente', response.data)
+            })
+    },
+
+
     storeExpediente ({ commit }, expediente) {
         commit('set_btn_creado', true);
         axios.post(process.env.VUE_APP_API_URL+ '/api/storeExp', expediente).
@@ -88,9 +100,39 @@ const actions = {
                 commit('set_btn_creado', false)
             })
     },
+
+    getArchivos ({ commit }, archivo)  {
+        axios.post(process.env.VUE_APP_API_URL+ '/api/zip', archivo, {
+            responseType: 'arraybuffer',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/zip'
+            }
+        })
+            .then(response => {
+                var fileURL = window.URL.createObjectURL(new Blob([response.data]));
+                var fileLink = document.createElement('a');
+
+                var nro_expediente = archivo.nro_expediente
+                fileLink.href = fileURL;
+                fileLink.setAttribute('download', nro_expediente + '.zip');
+                document.body.appendChild(fileLink);
+
+                fileLink.click();
+                commit('set_decargado', true)
+            })
+    },
+
+    extracto ({ commit }, extracto) {
+        commit('saveExtracto',extracto)
+    },
+
 };
 
 const mutations = {
+
+    saveExtracto: (state, extracto) => state.extracto = extracto,
+    saveNewNroExpediente:(state, nro_expediente) => state.nro_expediente = nro_expediente,
     set_fecha: (state, fecha) => state.fecha = fecha,
     set_iniciadores: (state, iniciadores) => state.iniciadores = iniciadores,
     set_motivoSinExt: (state, motivoSinExtracto) => state.motivoSinExtracto = motivoSinExtracto,

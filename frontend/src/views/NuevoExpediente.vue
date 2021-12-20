@@ -204,20 +204,18 @@
             color="#FACD89"
             block
             :disabled="this.$store.getters.get_btn_creado"
-            @click="overlay = !overlay"
           >
             <v-icon class="px-5"> mdi-check-bold </v-icon>
             <div class="">Confirmar</div>
           </v-btn>
         </v-col>
       </v-row>
-
-      <v-overlay :value="this.$store.getters.get_btn_creado">
-        <v-progress-circular indeterminate size="64"></v-progress-circular>
-      </v-overlay>
     </form>
+    <v-overlay :value="this.$store.getters.get_btn_creado">
+      <v-progress-circular indeterminate size="64"></v-progress-circular>
+    </v-overlay>
     <modal-nuevos-expedientes
-      :show="creado"
+      :show="creado_exito"
       :dato="expediente_new"
       @close="cerrarModal"
     />
@@ -242,7 +240,7 @@ export default {
     InputDate,
     LabelInput,
     Extractos,
-    ModalNuevosExpedientes,
+   ModalNuevosExpedientes,
     LabelError,
     ModalErrorTipoArchivo,
   },
@@ -319,12 +317,12 @@ export default {
       "nroExpedienteAleatorio",
       "cerrarModal",
       "capturarIniciador",
-      "creado",
     ]),
   },
 
   computed: {
     ...mapGetters([
+      'creado_exito',
       "extracto",
       "allIniciadores",
       "fecha",

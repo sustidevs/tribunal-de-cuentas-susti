@@ -1,19 +1,19 @@
 <template>
   <div>
-    <alert
-      texto="El expediente fue recuperado con éxito."
-      type="success"
-      :condicion="this.recuperado"
-    />
     <titulo texto="Recuperar" icono="mdi-email-fast" />
     <div class="descripcion text-justify py-4">
       Si desea <strong>recuperar</strong> un expediente, haga clic en el botón
       de la tabla.
     </div>
+    <alert
+        texto="El expediente fue recuperado con éxito."
+        type="success"
+        :condicion="this.get_aceptado"
+    />
     <tabla-enviados
       :headers="headers"
-      :data="allExpedientes"
-      :loading="get_finalizado"
+      :data="this.get_expedientes"
+      :loading="this.get_finalizado"
       class="mb-15 pb-15"
     />
   </div>
@@ -44,14 +44,14 @@ export default {
     }
   },
 
-  computed: mapGetters(['allExpedientes', 'get_finalizado', 'recuperado']),
+  computed: mapGetters(['get_aceptado','get_expedientes','get_finalizado']),
 
   mounted() {
     this.getExpe();
   },
 
   methods: {
-    ...mapActions(['getExpedientes', 'getIdUser', 'recupeado']),
+    ...mapActions(['listadoExpedientes']),
 
     getExpe(){
       let exp = {
@@ -60,7 +60,7 @@ export default {
         bandeja: 4,
         user_id: this.$store.getters.getIdUser,
       }
-      this.getExpedientes(exp)
+      this.listadoExpedientes(exp)
     },
   },
 

@@ -1,7 +1,7 @@
 /**estado global **/
 import Vue from 'vue'
 import Vuex from 'vuex'
-import expedientes from './modules/expedientes'
+import expedientes from "./modules/expedientes";
 import motivo_expedientes from "./modules/motivo_expedientes";
 import prioridad_expedientes from "./modules/prioridad_expedientes";
 import usuarios from "./modules/usuarios";
@@ -20,9 +20,9 @@ export default new Vuex.Store({
     useCredentails: true,
     namespace: true,
     modules: {
+        expedientes,
         notificaciones,
         desglose,
-        expedientes,
         motivo_expedientes,
         prioridad_expedientes,
         usuarios,

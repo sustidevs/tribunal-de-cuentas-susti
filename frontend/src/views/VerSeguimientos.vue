@@ -1,6 +1,6 @@
 <template>
     <div class="mb-16 pb-10">
-      <titulo class="pb-3" texto="Historial del Expediente N°" :nro="this.get_historial_nro" icono="mdi-text-box-search-outline"/>
+      <titulo class="pb-3" texto="Historial del Expediente N°" :nro="this.get_historial[0].nro_expediente" icono="mdi-text-box-search-outline"/>
       <!--
       <v-row>
         <v-btn @click="refColores=!refColores" color="grey lighten-2" class="mt-4 ml-3"> Referencia de colores
@@ -27,7 +27,7 @@
             :dense="$vuetify.breakpoint.mdAndDown"
         >
             <v-timeline-item
-              v-for="item in this.get_Historial"
+              v-for="item in get_historial"
               :key="item.id"
               color="amber darken-4"
               :icon="item.icon"
@@ -83,14 +83,10 @@ export default {
     }
     },
 
-  computed: mapGetters(['get_Historial','get_historial_nro']),
-
-  mounted() {
-    this.todos_exp();
-  },
+  computed: mapGetters(['get_historial','get_historial_nro']),
 
   methods: {
-    ...mapActions(['cerrar', 'todos_exp']),
+    ...mapActions(['cerrar','historial_expediente']),
   }
 
   }

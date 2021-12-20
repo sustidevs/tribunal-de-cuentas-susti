@@ -2,8 +2,8 @@
   <div>
     <titulo texto="Expedientes Pendientes" icono="mdi-bell"/>
     <div class="descripcion text-justify py-4">Si desea <strong>aceptar</strong> un expediente, haga clic en el botón de la tabla.</div>
-    <alert-sucess texto="El expediente ha sido recibido con éxito" :condicion="this.aceptado"/>
-    <tabla-pendientes class="mb-15 pb-15" :items="allBandejaEntrada" :loading="get_finalizado"/>
+    <alert-sucess texto="El expediente ha sido recibido con éxito" :condicion="this.get_aceptado"/>
+    <tabla-pendientes class="mb-15 pb-15" :items="get_expedientes" :loading="get_finalizado"/>
     </div>
 </template>
 <script>
@@ -17,20 +17,19 @@ export default {
   components: {TablaPendientes, Titulo, AlertSucess},
   data() {
     return {
-      BandejaEntrada: [],
       estado: 1,
       cargando:true,
     }
   },
 
-  computed: mapGetters(['allBandejaEntrada', 'getIdUser','aceptado', 'get_finalizado']),
+  computed: mapGetters(['get_expedientes', 'getIdUser','get_aceptado', 'get_finalizado']),
 
   mounted() {
     this.getBandeja();
   },
 
   methods: {
-    ...mapActions(['cerrar', 'getBandejaEntrada']),
+    ...mapActions(['cerrar', 'listadoExpedientes']),
 
     getBandeja(){
       let bandeja = {
@@ -38,13 +37,8 @@ export default {
         bandeja: 1,
         user_id: this.$store.getters.getIdUser,
       }
-      this.getBandejaEntrada(bandeja)
+      this.listadoExpedientes(bandeja)
     },
-
-      /**
-      this.$api.post("ListadoExp", bandeja).then((response) => {
-        this.BandejaEntrada = response.data;
-      });**/
     }
   }
 </script>
