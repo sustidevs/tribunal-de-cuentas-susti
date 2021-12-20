@@ -83,11 +83,18 @@ Route::post('/updateUser', [UserController::class, 'update']);
 Route::get('/bajaUser', [UserController::class, 'delete']);
 Route::get('/restoreUser', [UserController::class, 'restore']);
 
-Route::post('/validarPassword', [UserController::class, 'validar_password']);
-Route::post('/actualizaPassword', [UserController::class, 'actualiza_password']);
+// Rutas protegidas
+Route::group(['middleware' => ["auth:sanctum"]], function()
+{
+    Route::post('/validarPassword', [UserController::class, 'validar_password']);
+    Route::post('/actualizaPassword', [UserController::class, 'actualiza_password']);
+});
 
+
+// Rutas que no se deben proteger
 Route::get('/login',[LoginController::class, 'showLoginForm'] );
-Route::post('/login',[LoginController::class, 'authenticate'] );
+Route::post('/login',[LoginController::class, 'authenticate'] ); // reemplazar por Route::post('/login',[LoginController::class, 'authenticate_new'] );
+
 
 ///////INICIADORES//////////////////////////////////////////////////////////////////////////
 Route::get('/index-iniciador',  [IniciadorController::Class, 'index']);

@@ -135,7 +135,10 @@ class UserController extends Controller
         $user = User::findOrFail($request->id);
         $user->password = Hash::make($request->password);
         $user->update();
-        return response()->json(true, 200);
+        return response()->json([
+            "status" => 1,
+            "mensaje" => "contraseña modificada exitosamente",
+        ], 200);
     }
 
     public function update(Request $request)
