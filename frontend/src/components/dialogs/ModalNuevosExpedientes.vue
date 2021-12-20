@@ -7,37 +7,37 @@
       </div>
       <v-divider color="#393B44"></v-divider>
 
-      <v-row no-gutters>
-        <v-col sm="6">
-          <div class="Montserrat-Bold mb-2 mt-8  sizeTM"> Iniciador:</div>
+      <v-row no-gutters class="mt-8 ">
+        <v-col cols="12" md="6" sm="12" xs="12">
+          <div class="Montserrat-Bold mb-2 sizeTM"> Iniciador:</div>
           <div class="Montserrat-Regular mb-6 text-justify sizeDM">{{ dato[1] }}</div>
         </v-col>
-        <v-col sm="6">
-          <div class="Montserrat-Bold mb-2 mt-8 sizeTM"> Fecha:</div>
+        <v-col cols="12" md="6" sm="12" xs="12">
+          <div class="Montserrat-Bold mb-2 sizeTM"> Fecha:</div>
           <div class="Montserrat-Regular mb-6 ml-1 sizeDM"> {{ dato[0] }}</div>
         </v-col>
       </v-row>
 
       <v-row no-gutters>
-        <v-col sm="6">
+        <v-col cols="12" md="12" sm="12" xs="12">
           <div class="Montserrat-Bold mb-2 sizeTM"> Se derivó al área:</div>
           <div class="Montserrat-Regular mb-6 text-justify sizeDM">{{ dato[3].descripcion }}</div>
         </v-col>
-        <v-col sm="6" v-if="dato[6] !== '-'">
+        <v-col cols="12" md="12" sm="12" xs="12" v-if="dato[6] !== '-'">
           <div class="Montserrat-Bold mr-1 mb-2 sizeTM"> Email:</div>
           <div class="Montserrat-Regular mb-6 text-justify sizeDM">{{dato[6]}}</div>
         </v-col>
       </v-row>
 
       <v-row no-gutters>
-        <v-col sm="12">
+        <v-col cols="12" md="12" sm="12" xs="12">
           <div class="Montserrat-Bold mb-2 sizeTM"> Extracto:</div>
           <div class="Montserrat-Regular mb-6 text-justify sizeDM">{{ dato[2] }}</div>
         </v-col>
       </v-row>
 
       <v-row no-gutters  v-if="dato[7] !== '-'">
-        <v-col sm="12">
+        <v-col cols="12" md="12" sm="12" xs="12">
           <div class="Montserrat-Bold mb-2 sizeTM">Observación:</div>
           <div class="Montserrat-Regular mb-6 text-justify sizeDM">{{dato[7]}}</div>
         </v-col>
@@ -45,7 +45,7 @@
 
       <v-row no-gutters justify="center" class="py-4">
 
-        <v-col cols="12" lg="6" class="px-sm-2 py-5">
+        <v-col cols="12" lg="6" md="6" sm="6" xs="12" class="px-sm-2 py-5">
           <v-btn @click="downloadPDF"  type="submit" class="pa-5 color Montserrat-SemiBold" height="55" elevation="0" color="#FACD89" block>
             <v-icon class="px-5">
               mdi-printer
@@ -56,7 +56,7 @@
           </v-btn>
         </v-col>
 
-        <v-col cols="12" lg="6" class="px-sm-2 py-5">
+        <v-col cols="12" md="6" lg="6" sm="6" xs="12" class="px-sm-2 py-5">
           <Button link="/nuevo-expediente" texto="Nuevo expediente" icono="mdi-text-box-plus"/>
         </v-col>
 
