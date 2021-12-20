@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="mb-16 pb-10">
       <titulo class="pb-3" texto="Historial del Expediente N°" :nro="this.get_historial_nro" icono="mdi-text-box-search-outline"/>
       <!--
       <v-row>
@@ -21,11 +21,10 @@
         </div>
       </v-row>-->
 
-      <v-row class="pb-6 mb-9" justify="center">
         <v-timeline
             reverse
             align-top
-            :dense="$vuetify.breakpoint.smAndDown"
+            :dense="$vuetify.breakpoint.mdAndDown"
         >
             <v-timeline-item
               v-for="item in this.get_Historial"
@@ -38,7 +37,6 @@
               fill-dot
             >
               <v-card
-                  width="1400"
                   :color="item.color"
               >
                 <v-card color="amber lighten-4">
@@ -68,7 +66,6 @@
               </v-card>
             </v-timeline-item>
         </v-timeline>
-      </v-row>
     </div>
 </template>
 <script>
