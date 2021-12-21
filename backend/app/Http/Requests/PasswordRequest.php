@@ -24,14 +24,12 @@ class PasswordRequest extends FormRequest
     public function rules()
     {
         return [
-            'id'        => 'required',
             'password'  => 'required|string|min:8|max:15'];
     }
 
     public function messages()
     {
         return [
-            'id.required'               => 'El id del usuario es requerido',
             'password.required'         => 'Debe ingresar la contraseña',
             'password.min'   => 'Debe ingresar más de 8 caracteres',
             'password.max'   => 'Debe ingresar menos de 15 caracteres'
