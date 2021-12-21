@@ -145,10 +145,10 @@ export default {
     datos: Object,
   },
 
-  computed: mapGetters(["allExpedientes", "get_archivos", "getArea"]),
+  computed: mapGetters(["getArea"]),
 
   methods: {
-    ...mapActions(["getExpedientes", "getArchivos"]),
+    ...mapActions([ "getArchivos"]),
 
     getArchiv() {
       let files = {
