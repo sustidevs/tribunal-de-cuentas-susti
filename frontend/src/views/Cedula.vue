@@ -2,7 +2,6 @@
   <div>
     <titulo texto="Cédulas" icono="mdi-credit-card-edit"/>
     <div class="descripcion text-justify py-4">Si desea <strong>agregar una cédula</strong> a un expediente, haga clic en el botón de la tabla.</div>
-    <!-- <alert-sucess texto="La cédula ha sido cargada con exito" :condicion="this.cargando"/> -->
     <tabla-cedulas class="mb-15 pb-15" :headers="headers" :data="get_expedientes" :loading="get_finalizado"/>
   </div>
 </template>
@@ -22,7 +21,7 @@ export default {
         {text: 'Extracto', value: 'extracto'},
         {text: 'Fecha Creación', value: 'fecha_creacion'},
         {text: 'Trámite', value: 'tramite'},
-        {text: 'Cuerpo', value: 'CantCuerpos'},
+        {text: 'Cuerpo', value: 'cant_cuerpos'},
         {text: 'Fojas', value: 'fojas'},
         {text: 'Ver detalle', value: 'action1', align: 'center', sortable: false},
         {text: 'Agregar Cédula', value: 'action', align: 'center', sortable: false},

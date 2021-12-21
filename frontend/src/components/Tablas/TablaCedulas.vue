@@ -43,13 +43,13 @@
 
       <template v-slot:item.action="{ item }">
         <v-btn @click="AbrirModalCedula(item)" fab small color="#FACD89" depressed>
-          <v-icon> mdi-card-account-details </v-icon>
+          <v-icon> mdi-credit-card-plus </v-icon>
         </v-btn>
       </template>
 
     </v-data-table>
-    <modal-nueva-cedula :show="show_modal" @close="closeModal" :datos="this.datos"/>
-    <modal-detalle-cedula :datos="get_detalle" :show="get_cargado"/>
+    <modal-nueva-cedula :show="show_modal" :datos="this.datos"/>
+    <modal-detalle-cedula :show="show_detalle" :datos="get_detalle"/>
   </div>
 </template>
 
@@ -69,6 +69,7 @@ export default {
   data() {
     return {
       show_modal: false,
+      show_detalle: false,
       selected: [],
       search: "",
       datos:{
@@ -80,7 +81,7 @@ export default {
   },
 
   computed: {
-    ... mapGetters(['get_detalle','get_cargado'])
+    ... mapGetters(['get_detalle'])
   },
 
   methods: {
@@ -110,11 +111,8 @@ export default {
       let exp = {
         expediente_id: item.expediente_id,
       }
+      this.show_detalle = true;
       this.verDetalle (exp)
-    },
-
-    closeModal() {
-      this.show_modal = false;
     },
   },
 };

@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="show" width="1320" content-class="round">
+  <v-dialog v-model="show" width="1200" content-class="round" persistent>
     <div v-if="this.get_cargado === false">
         <v-card class="px-7 pt-1 pb-6">
           <v-row class="mt-5">
@@ -33,11 +33,11 @@
               <div class="Montserrat-SemiBold sizeCedula mt-4 mb-1 py-2">
                 Ingrese el nuevo número de cédula para el expediente:
               </div>
-              <label-error :texto="this.get_error" />
+              <label-error :texto="this.get_error"/>
               <text-field class="py-2" v-model="valorCedula" tipo="number"/>
 
-              <v-row no-gutters justify="center" class="py-2">
-                <v-col cols="12" lg="6" class="px-sm-2 py-3">
+              <v-row no-gutters justify="center" class="py-3">
+                <v-col cols="12" lg="6" class="px-sm-2">
                   <v-btn
                     @click="save()"
                     class="pa-5 color Montserrat-SemiBold"
@@ -55,13 +55,12 @@
         </v-card>
       </div>
 
-
       <div v-else>
         <v-card class="px-7 pt-1 pb-6">
           <v-row class="mt-5">
             <v-col cols="10">
               <h2 class="Montserrat-Bold text-justify">
-                Se guardo con éxito el N° de Cédula
+                Se guardó con éxito el N° de Cédula
               </h2>
             </v-col>
             <v-col cols="2" align="right">
@@ -74,13 +73,16 @@
           </v-row>
 
           <v-divider color="#393B44" class="mt-2"></v-divider>
-
-          <div class="Montserrat-Regular sizeCedula mt-4 mb-1 py-2">
-              <p> <strong  style="text-decoration-line: underline">N° de Expediente:</strong>  {{getCedula.nro_expediente}} </p>
-              <p> <strong style="text-decoration-line: underline">Extracto:</strong> {{getCedula.extracto}} </p>
-              <p> <strong style="text-decoration-line: underline">N° de Cédula:</strong> {{ getCedula.descripcion }} </p>
-              <p> <strong style="text-decoration-line: underline">Usuario:</strong> {{ getCedula.user}}</p>
-          </div>
+            <v-row class="Montserrat-Regular sizeCedula mb-1 py-4">
+              <v-col cols="6">
+                <div class="sizeTextSmall Montserrat-SemiBold pt-4">N° de Expediente: <span class="sizeTextSmall Montserrat-Regular"> {{getCedula.nro_expediente}} </span></div>
+              </v-col>
+              <v-col cols="6">
+                <div class="sizeTextSmall Montserrat-SemiBold pt-4">N° de Cédula: <span class="sizeTextSmall Montserrat-Regular">  {{ getCedula.descripcion }} </span></div>
+              </v-col>
+              <div class="sizeTextSmall Montserrat-SemiBold pt-4 px-2">Extracto: <span class="sizeTextSmall Montserrat-Regular"> {{getCedula.extracto}} </span></div>
+              <div class="sizeTextSmall Montserrat-SemiBold pt-4 px-2">Usuario: <span class="sizeTextSmall Montserrat-Regular"> {{ getCedula.user}} </span></div>
+          </v-row>
         </v-card>
       </div>
 
@@ -120,7 +122,6 @@ export default {
       this.storeCedula(exp);
     },
 
-
     close() {
       this.$emit("close");
       this.$router.go(0);
@@ -128,17 +129,7 @@ export default {
   },
 };
 </script>
-
 <style>
-.textRadio {
-  font-family: Montserrat-Bold, serif;
-  font-size: 15px !important;
-}
-
-.sizeNroExp {
-  font-size: 20px !important;
-}
-
 .sizeCedula {
   font-size: 20px !important;
 }
