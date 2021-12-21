@@ -34,7 +34,7 @@ Route::middleware('auth:sanctum')->group(function () {
 Route::get('/verificar',[LoginController::class, 'verificar'] );
 
 //EXPEDIENTE////////////////////////////////////////////////////////////////////////
-Route::get('/indexExp',             [ExpedienteController::class, 'index']);
+
 Route::get('/createExp',            [ExpedienteController::class, 'create']);
 Route::post('/storeExp',            [ExpedienteController::class, 'store']);
 Route::get('/updateExp',            [ExpedienteController::class, 'update']);
@@ -88,6 +88,7 @@ Route::group(['middleware' => ["auth:sanctum"]], function()
 {
     Route::post('/validarPassword', [UserController::class, 'validar_password']);
     Route::post('/actualizaPassword', [UserController::class, 'actualiza_password']);
+    Route::get('/indexExp',             [ExpedienteController::class, 'index']);
 });
 
 

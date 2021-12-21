@@ -64,7 +64,7 @@ class LoginController extends Controller
         /**
          * PROXIMAMENTE EN DESUSO... CUANDO FRONT SOLUCIONE ENVIAR TOKEN => UTILIZAR authenticate_new
          */
-    public function authenticate(LoginRequest $request)
+    public function authenticate_old(LoginRequest $request)
     {
        /*
         $request = new Request;
@@ -106,10 +106,10 @@ class LoginController extends Controller
      * @param: password
      * Autor: Mariano Flores
      */
-    public function authenticate_new(LoginRequest $request)
-    {
+    public function authenticate(LoginRequest $request)
+    {        
         $user = ModelsUser::where("cuil", "=", "$request->cuil")->first();
-
+        $user->tokens()->delete();
         if(isset($user->id))
         {
             if(Hash::check($request->password, $user->password))
@@ -118,7 +118,7 @@ class LoginController extends Controller
                 return response()->json([
                     "status" => 1,
                     "mensaje" => "usuario logueado exitosamente",
-                    "acces_token" => $token
+                    "access_token" => $token
                 ], 200);
             }
             else

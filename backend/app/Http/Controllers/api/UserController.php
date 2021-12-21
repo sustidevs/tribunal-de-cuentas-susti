@@ -131,7 +131,7 @@ class UserController extends Controller
     @params: password
     **/
     public function actualiza_password(PasswordRequest $request)
-    {
+    {   
         $user = User::findOrFail($request->id);
         $user->password = Hash::make($request->password);
         $user->update();
