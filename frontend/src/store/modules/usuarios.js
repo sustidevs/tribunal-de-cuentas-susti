@@ -24,6 +24,11 @@ const state = {
     error_passwordOld: '',
     error_password: '',
     error_passwordFail: '',
+
+
+
+    btn_login: false,
+
 };
 
 const getters = {
@@ -53,12 +58,15 @@ const getters = {
     getCuil: state => state.user.cuil,
     getNewPass: state => state.newPass,
     get_finalizadoEnviados: state => state.finalizadoEnviados,
+
+    get_btn_login: state => state.btn_login,
 };
 
 const actions = {
 
    login ({ commit }, user) {
-        axios.get('/sanctum/csrf-cookie');
+       commit('set_btn_login', true);
+       axios.get('/sanctum/csrf-cookie');
         axios.post(process.env.VUE_APP_API_URL+ '/api/login', user)
             .then(response => {
                 if (response.status === 201){
@@ -68,6 +76,7 @@ const actions = {
                     localStorage.setItem('user',JSON.stringify(response.data.user))
                     commit('setAuthenticated', true)
                 }
+                commit('set_btn_login', false)
             })
             .catch(error => {
                         commit('setAuthenticated', false)
@@ -81,6 +90,8 @@ const actions = {
                         if (error.response.data.errors.password !== undefined) {
                             commit('set_errorP', true)
                         }
+                        commit('set_btn_login', false)
+
             })
     },
 
@@ -132,8 +143,6 @@ const actions = {
 };
 
 const mutations = {
-
-
     set_error_passFail: (state, error_passwordFail) => state.error_passwordFail = error_passwordFail,
     set_error_pass: (state, error_password) => state.error_password = error_password,
     set_update_pass: (state, updatePass) => state.updatePass = updatePass,
@@ -153,7 +162,8 @@ const mutations = {
     clearUserData: () => {
         localStorage.removeItem('user')
     },
-    setNewPass: (state, newPass) => state.newPass = newPass
+    setNewPass: (state, newPass) => state.newPass = newPass,
+    set_btn_login:(state,btn_login) =>state.btn_login = btn_login,
 };
 
 export default {

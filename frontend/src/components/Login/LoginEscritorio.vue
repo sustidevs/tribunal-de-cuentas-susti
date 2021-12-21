@@ -35,30 +35,32 @@
                           name="user.password"
                       ></v-text-field>
 
-                        <v-alert v-if="this.$store.getters.errorC || this.$store.getters.errorP || this.$store.getters.errorAmbos" outlined  color="red" close-text="Close Alert">
-                          <div class="Montserrat-Bold red--text fontError text-start py-2 pt-6">
-                            <div class="pb-2"><v-icon color="red">mdi-exclamation-thick</v-icon>No pudimos loguearte</div>
-                            <div :key="x.id" v-for="x in erroresCuil">
-                              <label-error :texto="x"/>
-                            </div>
-
-                            <div :key="x.id" v-for="x in erroresPass">
-                              <label-error :texto="x"/>
-                            </div>
-
-                            <label-error :texto="this.$store.getters.errorAmbos"/>
+                      <v-alert v-if="this.$store.getters.errorC || this.$store.getters.errorP || this.$store.getters.errorAmbos" outlined  color="red" close-text="Close Alert">
+                        <div class="Montserrat-Bold red--text fontError text-start py-2 pt-6">
+                          <div class="pb-2"><v-icon color="red">mdi-exclamation-thick</v-icon>No pudimos loguearte</div>
+                          <div :key="x.id" v-for="x in erroresCuil">
+                            <label-error :texto="x"/>
                           </div>
-                        </v-alert>
-                      <v-btn :loading="loading" :disabled="loading" type="submit" class="mt-6 pa-5 color Montserrat-SemiBold" height="55" elevation="0" color="#FACD89" block>
+
+                          <div :key="x.id" v-for="x in erroresPass">
+                            <label-error :texto="x"/>
+                          </div>
+
+                          <label-error :texto="this.$store.getters.errorAmbos"/>
+                        </div>
+                      </v-alert>
+                      <v-btn :disabled="this.$store.getters.get_btn_login" type="submit" class="mt-6 pa-5 color Montserrat-SemiBold" height="55" elevation="0" color="#FACD89" block>
                         <v-icon class="pr-5"> mdi-arrow-right-thin-circle-outline </v-icon>
                         Ingresar
                       </v-btn>
                     </form>
-
                   </v-card-text>
               </v-card>
           </v-row>
       </v-container>
+      <v-overlay :value="this.$store.getters.get_btn_login">
+        <v-progress-circular indeterminate size="60"></v-progress-circular>
+      </v-overlay>
   </div>
 </template>
 
@@ -78,7 +80,6 @@ export default {
       show1: false,
       errorPassword: false,
       errorCuil: false,
-      loader: null,
       loading: false,
       credentials: {
         cuil: null,
@@ -90,7 +91,7 @@ export default {
   computed: {
     ...mapGetters({
       isAuthenticated: 'authenticated',
-    }),
+    },["get_btn_login"]),
 
     erroresCuil: {
       get() {return this.$store.getters.getErrorCuil}
@@ -105,15 +106,6 @@ export default {
     isAuthenticated(value) {
       if(value) this.$router.push("/")
     },
-
-    loader () {
-      const l = this.loader
-      this[l] = !this[l]
-
-      setTimeout(() => (this[l] = false), 1000)
-
-      this.loader = null
-    },
   },
 
   methods: {
@@ -123,7 +115,7 @@ export default {
     }),
 
     onLogin() {
-      this.loader = 'loading',
+      this.loading = true,
       this.login(this.credentials)
   }
 }
