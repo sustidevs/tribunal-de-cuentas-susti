@@ -2,13 +2,16 @@
 
 namespace App\Http\Controllers\api;
 
+use app\Models\User;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Requests\LoginRequest;
 use App\Http\Controllers\Controller;
+use App\Models\User as ModelsUser;
 use Illuminate\Support\Facades\Auth;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Support\Facades\Hash;
 
 
 class LoginController extends Controller
@@ -58,7 +61,10 @@ class LoginController extends Controller
         return ('ola');
     }
 
-    public function authenticate(LoginRequest $request)
+        /**
+         * PROXIMAMENTE EN DESUSO... CUANDO FRONT SOLUCIONE ENVIAR TOKEN => UTILIZAR authenticate_new
+         */
+    public function authenticate_old(LoginRequest $request)
     {
        /*
         $request = new Request;
@@ -91,5 +97,44 @@ class LoginController extends Controller
                     return response()->json($response, 201);
                 }
             }
+    }
+
+    /**
+     * Método para autenticar un usuario y loquearlo en el sistema,
+     * genera un token para utilizar la API
+     * @param: cuil
+     * @param: password
+     * Autor: Mariano Flores
+     */
+    public function authenticate(LoginRequest $request)
+    {        
+        $user = ModelsUser::where("cuil", "=", "$request->cuil")->first();
+        $user->tokens()->delete();
+        if(isset($user->id))
+        {
+            if(Hash::check($request->password, $user->password))
+            {
+                $token = $user->createToken("auth_token")->plainTextToken;
+                return response()->json([
+                    "status" => 1,
+                    "mensaje" => "usuario logueado exitosamente",
+                    "access_token" => $token
+                ], 200);
+            }
+            else
+            {
+                return response()->json([
+                    "status" => 0,
+                    "mensaje" => "contraseña incorrecta",
+                ], 404);
+            }
+        }
+        else
+        {
+            return response()->json([
+                "status" => 0,
+                "mensaje" => "usuario no registrado",
+            ], 404);
+        }
     }
 }
