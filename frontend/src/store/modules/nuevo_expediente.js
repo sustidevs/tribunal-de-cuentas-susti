@@ -34,6 +34,7 @@ const getters = {
     get_iniciadorSelected: state => state.iniciadorSelected,
     get_areas_all: state => state.areas_nuevo,
     creado: state => state.creado,
+    descargado: state => state.descargado,
 
     extracto: state => state.extracto,
     descripcion_extracto_error: state => state.descripcion_extractoerror,
@@ -142,6 +143,7 @@ const mutations = {
     set_area: (state, areas_nuevo) => state.areas_nuevo = areas_nuevo,
     saveNewExp: (state, expediente) => state.expediente = expediente,
     set_creado: (state, creado) => state.creado = creado,
+    set_decargado: (state, descargado) => state.descargado = descargado,
 
     set_descripcion_extracto_error: (state,descripcion_extractoerror)  =>  state.descripcion_extractoerror = descripcion_extractoerror,
     set_iniciador_id_error: (state,iniciador_iderror ) => state.iniciador_iderror = iniciador_iderror,
