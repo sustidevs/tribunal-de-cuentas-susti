@@ -88,8 +88,9 @@ Route::group(['middleware' => ["auth:sanctum"]], function()
 {
     Route::post('/validarPassword', [UserController::class, 'validar_password']);
     Route::post('/actualizaPassword', [UserController::class, 'actualiza_password']);
-    Route::get('/indexExp',             [ExpedienteController::class, 'index']);
+    
 });
+Route::get('/indexExp',             [ExpedienteController::class, 'index']);
 
 
 // Rutas que no se deben proteger
