@@ -302,12 +302,13 @@ class ExpedienteController extends Controller
 
     public function union(Request $request)
     {
+        DB::beginTransaction();
         $exp_padre = Expediente::findOrFail($request->exp_padre);
         $exp_hijos = Expediente::find($request->exp_hijos);
         $expedientes_hijos = "";
         foreach ($exp_hijos as $exp_hijo)
         {
-            if($exp_hijo->expediente_id == "")
+            if(($exp_hijo->expediente_id == null) && ($exp_hijo->id != $exp_padre->id))
             {
                 $exp_hijo->expediente_id = $exp_padre->id;
                 if($exp_hijo->save())
@@ -321,7 +322,7 @@ class ExpedienteController extends Controller
                     $historial->fecha = Carbon::now()->format('Y-m-d');
                     $historial->hora = Carbon::now()->format('h:i');
                     $historial->motivo = "Expediente Nro: ". $exp_hijo->nro_expediente . " unido al Expediente Nro: " . $exp_padre->nro_expediente .".";
-                    $historial->estado = "3";//Mi expediente
+                    $historial->estado = "5";//Estado englose
                     $historial->save();
                     $expedientes_hijos = $expedientes_hijos . $exp_hijo->nro_expediente . ", ";
                     //$exp_padre->fojas = $exp_padre->fojas + $exp_hijo->fojas;//cantidad total de fojas
@@ -330,12 +331,13 @@ class ExpedienteController extends Controller
             }
             else
             {
-                return response()->json("ERROR, ya posee padre el expediente seleccionado",400);
+                return response()->json("ERROR",400);
             }
             $exp_padre->fojas = $exp_padre->fojas + $exp_hijo->fojas;
             $exp_padre->save();
         }
         $historial_padre = new Historial;
+        $historial_padre->fojas_aux = $request->fojas_aux;
         $historial_padre->expediente_id = $exp_padre->id;
         $historial_padre->user_id = $request->user_id;
         $historial_padre->area_origen_id = User::find($request->user_id)->area_id;
@@ -344,8 +346,9 @@ class ExpedienteController extends Controller
         $historial_padre->fecha = Carbon::now()->format('Y-m-d');
         $historial_padre->hora = Carbon::now()->format('h:i');
         $historial_padre->motivo =  "El Expediente N° " . $expedientes_hijos . " se ha unido al Expediente N° ". $exp_padre->nro_expediente;
-        $historial_padre->estado = "3";
+        $historial_padre->estado = "5";
         $historial_padre->save();
+        DB::commit();
         return $historial_padre->motivo;
     }
     //return response()->json([$exp_padre->first(),$exp_padre->hijos,$exp_hijo->padre ],200);
@@ -486,6 +489,7 @@ class ExpedienteController extends Controller
         $contador = 0;
         $exp_hijos_desglosados = "";
         //$fojas_total = $exp_padre_fojas_inicio;
+        $cantidad_fojas_padre_old = Historial::where("id", $exp_padre->id)->where('estado',5);
         foreach ($exp_hijos as $exp_hijo_desglosado)
         {
             $exp_hijo_desglosado->expediente_id = null;
@@ -544,10 +548,13 @@ class ExpedienteController extends Controller
         $exp_padre->save();*/
 
         $exp_ultimo_hijo = Expediente::find($ultimo_hijo_id);
-        $exp_ultimo_hijo->fojas = $exp_ultimo_hijo->historiales->first()->fojas + ($exp_padre->fojas - $exp_padre->historiales->first()->fojas - $cotador_fojas_hijo);
+        $fojas_aux_padre = Historial::where('expediente_id',$exp_padre->id)->where('estado',5)->first()->fojas_aux;
+        //return [$exp_padre->fojas, $fojas_aux_padre, $cotador_fojas_hijo];
+        $exp_ultimo_hijo->fojas = ($exp_padre->fojas - $fojas_aux_padre - $cotador_fojas_hijo) + $exp_ultimo_hijo->fojas;
         $exp_ultimo_hijo->save();
         $historial_ultimo_hijo = $exp_ultimo_hijo->historiales->last();
         $historial_ultimo_hijo->fojas = $exp_ultimo_hijo->fojas;
+        $historial_ultimo_hijo->motivo = 'Expediente Nº ' . $exp_ultimo_hijo->nro_expediente . ' se ha desglosado';
         $historial_ultimo_hijo->save();
         $exp_padre->fojas = $exp_padre->historiales->first()->fojas;
         $exp_padre->save();

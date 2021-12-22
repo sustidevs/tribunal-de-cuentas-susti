@@ -77,6 +77,7 @@
         </v-card>
       </v-col>
     </v-row>
+
     <modal-exito-englose :show="show"/>
   </div>
 </template>
@@ -114,6 +115,7 @@ export default {
       }
 
       let expedientes_englose = {
+          fojas_aux: this.seleccionados[0].fojas,
            user_id: this.$store.getters.getIdUser,
            exp_padre: this.seleccionados[0].expediente_id,
           exp_hijos: expediente_hijo

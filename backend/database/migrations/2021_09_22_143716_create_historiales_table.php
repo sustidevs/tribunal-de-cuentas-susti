@@ -26,6 +26,7 @@ class CreateHistorialesTable extends Migration
             $table->string('observacion')->nullable();
             $table->string('nombre_archivo')->nullable();
             $table->integer('estado');
+            $table->integer('fojas_aux')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
