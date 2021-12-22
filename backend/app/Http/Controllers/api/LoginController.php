@@ -61,10 +61,10 @@ class LoginController extends Controller
         return ('ola');
     }
 
-        /**
+                /**
          * PROXIMAMENTE EN DESUSO... CUANDO FRONT SOLUCIONE ENVIAR TOKEN => UTILIZAR authenticate_new
          */
-    public function authenticate(LoginRequest $request)
+    public function authenticate_old(LoginRequest $request)
     {
        /*
         $request = new Request;
@@ -102,14 +102,13 @@ class LoginController extends Controller
     /**
      * Método para autenticar un usuario y loquearlo en el sistema,
      * genera un token para utilizar la API
-     * @param: cuil
      * @param: password
      * Autor: Mariano Flores
      */
-    public function authenticate_new(LoginRequest $request)
+    public function authenticate(LoginRequest $request)
     {        
         $user = ModelsUser::where("cuil", "=", "$request->cuil")->first();
-        $user->tokens()->delete();
+        $user->tokens()->delete(); // comentar ésta línea si se requiere asignar más de un token al usuario
         if(isset($user->id))
         {
             if(Hash::check($request->password, $user->password))
@@ -118,6 +117,10 @@ class LoginController extends Controller
                 return response()->json([
                     "status" => 1,
                     "mensaje" => "usuario logueado exitosamente",
+                    "nombre_apellido" => $user->persona->nombre ." ". $user->persona->apellido,
+                    "cuil" => $user->cuil,
+                    "area" => $user->area->descripcion,
+                    "cargo" => $user->tipouser->descripcion,
                     "access_token" => $token
                 ], 200);
             }
