@@ -102,15 +102,16 @@ class LoginController extends Controller
     /**
      * Método para autenticar un usuario y loquearlo en el sistema,
      * genera un token para utilizar la API
+     * @param: cuil
      * @param: password
      * Autor: Mariano Flores
      */
     public function authenticate_new(LoginRequest $request)
     {        
         $user = ModelsUser::where("cuil", "=", "$request->cuil")->first();
-        $user->tokens()->delete(); // comentar ésta línea si se requiere asignar más de un token al usuario
         if(isset($user->id))
         {
+            $user->tokens()->delete(); // comentar ésta línea si se requiere asignar más de un token al usuario
             if(Hash::check($request->password, $user->password))
             {
                 $token = $user->createToken("auth_token")->plainTextToken;

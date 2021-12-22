@@ -88,7 +88,7 @@ Route::group(['middleware' => ["auth:sanctum"]], function()
 {
     Route::post('/validarPassword', [UserController::class, 'validar_password']);
     Route::post('/actualizaPassword', [UserController::class, 'actualiza_password']);
-    
+    Route::post('/userData', [UserController::class, 'getUserData']);
 });
 Route::get('/indexExp',             [ExpedienteController::class, 'index']);
 

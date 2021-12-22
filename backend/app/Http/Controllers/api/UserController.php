@@ -217,4 +217,18 @@ class UserController extends Controller
 
         return response()->json($user->datos_user(),200);
     }
+
+    /**
+     * Retorna los datos del usuario, recibiendo el token
+     * Autor: Mariano Flores
+     */
+    public function getUserData(){
+        $user = User::findOrFail(auth()->user()->id);
+        return response()->json([
+            "nombre_apellido" => $user->persona->nombre ." ". $user->persona->apellido,
+            "cuil" => $user->cuil,
+            "area" => $user->area->descripcion,
+            "cargo" => $user->tipouser->descripcion,
+        ], 200);
+    }
 }
