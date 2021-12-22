@@ -6,6 +6,7 @@ const state = {
     error_cedula: [],
     cedulas: [],
     cedula_detalle: [],
+    mensaje: false,
 };
 
 const getters = {
@@ -13,7 +14,8 @@ const getters = {
     getCedula: state => state.cedula,
     get_cargado: state => state.cargado,
     get_error: state => state.error_cedula,
-    get_cedulas: state => state.cedulas
+    get_cedulas: state => state.cedulas,
+    get_mensaje: state => state.mensaje,
 };
 
 const actions = {
@@ -22,9 +24,14 @@ const actions = {
         axios
             .post(process.env.VUE_APP_API_URL + '/api/contar-cedula', expediente_id)
             .then((response) => {
-                console.log(response.data)
-                commit('set_cargado', true)
-                commit("set_ceduladetalle", response.data);
+                console.log(response.data.length);
+                if (response.data.length !== 0){
+                    commit('set_cargado', true)
+                    commit("set_ceduladetalle", response.data);
+                }
+                else{
+                    commit("set_mensaje", true);
+                }
             })
             .catch(error => {
                 commit('set_error_cedula', error.response.data.errors.descripcion)
@@ -51,6 +58,7 @@ const mutations = {
     set_cargado: (state, cargado) => state.cargado = cargado,
     set_error_cedula: (state, error_cedula) => state.error_cedula = error_cedula,
     set_ceduladetalle: (state, cedula_detalle) => state.cedula_detalle = cedula_detalle,
+    set_mensaje: (state, mensaje) => state.mensaje = mensaje,
 };
 
 export default {

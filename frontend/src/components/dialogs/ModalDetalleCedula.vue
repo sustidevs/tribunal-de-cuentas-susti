@@ -16,14 +16,14 @@
 
           <v-divider color="#393B44" class="my-2"></v-divider>
 
-          <div v-if="this.datos !== ''">
+          <div>
             <v-list color="grey lighten-4">
               <v-list-item
                 v-for="item in datos"
                 :key="item.id"
               >
                 <v-list-item-icon>
-                  <v-icon color="#FACD89" large> mdi-card-bulleted </v-icon>
+                  <v-icon color="#FDBC3F" large> mdi-card-bulleted </v-icon>
                 </v-list-item-icon>
 
                 <v-list-item-subtitle class="sizeTextSmall Montserrat-SemiBold">
@@ -33,7 +33,7 @@
             </v-list>
           </div>
 
-          <div v-else class="Montserrat-Regular text-justify sizeCedula pt-6">
+          <div v-if="this.get_mensaje" class="Montserrat-Regular text-justify sizeCedula">
             Este expediente no tiene cédulas asociadas.
           </div>
         </v-card>
@@ -41,19 +41,23 @@
 </template>
 
 <script>
+import {mapGetters} from "vuex";
 export default {
-  name: 'ModalIniciador',
+  name: 'ModalDetalleCedula',
   components: { },
   props: {
     show: Boolean,
     datos: Array,
   },
-
   methods: {
     close() {
       this.$emit("close");
       this.$router.go(0);
     },
+  },
+
+  computed: {
+      ... mapGetters(['get_mensaje'])
   },
 
 }
