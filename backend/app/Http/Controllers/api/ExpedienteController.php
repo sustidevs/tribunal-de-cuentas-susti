@@ -299,7 +299,7 @@ class ExpedienteController extends Controller
         }
     }
 
-
+ 
     public function union(Request $request)
     {
         DB::beginTransaction();
