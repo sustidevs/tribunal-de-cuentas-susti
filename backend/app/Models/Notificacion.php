@@ -66,13 +66,17 @@ class Notificacion extends Model
                     ->join('estado_expedientes', 'expedientes.estado_expediente_id', '=', 'estado_expedientes.id')
                     ->join('extractos', 'caratulas.extracto_id', '=', 'extractos.id')
                     ->join('tipo_expedientes', 'expedientes.tipo_expediente', '=', 'tipo_expedientes.id')
-                    ->where('estado', '=', 1)
+                    ->join('historiales', 'historiales.id', '=', 'expedientes.id')
+                    ->join('areas', 'areas.id', '=', 'expedientes.area_actual_id')
+                    ->where('historiales.estado', '=', 1) 
                     ->select('expedientes.nro_expediente as nroExpediente',
                              'expedientes.fecha as fecha_creacion',
                              'prioridad_expedientes.descripcion as prioridad',
                              'extractos.descripcion as extracto',
                              'tipo_expedientes.descripcion as tipoExpediente',
                              'expedientes.fojas as cantFojas',
+                             'areas.descripcion as descripcionArea',
+                             'historiales.hora as hora',
                              DB::raw('ceil(expedientes.fojas / 200) as cantCuerpos'))                 
             ->get();
         return $expedientes;
