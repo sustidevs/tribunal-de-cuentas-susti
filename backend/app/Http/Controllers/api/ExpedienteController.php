@@ -286,7 +286,7 @@ class ExpedienteController extends Controller
                 $notificacion->expediente_id = $expediente->id;
                 $notificacion->user_id = $request->user_id;
                 $notificacion->fecha = Carbon::now()->format('Y-m-d');
-                $notificacion->estado = "1"; 
+                $notificacion->estado = "1";
                 $notificacion->save();
             }
             DB::commit();
@@ -299,7 +299,7 @@ class ExpedienteController extends Controller
         }
     }
 
- 
+
     public function union(Request $request)
     {
         DB::beginTransaction();
@@ -507,7 +507,7 @@ class ExpedienteController extends Controller
             $historial_hijo_desglosado->save();
             $exp_hijos_desglosados = $exp_hijos_desglosados . $exp_hijo_desglosado->nro_expediente . ", ";
             $cotador_fojas_hijo = $cotador_fojas_hijo + $historial_hijo_desglosado->fojas;
-            //$fojas_total =  $fojas_total + $exp_hijo_desglosado->fojas; 
+            //$fojas_total =  $fojas_total + $exp_hijo_desglosado->fojas;
             /*$exp_hijo_desglosado->expediente_id = null;
             $exp_hijo_desglosado->save();
             return $exp_hijo_desglosado->expediente_id;
@@ -528,7 +528,7 @@ class ExpedienteController extends Controller
         }
         /*$historial_ultimo_hijo = Historial::find($ultimo_hijo_id);
         $historial_ultimo_hijo->fojas = Expediente::find($historial_ultimo_hijo->expediente_id)->historiales->first()->fojas + ($exp_padre_fojas_final - $exp_padre_fojas_inicio );
-        
+
         $historial_ultimo_hijo->save();
         $exp_ultimo_hijo = Expediente::find($historial_ultimo_hijo->expediente_id);
         $exp_ultimo_hijo->fojas = $historial_ultimo_hijo->fojas;
@@ -686,8 +686,8 @@ class ExpedienteController extends Controller
                     $nro_cuerpos,
                     $fojas,
                     $posee_archivo];
-        
-        
+
+
         $notificacion = new Notificacion();
         $notificacion->expediente_id = $request->expediente_id;
         $notificacion->user_id = $request->user_id;
@@ -801,7 +801,7 @@ class ExpedienteController extends Controller
     public function expSubsidiosNoReintegrables()
     {
         $expedientes = Notificacion::listadoExpedientesSubsidioAporteNR();
-        return response()->json($expedientes);        
+        return response()->json($expedientes);
 
     }
 
@@ -904,7 +904,7 @@ class ExpedienteController extends Controller
     /*
     - Método que retorna el detalle del expediente para mostrarlo en bandeja de entrada antes de aceptar
     - @param: expediente_id
-    
+
     public function showDetalleExpediente(Request $request)
     {
         $expediente = Expediente::findOrFail($request);

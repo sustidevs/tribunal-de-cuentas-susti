@@ -1,96 +1,67 @@
 import axios from "axios";
-axios.defaults.baseURL=process.env.VUE_APP_API_URL
+
 const state = {
 //
-    user: JSON.parse(localStorage.getItem('user') || "{}" ),
-    errorCuil: {},
-    errorPass: {},
-    errorC: false,
-    errorP: false,
-    errorAmbos: false,
-    incorrecto: false,
-    authenticated: false,
-    cuil: {},
-    newPass:false,
+    user: {},
     loading: false,
-    misEnviados: [],
-
-    finalizadoEnviados: true,
-    verificarPass: false,
-    updatePass: false,
-
-
-    //errores
-    error_passwordOld: '',
-    error_password: '',
-    error_passwordFail: '',
-
-
-
+    status: JSON.parse(localStorage.getItem('status') || "false" ),
+    token: JSON.parse(localStorage.getItem('token') || "{}" ),
     btn_login: false,
-
 };
 
 const getters = {
-
-    getErrorPass: state=>state.error_password,
-    getUpdatePass: state =>state.updatePass,
-    getErrorPassOld: state=>state.error_passwordOld,
-    getErrorPassFail: state=>state.error_passwordFail,
-
-    getVerificarPass: state => state.verificarPass,
-    getMisEnviados: state => state.misEnviados,
-    getLoading: state => state.loading,
-    getUser: state => state.user,
-    incorrecto: state => state.incorrecto,
-    getAreaId: state => state.user.area_id,
-    getIdUser: state => state.user.user_id,
-    getArea: state => state.user.area,
-    getNombreApellido: state => state.user.nombre + "  " + state.user.apellido,
-    getCorreo: state => state.user.email,
-    getErrorCuil: state => state.errorCuil,
-    getErrorPassword: state => state.errorPass,
-    errorC: state => state.errorC,
-    errorP: state => state.errorP,
-    errorAmbos: state => state.errorAmbos,
-    authenticated: state => state.user.logueado,
-    getTipoUsuario: state=> state.user.tipo_user,
-    getCuil: state => state.user.cuil,
-    getNewPass: state => state.newPass,
-    get_finalizadoEnviados: state => state.finalizadoEnviados,
-
+    get_user: state => state.user,
+    get_authenticated: state => state.status,
+    get_loading: state => state.loading,
     get_btn_login: state => state.btn_login,
+    get_token: state => state.token,
 };
 
 const actions = {
 
-   login ({ commit }, user) {
-       commit('set_btn_login', true);
-       axios.get('/sanctum/csrf-cookie');
-        axios.post(process.env.VUE_APP_API_URL+ '/api/login', user)
+    //                    localStorage.setItem('status',JSON.stringify(response.data.status))
+    //                     localStorage.setItem('token',JSON.stringify(response.data.access_token))
+
+    getUsuario(){
+        axios.post(process.env.VUE_APP_API_URL+ '/api/userData')
             .then(response => {
-                if (response.status === 201){
-                    commit('set_errorA', response.data)
-                }else{
-                    commit('set_user', response.data.user)
-                    localStorage.setItem('user',JSON.stringify(response.data.user))
-                    commit('setAuthenticated', true)
-                }
-                commit('set_btn_login', false)
+                console.log(response.data)
             })
             .catch(error => {
-                        commit('setAuthenticated', false)
-                        commit('set_errorCuil', error.response.data.errors.cuil)
-                        commit('set_errorC', false)
-                        if (error.response.data.errors.cuil !== undefined) {
-                            commit('set_errorC', true)
-                        }
-                        commit('set_errorPass', error.response.data.errors.password)
-                        commit('set_errorP', false)
-                        if (error.response.data.errors.password !== undefined) {
-                            commit('set_errorP', true)
-                        }
-                        commit('set_btn_login', false)
+                console.log(error.response.data)
+            })
+    },
+
+   login ({ commit }, user) {
+       commit('set_btn_login', true);
+        axios.post(process.env.VUE_APP_API_URL+ '/api/login', user)
+            .then(response => {
+                    localStorage.setItem('status',JSON.stringify(response.data.status))
+                    localStorage.setItem('token',JSON.stringify(response.data.access_token))
+                    commit('set_user', response.data)
+                    commit('set_btn_login', false)
+            })
+            .catch(error => {
+                console.log(error.response.data)
+
+                /**
+                 * revisar errores
+                commit('setAuthenticated', false)
+                if (error.response.data.mensaje !== undefined) {
+                    commit('set_noregistrado',error.response.data.mensaje)
+                }
+                commit('set_errorC', false)
+                if (error.response.data.errors.cuil !== undefined) {
+                    commit('set_errorCuil', error.response.data.errors.cuil)
+                    commit('set_errorC', true)
+                }
+
+                commit('set_errorP', false)
+                if (error.response.data.errors.password !== undefined) {
+                    commit('set_errorPass', error.response.data.errors.password)
+                    commit('set_errorP', true)
+                }
+                commit('set_btn_login', false)**/
 
             })
     },
@@ -143,26 +114,12 @@ const actions = {
 };
 
 const mutations = {
-    set_error_passFail: (state, error_passwordFail) => state.error_passwordFail = error_passwordFail,
-    set_error_pass: (state, error_password) => state.error_password = error_password,
-    set_update_pass: (state, updatePass) => state.updatePass = updatePass,
-    set_error_passOld: (state, error_passwordOld) => state.error_passwordOld = error_passwordOld,
-    setVerificarPass: (state, verificarPass) => state.verificarPass = verificarPass,
-    set_finalizadoEnviados: (state, finalizadoEnviados) => state.finalizadoEnviados = finalizadoEnviados,
-    set_expedientesEnviados: (state, expedientes) => state.misEnviados = expedientes,
-    set_user: (state, user) => state.user = user,
-    set_errorCuil: (state, errorCuil) => state.errorCuil = errorCuil,
-    set_errorC: (state, errorC) => state.errorC = errorC,
-    set_errorP: (state, errorP) => state.errorP = errorP,
-    set_errorA: (state, errorAmbos) => state.errorAmbos = errorAmbos,
-    set_errorPass: (state, errorPass) => state.errorPass = errorPass,
-    setIncorrecto: (state, incorrecto) => state.incorrecto = incorrecto,
-    setAuthenticated: (state, authenticated) => state.authenticated = authenticated,
-    setCuil: (state, cuil) => state.cuil = cuil,
     clearUserData: () => {
-        localStorage.removeItem('user')
+        localStorage.removeItem('token')
+        localStorage.removeItem('status')
     },
-    setNewPass: (state, newPass) => state.newPass = newPass,
+    set_user: (state, user) => state.user = user,
+    set_authenticated: (state, authenticated) => authenticated,
     set_btn_login:(state,btn_login) =>state.btn_login = btn_login,
 };
 

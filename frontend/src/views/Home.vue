@@ -1,7 +1,8 @@
 <template>
   <div class="pb-16 mb-16">
+    {{get_authenticated}}
     <v-row no-gutters justify="start" class="pt-5">
-      <titulo-area-sub :area="this.$store.getters.getArea" class="mb-2"/>
+      <titulo-area-sub :area="get_user.area" class="mb-2"/>
     </v-row>
     <v-divider color="#393B44" class="my-4"></v-divider>
 
@@ -219,7 +220,7 @@ export default {
     }
   },
 
-  computed: mapGetters(['getTipoUsuario', 'getArea']),
+  computed: mapGetters(['getTipoUsuario', 'get_user','get_authenticated']),
 
   methods: {
     ...mapActions(['getSubArea', 'getUser', 'getBandejaEntrada']),

@@ -7,7 +7,7 @@
                     <img class="mt-4 pa-4" :src="('./img/logo-tribunal.svg')">
                     <v-divider color="#393B44" class="mt-2"></v-divider>
 
-                    <form @submit.prevent="onLogin">
+                    <form @submit.prevent="onLogin" enctype="multipart/form-data">
                       <div class="size Montserrat-Bold text-justify pb-2 pt-8 black--text">
                         <v-icon color="#000000">mdi-account</v-icon>
                         CUIL:
@@ -90,8 +90,10 @@ export default {
 
   computed: {
     ...mapGetters({
-      isAuthenticated: 'authenticated',
+      isAuthenticated: 'get_authenticated',
     },["get_btn_login"]),
+
+   // ...mapGetters(["get_btn_login",'get_user','get_authenticated']),
 
     erroresCuil: {
       get() {return this.$store.getters.getErrorCuil}
