@@ -1,29 +1,64 @@
 <template>
     <v-dialog v-model="show" max-width="1200px" content-class="round" persistent justify="center">
-    <v-card elevation="0" class="mb-5 py-8 px-5" width="1700" color="grey lighten-4">
-      <div class="fontBig Montserrat-SemiBold pt">
-        DETALLE DE Cedula
-      </div>
-      <v-divider class="my-3"/>
+        <v-card elevation="0" class="py-8 px-5" width="1700" color="grey lighten-4">
+          <v-row>
+            <v-col cols="10">
+              <h2 class="Montserrat-Bold text-justify">
+                N° de cédulas asociadas
+              </h2>
+            </v-col>
+            <v-col cols="2" align="right">
+              <v-btn @click="close" icon elevation="0" color="grey lighten-2">
+                <v-icon left large color="#393B44"> mdi-close-thick </v-icon>
+              </v-btn>
+            </v-col>
+          </v-row>
 
-      <div v-for="item in datos" :key="item.id">
-        {{ item.nro_cedula }}
-      </div>
+          <v-divider color="#393B44" class="my-2"></v-divider>
 
-    </v-card>
+          <div>
+            <v-list color="grey lighten-4">
+              <v-list-item
+                v-for="item in datos"
+                :key="item.id"
+              >
+                <v-list-item-icon>
+                  <v-icon color="#FDBC3F" large> mdi-card-bulleted </v-icon>
+                </v-list-item-icon>
+
+                <v-list-item-subtitle class="sizeTextSmall Montserrat-SemiBold">
+                  {{ item.nro_cedula }}
+                </v-list-item-subtitle>
+              </v-list-item>
+            </v-list>
+          </div>
+
+          <div v-if="this.get_mensaje" class="Montserrat-Regular text-justify sizeCedula">
+            Este expediente no tiene cédulas asociadas.
+          </div>
+        </v-card>
     </v-dialog>
 </template>
 
 <script>
-
+import {mapGetters} from "vuex";
 export default {
-  name: 'ModalIniciador',
+  name: 'ModalDetalleCedula',
   components: { },
   props: {
     show: Boolean,
     datos: Array,
   },
+  methods: {
+    close() {
+      this.$emit("close");
+      this.$router.go(0);
+    },
+  },
 
+  computed: {
+      ... mapGetters(['get_mensaje'])
+  },
 
 }
 </script>
