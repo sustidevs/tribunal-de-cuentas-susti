@@ -218,7 +218,7 @@ class Expediente extends Model
 
     /**
      * Método index replanteado para utilizar la db facade
-     * Autor: MF
+     * Autor: Mariano Flores
      */
     public static function index()
     {
