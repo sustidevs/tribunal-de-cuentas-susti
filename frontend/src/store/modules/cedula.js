@@ -24,7 +24,6 @@ const actions = {
         axios
             .post(process.env.VUE_APP_API_URL + '/api/contar-cedula', expediente_id)
             .then((response) => {
-                console.log(response.data.length);
                 if (response.data.length !== 0){
                     commit('set_cargado', true)
                     commit("set_ceduladetalle", response.data);
