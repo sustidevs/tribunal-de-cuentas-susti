@@ -7,6 +7,7 @@ const state = {
     expedientes: [],
     historial: [],
     resultado:  [],
+    expedientes_subsidio: [],
 
     //Estado (finalizado)
     finalizado: false,
@@ -22,6 +23,7 @@ const getters = {
     get_aceptado: state => state.aceptado,
     get_encontrado: state => state.encontrado,
     get_resultado: state => state.resultado,
+    get_subsidio_expedientes: state => state.expedientes_subsidio,
 }
 
 const actions = {
@@ -72,6 +74,14 @@ const actions = {
             })
     },
 
+    //muestra todos los expedientes con motivo de tramite subsidio
+    listadoMotivoSubsidio({commit}){
+        axios.post(process.env.VUE_APP_API_URL+ '/api/expSubsidiosNoReintegrables')
+            .then(response => {
+                commit('set_subsidio_expedientes', response.data)
+                commit('set_finalizado', false)
+            })
+    }    
 
 
 }
@@ -83,7 +93,8 @@ const mutations = {
     set_historial: (state,historial) => state.historial = historial,
     set_aceptado: (state,aceptado) => state.aceptado = aceptado,
     set_resultados: (state, resultado) => state.resultado = resultado,
-    set_encontrado: (state, encontrado) => state.encontrado = encontrado
+    set_encontrado: (state, encontrado) => state.encontrado = encontrado,
+    set_subsidio_expedientes: (state, expedientes_subsidio) => state.expedientes_subsidio = expedientes_subsidio,
 }
 
 export default {
