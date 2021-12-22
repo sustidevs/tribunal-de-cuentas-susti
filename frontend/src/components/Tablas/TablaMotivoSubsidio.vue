@@ -2,95 +2,74 @@
   <div>
     <v-row>
       <v-col cols="12" sm="4">
-        <v-text-field color="#8D93AB" v-model="search" append-icon="mdi-magnify"
-            label="Buscar"
-            hide-details
-            outlined
-            class="py-6"
+        <v-text-field
+          color="#8D93AB"
+          v-model="search"
+          append-icon="mdi-magnify"
+          label="Buscar"
+          hide-details
+          outlined
+          class="py-6"
         />
       </v-col>
     </v-row>
 
-      <v-data-table
-          :headers="headers"
-          :items="items"
-          :search="search"
-          :items-per-page="5"
-          disable-sort
-          mobile-breakpoint="300"
-          class="elevation-1 mytable"
-          v-model="selected"
-          loading-text="Cargando expedientes. Por favor, espere."
-          :loading="loading"
-          no-data-text="No hay Expedientes Pendientes por aceptar"
-      >
-
-        <template v-slot:item.prioridad="{ item }">
-          <v-chip
-              :color="getColor(item.prioridad)"
-          >
-            <v-icon size="20px" class="mr-1">{{getIcon(item.prioridad)}}</v-icon><h5 class="font-weight-regular">{{ item.prioridad }}</h5>
-          </v-chip>
-        </template>
-
-      </v-data-table>
-
+    <v-data-table
+      :headers="headers"
+      :items="data"
+      :search="search"
+      :items-per-page="5"
+      sort-asc
+      disable-sort
+      mobile-breakpoint="300"
+      class="elevation-1 mytable"
+      v-model="selected"
+      loading-text="Cargando expedientes. Por favor, espere."
+      :loading="loading"
+      no-data-text="No hay Expedientes Pendientes por aceptar"
+    >
+      <template v-slot:item.prioridad="{ item }">
+        <v-chip :color="getColor(item.prioridad)">
+          <v-icon size="20px" class="mr-1">{{
+            getIcon(item.prioridad)
+          }}</v-icon>
+          <h5 class="font-weight-regular">{{ item.prioridad }}</h5>
+        </v-chip>
+      </template>
+    </v-data-table>
   </div>
 </template>
 
 <script>
-import {mapActions} from "vuex";
+import { mapActions } from "vuex";
 
 export default {
   props: {
-    items: Array,
-    loading: {type: Boolean, default: false},
+    headers: Array,
+    data: Array,
+    loading: { type: Boolean, default: false },
   },
 
-  data () {
+  data() {
     return {
-      selected:[],
-      headers: [
-        {text: 'Prioridad', value: 'prioridad'},
-        {text: 'Nro. de Expediente', value: 'nro_expediente'},
-        {text: 'Motivo', value: 'motivo'},
-        {text: 'Extracto', value: 'extracto', width: "33%"},
-        {text: 'Área Origen', value:'area_origen'},
-        {text: 'Trámite', value: 'tramite', width: "5%"},
-        {text: 'Fecha Creación', value: 'fecha_creacion', width: "5%"},
-        {text: 'Cuerpo', value: 'cant_cuerpos', align: 'center'},
-        {text: 'Fojas', value: 'fojas', align: 'center'},
-      ],
-      search: '',
-      expediente_id:0,
-      datosSeleccionado: {}
-    }
+      selected: [],
+      search: "",
+    };
   },
 
   methods: {
-    ...mapActions([
-      'cambiarEstado'
-    ]),
+    ...mapActions([""]),
 
-    getColor (prioridades) {
-      if (prioridades === 'alta') return 'red lighten-3'
-      if (prioridades === 'normal') return 'grey lighten-2'
+    getColor(prioridades) {
+      if (prioridades === "alta") return "red lighten-3";
+      if (prioridades === "normal") return "grey lighten-2";
     },
-    getIcon (prioridades) {
-      if (prioridades === 'alta') return 'mdi-exclamation-thick'
-      else return 'mdi-check-bold'
+    getIcon(prioridades) {
+      if (prioridades === "alta") return "mdi-exclamation-thick";
+      else return "mdi-check-bold";
     },
-
-    recibirI (item) {
-          item.estado_expediente = 3
-          item.estado= 1,
-          item.bandeja= 1,
-          item.user_id= this.$store.getters.getIdUser,
-          this.cambiarEstado(item)
-    },
-    
   },
-}
+};
 </script>
 
 <style>

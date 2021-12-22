@@ -1,8 +1,7 @@
 <template>
   <div>
-    <titulo texto="Expedientes con Motivo Subsidio" icono="mdi-file-document"/>
-    <!-- <div class="descripcion text-justify py-4">Si desea <strong>ver detalle</strong> de expedientes con motivo subsidio, haga clic en el botón de la tabla .</div> -->
-    <tabla-motivo-subsidio class="mb-15 pb-15" :items="get_expedientes" :loading="get_finalizado"/>
+    <titulo texto="SUBSIDIO y/o E/CTAS.APORTES NO REINTEGRABLE GASTOS." icono="mdi-file-document"/>
+    <tabla-motivo-subsidio class="mb-15 pb-15" :headers="headers" :data="get_subsidio_expedientes" :loading="get_finalizado"/>
     </div>
 </template>
 <script>
@@ -15,28 +14,32 @@ export default {
   components: {TablaMotivoSubsidio, Titulo},
   data() {
     return {
+      headers: [
+        {text: 'Prioridad', value: 'prioridad', align: 'center', width: "5%"},
+        {text: 'Nro. de Expediente', value: 'nroExpediente', align: 'center', width: "10%"},
+        {text: 'Extracto', value: 'extracto', width: "40%"},
+        {text: 'Area Actual', value: 'descripcionArea', width: "12%"},
+        {text: 'Tramite', value: 'tipoExpediente', align: 'center', width: "5%"},
+        {text: 'Fecha Creación', value: 'fecha_creacion', align: 'center', width: "5%"},
+        {text: 'Hora Creación', value: 'hora', align: 'center', width: "5%"},
+        {text: 'Cuerpo', value: 'cantCuerpos', align: 'center', width: "5%"},
+        {text: 'Fojas', value: 'cantFojas', align: 'center', width: "5%"},
+      ],
       estado: 1,
       cargando:true,
     }
   },
 
-  computed: mapGetters(['get_expedientes', 'getIdUser','get_aceptado', 'get_finalizado']),
+  computed: mapGetters(['get_subsidio_expedientes', 'getIdUser', 'get_finalizado','get_expedientes']),
 
   mounted() {
-    this.getBandeja();
+    this.listadoMotivoSubsidio();
   },
 
   methods: {
-    ...mapActions(['cerrar', 'listadoExpedientes']),
+    ...mapActions(['cerrar', 'listadoMotivoSubsidio']),
 
-    getBandeja(){
-      let bandeja = {
-        estado: 1,
-        bandeja: 1,
-        user_id: this.$store.getters.getIdUser,
-      }
-      this.listadoExpedientes(bandeja)
-    },
+
     }
   }
 </script>
