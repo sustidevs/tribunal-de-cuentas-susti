@@ -106,14 +106,13 @@ class UserController extends Controller
 
     /*
     Método que permite validar la contraseña ingresada y compararla con la password hash de la BD
-    @params: id
     @params: password
     @return True: si encuentra coincidencia entre la clave ingresada y la almacenada
     @return False: si no encuentra coincidencia.
     **/
     public function validar_password(PasswordRequest $request)
     {
-        $user = User::findOrFail($request->id);
+        $user = User::findOrFail(auth()->user()->id);
         if(Hash::check($request->password, $user->password))
         {
             return response()->json(True, 200);
@@ -127,15 +126,18 @@ class UserController extends Controller
 
     /*
     Método que cambia la contraseña del usuario
-    @params: id
+    @params: token
     @params: password
     **/
     public function actualiza_password(PasswordRequest $request)
-    {
-        $user = User::findOrFail($request->id);
+    {   
+        $user = User::findOrFail(auth()->user()->id);
         $user->password = Hash::make($request->password);
         $user->update();
-        return response()->json(true, 200);
+        return response()->json([
+            "status" => 1,
+            "mensaje" => "contraseña modificada exitosamente",
+        ], 200);
     }
 
     public function update(Request $request)

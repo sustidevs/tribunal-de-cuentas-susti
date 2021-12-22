@@ -44,37 +44,26 @@
             <div class="fontBig Montserrat-Regular text-justify"> {{ data.observacion}} </div>
         </v-col>
       </v-row>
-
-      
     </v-card>
   </v-row>
 
 </template>
 <script>
-import {mapActions, mapGetters} from "vuex";
+import {mapGetters} from "vuex";
 
 export default {
   name: 'ModalIniciador',
    components: { },
     props: {
       show: Boolean,
-      data: Array,
-      dataArea:Array,
+      data: Object,
+      dataArea: Object,
     },
-
-  methods: {
-    ...mapActions([
-      'getNuevoPase'
-    ]),
-  },
 
   computed: {
     ... mapGetters(['areas','fecha'])
   },
 
-  mounted() {
-    this.getNuevoPase();
-  }
 }
 </script>
 <style>

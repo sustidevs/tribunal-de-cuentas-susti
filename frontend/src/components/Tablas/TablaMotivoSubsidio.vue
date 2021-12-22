@@ -1,15 +1,8 @@
 <template>
   <div>
-
     <v-row>
-      <v-col
-          cols="12"
-          sm="4"
-      >
-        <v-text-field
-            color="#8D93AB"
-            v-model="search"
-            append-icon="mdi-magnify"
+      <v-col cols="12" sm="4">
+        <v-text-field color="#8D93AB" v-model="search" append-icon="mdi-magnify"
             label="Buscar"
             hide-details
             outlined
@@ -18,18 +11,18 @@
       </v-col>
     </v-row>
 
-
       <v-data-table
           :headers="headers"
-          :items="data"
+          :items="items"
           :search="search"
           :items-per-page="5"
           disable-sort
           mobile-breakpoint="300"
           class="elevation-1 mytable"
+          v-model="selected"
           loading-text="Cargando expedientes. Por favor, espere."
           :loading="loading"
-          no-data-text="No tienes Expedientes"
+          no-data-text="No hay Expedientes Pendientes por aceptar"
       >
 
         <template v-slot:item.prioridad="{ item }">
@@ -40,12 +33,8 @@
           </v-chip>
         </template>
 
-        <template v-slot:item.action="{ item}">
-          <v-btn @click="historial_expediente(item)" fab small color="#FACD89" depressed>
-            <v-icon> mdi-eye </v-icon>
-          </v-btn>
-        </template>
       </v-data-table>
+
   </div>
 </template>
 
@@ -54,34 +43,53 @@ import {mapActions} from "vuex";
 
 export default {
   props: {
-    headers: Array,
-    data: Array,
+    items: Array,
     loading: {type: Boolean, default: false},
   },
 
   data () {
     return {
       selected:[],
+      headers: [
+        {text: 'Prioridad', value: 'prioridad'},
+        {text: 'Nro. de Expediente', value: 'nro_expediente'},
+        {text: 'Motivo', value: 'motivo'},
+        {text: 'Extracto', value: 'extracto', width: "33%"},
+        {text: 'Área Origen', value:'area_origen'},
+        {text: 'Trámite', value: 'tramite', width: "5%"},
+        {text: 'Fecha Creación', value: 'fecha_creacion', width: "5%"},
+        {text: 'Cuerpo', value: 'cant_cuerpos', align: 'center'},
+        {text: 'Fojas', value: 'fojas', align: 'center'},
+      ],
       search: '',
+      expediente_id:0,
+      datosSeleccionado: {}
     }
   },
 
   methods: {
+    ...mapActions([
+      'cambiarEstado'
+    ]),
+
     getColor (prioridades) {
       if (prioridades === 'alta') return 'red lighten-3'
       if (prioridades === 'normal') return 'grey lighten-2'
     },
-
     getIcon (prioridades) {
       if (prioridades === 'alta') return 'mdi-exclamation-thick'
       else return 'mdi-check-bold'
     },
 
-    ...mapActions([
-      'historial_expediente'
-    ]),
-
-  }
+    recibirI (item) {
+          item.estado_expediente = 3
+          item.estado= 1,
+          item.bandeja= 1,
+          item.user_id= this.$store.getters.getIdUser,
+          this.cambiarEstado(item)
+    },
+    
+  },
 }
 </script>
 
@@ -92,17 +100,16 @@ export default {
 
 .mytable thead {
   background-color: #facd89 !important;
-  font-family: "Montserrat-Regular",serif !important;
+  font-family: "Montserrat-Regular", serif !important;
 }
 
 .v-data-table > .v-data-table__wrapper > table > tbody > tr > td {
-  font-family: "Montserrat-Regular",serif !important;
+  font-family: "Montserrat-Regular", serif !important;
   font-size: 17px !important;
   padding: 12px !important;
 }
 
-.v-data-table > .v-data-table__wrapper > table > tbody > tr:hover{
-  background-color: #FAE3BF !important;
+.v-data-table > .v-data-table__wrapper > table > tbody > tr:hover {
+  background-color: #fae3bf !important;
 }
-
 </style>

@@ -28,9 +28,7 @@
     >
       <template v-slot:item.prioridad="{ item }">
         <v-chip :color="getColor(item.prioridad)">
-          <v-icon size="20px" class="mr-1">{{
-            getIcon(item.prioridad)
-          }}</v-icon>
+          <v-icon size="20px" class="mr-1">{{getIcon(item.prioridad) }}</v-icon>
           <h5 class="font-weight-regular">{{ item.prioridad }}</h5>
         </v-chip>
       </template>
@@ -42,14 +40,14 @@
       </template>
 
       <template v-slot:item.action2="{ item }">
-        <v-btn @click="nuevoPase(item)" fab small color="#FACD89" depressed>
+        <v-btn @click="getNuevoPase(item)" fab small color="#FACD89" depressed>
           <v-icon> mdi-file-move </v-icon>
         </v-btn>
       </template>
     </v-data-table>
 
       <modal-ver-detalle-exp
-            :datos="datos"
+            :datos="datosSeleccionado"
             :show="show_modal"
             @close="closeModal"
       />
@@ -70,10 +68,10 @@ export default {
 
   data() {
     return {
+      datosSeleccionado: {},
       show_modal: false,
       selected: [],
       search: "",
-      expediente_id:0,
     };
   },
 
@@ -89,14 +87,9 @@ export default {
 
     ...mapActions(["getNuevoPase"]),
 
-    nuevoPase: function(item) {
-      console.log(item);
-      this.getNuevoPase(item);
-    },
 
     detalle(item) {
-      this.show_modal = true;
-      this.datos = item
+      this.datosSeleccionado = item
       this.show_modal = true;
     },
 

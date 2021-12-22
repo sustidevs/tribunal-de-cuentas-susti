@@ -2,7 +2,7 @@
   <div>
     <titulo texto="Expedientes" icono="mdi-text-box-multiple"/>
     <div class="descripcion text-justify py-4">Si desea <strong>ver detalle e historial</strong> de un expediente, haga clic en el botón de la tabla.</div>
-    <tabla-expedientes class="mb-15 pb-15" :headers="headers" :data="todos_expp" :loading="get_finalizado"/>
+    <tabla-expedientes class="mb-15 pb-15" :headers="headers" :data="get_todos_expedientes" :loading="get_finalizado"/>
   </div>
 </template>
 <script>
@@ -12,7 +12,7 @@ import {mapActions,mapGetters} from "vuex";
 
 export default {
   name: 'BandejaDeEntrada',
-  components: {TablaExpedientes, Titulo, },
+  components: {TablaExpedientes, Titulo},
   data() {
     return {
       headers: [
@@ -22,7 +22,7 @@ export default {
         {text: 'Area Actual', value: 'area_actual'},
         {text: 'Fecha Creación', value: 'fecha_creacion'},
         {text: 'Trámite', value: 'tramite', width: "5%"},
-        {text: 'Cuerpo', value: 'cuerpos', align: 'center'},
+        {text: 'Cuerpo', value: 'cantCuerpos', align: 'center'},
         {text: 'Fojas', value: 'fojas', align: 'center'},
         {text: 'Ver Detalles', value: 'action', align: 'center', sortable: false},
         {class: "display-4"},
@@ -32,14 +32,14 @@ export default {
     }
   },
 
-  computed: mapGetters(['todos_expp', 'getIdUser', 'get_finalizado']),
+  computed: mapGetters(['get_todos_expedientes', 'getIdUser', 'get_finalizado']),
 
   mounted() {
-    this.todos_exp();
+    this.todosExpedientes();
   },
 
   methods: {
-    ...mapActions(['cerrar', 'todos_exp']),
+    ...mapActions(['cerrar', 'todosExpedientes']),
   }
 }
 </script>

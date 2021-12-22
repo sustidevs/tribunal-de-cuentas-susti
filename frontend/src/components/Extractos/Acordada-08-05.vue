@@ -146,13 +146,12 @@ export default {
         cargaExtracto() {
             this.isEditing = !this.isEditing
             this.hasSaved = true
-            const extracto = "  E/REND.CTAS.ACORDADA N° 08/05. LIBRAMIENTO DE ENTREGA. MES:  " + this.input1 + "  AÑO:  " + this.input2 + "  GTOS:  " + this.input3 + "  NORMA LEGAL:  " + this. input4 +  "  IMPORTE: $  " + this. input5 +  "  ACORDADA N° 08/2005  "
+            const extracto = "E/REND.CTAS.ACORDADA N° 08/05. LIBRAMIENTO DE ENTREGA. MES: " + this.input1 + ". AÑO: " + this.input2 + ". GTOS: " + this.input3 + ". NORMA LEGAL: " + this. input4 +  ". IMPORTE: $" + this. input5 +  ". ACORDADA N° 08/2005" + ". INICIADOR: " + this.nombreIniciador
             this.extracto(extracto)
         },
 
         cargariniciador(){
             let nombrei = this.allIniciadores.find( item => item.id === this.get_iniciadorSelected)
-            console.log(nombrei.nombre)
             this.nombreIniciador = nombrei.nombre
         },
 

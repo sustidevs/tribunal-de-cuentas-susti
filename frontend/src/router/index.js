@@ -24,6 +24,7 @@ import Englose from "../views/Englose";
 import Cedula from "../views/Cedula";
 import MisEnviados from "../views/MisEnviados";
 import Desglose from "../views/Desglose"
+import MotivoSubsidio from "../views/MotivoSubsidio"
 
 Vue.use(VueRouter)
 
@@ -128,6 +129,12 @@ const routes = [
         name: 'Cedula',
         component: Cedula,
         meta: { title: 'Cedula', middleware: [auth]  }
+      },
+      {
+        path: '/expedientes-subsidios',
+        name: 'Expedientes Subsidios',
+        component: MotivoSubsidio,
+        meta: { title: 'Subsidios' , middleware: [auth] }
       },
     ]
   },

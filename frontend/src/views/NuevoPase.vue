@@ -39,7 +39,7 @@
                         item-color="amber accent-4"
                         :items="get_areas"
                         item-text="descripcion"
-                        v-model="area"
+                        v-model="areaSeleccionado"
                         :rules="paseRules"
                       >
                       </v-autocomplete>
@@ -133,7 +133,7 @@
             </v-stepper-content>
 
             <v-stepper-content step="2">
-              <modal-detalle-pase :data="this.pase" :dataArea="this.area" />
+              <modal-detalle-pase :data="this.pase" :dataArea="this.areaSeleccionado" />
               <v-row justify="center" class="ma-8">
                 <v-col cols="4">
                   <v-btn
@@ -164,9 +164,9 @@
             </v-stepper-content>
           </v-stepper-items>
         </v-stepper>
-
-        <modal-exito-pase :show="creado_exito" :dato="expediente_exito" />
       </form>
+
+      <modal-exito-pase :show="creado_exito" :dato="expediente_exito" />
     </template>
   </div>
 </template>
@@ -181,7 +181,7 @@ import ModalErrorTipoArchivo from "../components/dialogs/ModalErrorTipoArchivo";
 
 
 export default {
-  name: "Nuevo Pase",
+  name: "NuevoPase",
   components: {
     Titulo,
     LabelInput,
@@ -192,14 +192,15 @@ export default {
   },
   data: () => ({
     e1: 1,
-    area: [],
+    areaSeleccionado: {},
     pase: {
       observacion: "",
-      nro_fojas: 0,
+      nro_fojas: '',
     },
     files: "",
     loader: null,
     valid: true,
+
     nameRules: [
       (v) =>
         Number.isInteger(Number(v)) || "Los valores solo pueden ser numéricos",
@@ -235,7 +236,7 @@ export default {
   },
 
   methods: {
-    ...mapActions(["storePase", "getNuevoPase"]),
+    ...mapActions(["storePase"]),
 
     storePas() {
       let formData = new FormData();
@@ -250,8 +251,8 @@ export default {
       formData.append("user_id", this.$store.getters.getIdUser);
       formData.append("expediente_id", this.$store.getters.idExpedientePase);
       formData.append("fojas", this.pase.nro_fojas);
-      formData.append("area_destino_id", this.area.id);
-      formData.append("area_destino_type", this.area.tipo_area);
+      formData.append("area_destino_id", this.areaSeleccionado.id);
+      formData.append("area_destino_type", this.areaSeleccionado.tipo_area);
       formData.append("observacion", this.pase.observacion);
       formData.append("archivos", null);
       formData.append("estado_expediente", 1);

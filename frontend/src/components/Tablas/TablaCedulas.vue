@@ -35,23 +35,31 @@
         </v-chip>
       </template>
 
+      <template v-slot:item.action1="{ item }">
+        <v-btn @click="verDetalleCedula(item)" fab small color="#FACD89" depressed>
+          <v-icon> mdi-card-account-details </v-icon>
+        </v-btn>
+      </template>
+
       <template v-slot:item.action="{ item }">
         <v-btn @click="AbrirModalCedula(item)" fab small color="#FACD89" depressed>
           <v-icon> mdi-card-account-details </v-icon>
         </v-btn>
       </template>
-    </v-data-table>
 
+    </v-data-table>
     <modal-nueva-cedula :show="show_modal" @close="closeModal" :datos="this.datos"/>
+    <modal-detalle-cedula :datos="get_detalle" :show="get_cargado"/>
   </div>
 </template>
 
 <script>
-import { mapActions } from "vuex";
 import ModalNuevaCedula from "../../components/dialogs/ModalNuevaCedula";
+import ModalDetalleCedula from "../dialogs/ModalDetalleCedula";
+import {mapActions, mapGetters} from "vuex";
 
 export default {
-  components: { ModalNuevaCedula },
+  components: { ModalNuevaCedula, ModalDetalleCedula},
   props: {
     headers: Array,
     data: Array,
@@ -71,7 +79,15 @@ export default {
     };
   },
 
+  computed: {
+    ... mapGetters(['get_detalle','get_cargado'])
+  },
+
   methods: {
+    ...mapActions([
+      'verDetalle'
+    ]),
+
     getColor(prioridades) {
       if (prioridades === "alta") return "red lighten-3";
       if (prioridades === "normal") return "grey lighten-2";
@@ -82,13 +98,19 @@ export default {
       else return "mdi-check-bold";
     },
 
-    ...mapActions(["getExpedientes"]),
 
     AbrirModalCedula(item) {
-      this.datos.id = item.id,
+      this.datos.id = item.expediente_id,
       this.datos.nro_expediente = item.nro_expediente,
       this.datos.extracto = item.extracto,
       this.show_modal = true;
+    },
+
+    verDetalleCedula(item){
+      let exp = {
+        expediente_id: item.expediente_id,
+      }
+      this.verDetalle (exp)
     },
 
     closeModal() {
