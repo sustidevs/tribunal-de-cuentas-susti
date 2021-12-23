@@ -1,5 +1,6 @@
 <template>
     <div>
+      <overlay :loading="get_btn_login"/>
         <v-row no-gutters justify="start" class="py-6">
             <v-col cols="12" sm="12" lg="6" class="pb-6">
                 <h1 class="d-flex justify-start Montserrat-Bold pb-3 mt-6"> Cambiar contraseña </h1>
@@ -31,7 +32,6 @@
                   </v-col>
                 </v-row>
               </div>
-
 
                 <div v-if="getVerificarPass === true">
                   <label-error :texto="getErrorPass"/>
@@ -86,9 +86,9 @@
                         <v-img max-height="170" width="170" src='/img/usuario.png'></v-img>
                     </v-col>
                     <v-col cols="12" sm="12" lg="8">
-                        <v-flex class="textHereBig Montserrat-SemiBold pb-2 text-uppercase">{{this.$store.getters.getNombreApellido}} </v-flex>
-                        <v-flex class="textHereSmall Montserrat-SemiBold pt-2">ÁREA: <span class="Montserrat-Regular">{{this.$store.getters.getArea}}</span> </v-flex>
-                        <v-flex class="textHereSmall Montserrat-SemiBold pt-2">CUIL: <span class="Montserrat-Regular">{{this.$store.getters.getCuil}}</span> </v-flex>
+                        <v-flex class="textHereBig Montserrat-SemiBold pb-2 text-uppercase">{{get_user.nombre_apellido}} </v-flex>
+                        <v-flex class="textHereSmall Montserrat-SemiBold pt-2">ÁREA: <span class="Montserrat-Regular">{{get_user.area}}</span> </v-flex>
+                        <v-flex class="textHereSmall Montserrat-SemiBold pt-2">CUIL: <span class="Montserrat-Regular">{{get_user.cuil}}</span> </v-flex>
                     </v-col>
                 </v-row>
             </v-col>
@@ -101,12 +101,13 @@ import LabelInput from "../components/LabelInput";
 import AlertSucess from "../components/AlertSucess"
 import Alert from "../components/Alert";
 import LabelError from "../components/LabelError";
+import Overlay from "../components/Overlay";
 
 import {mapGetters, mapActions} from "vuex";
 
 export default {
   name: 'Usuario',
-  components: {LabelInput, AlertSucess, Alert, LabelError},
+  components: {LabelInput, AlertSucess, Alert, LabelError, Overlay},
     data() {
         return {
             user:{
@@ -127,14 +128,13 @@ export default {
         }
     },
 
-  computed: mapGetters(['getErrorPassFail','getIdUser', 'getNewPass', 'cambiado', 'getVerificarPass','getErrorPassOld','getErrorPass']),
+  computed: mapGetters(['get_user','get_btn_login','getErrorPassFail', 'getNewPass', 'cambiado', 'getVerificarPass','getErrorPassOld','getErrorPass']),
 
   methods:{
-    ...mapActions(['getApellido', 'getNombre','editPassword', 'nuevaContrasena', 'verificarPass']),
+    ...mapActions(['verificarPass']),
 
     verificarPassword () {
       let user = {
-        id: this.$store.getters.getIdUser,
         password: this.passwordOld,
       }
       this.verificarPass(user)

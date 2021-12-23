@@ -61,7 +61,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     /**** INICIADORES ****/
     Route::get('/createTipoEntidad', [IniciadorController::class, 'create']);
-    Route::post('/storeIniciador',   [IniciadorController::class, 'store']);
+    Route::post('/store-iniciador',   [IniciadorController::class, 'store']);
     Route::get('/index-iniciador',  [IniciadorController::Class, 'index']);
     Route::post('/edit-iniciador',  [IniciadorController::Class, 'edit']);
     Route::post('/update-iniciador',[IniciadorController::Class, 'update']);

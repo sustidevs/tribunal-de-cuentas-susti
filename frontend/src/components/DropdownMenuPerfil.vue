@@ -9,7 +9,7 @@
           tile
           :color="hover ? '#393b44' : '#393b44'"
         >
-          <h5 class="white--text px-2 prueba">{{ nombre }}</h5>
+          <h5 class="white--text px-2 prueba">{{ get_user.nombre_apellido }}</h5>
           <v-icon :class="hover ? 'amber--text text--lighten-3' : 'white--text'"
             >mdi-account-circle</v-icon
           >
@@ -23,10 +23,10 @@
       <v-list-item>
         <v-list-item-content>
           <v-list-item-subtitle class="d-flex justify-end white--text text-h7">
-            {{ area }}
+            {{ get_user.area }}
           </v-list-item-subtitle>
           <v-list-item-subtitle class=" white--text d-flex justify-end">
-            {{ cuil }}
+            {{ get_user.cuil }}
           </v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
@@ -72,7 +72,7 @@
 </template>
 
 <script>
-import {mapActions} from "vuex";
+import {mapActions, mapGetters} from "vuex";
 
 export default {
   props: {
@@ -82,6 +82,8 @@ export default {
     area: String,
     link: String,
   },
+
+  computed: mapGetters(['get_user']),
 
   methods: {
     ...mapActions({
