@@ -1,11 +1,14 @@
 <template>
   <div class="pb-16 mb-16">
+
+    <overlay :loading="get_btn_login"/>
+
     <v-row no-gutters justify="start" class="pt-5">
       <titulo-area-sub :area="get_user.area" class="mb-2"/>
     </v-row>
     <v-divider color="#393B44" class="my-4"></v-divider>
 
-    <div v-if="getArea === 'DPTO. MESA DE ENTRADAS Y SALIDAS'">
+    <div v-if="get_user.area === 'DPTO. MESA DE ENTRADAS Y SALIDAS'">
       <v-row class="phone">
 
         <v-col cols="12" sm="12" lg="7" md="12" xs="12">
@@ -97,41 +100,41 @@
           <ButtonBig class="my-4 mx-5" texto="Pase" link="/mis-expedientes" icon="mdi-file-move"/>
           <ButtonBig class="my-4 mx-5" texto="Recuperar" link="/recuperar" icon="mdi-file-undo"/>
 
-          <span v-if="(getArea == 'VOCALIA A')">
+          <span v-if="(get_user.area == 'VOCALIA A')">
               <ButtonBig class="my-4 mx-5" texto="Englose" link="/englose" icon="mdi-file-plus"/>
               <ButtonBig class="my-4 mx-5" texto="Desglose" link="/desglose" icon="mdi-file-percent"/>
             </span>
-          <span v-if="getArea == 'VOCALIA B'">
+          <span v-if="get_user.area == 'VOCALIA B'">
               <ButtonBig class="my-4 mx-5" texto="Englose" link="/englose" icon="mdi-file-plus"/>
               <ButtonBig class="my-4 mx-5" texto="Desglose" link="/desglose" icon="mdi-file-percent"/>
             </span>
-          <span v-if="getArea == 'VOCALIA C'">
+          <span v-if="get_user.area == 'VOCALIA C'">
               <ButtonBig class="my-4 mx-5" texto="Englose" link="/englose" icon="mdi-file-plus"/>
               <ButtonBig class="my-4 mx-5" texto="Desglose" link="/desglose" icon="mdi-file-percent"/>
             </span>
-          <span v-if="getArea == 'VOCALIA D'">
+          <span v-if="get_user.area == 'VOCALIA D'">
                 <ButtonBig class="my-4 mx-5" texto="Englose" link="/englose" icon="mdi-file-plus"/>
                 <ButtonBig class="my-4 mx-5" texto="Desglose" link="/desglose" icon="mdi-file-percent"/>
             </span>
-          <span v-if="getArea == 'RELATORIA A'">
+          <span v-if="get_user.area == 'RELATORIA A'">
                 <ButtonBig class="my-4 mx-5" texto="Englose" link="/englose" icon="mdi-file-plus"/>
                 <ButtonBig class="my-4 mx-5" texto="Desglose" link="/desglose" icon="mdi-file-percent"/>
             </span>
-          <span v-if="getArea == 'RELATORIA B'">
+          <span v-if="get_user.area == 'RELATORIA B'">
                 <ButtonBig class="my-4 mx-5" texto="Englose" link="/englose" icon="mdi-file-plus"/>
                 <ButtonBig class="my-4 mx-5" texto="Desglose" link="/desglose" icon="mdi-file-percent"/>
             </span>
-          <span v-if="getArea == 'RELATORIA C'">
+          <span v-if="get_user.area == 'RELATORIA C'">
                 <ButtonBig class="my-4 mx-5" texto="Englose" link="/englose" icon="mdi-file-plus"/>
                 <ButtonBig class="my-4 mx-5" texto="Desglose" link="/desglose" icon="mdi-file-percent"/>
             </span>
-          <span v-if="getArea == 'RELATORIA D'">
+          <span v-if="get_user.area == 'RELATORIA D'">
                 <ButtonBig class="my-4 mx-5" texto="Englose" link="/englose" icon="mdi-file-plus"/>
                 <ButtonBig class="my-4 mx-5" texto="Desglose" link="/desglose" icon="mdi-file-percent"/>
             </span>
         </v-col>
 
-        <v-col cols="12" md="12" lg="5" sm="12" xs="12" v-if="getArea == 'DIRECCIÓN DE REGISTRACIONES'">
+        <v-col cols="12" md="12" lg="5" sm="12" xs="12" v-if="get_user.area == 'DIRECCIÓN DE REGISTRACIONES'">
           <titulo-inicio texto="Cédulas" class="my-2"/>
           <ButtonBig class="my-4 mx-5" texto="Cédula" link="/cedula" icon="mdi-card-account-details"/>
         </v-col> 
@@ -146,26 +149,16 @@ import TituloInicio from "../components/TituloInicio"
 import TituloAreaSub from "../components/TituloAreaSub"
 import ModalConsultarNroExp from "../components/dialogs/ModalConsultarNroExp"
 import ButtonBig from "../components/ButtonBig"
+import Overlay from "../components/Overlay";
 
-import {mapActions, mapGetters} from "vuex";
+import {mapGetters} from "vuex";
 
 export default {
   name: 'Home',
-  components: {TituloInicio, TituloAreaSub, ModalConsultarNroExp, ButtonBig},
+  components: {TituloInicio, TituloAreaSub, ModalConsultarNroExp, ButtonBig, Overlay},
   data() {
     return {
-
-      bandeja: {
-        estado: 1,
-        bandeja: 1,
-        user_id: this.$store.getters.getIdUser
-      },
-
       showModalConsultarNroExp: false,
-      estado: {
-        idTipo: "1",
-      },
-      cuil: '',
       expedientes: [
         {
           titulo: "Expedientes",
@@ -181,8 +174,6 @@ export default {
           botonText: "Ver Mis Expedientes",
           link: "/mis-expedientes-asignados",
         },
-
-
         {
           titulo: "Seguimientos",
           descripcion: "Consulte el historial de pases de los expedientes",
@@ -190,49 +181,13 @@ export default {
           botonText: "Ver Seguimientos",
           link: "/seguimientos"
         },
-        /**
-         {
-          titulo: "Archivados",
-          imagen: "./img/cards/archivados.svg",
-        },**/
-      ],
-      documentos: [
-        {
-          texto: "Normativas",
-          imagen: "./img/cards/normativas.svg",
-        },
-        {
-          texto: "Generar",
-          imagen: "./img/cards/generar.svg",
-        },
-      ],
-      comunicaciones: [
-        {
-          texto: "Reuniones",
-          imagen: "./img/cards/reuniones.svg",
-        },
-        {
-          texto: "Novedades",
-          imagen: "./img/cards/novedades.svg",
-        },
       ],
     }
   },
 
-  computed: mapGetters(['getTipoUsuario', 'get_user','get_authenticated']),
+  computed: mapGetters(['get_user','get_authenticated','get_btn_login']),
 
   methods: {
-    ...mapActions(['getSubArea', 'getUser', 'getBandejaEntrada']),
-
-    /**
-     cargar () {
-      let bandeja = {
-        estado: 1,
-        bandeja: 1,
-        user_id: this.$store.getters.getIdUser
-      }
-    },**/
-
     abrirModalConsultar() {
       this.showModalConsultarNroExp = !this.showModalConsultarNroExp
     },
