@@ -51,10 +51,6 @@ class LoginController extends Controller
         return "Vista Login.";
     }
 
-    public function verificar(){
-        return Auth::guest();
-    }
-
     public function logout()
     {
         Auth::logout();
