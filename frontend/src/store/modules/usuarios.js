@@ -8,7 +8,8 @@ const state = {
     status: JSON.parse(localStorage.getItem('status') || "false" ),
     token: JSON.parse(localStorage.getItem('token') || "{}" ),
     btn_login: false,
-    overlay: false
+    overlay: false,
+    area:'',
 };
 
 const getters = {
@@ -18,12 +19,10 @@ const getters = {
     get_btn_login: state => state.btn_login,
     get_token: state => state.token,
     get_logueo: state => state.logueado,
+    get_area: state => state.user.area
 };
 
 const actions = {
-
-    //                    localStorage.setItem('status',JSON.stringify(response.data.status))
-    //                     localStorage.setItem('token',JSON.stringify(response.data.access_token))
 
     getUsuario({ commit }){
         commit('set_btn_login', true);

@@ -240,7 +240,7 @@ export default {
     InputDate,
     LabelInput,
     Extractos,
-   ModalNuevosExpedientes,
+    ModalNuevosExpedientes,
     LabelError,
     ModalErrorTipoArchivo,
   },
@@ -293,7 +293,6 @@ export default {
       }
 
       let cantidad = this.files.length.toString();
-      formData.append("user_id", this.getIdUser);
       formData.append("iniciador_id", this.expe.iniciador_id);
       formData.append("nro_fojas", this.expe.nro_fojas);
       formData.append("observacion", this.expe.observacion);
@@ -331,7 +330,6 @@ export default {
       "expediente",
       "getTipoUsuario",
       "motivoConExtracto",
-      "getIdUser",
       "get_areas_all",
       "descripcion_extracto_error",
       "iniciador_id_error",

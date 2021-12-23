@@ -1,8 +1,7 @@
 <template>
   <div class="pb-16 mb-16">
-
     <overlay :loading="get_btn_login"/>
-
+    {{get_area}}
     <v-row no-gutters justify="start" class="pt-5">
       <titulo-area-sub :area="get_user.area" class="mb-2"/>
     </v-row>
@@ -185,7 +184,7 @@ export default {
     }
   },
 
-  computed: mapGetters(['get_user','get_authenticated','get_btn_login']),
+  computed: mapGetters(['get_user','get_authenticated','get_btn_login','get_area']),
 
   methods: {
     abrirModalConsultar() {
