@@ -1,7 +1,6 @@
 import axios from "axios";
 
 const state = {
-//
     user: {},
     logueado: false,
     loading: false,
@@ -40,9 +39,9 @@ const actions = {
             .then(response => {
                     localStorage.setItem('status',JSON.stringify(response.data.status))
                     localStorage.setItem('token',JSON.stringify(response.data.access_token))
-                    commit('set_logueo', true)
                     commit('set_user', response.data)
                     commit('set_btn_login', false)
+                    commit('set_logueo', true)
             })
             .catch(error => {
                 console.log(error.response.data)
@@ -87,14 +86,6 @@ const actions = {
                 commit('set_error_passOld', error.response.data.errors.password[0])
             })
     },
-
-    // editPassword({commit}, user) {
-    //     axios.get(process.env.VUE_APP_API_URL+ '/api/editUser',user)
-    //         .then(response => {
-    //             console.log(response)
-    //             commit('set_user', response.data)
-    //         })
-    // }
 
     nuevaContrasena({commit}, newPass){
         axios.post(process.env.VUE_APP_API_URL+ '/api/actualizaPassword', newPass)
