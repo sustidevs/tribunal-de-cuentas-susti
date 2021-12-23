@@ -495,7 +495,7 @@ class ExpedienteController extends Controller
 
     public function contadorBandejaEntrada(Request $request)
     {
-        $contador = Expediente::listadoExpedientes(Auth::user(),1,1)->count();
+        $contador = Expediente::listadoExpedientes(Auth::user()->id,1,1)->count();
         return response()->json($contador, 200);
     }
 
