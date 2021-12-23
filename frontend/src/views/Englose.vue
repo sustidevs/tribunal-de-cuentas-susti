@@ -1,7 +1,8 @@
 <template>
   <div>
     <titulo texto="Englose" icono="mdi-text-box-multiple"/>
-    <englose :headers="headers" :data="allExpedientes"/>
+    <div class="descripcion text-justify py-4">Si desea <strong>englosar</strong> expedientes, seleccione los mismos de la tabla.</div>
+    <englose :headers="headers" :data="get_expedientes"/>
   </div>
 </template>
 
@@ -23,7 +24,7 @@ export default {
     }
   },
 
-  computed: mapGetters(['allExpedientes', 'get_finalizado']),
+  computed: mapGetters(['get_expedientes', 'get_finalizado']),
 
   mounted() {
     this.getExpe();
@@ -31,7 +32,7 @@ export default {
   },
 
   methods: {
-    ...mapActions(['getExpedientes','cerrar','getIdUser']),
+    ...mapActions(['listadoExpedientes','cerrar','getIdUser']),
 
     getExpe(){
       let exp = {
@@ -39,7 +40,7 @@ export default {
         bandeja: 3,
         user_id: this.$store.getters.getIdUser,
       }
-      this.getExpedientes(exp)
+      this.listadoExpedientes(exp)
     },
   },
 

@@ -12,7 +12,7 @@
       <v-divider color="#393B44" class="my-2"></v-divider>
 
       <div class="textHereSmall Montserrat-Regular my-4 mr-2">
-          Los expedientes 800-00001/2021, 800-00002/2021, 800-00003/2021 se han desglosado
+          {{ this.$store.getters.get_desglose.data }}
       </div>
 
       <v-row no-gutters justify="center" class="mt-6">

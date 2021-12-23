@@ -92,7 +92,6 @@ const actions = {
                 commit('set_btn_creado', false)
         })
         .catch(error => {
-            console.log (error.response.data.errors)
                 commit('set_descripcion_extracto_error', error.response.data.errors.descripcion_extracto)
                 commit('set_iniciador_id_error', error.response.data.errors.iniciador_id)
                 commit('set_nro_fojas_error', error.response.data.errors.nro_fojas)

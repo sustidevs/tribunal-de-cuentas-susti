@@ -42,15 +42,16 @@ export default {
     currentRoute: window.location.pathname
   }),
 
-  computed: mapGetters(['getUser','get_cantPendientes','getArea', 'getcantidad_subsidioAporteNR']),
+  computed: mapGetters(['getUser','get_cantPendientes','getArea', 'getcantidad_subsidioAporteNR','get_token']),
 
   mounted() {
+    this.getUsuario();
     this.getCantidad_Pendientes();
     this.getCantidad_SubsidioAporteNR();
   },
 
   methods: {
-    ...mapActions(['cantidadPendientes', 'cantidad_subsidioAporteNR']),
+    ...mapActions(['cantidadPendientes', 'cantidad_subsidioAporteNR', 'getUsuario']),
 
     getCantidad_SubsidioAporteNR () {
       this.cantidad_subsidioAporteNR()
