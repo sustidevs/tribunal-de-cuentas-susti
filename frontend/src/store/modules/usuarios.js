@@ -7,6 +7,7 @@ const state = {
     status: JSON.parse(localStorage.getItem('status') || "false" ),
     token: JSON.parse(localStorage.getItem('token') || "{}" ),
     btn_login: false,
+    overlay: false
 };
 
 const getters = {
@@ -15,7 +16,7 @@ const getters = {
     get_loading: state => state.loading,
     get_btn_login: state => state.btn_login,
     get_token: state => state.token,
-    get_logueo: state => state.logueado
+    get_logueo: state => state.logueado,
 };
 
 const actions = {
@@ -23,10 +24,12 @@ const actions = {
     //                    localStorage.setItem('status',JSON.stringify(response.data.status))
     //                     localStorage.setItem('token',JSON.stringify(response.data.access_token))
 
-    getUsuario(){
+    getUsuario({ commit }){
+        commit('set_btn_login', true);
         axios.post(process.env.VUE_APP_API_URL+ '/api/userData')
             .then(response => {
-                console.log(response.data)
+                commit('set_user', response.data)
+                commit('set_btn_login', false)
             })
             .catch(error => {
                 console.log(error.response.data)
