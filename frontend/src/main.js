@@ -11,10 +11,12 @@ Vue.use({
   install (Vue) {
     Vue.prototype.$api = axios.create({
       baseURL: process.env.VUE_APP_API_URL,
-      withCredentials: true
+      withCredentials: true,
     })
   }
 })
+
+axios.defaults.headers.common.Authorization = `Bearer ${store.getters.get_token}`
 
 new Vue({
   store,

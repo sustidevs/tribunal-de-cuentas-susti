@@ -56,8 +56,8 @@ Route::post('/storeIniciador',      [IniciadorController::class, 'store']);
 //BANDEJAS//////////////////////////////////////////////////////////////////////////////////
 
 Route::post('/ListadoExp',       [ExpedienteController::class, 'bandeja']);
-Route::post('/contarExp',         [ExpedienteController::class, 'contadorBandejaEntrada']);
-    
+
+
 Route::post('/contarSubsidioAporteNR', [NotificacionController::class, 'contadorSubsidioAporteNR']);
 
 Route::post('/expSubsidiosNoReintegrables', [ExpedienteController::class, 'expSubsidiosNoReintegrables']);
@@ -83,19 +83,22 @@ Route::post('/updateUser', [UserController::class, 'update']);
 Route::get('/bajaUser', [UserController::class, 'delete']);
 Route::get('/restoreUser', [UserController::class, 'restore']);
 
+
 // Rutas protegidas
 Route::group(['middleware' => ["auth:sanctum"]], function()
 {
     Route::post('/validarPassword', [UserController::class, 'validar_password']);
     Route::post('/actualizaPassword', [UserController::class, 'actualiza_password']);
+    Route::post('/contarExp',         [ExpedienteController::class, 'contadorBandejaEntrada']);
     Route::post('/userData', [UserController::class, 'getUserData']);
 });
+
 Route::get('/indexExp',             [ExpedienteController::class, 'index']);
 
 
 // Rutas que no se deben proteger
 Route::get('/login',[LoginController::class, 'showLoginForm'] );
-Route::post('/login',[LoginController::class, 'authenticate'] ); // reemplazar por Route::post('/login',[LoginController::class, 'authenticate_new'] );
+Route::post('/login',[LoginController::class, 'authenticate_new'] ); // reemplazar por Route::post('/login',[LoginController::class, 'authenticate_new'] );
 
 
 ///////INICIADORES//////////////////////////////////////////////////////////////////////////

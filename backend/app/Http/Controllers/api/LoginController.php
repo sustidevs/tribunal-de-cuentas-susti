@@ -107,7 +107,7 @@ class LoginController extends Controller
      * Autor: Mariano Flores
      */
     public function authenticate_new(LoginRequest $request)
-    {        
+    {
         $user = ModelsUser::where("cuil", "=", "$request->cuil")->first();
         if(isset($user->id))
         {
@@ -116,7 +116,7 @@ class LoginController extends Controller
             {
                 $token = $user->createToken("auth_token")->plainTextToken;
                 return response()->json([
-                    "status" => 1,
+                    "status" => true,
                     "mensaje" => "usuario logueado exitosamente",
                     "nombre_apellido" => $user->persona->nombre ." ". $user->persona->apellido,
                     "cuil" => $user->cuil,
@@ -128,7 +128,7 @@ class LoginController extends Controller
             else
             {
                 return response()->json([
-                    "status" => 0,
+                    "status" => false,
                     "mensaje" => "contraseña incorrecta",
                 ], 404);
             }
@@ -136,7 +136,7 @@ class LoginController extends Controller
         else
         {
             return response()->json([
-                "status" => 0,
+                "status" => false,
                 "mensaje" => "usuario no registrado",
             ], 404);
         }
