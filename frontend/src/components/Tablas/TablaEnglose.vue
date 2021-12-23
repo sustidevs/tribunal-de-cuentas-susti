@@ -65,25 +65,26 @@
           </v-list>
 
           <v-row justify="center" align="center" v-if="!(seleccionados.length === 0)" class="contentSize Montserrat-Regular pa-6">
-            <v-btn @click="confirmarEnglose" class="pa-1 color Montserrat-SemiBold px-6" height="50" elevation="0" color="#FACD89">
+            <v-btn @click="confirmarEnglose" :disabled="this.$store.getters.get_consul_loading" class="pa-1 color Montserrat-SemiBold px-6" height="50" elevation="0" color="#FACD89">
               <v-icon class="px-2">
                 mdi-check-bold
               </v-icon>
-              <div class="">
                 Confirmar
-              </div>
             </v-btn>
           </v-row>
         </v-card>
       </v-col>
     </v-row>
 
-    <modal-exito-englose :show="show"/>
+    <modal-exito-englose :show="get_show_englose"/>
+    <v-overlay :value="this.$store.getters.get_consul_loading">
+        <v-progress-circular indeterminate size="60"></v-progress-circular>
+    </v-overlay>
   </div>
 </template>
 
 <script>
-import {mapActions} from "vuex";
+import {mapActions, mapGetters} from "vuex";
 import ModalExitoEnglose from '../../components/dialogs/ModalExitoEnglose';
 
 export default {
@@ -101,6 +102,8 @@ export default {
       show: false,
     };
   },
+
+  computed: mapGetters(['get_consul_loading', 'get_show_englose']),
 
   methods: {
     ...mapActions([

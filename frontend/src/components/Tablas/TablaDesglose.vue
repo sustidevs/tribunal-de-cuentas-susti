@@ -63,7 +63,7 @@
           </v-list>
 
           <v-row justify="center" class="contentSize Montserrat-Regular py-6" align="center">
-            <v-btn @click="confirmarDesglose" :disabled="!exp_padreSeleccionado.nro_expediente" class="pa-1 color Montserrat-SemiBold px-6" height="50" elevation="0" color="#FACD89">
+            <v-btn @click="confirmarDesglose" :disabled="this.$store.getters.get_consulta_loading" class="pa-1 color Montserrat-SemiBold px-6" height="50" elevation="0" color="#FACD89">
               <v-icon class="px-2">
                 mdi-check-bold
               </v-icon>
@@ -73,7 +73,10 @@
         </v-card>
       </v-col>
     </v-row>
-    <modal-exito-desglose :show="show"/>
+    <modal-exito-desglose :show="get_show_desglose" />
+    <v-overlay :value="this.$store.getters.get_consulta_loading">
+        <v-progress-circular indeterminate size="60"></v-progress-circular>
+    </v-overlay>
   </div>
 </template>
 
@@ -96,11 +99,10 @@ export default {
       search: "",
       exp_padreSeleccionado: '',
       id_padre: '',
-      show: false,
     };
   },
 
-  computed: mapGetters(['getExpedientesHijos','getExpedientesPadres']),
+  computed: mapGetters(['getExpedientesHijos','getExpedientesPadres', 'get_consulta_loading', 'get_show_desglose']),
 
   methods: {
     ...mapActions([
@@ -114,7 +116,7 @@ export default {
         user_id:  this.$store.getters.getIdUser
       }
       this.desglose(expedientes_desglose)
-      this.show = true
+      this.get_show_desglose != this.get_show_desglose
     },
 
     quitar (item){
