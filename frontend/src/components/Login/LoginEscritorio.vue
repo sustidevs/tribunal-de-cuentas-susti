@@ -1,7 +1,10 @@
 <template>
   <div class="full">
     {{isAuthenticated}}
-    {{get_authenticated}}
+    {{autenticacion}}
+    {{logeo}}
+    {{cuil}}
+    {{contraseña}}
       <v-container fill-height fluid>
           <v-row justify="start">
               <v-card color="rgb(255, 255, 255, 0.7)" class="py-5 px-5 ml-lg-16" height="w-full" width="30rem" style="border-radius: 20px" elevation="20" align="center" >
@@ -15,8 +18,8 @@
                         CUIL:
                       </div>
                       <v-text-field
-                          :color="this.$store.getters.errorC ? 'red lighten-1' : 'amber accent-4'"
-                          :background-color="this.$store.getters.errorC ? 'red lighten-4' : 'white'"
+                          :color="this.$store.getters.get_errores ? 'red lighten-1' : 'amber accent-4'"
+                          :background-color="this.$store.getters.get_errores ? 'red lighten-4' : 'white'"
                           outlined
                           v-model="credentials.cuil"
                           name="user.cuil"
@@ -27,8 +30,8 @@
                         Contraseña:
                       </div>
                       <v-text-field
-                          :color="this.$store.getters.errorP ? 'red lighten-1' : 'amber accent-4'"
-                          :background-color="this.$store.getters.errorP ? 'red lighten-4' : 'white'"
+                          :color="this.$store.getters.get_errores ? 'red lighten-1' : 'amber accent-4'"
+                          :background-color="this.$store.getters.get_errores ? 'red lighten-4' : 'white'"
                           :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
                           :type="show1 ? 'text' : 'password'"
                           @click:append="show1 = !show1"
@@ -37,18 +40,25 @@
                           name="user.password"
                       ></v-text-field>
 
-                      <v-alert v-if="this.$store.getters.errorC || this.$store.getters.errorP || this.$store.getters.errorAmbos" outlined  color="red" close-text="Close Alert">
+                      <v-alert v-if="this.$store.getters.get_error_logeo || this.$store.getters.get_error_Cuil || this.$store.getters.get_error_contra" outlined  color="red" close-text="Close Alert">
                         <div class="Montserrat-Bold red--text fontError text-start py-2 pt-6">
                           <div class="pb-2"><v-icon color="red">mdi-exclamation-thick</v-icon>No pudimos loguearte</div>
+                          
+                          <!-- <div :key="x.id" v-for="x in erroresUsuario">
+                            <label-error :texto="x"/>
+                          </div>
+
                           <div :key="x.id" v-for="x in erroresCuil">
                             <label-error :texto="x"/>
                           </div>
 
                           <div :key="x.id" v-for="x in erroresPass">
                             <label-error :texto="x"/>
-                          </div>
+                          </div> -->
 
-                          <label-error :texto="this.$store.getters.errorAmbos"/>
+                          <label-error :texto="this.$store.getters.get_error_logeo"/>
+                          <label-error :texto="this.$store.getters.get_error_Cuil"/>
+                          <label-error :texto="this.$store.getters.get_error_contra"/>
                         </div>
                       </v-alert>
                       <v-btn :disabled="this.$store.getters.get_btn_login" type="submit" class="mt-6 pa-5 color Montserrat-SemiBold" height="55" elevation="0" color="#FACD89" block>
@@ -80,8 +90,8 @@ export default {
       alert: false,
       error: true,
       show1: false,
-      errorPassword: false,
-      errorCuil: false,
+      //errorPassword: false,
+      //errorCuil: false,
       loading: false,
       credentials: {
         cuil: null,
@@ -91,12 +101,21 @@ export default {
   },
 
   computed: {
-    ...mapGetters({
-      isAuthenticated: 'get_logueo'
+    ...mapGetters(
+      {
+      
+       logeo: 'get_error_logeo',
+       cuil: 'get_error_Cuil',
+       contraseña: 'get_error_contra',
+       errores: 'get_errores',
+       autenticacion: 'get_authenticated',      
+      isAuthenticated: 'get_logueo',
     }),
   },
 
-   // ...mapGetters(["get_btn_login",'get_user','get_authenticated']),
+  //  erroresUsuario:{
+  //    get() {return this.$store.getters.get_error_logeo}
+  //  },
 
    // erroresCuil: {
      // get() {return this.$store.getters.getErrorCuil}

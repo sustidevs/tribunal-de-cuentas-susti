@@ -8,6 +8,12 @@ const state = {
     status: JSON.parse(localStorage.getItem('status') || "false" ),
     token: JSON.parse(localStorage.getItem('token') || "{}" ),
     btn_login: false,
+
+    //errores login
+    errores: false,
+    error_logeo: '',
+    error_cuil: '',
+    error_contra: '',
 };
 
 const getters = {
@@ -16,7 +22,12 @@ const getters = {
     get_loading: state => state.loading,
     get_btn_login: state => state.btn_login,
     get_token: state => state.token,
-    get_logueo: state => state.logueado
+    get_logueo: state => state.logueado,
+
+    get_errores: state => state.errores,
+    get_error_logeo: state => state.error_logeo,
+    get_error_Cuil: state => state.error_cuil,
+    get_error_contra: state => state.error_contra,
 };
 
 const actions = {
@@ -46,32 +57,39 @@ const actions = {
             })
             .catch(error => {
                 console.log(error.response.data)
+                commit('set_btn_login', false)
 
+                
+                commit('set_authenticated', false)
+                if (error.response.data.mensaje !== undefined) {
+                    commit('set_error_logeo',error.response.data.mensaje)
+                }
+
+                commit('set_error_cuil', error.response.data.errors.cuil)
+                commit('set_errores', false)
+                if (error.response.data.errors.cuil !== undefined) {
+                    console.log(error.response.data.errors.cuil)
+                    commit('set_errores', true)
+                }
+
+                commit('set_error_contra', error.response.data.errors.password)
+                commit('set_errores', false)
+                if (error.response.data.errors.password !== undefined) {
+                     commit('set_errores', true)
+                }                
+                
+                
                 /**
                  * revisar errores
-                commit('setAuthenticated', false)
-                if (error.response.data.mensaje !== undefined) {
-                    commit('set_noregistrado',error.response.data.mensaje)
-                }
-                commit('set_errorC', false)
-                if (error.response.data.errors.cuil !== undefined) {
-                    commit('set_errorCuil', error.response.data.errors.cuil)
-                    commit('set_errorC', true)
-                }
 
-                commit('set_errorP', false)
-                if (error.response.data.errors.password !== undefined) {
-                    commit('set_errorPass', error.response.data.errors.password)
-                    commit('set_errorP', true)
-                }
-                commit('set_btn_login', false)**/
+                **/
 
             })
     },
 
     logout ({ commit }) {
         commit('clearUserData')
-        commit('setAuthenticated', false)
+        commit('set_authenticated', false)
     },
 
     verificarPass({commit}, newPass){
@@ -126,6 +144,11 @@ const mutations = {
     set_user: (state, user) => state.user = user,
     set_authenticated: (state, status) => state.status = status,
     set_btn_login:(state,btn_login) => state.btn_login = btn_login,
+
+    set_errores:(state, errores) => state.errores = errores,
+    set_error_logeo:(state, error_logeo) => state.error_logeo = error_logeo,
+    set_error_cuil:(state, error_cuil) => state.error_cuil = error_cuil,
+    set_error_contra:(state, error_contra) => state.error_contra = error_contra,
 };
 
 export default {
