@@ -1,6 +1,5 @@
 <template>
   <div class="pb-16 mb-16">
-    {{get_authenticated}}
     <v-row no-gutters justify="start" class="pt-5">
       <titulo-area-sub :area="get_user.area" class="mb-2"/>
     </v-row>

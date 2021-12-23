@@ -3,6 +3,7 @@ import axios from "axios";
 const state = {
 //
     user: {},
+    logueado: false,
     loading: false,
     status: JSON.parse(localStorage.getItem('status') || "false" ),
     token: JSON.parse(localStorage.getItem('token') || "{}" ),
@@ -15,6 +16,7 @@ const getters = {
     get_loading: state => state.loading,
     get_btn_login: state => state.btn_login,
     get_token: state => state.token,
+    get_logueo: state => state.logueado
 };
 
 const actions = {
@@ -38,6 +40,7 @@ const actions = {
             .then(response => {
                     localStorage.setItem('status',JSON.stringify(response.data.status))
                     localStorage.setItem('token',JSON.stringify(response.data.access_token))
+                    commit('set_logueo', true)
                     commit('set_user', response.data)
                     commit('set_btn_login', false)
             })
@@ -118,9 +121,11 @@ const mutations = {
         localStorage.removeItem('token')
         localStorage.removeItem('status')
     },
+    set_aceptado: (state,aceptado) => state.aceptado = aceptado,
+    set_logueo: (state, logueado) => state.logueado = logueado,
     set_user: (state, user) => state.user = user,
-    set_authenticated: (state, authenticated) => authenticated,
-    set_btn_login:(state,btn_login) =>state.btn_login = btn_login,
+    set_authenticated: (state, status) => state.status = status,
+    set_btn_login:(state,btn_login) => state.btn_login = btn_login,
 };
 
 export default {
