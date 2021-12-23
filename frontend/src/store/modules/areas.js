@@ -12,7 +12,6 @@ const actions = {
     getAreas ({ commit } , expediente) {
         axios.post(process.env.VUE_APP_API_URL+ '/api/historial', expediente)
             .then(response => {
-                console.log(response)
                 let areas = response.data[1];
                 commit('set_areas', areas)
             })
