@@ -112,7 +112,7 @@ class Historial extends Model
                          DB::raw("CONCAT(personas.nombre, personas.apellido) as nombre_usuario"),
                          DB::raw("DATE_FORMAT(historiales.fecha, '%d-%m-%y') as fecha"),
                          'historiales.motivo as motivo')
-
+                ->orderBy('historiales.id', 'DESC')
                 ->get();
             return($array);
         }
@@ -146,8 +146,8 @@ class Historial extends Model
                          'historiales.user_id',
                          DB::raw("CONCAT(personas.nombre, personas.apellido) as nombre_usuario"),
                          DB::raw("DATE_FORMAT(historiales.fecha, '%d-%m-%y') as fecha"),
-                         'historiales.motivo as motivo'
-                         )
+                         'historiales.motivo as motivo')
+                         ->orderBy('historiales.id', 'DESC')
                 ->get();
             return($array);
         }
