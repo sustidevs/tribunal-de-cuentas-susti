@@ -9,37 +9,37 @@
           </v-col>
 
             <v-col cols="12" lg="7" md="10" align="center" align-self="center">
-              <div v-if="getArea === 'DPTO. MESA DE ENTRADAS Y SALIDAS'" >
+              <div v-if="get_user.area === 'DPTO. MESA DE ENTRADAS Y SALIDAS'" >
                 <DropdownMenu titulo="Bandejas" :data-item="bandejas"/>
                 <DropdownMenu titulo="Expedientes" :data-item="expedientesMesaEntrada"/>
                 <DropdownMenu titulo="Iniciadores" :data-item="iniciadores"/>
               </div>
 
-              <div v-if="(getArea === 'VOCALIA A') || (getArea === 'VOCALIA B') || (getArea === 'VOCALIA C') || (getArea === 'VOCALIA D') || (getArea === 'RELATORIA A') || (getArea === 'RELATORIA B') || (getArea === 'RELATORIA C') || (getArea === 'RELATORIA D')" cols="12" lg="6" align="center" align-self="center">
+              <div v-if="(get_user.area === 'VOCALIA A') || (get_user.area === 'VOCALIA B') || (get_user.area === 'VOCALIA C') || (get_user.area === 'VOCALIA D') || (get_user.area === 'RELATORIA A') || (get_user.area === 'RELATORIA B') || (get_user.area === 'RELATORIA C') || (get_user.area === 'RELATORIA D')" cols="12" lg="6" align="center" align-self="center">
                 <DropdownMenu titulo="Bandejas" :data-item="bandejas"/>
                 <DropdownMenu titulo="Expedientes" :data-item="expedientesRelatoriasyVocalias"/>
               </div>
 
-              <div v-if="getArea === 'DIRECCIÓN DE REGISTRACIONES'" cols="12" lg="6" align="center" align-self="center">
+              <div v-if="get_user.area === 'DIRECCIÓN DE REGISTRACIONES'" cols="12" lg="6" align="center" align-self="center">
                 <DropdownMenu titulo="Bandejas" :data-item="bandejas"/>
                 <DropdownMenu titulo="Expedientes" :data-item="expedientesMesaEntrada"/>
                 <DropdownMenu titulo="Iniciadores" :data-item="iniciadores"/>
               </div>
 
-              <div v-if="getArea === 'DIRECCIÓN DE INFORMATICA'" cols="12" lg="6" align="center" align-self="center">
+              <div v-if="get_user.area === 'DIRECCIÓN DE INFORMATICA'" cols="12" lg="6" align="center" align-self="center">
                 <DropdownMenu titulo="Bandejas" :data-item="bandejas"/>
                 <DropdownMenu titulo="Expedientes" :data-item="expedientes"/>
                 <DropdownMenu titulo="Iniciadores" :data-item="iniciadores"/>
               </div>
 
-              <div v-if="(getArea === 'SECRETARIA GENERAL TECNICA') || (getArea === 'SECRETARIA GENERAL ADMINISTRATIVA') || (getArea === 'ASESORIA LEGAL') || (getArea === 'DIRECCIÓN DE PERSONAL') || (getArea === 'DPTO. DE ADMINISTRACIÓN') || (getArea === 'DEPARTAMENTO FALLOS') || (getArea === 'ARCHIVO') || (getArea === 'DPTO. NOTIFICACIONES') || (getArea === 'DPTO. DE ADMINISTRACIÓN') || (getArea === 'AUDITORIA A') || (getArea === 'AUDITORIA B') || (getArea === 'AUDITORIA C') || (getArea === 'AUDITORIA D') || (getArea === 'PRESIDENCIA') || (getArea === 'MAESTRANZA') " cols="12" lg="6" align="center" align-self="center">
+              <div v-if="(get_user.area === 'SECRETARIA GENERAL TECNICA') || (get_user.area === 'SECRETARIA GENERAL ADMINISTRATIVA') || (get_user.area === 'ASESORIA LEGAL') || (get_user.area === 'DIRECCIÓN DE PERSONAL') || (get_user.area === 'DPTO. DE ADMINISTRACIÓN') || (get_user.area === 'DEPARTAMENTO FALLOS') || (get_user.area === 'ARCHIVO') || (get_user.area === 'DPTO. NOTIFICACIONES') || (get_user.area === 'DPTO. DE ADMINISTRACIÓN') || (get_user.area === 'AUDITORIA A') || (get_user.area === 'AUDITORIA B') || (get_user.area === 'AUDITORIA C') || (get_user.area === 'AUDITORIA D') || (get_user.area === 'PRESIDENCIA') || (get_user.area === 'MAESTRANZA') " cols="12" lg="6" align="center" align-self="center">
                 <DropdownMenu titulo="Bandejas" :data-item="bandejas"/>
                 <DropdownMenu titulo="Expedientes" :data-item="expedientes"/>
               </div>
             </v-col>
 
           <v-col cols="12" lg="2" md="1" align="end" align-self="center">
-            <DropdownMenuPerfil :nombre="this.$store.getters.getNombreApellido" :cuil="this.$store.getters.getCuil" :area="this.$store.getters.getArea" />
+            <DropdownMenuPerfil />
           </v-col>
         </v-row>
       </v-app-bar>
@@ -69,7 +69,7 @@ export default {
   }),
 
 
-  computed: mapGetters(['getArea']),
+  computed: mapGetters(['get_user']),
 
 };
 

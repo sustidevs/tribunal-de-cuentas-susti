@@ -1,10 +1,11 @@
 <template>
   <div class="pb-16 mb-16">
-    <overlay :loading="get_btn_login"/>
-    {{get_area}}
+
+
     <v-row no-gutters justify="start" class="pt-5">
       <titulo-area-sub :area="get_user.area" class="mb-2"/>
     </v-row>
+
     <v-divider color="#393B44" class="my-4"></v-divider>
 
     <div v-if="get_user.area === 'DPTO. MESA DE ENTRADAS Y SALIDAS'">
@@ -148,13 +149,13 @@ import TituloInicio from "../components/TituloInicio"
 import TituloAreaSub from "../components/TituloAreaSub"
 import ModalConsultarNroExp from "../components/dialogs/ModalConsultarNroExp"
 import ButtonBig from "../components/ButtonBig"
-import Overlay from "../components/Overlay";
+
 
 import {mapGetters} from "vuex";
 
 export default {
   name: 'Home',
-  components: {TituloInicio, TituloAreaSub, ModalConsultarNroExp, ButtonBig, Overlay},
+  components: {TituloInicio, TituloAreaSub, ModalConsultarNroExp, ButtonBig},
   data() {
     return {
       showModalConsultarNroExp: false,
@@ -184,7 +185,7 @@ export default {
     }
   },
 
-  computed: mapGetters(['get_user','get_authenticated','get_btn_login','get_area']),
+  computed: mapGetters(['get_user','get_authenticated','get_btn_login','get_area','get_nro']),
 
   methods: {
     abrirModalConsultar() {
