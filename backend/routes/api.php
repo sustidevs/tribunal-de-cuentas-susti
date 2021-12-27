@@ -28,112 +28,61 @@ use App\Http\Controllers\api\NotificacionController;
 */
 
 Route::middleware('auth:sanctum')->group(function () {
+
+    /******* USUARIO **************/
     Route::get('/salir',[LoginController::class, 'logout'] );
-});
-
-Route::get('/verificar',[LoginController::class, 'verificar'] );
-
-//EXPEDIENTE////////////////////////////////////////////////////////////////////////
-
-Route::get('/createExp',            [ExpedienteController::class, 'create']);
-Route::post('/storeExp',            [ExpedienteController::class, 'store']);
-Route::get('/updateExp',            [ExpedienteController::class, 'update']);
-Route::post('/nroExp',              [ExpedienteController::class, 'createNroExpediente']);
-Route::post('/showExp',             [ExpedienteController::class, 'show']);
-Route::post('/indexExpArea',        [ExpedienteController::class, 'indexPorAreas']);
-Route::post('/buscar-expediente',   [ExpedienteController::class, 'buscarExpediente']);
-Route::get('/all-expedientes',      [ExpedienteController::class, 'AllExpedientes']);
-Route::post('/contar-cedula',       [ExpedienteController::class, 'contar_cedulas']);
-//Route::get('/zip',                  [ExpedienteController::class, 'descargarZip']);//TODO ruta back 8000
-Route::post('/zip',               [ExpedienteController::class, 'descargarZip']);
-// Route::get('/show-detalle',        [ExpedienteController::class, 'showDetalleExpediente']); método comentado...
-Route::post('/expSubsidiosNoReintegrables', [ExpedienteController::class, 'expSubsidiosNoReintegrables']);
-////////////////////////////////////////////////////////////////////////////////////
-/// NUEVO INICIADOR
-Route::get('/createTipoEntidad',      [IniciadorController::class, 'create']);
-Route::post('/storeIniciador',      [IniciadorController::class, 'store']);
-
-//BANDEJAS//////////////////////////////////////////////////////////////////////////////////
-
-Route::post('/ListadoExp',       [ExpedienteController::class, 'bandeja']);
-
-
-Route::post('/contarSubsidioAporteNR', [NotificacionController::class, 'contadorSubsidioAporteNR']);
-
-Route::post('/expSubsidiosNoReintegrables', [ExpedienteController::class, 'expSubsidiosNoReintegrables']);
-///////////////////////////////////////////////////////////////////////////////////
-
-//PRUEBA UNION-DESGLOCE////////////////////////////////////////////////////////////////////////////
-Route::post('/unionExp',       [ExpedienteController::class, 'union']);
-Route::get('/indexExpPadres',       [ExpedienteController::class, 'indexExpPadres']);
-Route::post('/createDesgloceExp',       [ExpedienteController::class, 'createDesgloce']);
-Route::post('/desgloceExp',       [ExpedienteController::class, 'desgloce']);
-//////////////////////////////////////////////////////////////////////////////////////////////////
-Route::post('/historial',                [HistorialController::class, 'create']);
-Route::post('/historial-expediente',     [HistorialController::class, 'store']);
-Route::post('/update-estado',     [HistorialController::class, 'updateEstado']);
-Route::post('/historialExp',     [HistorialController::class, 'historialExpediente']);
-Route::post('/mis-enviados',     [HistorialController::class, 'misEnviados']);
-
-Route::get('/indexUser', [UserController::class, 'index']);
-Route::get('/createUser', [UserController::class, 'create']);
-Route::post('/storeUser', [UserController::class, 'store']);
-Route::get('/editUser', [UserController::class, 'edit']);
-Route::post('/updateUser', [UserController::class, 'update']);
-Route::get('/bajaUser', [UserController::class, 'delete']);
-Route::get('/restoreUser', [UserController::class, 'restore']);
-
-
-// Rutas protegidas
-Route::group(['middleware' => ["auth:sanctum"]], function()
-{
     Route::post('/validarPassword', [UserController::class, 'validar_password']);
     Route::post('/actualizaPassword', [UserController::class, 'actualiza_password']);
-    Route::post('/contarExp',         [ExpedienteController::class, 'contadorBandejaEntrada']);
     Route::post('/userData', [UserController::class, 'getUserData']);
+
+    /********** EXPEDIENTES **************/
+    Route::get('/createExp',    [ExpedienteController::class, 'create']);
+    Route::post('/buscar-expediente',   [ExpedienteController::class, 'buscarExpediente']);
+    Route::get('/indexExp',             [ExpedienteController::class, 'index']);
+    Route::post('/ListadoExp',       [ExpedienteController::class, 'bandeja']);
+    Route::post('/expSubsidiosNoReintegrables', [ExpedienteController::class, 'expSubsidiosNoReintegrables']);
+
+    /******* HISTORIAL **********/
+    Route::post('/historial-expediente',    [HistorialController::class, 'store']);
+    Route::post('/historial',               [HistorialController::class, 'create']);
+    Route::post('/historialExp',            [HistorialController::class, 'historialExpediente']);
+    Route::post('/update-estado',           [HistorialController::class, 'updateEstado']);
+    Route::get('/mis-enviados',             [HistorialController::class, 'misEnviados']);
+
+    /********** CEDULA ***********/
+    Route::post('/contar-cedula',       [ExpedienteController::class, 'contar_cedulas']);
+    Route::post('/store-cedula',    [CedulaController::Class, 'store']);
+
+    /**** DESGLOSE Y ENGLOSE *****/
+    Route::get('/indexExpPadres',       [ExpedienteController::class, 'indexExpPadres']);
+    Route::post('/createDesgloceExp',       [ExpedienteController::class, 'createDesgloce']);
+    Route::post('/desgloceExp',       [ExpedienteController::class, 'desgloce']);
+    Route::post('/unionExp',       [ExpedienteController::class, 'union']);
+
+    /**** INICIADORES ****/
+    Route::get('/createTipoEntidad', [IniciadorController::class, 'create']);
+    Route::post('/store-iniciador',   [IniciadorController::class, 'store']);
+    Route::get('/index-iniciador',  [IniciadorController::Class, 'index']);
+    Route::post('/edit-iniciador',  [IniciadorController::Class, 'edit']);
+    Route::post('/update-iniciador',[IniciadorController::Class, 'update']);
+
+    /**** SUBSIDIO Y NO REINTEGRABLES ****/
+    Route::post('/expSubsidiosNoReintegrables', [ExpedienteController::class, 'expSubsidiosNoReintegrables']);
+
+    /***** ALERTAS ***/
+    Route::post('/contarExp',         [ExpedienteController::class, 'contadorBandejaEntrada']);
+    Route::post('/contarSubsidioAporteNR', [NotificacionController::class, 'contadorSubsidioAporteNR']);
+
+    /*** NUEVO EXPEDIENTE ***/
+    Route::post('/nroExp',              [ExpedienteController::class, 'createNroExpediente']);
+    Route::post('/storeExp',            [ExpedienteController::class, 'store']);
+    Route::post('/zip',               [ExpedienteController::class, 'descargarZip']);
+
 });
-
-Route::get('/indexExp',             [ExpedienteController::class, 'index']);
-
 
 // Rutas que no se deben proteger
 Route::get('/login',[LoginController::class, 'showLoginForm'] );
 Route::post('/login',[LoginController::class, 'authenticate_new'] ); // reemplazar por Route::post('/login',[LoginController::class, 'authenticate_new'] );
 
+Route::get('/all-expedientes',      [ExpedienteController::class, 'AllExpedientes']);
 
-///////INICIADORES//////////////////////////////////////////////////////////////////////////
-Route::get('/index-iniciador',  [IniciadorController::Class, 'index']);
-Route::post('/store-iniciador', [IniciadorController::Class, 'store']);
-Route::post('/show-iniciador',  [IniciadorController::Class, 'show']);
-Route::post('/edit-iniciador',  [IniciadorController::Class, 'edit']);
-Route::post('/update-iniciador',[IniciadorController::Class, 'update']);
-////////////////////////////////////////////////////////////////////////////////////////////
-
-///////SOLICITUDES//////////////////////////////////////////////////////////////////////////
-Route::get('/index-solicitud',      [SolicitudController::Class, 'index']);
-Route::post('/store-solicitud',     [SolicitudController::Class, 'store']);
-Route::post('/show-solicitud',      [SolicitudController::Class, 'show']);
-Route::post('/update-solicitud',    [SolicitudController::Class, 'update']);
-////////////////////////////////////////////////////////////////////////////////////////////
-Route::get('/prueba-codBarrra',[ExpedienteController::class, 'codigoBarra'] );
-
-///////CEDULAS//////////////////////////////////////////////////////////////////////////////
-Route::get('/index-cedula',     [CedulaController::Class, 'index']);
-Route::post('/store-cedula',    [CedulaController::Class, 'store']);
-Route::post('/create-cedula',   [CedulaController::Class, 'create']);
-Route::post('/edit-cedula',     [CedulaController::Class, 'edit']);
-Route::post('/update-cedula',   [CedulaController::Class, 'update']);
-////////////////////////////////////////////////////////////////////////////////////////////
-
-///////NOTIFICACIONES///////////////////////////////////////////////////////////////////////
-Route::get('/index-notificacion',       [NotificacionController::Class, 'index']);
-Route::post('/store-notificacion',      [NotificacionController::Class, 'store']);
-Route::post('/update-notificacion',     [NotificacionController::Class, 'update']);
-////////////////////////////////////////////////////////////////////////////////////////////
-
-///////PAGOS////////////////////////////////////////////////////////////////////////////////
-Route::get('/index-pagos',      [PagoController::Class, 'index']);
-Route::post('/store-pagos',     [PagoController::Class, 'store']);
-Route::post('/update-pagos',    [PagoController::Class, 'update']);
-////////////////////////////////////////////////////////////////////////////////////////////
-Route::post('/subir-zip',    [ExpedienteController::class, 'validarZip']);

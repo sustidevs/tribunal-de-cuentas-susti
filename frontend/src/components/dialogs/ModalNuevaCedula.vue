@@ -117,7 +117,6 @@ export default {
       let exp = {
         expediente_id: this.datos.id,
         descripcion: this.valorCedula,
-        user_id: this.$store.getters.getIdUser,
       };
       this.storeCedula(exp);
     },

@@ -6,6 +6,9 @@
         </v-main>
       </div>
       <div v-if="currentRoute !== '/login' ">
+
+        <overlay :loading="get_btn_login"/>
+
         <NavbarMobile/>
         <Navbar/>
         <v-main class="mt-2 mb-8 mx-4 mx-sm-16">
@@ -14,13 +17,14 @@
             <alert-pendiente :cantidad="get_cantPendientes"/>
           </div>
 
-          <div v-if="(getArea === 'DIRECCIÓN DE REGISTRACIONES') && (getcantidad_subsidioAporteNR > 0) ">
+          <div v-if="(get_user.area === 'DIRECCIÓN DE REGISTRACIONES') && (getcantidad_subsidioAporteNR > 0) ">
             <alerta-registraciones :texto="getcantidad_subsidioAporteNR" />
           </div>
 
           <router-view/>
         </v-main>
         <Footer/>
+
       </div>
   </div>
 </template>
@@ -31,36 +35,29 @@ import Footer from "../components/Footer";
 import NavbarMobile from "../components/NavbarMobile";
 import AlertPendiente from  "../components/AlertPendiente"
 import AlertaRegistraciones from "../components/AlertaRegistraciones";
+import Overlay from "../components/Overlay";
 
 import {mapActions, mapGetters} from "vuex";
 
 export default {
-  components: { Footer, Navbar, NavbarMobile, AlertPendiente, AlertaRegistraciones},
+  components: { Footer, Navbar, NavbarMobile, AlertPendiente, AlertaRegistraciones, Overlay},
 
   data: () => ({
     value: 'recent',
     currentRoute: window.location.pathname
   }),
 
-  computed: mapGetters(['getUser','get_cantPendientes','getArea', 'getcantidad_subsidioAporteNR','get_token']),
+  computed: mapGetters(['get_user','get_cantPendientes', 'getcantidad_subsidioAporteNR','get_btn_login']),
 
   mounted() {
     this.getUsuario();
-    this.getCantidad_Pendientes();
-    this.getCantidad_SubsidioAporteNR();
+    this.cantidad_subsidioAporteNR();
+    this.cantidadPendientes();
   },
 
   methods: {
     ...mapActions(['cantidadPendientes', 'cantidad_subsidioAporteNR', 'getUsuario']),
-
-    getCantidad_SubsidioAporteNR () {
-      this.cantidad_subsidioAporteNR()
-    },
-
-    getCantidad_Pendientes(){
-      this.cantidadPendientes(this.getUser)
-    },
-}
+  }
 }
 </script>
 

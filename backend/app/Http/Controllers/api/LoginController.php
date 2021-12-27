@@ -51,10 +51,6 @@ class LoginController extends Controller
         return "Vista Login.";
     }
 
-    public function verificar(){
-        return Auth::guest();
-    }
-
     public function logout()
     {
         Auth::logout();
@@ -120,6 +116,7 @@ class LoginController extends Controller
                     "mensaje" => "usuario logueado exitosamente",
                     "nombre_apellido" => $user->persona->nombre ." ". $user->persona->apellido,
                     "cuil" => $user->cuil,
+                    "id" => $user->area->id,
                     "area" => $user->area->descripcion,
                     "cargo" => $user->tipouser->descripcion,
                     "access_token" => $token

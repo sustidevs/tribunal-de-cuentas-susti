@@ -22,7 +22,7 @@ export default {
     }
   },
 
-  computed: mapGetters(['get_expedientes', 'getIdUser','get_aceptado', 'get_finalizado']),
+  computed: mapGetters(['get_expedientes','get_aceptado', 'get_finalizado']),
 
   mounted() {
     this.getBandeja();
@@ -35,7 +35,6 @@ export default {
       let bandeja = {
         estado: 1,
         bandeja: 1,
-        user_id: this.$store.getters.getIdUser,
       }
       this.listadoExpedientes(bandeja)
     },

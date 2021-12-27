@@ -1,12 +1,12 @@
 import axios from "axios";
 
 const state = {
-//
     user: {},
     logueado: false,
     loading: false,
     status: JSON.parse(localStorage.getItem('status') || "false" ),
     token: JSON.parse(localStorage.getItem('token') || "{}" ),
+    nro: JSON.parse(localStorage.getItem('nro') || "{}" ),
     btn_login: false,
 
     //errores login
@@ -34,13 +34,12 @@ const getters = {
 
 const actions = {
 
-    //                    localStorage.setItem('status',JSON.stringify(response.data.status))
-    //                     localStorage.setItem('token',JSON.stringify(response.data.access_token))
-
-    getUsuario(){
+    getUsuario({ commit }){
+        commit('set_btn_login', true);
         axios.post(process.env.VUE_APP_API_URL+ '/api/userData')
             .then(response => {
-                console.log(response.data)
+                commit('set_user', response.data)
+                commit('set_btn_login', false)
             })
             .catch(error => {
                 console.log(error.response.data)
@@ -56,6 +55,7 @@ const actions = {
                     commit('set_user', response.data)
                     commit('set_logueo', true)
                     commit('set_btn_login', false)
+                    commit('set_logueo', true)
             })
             .catch(error => {
                 commit('set_btn_login', false)
@@ -90,14 +90,6 @@ const actions = {
             })
     },
 
-    // editPassword({commit}, user) {
-    //     axios.get(process.env.VUE_APP_API_URL+ '/api/editUser',user)
-    //         .then(response => {
-    //             console.log(response)
-    //             commit('set_user', response.data)
-    //         })
-    // }
-
     nuevaContrasena({commit}, newPass){
         axios.post(process.env.VUE_APP_API_URL+ '/api/actualizaPassword', newPass)
             .then(response => {
@@ -122,6 +114,7 @@ const mutations = {
     clearUserData: () => {
         localStorage.removeItem('token')
         localStorage.removeItem('status')
+        localStorage.removeItem('nro')
     },
     set_aceptado: (state,aceptado) => state.aceptado = aceptado,
     set_logueo: (state, logueado) => state.logueado = logueado,

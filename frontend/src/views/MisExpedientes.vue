@@ -46,7 +46,6 @@ export default {
         let exp = {
           estado: 3,
           bandeja: 3,
-          user_id: this.$store.getters.getIdUser,
         }
         this.listadoExpedientes(exp)
       },

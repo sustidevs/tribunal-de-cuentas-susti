@@ -43,7 +43,7 @@ const actions = {
     },
 
     storeIniciador ({ commit }, iniciador)  {
-        axios.post(process.env.VUE_APP_API_URL+ '/api/storeIniciador', iniciador)
+        axios.post(process.env.VUE_APP_API_URL+ '/api/store-iniciador', iniciador)
             .then(response => {
                 commit('set_iniciador', response.data)
                 commit('set_exito_iniciador', true)
