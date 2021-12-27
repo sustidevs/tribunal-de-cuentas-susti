@@ -25,8 +25,10 @@ const getters = {
     get_logueo: state => state.logueado,
 
     get_errores: state => state.errores,
+    //usario o contraseña incorrecta
     get_error_logeo: state => state.error_logeo,
     get_error_Cuil: state => state.error_cuil,
+    //para contraseña vacia o con letras
     get_error_contra: state => state.error_contra,
 };
 
@@ -51,37 +53,19 @@ const actions = {
             .then(response => {
                     localStorage.setItem('status',JSON.stringify(response.data.status))
                     localStorage.setItem('token',JSON.stringify(response.data.access_token))
-                    commit('set_logueo', true)
                     commit('set_user', response.data)
+                    commit('set_logueo', true)
                     commit('set_btn_login', false)
             })
             .catch(error => {
-                console.log(error.response.data)
                 commit('set_btn_login', false)
-
-                
-                commit('set_authenticated', false)
-                if (error.response.data.mensaje !== undefined) {
-                    commit('set_error_logeo',error.response.data.mensaje)
-                }
-
+                commit('set_error_logeo',error.response.data.mensaje)
                 commit('set_error_cuil', error.response.data.errors.cuil)
-                commit('set_errores', false)
-                if (error.response.data.errors.cuil !== undefined) {
-                    console.log(error.response.data.errors.cuil)
-                    commit('set_errores', true)
-                }
-
                 commit('set_error_contra', error.response.data.errors.password)
-                commit('set_errores', false)
-                if (error.response.data.errors.password !== undefined) {
-                     commit('set_errores', true)
-                }                
-                
                 
                 /**
-                 * revisar errores
-
+                  * revisar errores
+                    No se cachea el mensaje de las request de CUIL vacio o contraseña vacia
                 **/
 
             })

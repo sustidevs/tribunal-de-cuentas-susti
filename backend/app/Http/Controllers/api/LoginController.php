@@ -137,7 +137,7 @@ class LoginController extends Controller
         {
             return response()->json([
                 "status" => false,
-                "mensaje" => "usuario no registrado",
+                "mensaje" => "usuario y/o contraseña incorrecta",
             ], 404);
         }
     }
