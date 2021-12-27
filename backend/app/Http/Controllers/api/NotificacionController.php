@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use App\Models\Notificacion;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class NotificacionController extends Controller
 {
@@ -43,7 +44,7 @@ class NotificacionController extends Controller
     public function update(Request $request)
     {
         $notificacion = Notificacion::findOrFail($request->id);
-        $notificacion->user_id = $request->user_id;
+        $notificacion->user_id = Auth::User()->id;
         $notificacion->fecha = Carbon::now();
         $notificacion->estado = "2"; //Aceptado
         $notificacion->save();
