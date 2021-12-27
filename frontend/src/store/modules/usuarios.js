@@ -14,6 +14,8 @@ const state = {
     error_logeo: '',
     error_cuil: '',
     error_contra: '',
+    overlay: false,
+    area:'',
 };
 
 const getters = {
@@ -22,7 +24,6 @@ const getters = {
     get_loading: state => state.loading,
     get_btn_login: state => state.btn_login,
     get_token: state => state.token,
-    get_logueo: state => state.logueado,
 
     get_errores: state => state.errores,
     //usario o contraseña incorrecta
@@ -30,6 +31,9 @@ const getters = {
     get_error_Cuil: state => state.error_cuil,
     //para contraseña vacia o con letras
     get_error_contra: state => state.error_contra,
+    get_nro: state => state.nro,
+    get_logueo: state => state.logueado,
+    get_area: state => state.user.area
 };
 
 const actions = {
@@ -52,6 +56,8 @@ const actions = {
             .then(response => {
                     localStorage.setItem('status',JSON.stringify(response.data.status))
                     localStorage.setItem('token',JSON.stringify(response.data.access_token))
+                    localStorage.setItem('nro',JSON.stringify(response.data.id))
+                    commit('set_logueo', true)
                     commit('set_user', response.data)
                     commit('set_logueo', true)
                     commit('set_btn_login', false)
@@ -72,8 +78,12 @@ const actions = {
     },
 
     logout ({ commit }) {
-        commit('clearUserData')
-        commit('set_authenticated', false)
+        commit('set_btn_login', true);
+        axios.post(process.env.VUE_APP_API_URL+ '/api/salir')
+            .then( commit('clearUserData'))
+            .catch(error => {
+                console.log(error.response.data)
+            })
     },
 
     verificarPass({commit}, newPass){
