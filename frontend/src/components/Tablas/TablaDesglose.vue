@@ -35,7 +35,7 @@
         </v-data-table>
       </v-col>
 
-      <v-col cols="12" lg="5">
+      <v-col cols="12" lg="5" v-show="exp_padreSeleccionado.nro_expediente">
         <v-toolbar height="59px"
             color="#FACD89"
             class="contentSize Montserrat-SemiBold text--darken-3 grey--text"
@@ -106,8 +106,8 @@ export default {
 
   methods: {
     ...mapActions([
-      "desglosarVerHijos",
-        'desglose'
+      'desglosarVerHijos',
+      'desglose'
     ]),
 
     confirmarDesglose(){
