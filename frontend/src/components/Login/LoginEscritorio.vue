@@ -130,9 +130,10 @@ export default {
     ]),
   },
 
+
   watch: {
     get_logueo(value) {
-      if (value) this.$router.push("/");
+      if (value) this.$router.go(0);
     },
   },
 
