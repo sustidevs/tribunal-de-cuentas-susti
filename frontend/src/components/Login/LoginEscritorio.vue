@@ -2,7 +2,7 @@
   <div class="full">
       <v-container fill-height fluid>
           <v-row justify="start">
-              <v-card color="rgb(255, 255, 255, 0.7)" class="py-5 px-5 ml-lg-16" height="w-full" width="30rem" style="border-radius: 20px" elevation="20" align="center" >
+              <v-card color="rgb(255, 255, 255, 0.7)" class="py-5 px-5 ml-lg-16" height="w-full" width="30rem" style="border-radius: 20px" elevation="20" align="center">
                   <v-card-text>
                     <img class="mt-4 pa-4" :src="('./img/logo-tribunal.svg')">
                     <v-divider color="#393B44" class="mt-2"></v-divider>
@@ -94,7 +94,7 @@ export default {
     }),
   },
 
-   // ...mapGetters(["get_btn_login",'get_user','get_authenticated']),
+  ...mapGetters(["get_btn_login",'get_user']),
 
    // erroresCuil: {
      // get() {return this.$store.getters.getErrorCuil}
@@ -106,7 +106,7 @@ export default {
 
   watch: {
     isAuthenticated(value) {
-      if(value) this.$router.push("/")
+      if(value) this.$router.go(0)
     },
   },
 
@@ -119,7 +119,7 @@ export default {
     onLogin() {
       this.loading = true,
       this.login(this.credentials)
-  }
+    }
 }
 };
 </script>
