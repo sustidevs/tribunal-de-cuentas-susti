@@ -90,7 +90,7 @@ export default {
 
   computed: {
     ...mapGetters({
-      isAuthenticated: 'get_logueo'
+      isAuthenticated: 'get_logueo',
     }),
   },
 

@@ -32,7 +32,7 @@ export default {
     }
   },
 
-  computed: mapGetters(['get_todos_expedientes', 'getIdUser', 'get_finalizado']),
+  computed: mapGetters(['get_todos_expedientes', 'get_finalizado']),
 
   mounted() {
     this.todosExpedientes();
