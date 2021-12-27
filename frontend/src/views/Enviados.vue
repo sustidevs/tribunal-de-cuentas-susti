@@ -58,7 +58,6 @@ export default {
         estado: 1,
         estado_expediente_id: 1,
         bandeja: 4,
-        user_id: this.$store.getters.getIdUser,
       }
       this.listadoExpedientes(exp)
     },

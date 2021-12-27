@@ -248,7 +248,6 @@ export default {
       }
 
       let cantidad = this.files.length.toString();
-      formData.append("user_id", this.$store.getters.getIdUser);
       formData.append("expediente_id", this.$store.getters.idExpedientePase);
       formData.append("fojas", this.pase.nro_fojas);
       formData.append("area_destino_id", this.areaSeleccionado.id);

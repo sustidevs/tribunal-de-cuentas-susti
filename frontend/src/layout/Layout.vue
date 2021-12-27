@@ -6,6 +6,9 @@
         </v-main>
       </div>
       <div v-if="currentRoute !== '/login' ">
+
+        <overlay :loading="get_btn_login"/>
+
         <NavbarMobile/>
         <Navbar/>
         <v-main class="mt-2 mb-8 mx-4 mx-sm-16">
@@ -21,6 +24,7 @@
           <router-view/>
         </v-main>
         <Footer/>
+
       </div>
   </div>
 </template>
@@ -31,18 +35,19 @@ import Footer from "../components/Footer";
 import NavbarMobile from "../components/NavbarMobile";
 import AlertPendiente from  "../components/AlertPendiente"
 import AlertaRegistraciones from "../components/AlertaRegistraciones";
+import Overlay from "../components/Overlay";
 
 import {mapActions, mapGetters} from "vuex";
 
 export default {
-  components: { Footer, Navbar, NavbarMobile, AlertPendiente, AlertaRegistraciones},
+  components: { Footer, Navbar, NavbarMobile, AlertPendiente, AlertaRegistraciones, Overlay},
 
   data: () => ({
     value: 'recent',
     currentRoute: window.location.pathname
   }),
 
-  computed: mapGetters(['get_user','get_cantPendientes', 'getcantidad_subsidioAporteNR']),
+  computed: mapGetters(['get_user','get_cantPendientes', 'getcantidad_subsidioAporteNR','get_btn_login']),
 
   mounted() {
     this.getUsuario();
