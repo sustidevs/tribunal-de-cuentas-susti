@@ -75,14 +75,6 @@
 import {mapActions, mapGetters} from "vuex";
 
 export default {
-  props: {
-    nombre: String,
-    apellido: String,
-    cuil: Number,
-    area: String,
-    link: String,
-  },
-
   computed: mapGetters(['get_user']),
 
   methods: {

@@ -43,11 +43,11 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/expSubsidiosNoReintegrables', [ExpedienteController::class, 'expSubsidiosNoReintegrables']);
 
     /******* HISTORIAL **********/
-    Route::post('/historial-expediente',     [HistorialController::class, 'store']);
-    Route::post('/historial',                [HistorialController::class, 'create']);
-    Route::post('/historialExp',     [HistorialController::class, 'historialExpediente']);
-    Route::post('/update-estado',     [HistorialController::class, 'updateEstado']);
-    Route::post('/mis-enviados',     [HistorialController::class, 'misEnviados']);
+    Route::post('/historial-expediente',    [HistorialController::class, 'store']);
+    Route::post('/historial',               [HistorialController::class, 'create']);
+    Route::post('/historialExp',            [HistorialController::class, 'historialExpediente']);
+    Route::post('/update-estado',           [HistorialController::class, 'updateEstado']);
+    Route::get('/mis-enviados',             [HistorialController::class, 'misEnviados']);
 
     /********** CEDULA ***********/
     Route::post('/contar-cedula',       [ExpedienteController::class, 'contar_cedulas']);

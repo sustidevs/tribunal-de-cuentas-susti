@@ -117,6 +117,7 @@ class LoginController extends Controller
                     "mensaje" => "usuario logueado exitosamente",
                     "nombre_apellido" => $user->persona->nombre ." ". $user->persona->apellido,
                     "cuil" => $user->cuil,
+                    "id" => $user->area->id,
                     "area" => $user->area->descripcion,
                     "cargo" => $user->tipouser->descripcion,
                     "access_token" => $token
@@ -134,7 +135,7 @@ class LoginController extends Controller
         {
             return response()->json([
                 "status" => false,
-                "mensaje" => "usuario no registrado",
+                "mensaje" => "usuario y/o contraseña incorrecta",
             ], 404);
         }
     }

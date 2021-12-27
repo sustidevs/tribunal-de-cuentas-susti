@@ -1,14 +1,21 @@
 import axios from "axios";
 
 const state = {
-//
     user: {},
     logueado: false,
     loading: false,
     status: JSON.parse(localStorage.getItem('status') || "false" ),
     token: JSON.parse(localStorage.getItem('token') || "{}" ),
+    nro: JSON.parse(localStorage.getItem('nro') || "{}" ),
     btn_login: false,
-    overlay: false
+
+    //errores login
+    errores: false,
+    error_logeo: '',
+    error_cuil: '',
+    error_contra: '',
+    overlay: false,
+    area:'',
 };
 
 const getters = {
@@ -17,13 +24,19 @@ const getters = {
     get_loading: state => state.loading,
     get_btn_login: state => state.btn_login,
     get_token: state => state.token,
+
+    get_errores: state => state.errores,
+    //usario o contraseña incorrecta
+    get_error_logeo: state => state.error_logeo,
+    get_error_Cuil: state => state.error_cuil,
+    //para contraseña vacia o con letras
+    get_error_contra: state => state.error_contra,
+    get_nro: state => state.nro,
     get_logueo: state => state.logueado,
+    get_area: state => state.user.area
 };
 
 const actions = {
-
-    //                    localStorage.setItem('status',JSON.stringify(response.data.status))
-    //                     localStorage.setItem('token',JSON.stringify(response.data.access_token))
 
     getUsuario({ commit }){
         commit('set_btn_login', true);
@@ -43,38 +56,34 @@ const actions = {
             .then(response => {
                     localStorage.setItem('status',JSON.stringify(response.data.status))
                     localStorage.setItem('token',JSON.stringify(response.data.access_token))
+                    localStorage.setItem('nro',JSON.stringify(response.data.id))
                     commit('set_logueo', true)
                     commit('set_user', response.data)
+                    commit('set_logueo', true)
                     commit('set_btn_login', false)
+                    commit('set_logueo', true)
             })
             .catch(error => {
-                console.log(error.response.data)
-
+                commit('set_btn_login', false)
+                commit('set_error_logeo',error.response.data.mensaje)
+                commit('set_error_cuil', error.response.data.errors.cuil)
+                commit('set_error_contra', error.response.data.errors.password)
+                
                 /**
-                 * revisar errores
-                commit('setAuthenticated', false)
-                if (error.response.data.mensaje !== undefined) {
-                    commit('set_noregistrado',error.response.data.mensaje)
-                }
-                commit('set_errorC', false)
-                if (error.response.data.errors.cuil !== undefined) {
-                    commit('set_errorCuil', error.response.data.errors.cuil)
-                    commit('set_errorC', true)
-                }
-
-                commit('set_errorP', false)
-                if (error.response.data.errors.password !== undefined) {
-                    commit('set_errorPass', error.response.data.errors.password)
-                    commit('set_errorP', true)
-                }
-                commit('set_btn_login', false)**/
+                  * revisar errores
+                    No se cachea el mensaje de las request de CUIL vacio o contraseña vacia
+                **/
 
             })
     },
 
     logout ({ commit }) {
-        commit('clearUserData')
-        commit('setAuthenticated', false)
+        commit('set_btn_login', true);
+        axios.post(process.env.VUE_APP_API_URL+ '/api/salir')
+            .then( commit('clearUserData'))
+            .catch(error => {
+                console.log(error.response.data)
+            })
     },
 
     verificarPass({commit}, newPass){
@@ -90,14 +99,6 @@ const actions = {
                 commit('set_error_passOld', error.response.data.errors.password[0])
             })
     },
-
-    // editPassword({commit}, user) {
-    //     axios.get(process.env.VUE_APP_API_URL+ '/api/editUser',user)
-    //         .then(response => {
-    //             console.log(response)
-    //             commit('set_user', response.data)
-    //         })
-    // }
 
     nuevaContrasena({commit}, newPass){
         axios.post(process.env.VUE_APP_API_URL+ '/api/actualizaPassword', newPass)
@@ -123,12 +124,18 @@ const mutations = {
     clearUserData: () => {
         localStorage.removeItem('token')
         localStorage.removeItem('status')
+        localStorage.removeItem('nro')
     },
     set_aceptado: (state,aceptado) => state.aceptado = aceptado,
     set_logueo: (state, logueado) => state.logueado = logueado,
     set_user: (state, user) => state.user = user,
     set_authenticated: (state, status) => state.status = status,
     set_btn_login:(state,btn_login) => state.btn_login = btn_login,
+
+    set_errores:(state, errores) => state.errores = errores,
+    set_error_logeo:(state, error_logeo) => state.error_logeo = error_logeo,
+    set_error_cuil:(state, error_cuil) => state.error_cuil = error_cuil,
+    set_error_contra:(state, error_contra) => state.error_contra = error_contra,
 };
 
 export default {

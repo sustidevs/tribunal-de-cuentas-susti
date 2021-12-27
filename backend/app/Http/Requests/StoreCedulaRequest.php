@@ -26,7 +26,7 @@ class StoreCedulaRequest extends FormRequest
         return [
             'descripcion'       => 'integer|unique:App\Models\Cedula,descripcion',
             'expediente_id'     => 'required',
-            'user_id'           => 'required'
+            //'user_id'           => 'required'
         ];
     }
 
@@ -36,7 +36,7 @@ class StoreCedulaRequest extends FormRequest
             'descripcion.integer'   => 'Solo puede ingresar números',
             'descripcion.unique'    => 'Número de cédula repetido',
             'expediente_id.required'=> 'Expediente requerido',
-            'user_id.required'      => 'Usuario requerido'
+            //'user_id.required'      => 'Usuario requerido'
         ];
     }
 }
