@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -54,7 +55,7 @@ class Historial extends Model
     * Devuelve todos los expedientes enviados de un usuario
     *
     */
-    public static function ExpedientesEnviados($area_id,$user_id = 0)
+    public static function ExpedientesEnviados_old($area_id,$user_id = 0)
     {
         $array = Collect();
 
@@ -74,4 +75,81 @@ class Historial extends Model
         return $array;
     }
 
+    /**
+     * Devuelve todos los expedientes enviados por un usuario, o todos los expedientes enviados por el área
+     * @param: all [boolean]  / true "devuelve todos los expedientes del área / false "devuelve solo los del usuario logueado
+     * Autor: Mariano Flores
+     */
+    public static function ExpedientesEnviados($all)
+    {
+        if($all == true)
+        {   
+            $area_destino = DB::table('historiales')
+                ->select('expediente_id', 'historiales.area_destino_id', 'areas.descripcion')
+                ->join('areas', 'areas.id', '=', 'historiales.area_destino_id');
+
+            $array = DB::table('historiales')
+                ->where('historiales.area_origen_id', '=', auth()->user()->area_id)
+                ->where('historiales.area_destino_id', '!=', auth()->user()->area_id)
+                ->where('historiales.estado', '!=', 3)
+                ->join('expedientes', 'expedientes.id', '=', 'historiales.expediente_id')
+                ->join('caratulas', 'caratulas.expediente_id', '=', 'expedientes.id')
+                ->join('extractos', 'extractos.id', '=', 'caratulas.extracto_id')
+                ->join('areas', 'areas.id', '=', 'historiales.area_origen_id')
+                ->rightJoinSub($area_destino, 'areaDestino', function($join)
+                {
+                    $join->on('historiales.expediente_id', '=', 'areaDestino.expediente_id');
+                })
+                ->join('personas', 'personas.id', '=', 'historiales.user_id')
+                ->select('expedientes.id as expediente_id', 
+                         'expedientes.nro_expediente',
+                         'extractos.descripcion as extracto',
+                         'historiales.area_origen_id',
+                         'areas.descripcion',
+                         'areaDestino.area_destino_id',
+                         'areaDestino.descripcion as area_destino',
+                         'historiales.user_id',
+                         DB::raw("CONCAT(personas.nombre, personas.apellido) as nombre_usuario"),
+                         DB::raw("DATE_FORMAT(historiales.fecha, '%d-%m-%y') as fecha"),
+                         'historiales.motivo as motivo')
+
+                ->get();
+            return($array);
+        }
+        else
+        {
+            $area_destino = DB::table('historiales')
+                ->select('expediente_id', 'historiales.area_destino_id', 'areas.descripcion')
+                ->join('areas', 'areas.id', '=', 'historiales.area_destino_id');
+
+            $array = DB::table('historiales')
+                ->where('historiales.area_origen_id', '=', auth()->user()->area_id)
+                ->where('historiales.area_destino_id', '!=', auth()->user()->area_id)
+                ->where('historiales.user_id', '=', auth()->user()->id)
+                ->where('historiales.estado', '!=', 3)
+                ->join('expedientes', 'expedientes.id', '=', 'historiales.expediente_id')
+                ->join('caratulas', 'caratulas.expediente_id', '=', 'expedientes.id')
+                ->join('extractos', 'extractos.id', '=', 'caratulas.extracto_id')
+                ->join('areas', 'areas.id', '=', 'historiales.area_origen_id')
+                ->rightJoinSub($area_destino, 'areaDestino', function($join)
+                {
+                    $join->on('historiales.expediente_id', '=', 'areaDestino.expediente_id');
+                })
+                ->join('personas', 'personas.id', '=', 'historiales.user_id')
+                ->select('expedientes.id as expediente_id', 
+                         'expedientes.nro_expediente',
+                         'extractos.descripcion as extracto',
+                         'historiales.area_origen_id',
+                         'areas.descripcion',
+                         'areaDestino.area_destino_id',
+                         'areaDestino.descripcion as area_destino',
+                         'historiales.user_id',
+                         DB::raw("CONCAT(personas.nombre, personas.apellido) as nombre_usuario"),
+                         DB::raw("DATE_FORMAT(historiales.fecha, '%d-%m-%y') as fecha"),
+                         'historiales.motivo as motivo'
+                         )
+                ->get();
+            return($array);
+        }
+    }
 }

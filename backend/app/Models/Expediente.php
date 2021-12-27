@@ -239,6 +239,7 @@ class Expediente extends Model
                                     DB::raw('ceil(expedientes.fojas / 200) as cantCuerpos'),
                                     'caratulas.id as caratula',
                                     'expedientes.fojas')
+                        ->orderBy('expedientes.id', 'DESC')
                         ->get();
         return $expediente;
     }
@@ -412,14 +413,16 @@ class Expediente extends Model
             ->join('estado_expedientes', 'expedientes.estado_expediente_id', '=', 'estado_expedientes.id')
             ->join('extractos', 'caratulas.extracto_id', '=', 'extractos.id')
             ->join('tipo_expedientes', 'expedientes.tipo_expediente', '=', 'tipo_expedientes.id')
-            ->select('expedientes.nro_expediente as nroExpediente',
+            ->select('expedientes.id',
+                     'expedientes.nro_expediente as nroExpediente',
                      'expedientes.fecha as fecha_creacion',
                      'prioridad_expedientes.descripcion as prioridad',
                      'extractos.descripcion as extracto',
                      'tipo_expedientes.descripcion as tipoExpediente',
                      'expedientes.fojas as cantFojas',
                      DB::raw('truncate((expedientes.fojas / 200), 0) + 1 as cantCuerpos'))
-            ->where('expedientes.tipo_expediente',3) 
+            ->where('expedientes.tipo_expediente',3)
+            ->orderBy('expedientes.id', 'DESC')
             ->get();
         return $expedientes;
     }
