@@ -103,7 +103,6 @@
 
 <script>
 import LabelError from "../LabelError";
-
 import { mapActions, mapGetters } from "vuex";
 
 export default {
@@ -130,7 +129,6 @@ export default {
     ]),
   },
 
-
   watch: {
     get_logueo(value) {
       if (value) this.$router.go(0);
@@ -147,6 +145,7 @@ export default {
       (this.loading = true), this.login(this.credentials);
     },
   },
+
 };
 </script>
 <style>

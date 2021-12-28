@@ -5,8 +5,8 @@
     </div>
 </template>
 <script>
-import Titulo from "../components/Titulo"
-import TablaMotivoSubsidio from "../components/Tablas/TablaMotivoSubsidio";
+import Titulo from "../../components/Titulo"
+import TablaMotivoSubsidio from "../../components/Tablas/TablaMotivoSubsidio";
 import {mapActions,mapGetters} from "vuex";
 
 export default {

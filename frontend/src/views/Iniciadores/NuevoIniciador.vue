@@ -121,14 +121,14 @@
 </template>
 
 <script>
-import Titulo from "../components/Titulo";
-import LabelInput from "../components/LabelInput";
-import TextField from "../components/TextField";
-import AutocompleteField from "../components/AutocompleteField";
+import Titulo from "../../components/Titulo";
+import LabelInput from "../../components/LabelInput";
+import TextField from "../../components/TextField";
+import AutocompleteField from "../../components/AutocompleteField";
 import {mapActions, mapGetters} from "vuex";
-import SecondaryButton from "../components/SecondaryButton";
-import ModalExitoNuevoIniciador from '../components/dialogs/ModalExitoNuevoIniciador.vue'
-import LabelError from "../components/LabelError"
+import SecondaryButton from "../../components/SecondaryButton";
+import ModalExitoNuevoIniciador from '../../components/dialogs/ModalExitoNuevoIniciador.vue'
+import LabelError from "../../components/LabelError"
 
 export default {
     name: 'NuevoIniciador',
