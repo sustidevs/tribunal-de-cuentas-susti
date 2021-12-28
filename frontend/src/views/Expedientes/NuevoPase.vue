@@ -252,7 +252,6 @@ export default {
       formData.append("expediente_id", this.$store.getters.idExpedientePase);
       formData.append("fojas", this.pase.nro_fojas);
       formData.append("area_destino_id", this.areaSeleccionado.id);
-      formData.append("area_destino_type", this.areaSeleccionado.tipo_area);
       formData.append("observacion", this.pase.observacion);
       formData.append("archivos", null);
       formData.append("estado_expediente", 1);

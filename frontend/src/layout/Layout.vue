@@ -14,8 +14,7 @@
         <v-main class="mt-2 mb-8 mx-4 mx-sm-16">
 
           <div v-if="get_restart">
-            {{get_restart}}
-            UPS! ALGO OCURRIO MAL RECARGA LA PAGINA HASTA QUE ANDE :$
+            <modal-recargar :show="true"/>
           </div>
 
           <div v-if="get_cantPendientes > 0">
@@ -41,11 +40,12 @@ import NavbarMobile from "../components/NavbarMobile";
 import AlertPendiente from  "../components/AlertPendiente"
 import AlertaRegistraciones from "../components/AlertaRegistraciones";
 import Overlay from "../components/Overlay";
+import ModalRecargar from "../components/dialogs/ModalRecargar";
 
 import {mapActions, mapGetters} from "vuex";
 
 export default {
-  components: { Footer, Navbar, NavbarMobile, AlertPendiente, AlertaRegistraciones, Overlay},
+  components: { Footer, Navbar, NavbarMobile, AlertPendiente, AlertaRegistraciones, Overlay, ModalRecargar},
 
   data: () => ({
     value: 'recent',
