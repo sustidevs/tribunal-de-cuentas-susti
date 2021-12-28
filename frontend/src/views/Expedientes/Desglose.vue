@@ -7,8 +7,8 @@
 </template>
 
 <script>
-import Titulo from "../components/Titulo";
-import TablaDesglose from "../components/Tablas/TablaDesglose";
+import Titulo from "../../components/Titulo";
+import TablaDesglose from "../../components/Tablas/TablaDesglose";
 import {mapActions, mapGetters} from "vuex";
 
 export default {
@@ -31,7 +31,7 @@ export default {
   },
 
   methods: {
-    ...mapActions(['desglosarVerPadres','cerrar','getIdUser']),
+    ...mapActions(['desglosarVerPadres','cerrar']),
   },
 
 }

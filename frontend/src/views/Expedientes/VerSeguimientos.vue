@@ -69,7 +69,7 @@
     </div>
 </template>
 <script>
-import Titulo from "../components/Titulo"
+import Titulo from "../../components/Titulo"
 import {mapActions, mapGetters} from "vuex";
 
 export default {

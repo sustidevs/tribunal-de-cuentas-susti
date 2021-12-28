@@ -222,15 +222,15 @@
   </div>
 </template>
 <script>
-import LabelInput from "../components/LabelInput";
-import Extractos from "../components/Extractos/Extractos";
+import LabelInput from "../../components/LabelInput";
+import Extractos from "../../components/Extractos/Extractos";
 import { mapActions, mapGetters } from "vuex";
-import InputDate from "../components/InputDate";
-import TextField from "../components/TextField";
-import AutocompleteField from "../components/AutocompleteField";
-import ModalNuevosExpedientes from "../components/dialogs/ModalNuevosExpedientes";
-import LabelError from "../components/LabelError";
-import ModalErrorTipoArchivo from "../components/dialogs/ModalErrorTipoArchivo";
+import InputDate from "../../components/InputDate";
+import TextField from "../../components/TextField";
+import AutocompleteField from "../../components/AutocompleteField";
+import ModalNuevosExpedientes from "../../components/dialogs/ModalNuevosExpedientes";
+import LabelError from "../../components/LabelError";
+import ModalErrorTipoArchivo from "../../components/dialogs/ModalErrorTipoArchivo";
 
 export default {
   name: "Home",
@@ -361,10 +361,6 @@ export default {
 };
 </script>
 <style>
-.textRadio {
-  font-family: Montserrat-Bold, serif;
-  font-size: 15px !important;
-}
 
 .radioFont {
   font-family: "Montserrat-Bold";

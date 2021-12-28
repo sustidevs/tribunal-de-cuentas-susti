@@ -20,9 +20,9 @@
 </template>
 
 <script>
-import Titulo from "../components/Titulo"
-import Alert from "../components/Alert"
-import TablaEnviados from "../components/Tablas/TablaEnviados";
+import Titulo from "../../components/Titulo"
+import Alert from "../../components/Alert"
+import TablaEnviados from "../../components/Tablas/TablaEnviados";
 import {mapActions, mapGetters} from "vuex";
 
 export default {
@@ -35,6 +35,7 @@ export default {
         { text: 'Nro. de Expediente', value: 'nro_expediente' },
         { text: 'Extracto', value: 'extracto' },
         { text: 'Fecha Creación', value: 'fecha_creacion' },
+        { text: 'Area Destino', value: 'area_destino' },
         { text: 'Trámite', value: 'tramite' },
         { text: 'Cuerpo', value: 'cant_cuerpos' },
         { text: 'Fojas', value: 'fojas' },

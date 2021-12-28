@@ -84,7 +84,7 @@
                     <v-col cols="12" lg="4">
                       <label-input texto="Agente que redacta el pase" />
                       <text-field
-                        v-model="this.$store.getters.getNombreApellido"
+                        v-model="get_user.nombre_apellido"
                       />
                     </v-col>
 
@@ -171,13 +171,13 @@
   </div>
 </template>
 <script>
-import LabelInput from "../components/LabelInput";
-import Titulo from "../components/Titulo";
+import LabelInput from "../../components/LabelInput";
+import Titulo from "../../components/Titulo";
 import { mapActions, mapGetters } from "vuex";
-import TextField from "../components/TextField";
-import ModalDetallePase from "../components/dialogs/ModalDetallePase";
-import ModalExitoPase from "../components/dialogs/ModalExitoPase";
-import ModalErrorTipoArchivo from "../components/dialogs/ModalErrorTipoArchivo";
+import TextField from "../../components/TextField";
+import ModalDetallePase from "../../components/dialogs/ModalDetallePase";
+import ModalExitoPase from "../../components/dialogs/ModalExitoPase";
+import ModalErrorTipoArchivo from "../../components/dialogs/ModalErrorTipoArchivo";
 
 
 export default {
@@ -203,7 +203,7 @@ export default {
 
     nameRules: [
       (v) =>
-        Number.isInteger(Number(v)) || "Los valores solo pueden ser numéricos",
+       Number.isInteger(Number(v)) || "Los valores solo pueden ser numéricos",
       (v) => v > -1 || "El valor no puede ser menor a 0",
       (v) => !!v || "El número de Fojas es Requerido",
       (v) => (v && v <= 1000) || "El máximo de fojas es 1000",
@@ -232,6 +232,7 @@ export default {
       "pasea_error",
       "a_afectosde_error",
       "nrofojas_error",
+       'get_user'
     ]),
   },
 

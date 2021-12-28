@@ -97,11 +97,11 @@
 </template>
 
 <script>
-import LabelInput from "../components/LabelInput";
-import AlertSucess from "../components/AlertSucess"
-import Alert from "../components/Alert";
-import LabelError from "../components/LabelError";
-import Overlay from "../components/Overlay";
+import LabelInput from "../../components/LabelInput";
+import AlertSucess from "../../components/AlertSucess"
+import Alert from "../../components/Alert";
+import LabelError from "../../components/LabelError";
+import Overlay from "../../components/Overlay";
 
 import {mapGetters, mapActions} from "vuex";
 

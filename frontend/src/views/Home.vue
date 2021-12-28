@@ -15,7 +15,7 @@
           <titulo-inicio texto="Bandejas" class="my-2"/>
           <ButtonBig class="my-4 mx-5" texto="Pendientes" link="/expedientes-pendientes" icon="mdi-clock"/>
           <ButtonBig class="my-4 mx-5" texto="Expedientes" link="/expedientes" icon="mdi-archive"/>
-          <ButtonBig class="my-4 mx-5" texto="Enviados" link="/mis-enviados" icon="mdi-file-send"/>
+          <ButtonBig class="my-4 mx-5" texto="Enviados" link="/historial-enviados" icon="mdi-file-send"/>
         </v-col>
 
         <v-col cols="12" sm="12" lg="5" md="12" xs="12">
@@ -66,7 +66,7 @@
           <titulo-inicio texto="Bandejas" class="my-2"/>
           <ButtonBig class="my-4 mx-5" texto="Pendientes" link="/expedientes-pendientes" icon="mdi-clock"/>
           <ButtonBig class="my-4 mx-5" texto="Expedientes" link="/expedientes" icon="mdi-archive"/>
-          <ButtonBig class="my-4 mx-5" texto="Enviados" link="/mis-enviados" icon="mdi-file-send"/>
+          <ButtonBig class="my-4 mx-5" texto="Enviados" link="/historial-enviados" icon="mdi-file-send"/>
         </v-col>
         <v-col cols="12" md="12" lg="5" sm="12">
           <titulo-inicio texto="Consultar" class="my-2"/>
