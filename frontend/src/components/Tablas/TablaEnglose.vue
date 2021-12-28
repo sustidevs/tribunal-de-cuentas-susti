@@ -27,20 +27,15 @@
             loading-text="Cargando expedientes. Por favor, espere."
             :loading="loading"
             no-data-text="No tienes expedientes"
+
         >
+        
           <template v-slot:item.action="{ item }">
-           
-           <span v-if="seleccionados.length === 0" :disabled="!btn">
-           </span>
-            <v-btn v-else-if="btn" @click="quitar(item.expediente_id)"  fab small color="#FACD89" depressed>
-              <v-icon>mdi-close</v-icon>
-            </v-btn>
-
-            <v-btn :disabled= "!btn" @click="seleccionar(item)" fab small color="#FACD89" depressed>
-              <v-icon>mdi-arrow-right-thick</v-icon>
-            </v-btn> 
-
+                      <v-btn @click="seleccionar(item)" fab small color="#FACD89" depressed>
+                        <v-icon>mdi-arrow-right-thick</v-icon>
+                      </v-btn> 
           </template>
+         
         </v-data-table>
       </v-col>
 
@@ -109,7 +104,7 @@ export default {
       seleccionados: [],
       search: "",
       show: false,
-      btn: true
+      btn: false 
     };
   },
 
@@ -140,20 +135,30 @@ export default {
 
 
     seleccionar(item) {
-      this.seleccionados.push(item)
-      if(this.seleccionados === item.expediente_id){
-       this.btn=true
-       }
-      console.log(item)
+      let bandera = this.seleccionados.filter((e)=>e.expediente_id === item.expediente_id)
+      //console.log(bandera)
+      if(bandera.length === 0){
+         this.seleccionados.push(item)
+         this.btn = true
+      }else{
+      // alert("ya esta pa")
+      }
+
     },
 
-    quitar(expediente_id){
-      this.seleccionados = this.seleccionados.filter((e)=>e.expediente_id !== expediente_id)
-      if(this.seleccionados.length === 0){
-        this.btn = true
-      }
-      console.log("apaga")
-    },
+    // disablebtn(item){
+    //   if(item.expediente_id === this.seleccionados){
+    //     this.btn = true
+    //   }
+    //   console.log(this.seleccionados)
+    // },
+
+    quitar(item){
+      let borrar = this.seleccionados.filter((e)=>e.expediente_id !== item.expediente_id)
+      console.log(borrar)
+    }
+      
+    
 
 
 
