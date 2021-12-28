@@ -14,11 +14,11 @@ const state = {
     expediente: [],
     extracto: '', //para guardar el extracto v-model
 
-    descripcion_extractoerror: '',
-    iniciador_iderror: '',
-    nro_fojaserror: '',
-    prioridaderror: '',
-    pase_a_error: '',
+    descripcion_extractoerror: [],
+    iniciador_iderror: [],
+    nro_fojaserror: [],
+    prioridaderror: [],
+    pase_a_error: [],
 
     btn_creado: false,
 };

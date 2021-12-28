@@ -72,14 +72,13 @@ export default {
     },
 
     ...mapActions([
-      "recuperar"
+      "cambiarEstado"
       ]),
 
     recuperacion: function(item) {
       item.estado_expediente = 4
       item.estado= 1,
       item.bandeja= 1,
-      item.user_id= this.$store.getters.getIdUser,
       this.cambiarEstado(item);
     },
   },

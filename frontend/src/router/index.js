@@ -2,29 +2,29 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import Login from '../views/Login.vue'
-import NuevoExpediente from '../views/NuevoExpediente.vue'
-import BandejaDeEntrada from '../views/BandejaDeEntrada.vue'
-import MisExpedientes from '../views/MisExpedientes.vue'
+import NuevoExpediente from '../views/Iniciadores/NuevoExpediente.vue'
+import BandejaDeEntrada from '../views/Expedientes/Pendientes.vue'
+import MisExpedientes from '../views/Expedientes/MisExpedientes.vue'
 // import NuevaReunion from '../views/Reunion/NuevaReunion.vue'
-import NuevoPase from '../views/NuevoPase.vue'
-import VerSeguimientos from '../views/VerSeguimientos.vue'
-import NuevoIniciador from '../views/NuevoIniciador.vue'
-import Iniciadores from '../views/Iniciadores.vue'
-import EditarIniciador from '../views/EditarIniciador.vue'
+import NuevoPase from '../views/Expedientes/NuevoPase.vue'
+import VerSeguimientos from '../views/Expedientes/VerSeguimientos.vue'
+import NuevoIniciador from '../views/Iniciadores/NuevoIniciador.vue'
+import Iniciadores from '../views/Iniciadores/Iniciadores.vue'
+import EditarIniciador from '../views/Iniciadores/EditarIniciador.vue'
 import layout from '../layout/Layout'
-import Expedientes from "../views/Expedientes";
-import Enviados from "../views/Enviados";
-import Usuario from "../views/Usuario";
+import Expedientes from "../views/Expedientes/Expedientes";
+import Enviados from "../views/Expedientes/Enviados";
+import Usuario from "../views/Usuario/Usuario";
 import auth from "../middleware/auth";
 import guest from "../middleware/guest";
 import mesa_entrada from "../middleware/mesa_entrada";
 import middlewarePipeline from "./middlewarePipeline";
 import store from "../store/index";
-import Englose from "../views/Englose";
-import Cedula from "../views/Cedula";
-import MisEnviados from "../views/MisEnviados";
-import Desglose from "../views/Desglose"
-import MotivoSubsidio from "../views/MotivoSubsidio"
+import Englose from "../views/Expedientes/Englose";
+import Cedula from "../views/Cedula/Cedula";
+import MisEnviados from "../views/Usuario/HistorialEnviados";
+import Desglose from "../views/Expedientes/Desglose"
+import MotivoSubsidio from "../views/Expedientes/MotivoSubsidio"
 
 Vue.use(VueRouter)
 
@@ -41,7 +41,7 @@ const routes = [
         meta: {title: 'Inicio', middleware: [auth] }
       },
       {
-        path: '/mis-enviados',
+        path: '/historial-enviados',
         name: 'MisEnviados',
         component: MisEnviados,
         meta: { title: 'Mis enviados', middleware: [auth]}

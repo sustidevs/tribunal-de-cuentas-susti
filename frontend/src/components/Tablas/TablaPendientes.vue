@@ -41,9 +41,10 @@
 
         <template v-slot:item.action= "{item}">
           <v-btn @click="recibirI(item)" fab small color="#FACD89" depressed>
-            <v-icon> mdi-text-box-check </v-icon>
+            <v-icon> mdi-check-bold </v-icon>
           </v-btn>
         </template>
+
       </v-data-table>
 
       <modal-ver-detalle-exp
@@ -105,7 +106,6 @@ export default {
           item.estado_expediente = 3
           item.estado= 1,
           item.bandeja= 1,
-          item.user_id= this.$store.getters.getIdUser,
           this.cambiarEstado(item)
     },
     

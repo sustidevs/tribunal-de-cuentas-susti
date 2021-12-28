@@ -81,9 +81,15 @@ const actions = {
                 commit('set_subsidio_expedientes', response.data)
                 commit('set_finalizado', false)
             })
-    }    
+    },
 
-
+    historial_enviados ({ commit }, expediente) {
+        axios.get(process.env.VUE_APP_API_URL+ '/api/mis-enviados', expediente)
+            .then(response => {
+                commit('set_expedientes', response.data)
+                commit('set_finalizado', false)
+            })
+    },
 }
 
 const mutations = {
