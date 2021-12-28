@@ -7,7 +7,7 @@
               <img class="mt-4 pa-4" width="240" height="240" :src="'./img/warning-sign.png'" />
             </v-row>
               <v-row justify="center">
-                <h1>Oops! Ocurrio un error</h1>
+                <h1>Oops! Ocurrió un error</h1>
               </v-row>
           </v-toolbar>
 

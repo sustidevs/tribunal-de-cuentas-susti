@@ -7,10 +7,19 @@
       </div>
       <v-divider color="#393B44"></v-divider>
 
-      <v-row no-gutters class="mt-8 ">
-        <v-col cols="12" md="6" sm="12" xs="12">
+      <v-row no-gutters class="mt-8">
+        <v-col cols="12">
           <div class="Montserrat-Bold mb-2 sizeTM"> Iniciador:</div>
           <div class="Montserrat-Regular mb-6 text-justify sizeDM">{{ dato[1] }}</div>
+        </v-col>
+      </v-row>
+
+      <v-row no-gutters>
+        <v-col cols="12" md="6" sm="12" xs="12">
+          <div class="Montserrat-Bold mb-2 sizeTM"> Se derivó al área:</div>
+          <div v-if="!(dato[3] === undefined)">
+            <div class="Montserrat-Regular mb-6 text-justify sizeDM">{{ dato[3].descripcion }}</div>
+          </div>
         </v-col>
         <v-col cols="12" md="6" sm="12" xs="12">
           <div class="Montserrat-Bold mb-2 sizeTM"> Fecha:</div>
@@ -19,13 +28,7 @@
       </v-row>
 
       <v-row no-gutters>
-        <v-col cols="12" md="12" sm="12" xs="12">
-          <div class="Montserrat-Bold mb-2 sizeTM"> Se derivó al área:</div>
-          <div v-if="!(dato[3] === undefined)">
-            <div class="Montserrat-Regular mb-6 text-justify sizeDM">{{ dato[3].descripcion }}</div>
-          </div>
-        </v-col>
-        <v-col cols="12" md="12" sm="12" xs="12" v-if="dato[6] !== '-'">
+        <v-col cols="12" v-if="dato[6] !== '-'">
           <div class="Montserrat-Bold mr-1 mb-2 sizeTM"> Email:</div>
           <div class="Montserrat-Regular mb-6 text-justify sizeDM">{{dato[6]}}</div>
         </v-col>

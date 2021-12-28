@@ -103,7 +103,6 @@
 
 <script>
 import LabelError from "../LabelError";
-
 import { mapActions, mapGetters } from "vuex";
 
 export default {
