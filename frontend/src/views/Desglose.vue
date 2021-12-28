@@ -1,7 +1,7 @@
 <template>
   <div>
     <titulo texto="Desglose" icono="mdi-file-percent"/>
-    <div class="descripcion text-justify py-4">Si desea <strong>desglosar</strong> un expediente, seleccione el mismo de la tabla.</div>
+    <div class="descripcion text-justify py-4">Si desea <strong>desglosar</strong> un expediente, seleccione el mismo de la lista.</div>
     <tabla-desglose :headers="headers" :data="getExpedientesPadres"/>
   </div>
 </template>
