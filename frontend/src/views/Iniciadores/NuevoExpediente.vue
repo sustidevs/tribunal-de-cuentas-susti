@@ -16,7 +16,7 @@
 
       <v-divider color="#393B44" class="mb-10"></v-divider>
 
-      <v-row no-gutters class="pb-7" justify="start">
+      <v-row no-gutters class="pb-4" justify="start">
         <v-col cols="12" sm="12" lg="6" class="pr-lg-2">
           <v-alert
             icon="mdi-information-outline orange--text"
@@ -59,7 +59,7 @@
         </v-col>
       </v-row>
 
-      <v-row no-gutters justify="start" class="pb-3">
+      <v-row no-gutters justify="start" class="py-3">
         <v-col cols="12" sm="12" lg="6" class="pr-lg-2">
           <LabelInput texto="Motivo del Expediente *" />
           <autocomplete-field

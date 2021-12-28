@@ -105,7 +105,7 @@
                 <v-btn
                     :disabled="!isEditing"
                     color="rgb(255, 255, 255, 0.2)"
-                    @click="save"
+                    @click="cargaExtracto()"
                     type="submit"
                     elevation="3"
                     class="my-3 mr-4"
