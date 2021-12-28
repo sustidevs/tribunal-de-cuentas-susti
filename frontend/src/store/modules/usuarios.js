@@ -50,6 +50,7 @@ const actions = {
             .catch(error => {
                 commit('set_restart', true)
                 commit('clearUserData')
+                commit('set_btn_login', false)
                 //sessionStorage.clear()
                 console.log(error.response.data)
             })
