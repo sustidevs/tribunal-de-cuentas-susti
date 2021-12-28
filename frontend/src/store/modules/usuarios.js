@@ -16,6 +16,7 @@ const state = {
     error_contra: '',
     overlay: false,
     area:'',
+    restart: false,
 };
 
 const getters = {
@@ -25,6 +26,7 @@ const getters = {
     get_btn_login: state => state.btn_login,
     get_token: state => state.token,
 
+    get_restart: state => state.restart,
     get_errores: state => state.errores,
     //usario o contraseña incorrecta
     get_error_logeo: state => state.error_logeo,
@@ -46,6 +48,9 @@ const actions = {
                 commit('set_btn_login', false)
             })
             .catch(error => {
+                commit('set_restart', true)
+                commit('clearUserData')
+                //sessionStorage.clear()
                 console.log(error.response.data)
             })
     },
@@ -59,9 +64,7 @@ const actions = {
                     localStorage.setItem('nro',JSON.stringify(response.data.id))
                     commit('set_logueo', true)
                     commit('set_user', response.data)
-                    commit('set_logueo', true)
                     commit('set_btn_login', false)
-                    commit('set_logueo', true)
             })
             .catch(error => {
                 commit('set_btn_login', false)
@@ -131,7 +134,7 @@ const mutations = {
     set_user: (state, user) => state.user = user,
     set_authenticated: (state, status) => state.status = status,
     set_btn_login:(state,btn_login) => state.btn_login = btn_login,
-
+    set_restart: (state, restart) => state.restart = restart,
     set_errores:(state, errores) => state.errores = errores,
     set_error_logeo:(state, error_logeo) => state.error_logeo = error_logeo,
     set_error_cuil:(state, error_cuil) => state.error_cuil = error_cuil,
