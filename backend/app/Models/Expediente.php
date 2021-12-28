@@ -318,7 +318,8 @@ class Expediente extends Model
         if ($bandeja == 3) {
             return $array_expediente->where('area_destino_id',$user->area_id)
                                     ->where('user_id',$user->id)
-                                    ->where('estado',$estado)->values();
+                                    ->whereIn('estado', [4,3])
+                                    ->values();
         }
 
         #ENVIADOS

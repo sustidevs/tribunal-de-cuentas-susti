@@ -131,8 +131,8 @@ class HistorialController extends Controller
             if ($request->estado_expediente == 4)
             {
                 $historial->motivo = "Pase recuperado";
-                $historial->estado = 3;
-                $expediente->estado_expediente_id = 3;
+                $historial->estado = 4;
+                $expediente->estado_expediente_id = 4;
                 $expediente->save();
             }
         }
