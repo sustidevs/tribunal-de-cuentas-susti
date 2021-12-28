@@ -20,6 +20,7 @@
             :items="data"
             :search="search"
             :items-per-page="5"
+            
             disable-sort
             mobile-breakpoint="300"
             class="elevation-1 mytable"
@@ -28,9 +29,17 @@
             no-data-text="No tienes expedientes"
         >
           <template v-slot:item.action="{ item }">
-            <v-btn @click="seleccionar(item)" fab small color="#FACD89" depressed>
-              <v-icon>mdi-arrow-right-thick</v-icon>
+           
+           <span v-if="seleccionados.length === 0" :disabled="!btn">
+           </span>
+            <v-btn v-else-if="btn" @click="quitar(item.expediente_id)"  fab small color="#FACD89" depressed>
+              <v-icon>mdi-close</v-icon>
             </v-btn>
+
+            <v-btn :disabled= "!btn" @click="seleccionar(item)" fab small color="#FACD89" depressed>
+              <v-icon>mdi-arrow-right-thick</v-icon>
+            </v-btn> 
+
           </template>
         </v-data-table>
       </v-col>
@@ -56,7 +65,7 @@
               <v-list-item-content>
                 <v-list-item-title class="contentSize Montserrat-SemiBold" v-text="item.nro_expediente"></v-list-item-title>
                 <v-list-item-content class="contentSize Montserrat-Regular" v-text="item.extracto"/>
-                <v-row @click="quitar(item)"  no-gutters>
+                <v-row @click="quitar(item.expediente_id)"  no-gutters>
                   <v-icon class="red--text">mdi-close</v-icon><div class="pt-1 Montserrat-Regular red--text">Quitar Selección</div>
                 </v-row>
                 <v-divider class="my-2"></v-divider>
@@ -100,6 +109,7 @@ export default {
       seleccionados: [],
       search: "",
       show: false,
+      btn: true
     };
   },
 
@@ -128,13 +138,23 @@ export default {
       this.show = true;
     },
 
-    quitar (item){
-      this.seleccionados.splice(item)
+
+    seleccionar(item) {
+      this.seleccionados.push(item)
+      if(this.seleccionados === item.expediente_id){
+       this.btn=true
+       }
+      console.log(item)
     },
 
-    seleccionar: function (item) {
-      this.seleccionados.push(item)
+    quitar(expediente_id){
+      this.seleccionados = this.seleccionados.filter((e)=>e.expediente_id !== expediente_id)
+      if(this.seleccionados.length === 0){
+        this.btn = true
+      }
+      console.log("apaga")
     },
+
 
 
   },
