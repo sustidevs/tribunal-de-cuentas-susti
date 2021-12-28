@@ -53,8 +53,9 @@ class LoginController extends Controller
 
     public function logout()
     {
-        Auth::logout();
-        return ('ola');
+        $user = User::findOrFail(auth()->user()->id);
+        $user->tokens()->delete();
+        return ('usuario deslogueado');
     }
 
                 /**

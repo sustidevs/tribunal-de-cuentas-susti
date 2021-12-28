@@ -77,8 +77,9 @@ class Notificacion extends Model
                              'expedientes.fojas as cantFojas',
                              'areas.descripcion as descripcionArea',
                              'historiales.hora as hora',
-                             DB::raw('ceil(expedientes.fojas / 200) as cantCuerpos'))                 
-            ->get();
+                             DB::raw('ceil(expedientes.fojas / 200) as cantCuerpos'))
+                    ->orderBy('expedientes.id', 'DESC')                 
+                    ->get();
         return $expedientes;
     }
 }

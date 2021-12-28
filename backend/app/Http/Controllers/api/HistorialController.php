@@ -162,20 +162,37 @@ class HistorialController extends Controller
     public function historialExpediente(Request $request)
     {
         $expediente = Expediente::findOrFail($request->id);
-        $array = collect([]);
+        $array = [];
         foreach ($expediente->historiales as $historial)
         {
-                $array->push($historial->getHistorial());
+                array_push($array, $historial->getHistorial());
         }
+        $array = array_reverse($array);
         return response()->json($array, 200);
     }
 
     /*
     * Devuelve los expedientes enviados de un area
     */
-    public function misEnviados()
+    public function misEnviados_old(Request $request)
     {
-        $misExpEnviados = Historial::ExpedientesEnviados(Auth::User()->area_id);
+        //return response()->json(auth()->user()->area_id, 200);
+        if ($request->all == false){
+            $misExpEnviados = Historial::all()/*(auth()->user()->id)*/;
+        }
+        else{ //Si user_id == null  trae todos los Exp. Enviados del area
+            $misExpEnviados = Historial::ExpedientesEnviados(auth()->user()->area_id, auth()->user()->id);
+        }
+    }
+
+    /**
+     * Método que retorna los expedientes enviados por toda un área, o un usuario específico
+     * @param: all [boolean] / True "todos los enviados del área / "False" solo los enviados del usuario logueado
+     * @autor: Mariano Flores
+     */
+    public function misEnviados(Request $request)
+    {
+        $misExpEnviados = Historial::ExpedientesEnviados($request->all);
         return response()->json($misExpEnviados, 200);
     }
 }
