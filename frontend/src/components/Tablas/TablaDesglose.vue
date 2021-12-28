@@ -1,6 +1,5 @@
 <template>
   <div class="pb-12">
-
     <v-stepper v-model="paso" class="mb-16 mt-4">
       <v-card color="#facd89" class="Montserrat-Regular text-justify">
         <v-stepper-header>
@@ -24,9 +23,6 @@
 
       <v-stepper-items>
         <v-stepper-content step="1">
-            <div v-if="this.data.length == 0" class="contentSize py-2">
-                No posee expedientes para desglosar
-            </div>
             <v-expansion-panels>
               <v-expansion-panel
                 class="my-2"
@@ -68,7 +64,7 @@
 
             <div class="contentSize Montserrat-Bold mb-2"> EXPEDIENTES ENGLOSADOS:
                 <div class="subSize Montserrat-Bold mt-2 amber--text text--accent-4"  v-for="item in getExpedientesHijos" :key="item.id" v-text="item.nro_expediente"/>
-             </div>
+            </div>
 
           <v-row justify="center" class="contentSize Montserrat-Regular py-6" align="center">
                 <v-col cols="4">
