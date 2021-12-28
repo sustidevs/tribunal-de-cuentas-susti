@@ -1,78 +1,104 @@
 <template>
   <div class="pb-12">
-    <v-row>
-      <v-col cols="12" lg="4">
-        <v-text-field
-            color="#8D93AB"
-            v-model="search"
-            append-icon="mdi-magnify"
-            label="Buscar"
-            hide-details
-            outlined
-            class="py-6"
-        />
-      </v-col>
-    </v-row>
-    <v-row class="mb-16">
-      <v-col cols="12" lg="7">
-        <v-data-table
-            :headers="headers"
-            :items="data"
-            :search="search"
-            :items-per-page="5"
-            disable-sort
-            mobile-breakpoint="300"
-            class="elevation-1 mytable"
-            loading-text="Cargando expedientes. Por favor, espere."
-            :loading="loading"
-            no-data-text="No tienes expedientes englosados"
-        >
-          <template v-slot:item.action="{ item }">
-            <v-btn @click="verHijos(item)" fab small color="#FACD89" depressed>
-              <v-icon>mdi-arrow-right-thick</v-icon>
-            </v-btn>
-          </template>
-        </v-data-table>
-      </v-col>
+    <v-stepper v-model="paso" class="mb-16 mt-4">
+      <v-card color="#facd89" class="Montserrat-Regular text-justify">
+        <v-stepper-header>
+          <v-stepper-step
+            :complete="paso > 1"
+            step="1"
+            color="grey darken-3"
+          >
+            Seleccione el expediente a desglosar
+          </v-stepper-step>
 
-      <v-col cols="12" lg="5">
-        <v-toolbar height="59px"
-            color="#FACD89"
-            class="contentSize Montserrat-SemiBold text--darken-3 grey--text"
-        >
-          Expediente seleccionado
-        </v-toolbar>
+          <v-stepper-step
+            color="grey darken-3"
+            :complete="paso > 2"
+            step="2"
+          >
+            Expediente seleccionado
+          </v-stepper-step>
+        </v-stepper-header>
+      </v-card>
+
+      <v-stepper-items>
+        <v-stepper-content step="1">
+            <v-expansion-panels>
+              <v-expansion-panel
+                class="my-2"
+                v-for="item in data"
+                :key="item.id"
+              >
+                <v-expansion-panel-header
+                  color="grey lighten-3"
+                  class="Montserrat-SemiBold sizeNroExp"
+                >
+                  {{ item.nro_expediente }}
+
+                </v-expansion-panel-header>
+
+                <v-expansion-panel-content>
+                  <div class="Montserrat-Bold contentSize mt-4">EXTRACTO:</div>
+                  <div class="Montserrat-Regular contentSize">{{ item.extracto }}</div>
+
+                  <v-btn class="mt-6 Montserrat-SemiBold" @click="verHijos(item)" depressed color="#FACD89">
+                    <v-icon left size="25px"> mdi-arrow-right-thick </v-icon>
+                    Seleccionar
+                  </v-btn>
+                </v-expansion-panel-content>
+              </v-expansion-panel>
+            </v-expansion-panels>
+            <v-overlay :value="this.$store.getters.get_consulta_loading">
+              <v-progress-circular indeterminate size="60"></v-progress-circular>
+            </v-overlay>
+        </v-stepper-content>
+
+      <v-stepper-content step="2">
         <v-card class="mx-auto" tile>
-          <v-list class="pa-4">
-            <v-list-item-title class="contentSize Montserrat-SemiBold">
-              <v-icon large color="#FACD89">mdi-file</v-icon> Expediente principal: <strong>{{ exp_padreSeleccionado.nro_expediente }}</strong>
-              <v-list-item-subtitle class="contentSize Montserrat-Regular mt-2 ml-10" v-text="exp_padreSeleccionado.extracto"/>
-            </v-list-item-title>
+            <div class="contentSize Montserrat-Bold"> EXPEDIENTE PRINCIPAL:
+              <div class="subSize Montserrat-Bold mt-2 amber--text text--accent-4" v-text="exp_padreSeleccionado.nro_expediente"/>
+              <div class="contentSize Montserrat-Regular mt-2">{{ exp_padreSeleccionado.extracto }}</div>
+            </div>
 
             <v-divider class="my-4"></v-divider>
 
-            <v-list-item-title class="contentSize Montserrat-SemiBold mb-2">
-              <v-icon large color="#FACD89">mdi-file</v-icon> Expedientes englosados:
-            </v-list-item-title>
-
-            <v-list-item class="ml-6" v-for="item in getExpedientesHijos" :key="item.id">
-              <v-list-item-content>
-                <v-list-item-title class="contentSize Montserrat-SemiBold" v-text="item.nro_expediente"/>
-              </v-list-item-content>
-            </v-list-item>
-          </v-list>
+            <div class="contentSize Montserrat-Bold mb-2"> EXPEDIENTES ENGLOSADOS:
+                <div class="subSize Montserrat-Bold mt-2 amber--text text--accent-4"  v-for="item in getExpedientesHijos" :key="item.id" v-text="item.nro_expediente"/>
+            </div>
 
           <v-row justify="center" class="contentSize Montserrat-Regular py-6" align="center">
-            <v-btn @click="confirmarDesglose" :disabled="this.$store.getters.get_consulta_loading" class="pa-1 color Montserrat-SemiBold px-6" height="50" elevation="0" color="#FACD89">
-              <v-icon class="px-2">
-                mdi-check-bold
-              </v-icon>
-                Desglosar
-            </v-btn>
-          </v-row>
+                <v-col cols="4">
+                  <v-btn
+                    @click="paso = 1"
+                    class="pa-5 Montserrat-SemiBold"
+                    height="50"
+                    elevation="0"
+                    block
+                  >
+                    <v-icon class="pr-5"> mdi-arrow-left </v-icon>
+                    <div>Volver</div>
+                  </v-btn>
+                </v-col>
+                <v-col cols="4">
+                  <v-btn
+                    @click="confirmarDesglose"
+                    :disabled="this.$store.getters.get_consulta_loading"
+                    class="pa-1 color Montserrat-SemiBold px-6"
+                    height="50"
+                    elevation="0"
+                    color="#FACD89"
+                    block
+                  >
+                    <v-icon class="pr-5"> mdi-check-bold </v-icon>
+                    <div>Confirmar</div>
+                  </v-btn>
+                </v-col>
+              </v-row>
         </v-card>
-      </v-col>
-    </v-row>
+      </v-stepper-content>
+      </v-stepper-items>
+    </v-stepper>
+
     <modal-exito-desglose :show="get_show_desglose" />
     <v-overlay :value="this.$store.getters.get_consulta_loading">
         <v-progress-circular indeterminate size="60"></v-progress-circular>
@@ -99,6 +125,7 @@ export default {
       search: "",
       exp_padreSeleccionado: '',
       id_padre: '',
+      paso: 1,
     };
   },
 
@@ -106,8 +133,8 @@ export default {
 
   methods: {
     ...mapActions([
-      "desglosarVerHijos",
-        'desglose'
+      'desglosarVerHijos',
+      'desglose'
     ]),
 
     confirmarDesglose(){
@@ -124,6 +151,7 @@ export default {
 
     verHijos: function (item) {
       this.id_padre = item.id,
+      this.paso = 2
 
       this.exp_padreSeleccionado = {
         nro_expediente: item.nro_expediente,
@@ -140,30 +168,11 @@ export default {
 </script>
 
 <style>
-.v-data-table > .v-data-table__wrapper > table > thead > tr > th > span {
-  font-size: 19px !important;
-}
-
-.mytable thead {
-  background-color: #facd89 !important;
-  font-family: "Montserrat-Regular", serif !important;
-}
-
-.v-data-table > .v-data-table__wrapper > table > tbody > tr > td {
-  font-family: "Montserrat-Regular", serif !important;
-  font-size: 17px !important;
-  padding: 12px !important;
-}
-
-.v-data-table > .v-data-table__wrapper > table > tbody > tr:hover {
-  background-color: #fae3bf !important;
-}
-
 .subSize{
   font-size: 22px ;
 }
 
 .contentSize{
-  font-size: 18px;
+  font-size: 20px;
 }
 </style>

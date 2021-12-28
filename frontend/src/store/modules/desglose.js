@@ -30,10 +30,12 @@ const actions = {
     },
 
     desglosarVerHijos ({ commit } , expediente) {
+        commit('set_consulta_loading', true)
         axios.post(process.env.VUE_APP_API_URL+ '/api/createDesgloceExp', expediente)
             .then(response => {
                 commit('set_exp_padres_seleccionado', response.data[0])
                 commit('set_exp_hijos', response.data[1])
+                commit('set_consulta_loading', false)
             })
     },
 

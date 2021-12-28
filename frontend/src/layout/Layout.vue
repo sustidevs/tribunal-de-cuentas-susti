@@ -13,6 +13,11 @@
         <Navbar/>
         <v-main class="mt-2 mb-8 mx-4 mx-sm-16">
 
+          <div v-if="get_restart">
+            {{get_restart}}
+            UPS! ALGO OCURRIO MAL RECARGA LA PAGINA HASTA QUE ANDE :$
+          </div>
+
           <div v-if="get_cantPendientes > 0">
             <alert-pendiente :cantidad="get_cantPendientes"/>
           </div>
@@ -47,7 +52,7 @@ export default {
     currentRoute: window.location.pathname
   }),
 
-  computed: mapGetters(['get_user','get_cantPendientes', 'getcantidad_subsidioAporteNR','get_btn_login']),
+  computed: mapGetters(['get_user','get_cantPendientes', 'getcantidad_subsidioAporteNR','get_btn_login','get_restart']),
 
   mounted() {
     this.getUsuario();

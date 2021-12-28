@@ -130,7 +130,6 @@ export default {
     ]),
   },
 
-
   watch: {
     get_logueo(value) {
       if (value) this.$router.go(0);
@@ -147,6 +146,7 @@ export default {
       (this.loading = true), this.login(this.credentials);
     },
   },
+
 };
 </script>
 <style>
