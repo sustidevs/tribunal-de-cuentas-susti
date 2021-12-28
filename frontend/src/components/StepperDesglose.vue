@@ -108,7 +108,7 @@
 
 <script>
 import {mapActions, mapGetters} from "vuex";
-import ModalExitoDesglose from '../../components/dialogs/ModalExitoDesglose';
+import ModalExitoDesglose from './../components/dialogs/ModalExitoDesglose';
 
 export default {
   components:{ModalExitoDesglose},
