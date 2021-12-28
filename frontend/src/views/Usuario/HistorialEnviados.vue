@@ -1,13 +1,13 @@
 <template>
   <div>
-    <titulo texto="Expedientes Enviados"/>
-    <tabla-mis-enviados :headers="headers" :data="this.getMisEnviados" :loading="get_finalizadoEnviados"/>
+    <titulo texto="Historial Enviados"/>
+    <tabla-mis-enviados :headers="headers" :data="get_expedientes" :loading="get_finalizado"/>
   </div>
 </template>
 
 <script>
-import Titulo from "../components/Titulo";
-import TablaMisEnviados from "../components/Tablas/TablaMisEnviados";
+import Titulo from "../../components/Titulo";
+import TablaMisEnviados from "../../components/Tablas/TablaMisEnviados";
 import {mapActions, mapGetters} from "vuex";
 
 export default {
@@ -25,25 +25,14 @@ export default {
     }
   },
 
-  computed: mapGetters(['getMisEnviados','get_finalizadoEnviados']),
+  computed: mapGetters(['get_expedientes','get_finalizado']),
 
   mounted() {
-    this.getExpedientesEnviados();
+    this.historial_enviados();
   },
 
   methods: {
-    ...mapActions(['mis_enviados']),
-
-    getExpedientesEnviados() {
-      let exp = {
-        user_id: null,
-        area_id: this.$store.getters.getAreaId,
-      }
-
-      this.mis_enviados(exp)
-    }
+    ...mapActions(['historial_enviados']),
   },
-
-
 }
 </script>

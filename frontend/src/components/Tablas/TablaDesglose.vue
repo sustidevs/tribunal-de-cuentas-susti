@@ -113,7 +113,6 @@ export default {
     confirmarDesglose(){
       let expedientes_desglose = {
         exp_padre: this.id_padre,
-        user_id:  this.$store.getters.getIdUser
       }
       this.desglose(expedientes_desglose)
       this.get_show_desglose != this.get_show_desglose

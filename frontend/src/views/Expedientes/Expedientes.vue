@@ -6,8 +6,8 @@
   </div>
 </template>
 <script>
-import Titulo from "../components/Titulo"
-import TablaExpedientes from "../components/Tablas/TablaExpedientes";
+import Titulo from "../../components/Titulo"
+import TablaExpedientes from "../../components/Tablas/TablaExpedientes";
 import {mapActions,mapGetters} from "vuex";
 
 export default {
