@@ -58,7 +58,6 @@ class Historial extends Model
     public static function ExpedientesEnviados_old($area_id,$user_id = 0)
     {
         $array = Collect();
-
         $historiales = Historial::all()->where("area_origen_id",$area_id);
         #Si $user_id == 0 (parametro opcional) trae todos los expedientes filtrados solo por area.
         if ($user_id > 0){
@@ -85,7 +84,10 @@ class Historial extends Model
         if($all == true)
         {   
             $area_destino = DB::table('historiales')
-                ->select('expediente_id', 'historiales.area_destino_id', 'areas.descripcion')
+                ->select('historiales.id', 'expediente_id', 'historiales.area_destino_id', 'areas.descripcion')
+                ->where('historiales.area_origen_id', '=', auth()->user()->area_id)
+                ->where('historiales.area_destino_id', '!=', auth()->user()->area_id)
+                ->where('historiales.estado', '!=', 3)
                 ->join('areas', 'areas.id', '=', 'historiales.area_destino_id');
 
             $array = DB::table('historiales')
@@ -96,9 +98,9 @@ class Historial extends Model
                 ->join('caratulas', 'caratulas.expediente_id', '=', 'expedientes.id')
                 ->join('extractos', 'extractos.id', '=', 'caratulas.extracto_id')
                 ->join('areas', 'areas.id', '=', 'historiales.area_origen_id')
-                ->rightJoinSub($area_destino, 'areaDestino', function($join)
+                ->joinSub($area_destino, 'areaDestino', function($join)
                 {
-                    $join->on('historiales.expediente_id', '=', 'areaDestino.expediente_id');
+                    $join->on('historiales.id', '=', 'areaDestino.id');
                 })
                 ->join('personas', 'personas.id', '=', 'historiales.user_id')
                 ->select('expedientes.id as expediente_id', 
@@ -111,7 +113,8 @@ class Historial extends Model
                          'historiales.user_id',
                          DB::raw("CONCAT(personas.nombre, personas.apellido) as nombre_usuario"),
                          DB::raw("DATE_FORMAT(historiales.fecha, '%d-%m-%y') as fecha"),
-                         'historiales.motivo as motivo')
+                         'historiales.motivo as motivo',
+                         'historiales.observacion')
                 ->orderBy('historiales.id', 'DESC')
                 ->get();
             return($array);
@@ -119,21 +122,24 @@ class Historial extends Model
         else
         {
             $area_destino = DB::table('historiales')
-                ->select('expediente_id', 'historiales.area_destino_id', 'areas.descripcion')
+                ->select('historiales.id', 'expediente_id', 'historiales.area_destino_id', 'areas.descripcion')
+                ->where('historiales.area_origen_id', '=', auth()->user()->area_id)
+                ->where('historiales.area_destino_id', '!=', auth()->user()->area_id)
+                ->where('historiales.estado', '!=', 3)
                 ->join('areas', 'areas.id', '=', 'historiales.area_destino_id');
 
             $array = DB::table('historiales')
                 ->where('historiales.area_origen_id', '=', auth()->user()->area_id)
                 ->where('historiales.area_destino_id', '!=', auth()->user()->area_id)
-                ->where('historiales.user_id', '=', auth()->user()->id)
                 ->where('historiales.estado', '!=', 3)
+                ->where('historiales.user_id', '=', auth()->user()->id)
                 ->join('expedientes', 'expedientes.id', '=', 'historiales.expediente_id')
                 ->join('caratulas', 'caratulas.expediente_id', '=', 'expedientes.id')
                 ->join('extractos', 'extractos.id', '=', 'caratulas.extracto_id')
                 ->join('areas', 'areas.id', '=', 'historiales.area_origen_id')
-                ->rightJoinSub($area_destino, 'areaDestino', function($join)
+                ->joinSub($area_destino, 'areaDestino', function($join)
                 {
-                    $join->on('historiales.expediente_id', '=', 'areaDestino.expediente_id');
+                    $join->on('historiales.id', '=', 'areaDestino.id');
                 })
                 ->join('personas', 'personas.id', '=', 'historiales.user_id')
                 ->select('expedientes.id as expediente_id', 
@@ -146,8 +152,9 @@ class Historial extends Model
                          'historiales.user_id',
                          DB::raw("CONCAT(personas.nombre, personas.apellido) as nombre_usuario"),
                          DB::raw("DATE_FORMAT(historiales.fecha, '%d-%m-%y') as fecha"),
-                         'historiales.motivo as motivo')
-                         ->orderBy('historiales.id', 'DESC')
+                         'historiales.motivo as motivo',
+                         'historiales.observacion')
+                ->orderBy('historiales.id', 'DESC')
                 ->get();
             return($array);
         }
