@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="pb-16">
     <titulo texto="Nuevo Pase" icono="mdi-file-document" class="pb-8" />
     <template>
       <form @submit.prevent="storePas()">
@@ -115,10 +115,10 @@
                 </v-form>
               </v-card>
 
-              <v-row justify="center" class="ma-8">
+              <v-row justify="center" class="my-4">
                 <v-col cols="4">
                   <v-btn
-                    class="pa-5 Montserrat-SemiBold"
+                    class="pa-5 Montserrat-Bold"
                     height="55"
                     elevation="0"
                     color="#FACD89"
@@ -126,7 +126,7 @@
                     @click="validate"
                   >
                     <div class="pr-5">Continuar</div>
-                    <v-icon> mdi-arrow-right </v-icon>
+                    <v-icon> mdi-arrow-right-bold </v-icon>
                   </v-btn>
                 </v-col>
               </v-row>
@@ -134,30 +134,30 @@
 
             <v-stepper-content step="2">
               <modal-detalle-pase :data="this.pase" :dataArea="this.areaSeleccionado" />
-              <v-row justify="center" class="ma-8">
+              <v-row justify="center" class="my-4">
                 <v-col cols="4">
                   <v-btn
                     @click="e1 = 1"
-                    class="pa-5 Montserrat-SemiBold"
+                    class="pa-5 Montserrat-Bold"
                     height="55"
                     elevation="0"
                     block
                   >
-                    <v-icon class="pr-5"> mdi-arrow-left </v-icon>
+                    <v-icon class="pr-5"> mdi-arrow-left-bold </v-icon>
                     <div>Volver</div>
                   </v-btn>
                 </v-col>
                 <v-col cols="4">
                   <v-btn
                     type="submit"
-                    class="pa-5 Montserrat-SemiBold"
+                    class="pa-5 Montserrat-Bold"
                     height="55"
                     elevation="0"
                     color="#FACD89"
                     block
                   >
                     <div class="pr-5">Confirmar Pase</div>
-                    <v-icon> mdi-check </v-icon>
+                    <v-icon> mdi-check-bold </v-icon>
                   </v-btn>
                 </v-col>
               </v-row>
