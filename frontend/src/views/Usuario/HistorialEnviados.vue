@@ -28,11 +28,18 @@ export default {
   computed: mapGetters(['get_expedientes','get_finalizado']),
 
   mounted() {
-    this.historial_enviados();
+    this.historialEnviados();
   },
 
   methods: {
     ...mapActions(['historial_enviados']),
+
+    historialEnviados(){
+      let form = {
+        all: 'true'
+      }
+      this.historial_enviados(form)
+    }
   },
 }
 </script>

@@ -83,8 +83,8 @@ const actions = {
             })
     },
 
-    historial_enviados ({ commit }, expediente) {
-        axios.get(process.env.VUE_APP_API_URL+ '/api/mis-enviados', expediente)
+    historial_enviados ({ commit }, all) {
+        axios.get(process.env.VUE_APP_API_URL+ '/api/mis-enviados', all)
             .then(response => {
                 commit('set_expedientes', response.data)
                 commit('set_finalizado', false)
