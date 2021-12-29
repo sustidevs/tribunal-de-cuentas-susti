@@ -86,13 +86,15 @@ class Historial extends Model
             $area_destino = DB::table('historiales')
                 ->select('historiales.id', 'expediente_id', 'historiales.area_destino_id', 'areas.descripcion')
                 ->where('historiales.area_origen_id', '=', auth()->user()->area_id)
-                ->where('historiales.area_destino_id', '!=', auth()->user()->area_id)
+                //->where('historiales.area_destino_id', '!=', auth()->user()->area_id)
+                ->where('historiales.motivo', '!=', "Expediente creado.")
                 ->where('historiales.estado', '!=', 3)
                 ->join('areas', 'areas.id', '=', 'historiales.area_destino_id');
 
             $array = DB::table('historiales')
                 ->where('historiales.area_origen_id', '=', auth()->user()->area_id)
-                ->where('historiales.area_destino_id', '!=', auth()->user()->area_id)
+                //->where('historiales.area_destino_id', '!=', auth()->user()->area_id)
+                ->where('historiales.motivo', '!=', "Expediente creado.")
                 ->where('historiales.estado', '!=', 3)
                 ->join('expedientes', 'expedientes.id', '=', 'historiales.expediente_id')
                 ->join('caratulas', 'caratulas.expediente_id', '=', 'expedientes.id')
@@ -111,8 +113,8 @@ class Historial extends Model
                          'areaDestino.area_destino_id',
                          'areaDestino.descripcion as area_destino',
                          'historiales.user_id',
-                         DB::raw("CONCAT(personas.nombre, personas.apellido) as nombre_usuario"),
-                         DB::raw("DATE_FORMAT(historiales.fecha, '%d-%m-%y') as fecha"),
+                         DB::raw("CONCAT(personas.nombre,', ',personas.apellido) as nombre_usuario"),
+                         DB::raw("DATE_FORMAT(historiales.created_at, '%d-%m-%y %h:%i:%s') as fecha"),
                          'historiales.motivo as motivo',
                          'historiales.observacion')
                 ->orderBy('historiales.id', 'DESC')
@@ -124,13 +126,15 @@ class Historial extends Model
             $area_destino = DB::table('historiales')
                 ->select('historiales.id', 'expediente_id', 'historiales.area_destino_id', 'areas.descripcion')
                 ->where('historiales.area_origen_id', '=', auth()->user()->area_id)
-                ->where('historiales.area_destino_id', '!=', auth()->user()->area_id)
+                //->where('historiales.area_destino_id', '!=', auth()->user()->area_id)
+                ->where('historiales.motivo', '!=', "Expediente creado.")
                 ->where('historiales.estado', '!=', 3)
                 ->join('areas', 'areas.id', '=', 'historiales.area_destino_id');
 
             $array = DB::table('historiales')
                 ->where('historiales.area_origen_id', '=', auth()->user()->area_id)
-                ->where('historiales.area_destino_id', '!=', auth()->user()->area_id)
+                //->where('historiales.area_destino_id', '!=', auth()->user()->area_id)
+                ->where('historiales.motivo', '!=', "Expediente creado.")
                 ->where('historiales.estado', '!=', 3)
                 ->where('historiales.user_id', '=', auth()->user()->id)
                 ->join('expedientes', 'expedientes.id', '=', 'historiales.expediente_id')
@@ -150,8 +154,8 @@ class Historial extends Model
                          'areaDestino.area_destino_id',
                          'areaDestino.descripcion as area_destino',
                          'historiales.user_id',
-                         DB::raw("CONCAT(personas.nombre, personas.apellido) as nombre_usuario"),
-                         DB::raw("DATE_FORMAT(historiales.fecha, '%d-%m-%y') as fecha"),
+                         DB::raw("CONCAT(personas.nombre,', ',personas.apellido) as nombre_usuario"),
+                         DB::raw("DATE_FORMAT(historiales.created_at, '%d-%m-%y %h:%i:%s') as fecha"),
                          'historiales.motivo as motivo',
                          'historiales.observacion')
                 ->orderBy('historiales.id', 'DESC')
