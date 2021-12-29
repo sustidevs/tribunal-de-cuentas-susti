@@ -47,10 +47,10 @@
 </template> 
  
 <script> 
-import LabelInput from "../components/LabelInput"; 
+import LabelInput from "../../components/LabelInput";
 import {mapActions, mapGetters} from "vuex"; 
-import TextField from "../components/TextField";  
-import ModalExitoEditarIniciador from '../components/dialogs/ModalExitoEditarIniciador.vue'
+import TextField from "../../components/TextField";
+import ModalExitoEditarIniciador from '../../components/dialogs/ModalExitoEditarIniciador.vue'
  
 export default { 
   name: 'EditarIniciador', 

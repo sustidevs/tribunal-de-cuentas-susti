@@ -8,10 +8,10 @@
 </template>
 
 <script>
-import Titulo from "../components/Titulo"
+import Titulo from "../../components/Titulo"
 import {mapActions, mapGetters} from "vuex";
-import TablaMisExpedientes from "../components/Tablas/TablaMisExpedientes";
-import AlertSucess from "../components/AlertSucess"
+import TablaMisExpedientes from "../../components/Tablas/TablaMisExpedientes";
+import AlertSucess from "../../components/AlertSucess"
 
 export default {
   name: 'MisExpedientes',
@@ -40,7 +40,7 @@ export default {
     },
 
     methods: {
-    ...mapActions(['listadoExpedientes','getIdUser']),
+    ...mapActions(['listadoExpedientes']),
 
       getExpe(){
         let exp = {

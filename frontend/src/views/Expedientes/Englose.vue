@@ -7,8 +7,8 @@
 </template>
 
 <script>
-import Englose from "../components/Tablas/TablaEnglose"
-import Titulo from "../components/Titulo";
+import Englose from "../../components/Tablas/TablaEnglose"
+import Titulo from "../../components/Titulo";
 import {mapActions, mapGetters} from "vuex";
 
 export default {

@@ -7,20 +7,15 @@
     </div>
 </template>
 <script>
-import Titulo from "../components/Titulo"
-import TablaPendientes from "../components/Tablas/TablaPendientes";
-import AlertSucess from "../components/AlertSucess"
+
+import Titulo from "../../components/Titulo"
+import TablaPendientes from "../../components/Tablas/TablaPendientes";
+import AlertSucess from "../../components/AlertSucess"
 import {mapActions,mapGetters} from "vuex";
 
 export default {
   name: 'BandejaDeEntrada',
   components: {TablaPendientes, Titulo, AlertSucess},
-  data() {
-    return {
-      estado: 1,
-      cargando:true,
-    }
-  },
 
   computed: mapGetters(['get_expedientes','get_aceptado', 'get_finalizado']),
 
@@ -29,7 +24,7 @@ export default {
   },
 
   methods: {
-    ...mapActions(['cerrar', 'listadoExpedientes']),
+    ...mapActions(['listadoExpedientes']),
 
     getBandeja(){
       let bandeja = {

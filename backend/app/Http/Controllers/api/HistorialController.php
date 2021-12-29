@@ -48,7 +48,7 @@ class HistorialController extends Controller
     {
         if($request->validated())
         {
-            $user = Auth::User();
+            $user = Auth::user();
             $expediente = Expediente::findOrFail($request->expediente_id);
             $historial = new Historial;
             $historial->expediente_id = $expediente->id;
@@ -110,8 +110,7 @@ class HistorialController extends Controller
     public function updateEstado(Request $request)
     {
         # 1-Enviado/Pendiente, 3-Aceptado, 4-Recuperado
-        //$user = User::findOrFail(auth()->user()->id);
-        $user = Auth::User();
+        $user = Auth::user();;//$user = Auth::user();
         $expediente = Expediente::findOrFail($request->expediente_id);
 
         $historial = new Historial;
@@ -119,7 +118,7 @@ class HistorialController extends Controller
         $historial->user_id = $user->id;
         $historial->area_origen_id = $expediente->historiales->last()->area_origen_id;
         $historial->area_destino_id = $user->area_id;
-        $historial->fojas = $expediente->historiales->last()->fojas;
+        $historial->fojas = $expediente->fojas;
         $historial->fecha = Carbon::now()->format('Y-m-d');
         $historial->hora = Carbon::now()->format('h:i');
         $historial->motivo = "Pase aceptado";
@@ -128,9 +127,16 @@ class HistorialController extends Controller
         /*
         * Si el estado al que cambia es 3 (mis expediente), Actualizo el area actual del expediente.
         */
-        if ($request->estado_expediente == 3) {
+        if ($request->estado_expediente == 3 or $request->estado_expediente == 4) {
             $expediente->area_actual_id = $user->area_id;
             $expediente->update();
+            if ($request->estado_expediente == 4)
+            {
+                $historial->motivo = "Pase recuperado";
+                $historial->estado = 4;
+                $expediente->estado_expediente_id = 4;
+                $expediente->save();
+            }
         }
         else
         {
@@ -141,9 +147,9 @@ class HistorialController extends Controller
 
         $estado = $request->estado;//parametro
         $bandeja = $request->bandeja;
-        $user_id = $user->id;
-        $listado_expedientes = Expediente::listadoExpedientes($user_id, $estado, $bandeja);
-        return response()->json($listado_expedientes, 200);
+        $user_id = $request->user_id;
+        $listado_expedientes = Expediente::listadoExpedientes($user_id,$estado,$bandeja);
+        return response()->json($listado_expedientes,200);
 
         /*   Datos de prueba
         {
@@ -162,20 +168,44 @@ class HistorialController extends Controller
     public function historialExpediente(Request $request)
     {
         $expediente = Expediente::findOrFail($request->id);
-        $array = collect([]);
+        $array = [];
         foreach ($expediente->historiales as $historial)
         {
-                $array->push($historial->getHistorial());
+                array_push($array, $historial->getHistorial());
         }
+        $array = array_reverse($array);
         return response()->json($array, 200);
     }
 
     /*
-    * Devuelve los expedientes enviados de un area
+    * Devuelve los expedientes enviados de un usuario
     */
-    public function misEnviados()
+    public function misEnviados_old(Request $request)
     {
-        $misExpEnviados = Historial::ExpedientesEnviados(Auth::User()->area_id);
+        //return response()->json(auth()->user()->area_id, 200);
+        if ($request->all == false){
+            $misExpEnviados = Historial::all()/*(auth()->user()->id)*/;
+        }
+        else{ //Si user_id == null  trae todos los Exp. Enviados del area
+            $misExpEnviados = Historial::ExpedientesEnviados(auth()->user()->area_id, auth()->user()->id);
+        }
+    }
+
+    /**
+     * Método que retorna los expedientes enviados por toda un área, o un usuario específico
+     * @param: all [boolean] / True "todos los enviados del área / "False" solo los enviados del usuario logueado
+     * @autor: Mariano Flores
+     */
+    public function misEnviados(Request $request)
+    {
+        $misExpEnviados = Historial::ExpedientesEnviados($request->all);
         return response()->json($misExpEnviados, 200);
+
+        /*   Datos de prueba
+        {
+            "user_id" : 1,
+            "area_id": 13,
+        }
+        */
     }
 }

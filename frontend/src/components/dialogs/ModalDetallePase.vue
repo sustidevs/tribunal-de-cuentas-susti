@@ -25,7 +25,7 @@
         <v-col cols="12" lg="6">
           <div class="d-flex justify-start">
             <div class="fontSmall Montserrat-SemiBold mr-3"> Agente que redacta el pase:</div>
-            <div class="fontBig Montserrat-Regular"> {{ this.$store.getters.getNombreApellido }}</div>
+            <div class="fontBig Montserrat-Regular"> {{ get_user.nombre_apellido }}</div>
           </div>
         </v-col>
         <v-col cols="12" lg="6">
@@ -61,7 +61,7 @@ export default {
     },
 
   computed: {
-    ... mapGetters(['areas','fecha'])
+    ... mapGetters(['areas','fecha','get_user'])
   },
 
 }

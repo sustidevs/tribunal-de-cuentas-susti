@@ -13,63 +13,61 @@
           </v-btn>
         </v-col>
       </v-row>
-      <v-divider color="#393B44" class="mt-2"></v-divider>
 
+      <v-card rounded class="pa-4" color="#EEEEEE">
+        <v-row no-gutters align="start">
+          <v-col cols="12" xl="12" lg="12" sm="12" xs="12">
+            <div
+                class="textHereSmall d-flex flex-column Montserrat-Bold mb-2 mr-2"
+            >
+              Extracto:
+            </div>
+            <div
+                class="textHereSmall d-flex flex-column Montserrat-Regular text-justify"
+            >
+              {{datos.extracto }}
+            </div>
+          </v-col>
+        </v-row>
 
-      <v-row no-gutters align="start" class="mt-5">
-        <v-col cols="12" xl="12" lg="12" sm="12" xs="12">
+        <v-row no-gutters align="start">
+          <v-col lg="7" sm="12" xs="12">
+            <div class="d-flex pt-6">
+              <div class="textHereSmall Montserrat-Bold mr-1">Iniciador:</div>
+              <div class="textHereSmall Montserrat-Regular ml-1">
+                {{ datos.iniciador }}
+              </div>
+            </div>
+          </v-col>
+          <v-col lg="5" sm="12" xs="12">
+            <div class="d-flex pt-6">
+              <div class="textHereSmall Montserrat-Bold mr-1">
+                Fecha de creación:
+              </div>
+              <div class="textHereSmall Montserrat-Regular ml-1">
+                {{ datos.fecha_creacion }}
+              </div>
+            </div>
+          </v-col>
+        </v-row>
+
+        <v-row no-gutters align="start" class="mt-5">
+          <div class="textHereSmall d-flex flex-column Montserrat-Bold mb-2 mr-2">
+            Observaciones:
+          </div>
           <div
-            class="textHereSmall d-flex flex-column Montserrat-Bold mb-2 mr-2"
+              class="textHereSmall d-flex flex-column Montserrat-Regular text-justify"
           >
-            Extracto:
+            {{ datos.observacion }}
           </div>
-          <div
-            class="textHereSmall d-flex flex-column Montserrat-Regular text-justify"
-          >
-            {{datos.extracto }}
-          </div>
-        </v-col>
-      </v-row>
-
-      <v-row no-gutters align="start">
-        <v-col lg="7" sm="12" xs="12">
-          <div class="d-flex pt-6">
-            <div class="textHereSmall Montserrat-Bold mr-1">Iniciador:</div>
-            <div class="textHereSmall Montserrat-Regular ml-1">
-              {{ datos.iniciador }}
-            </div>
-          </div>
-        </v-col>
-        <v-col lg="5" sm="12" xs="12">
-          <div class="d-flex pt-6">
-            <div class="textHereSmall Montserrat-Bold mr-1">
-              Fecha de creación:
-            </div>
-            <div class="textHereSmall Montserrat-Regular ml-1">
-              {{ datos.fecha_creacion }}
-            </div>
-          </div>
-        </v-col>
-      </v-row>
-
-      <v-row no-gutters align="start" class="mt-5">
-        <div class="textHereSmall d-flex flex-column Montserrat-Bold mb-2 mr-2">
-          Observaciones:
-        </div>
-        <div
-          class="textHereSmall d-flex flex-column Montserrat-Regular text-justify"
-        >
-          {{ datos.observacion }}
-        </div>
-      </v-row>
-
-      <v-divider color="#c2c3cc" class="mt-2"></v-divider>
+        </v-row>
+      </v-card>
 
       <v-row
         no-gutters
         align="start"
         class="mt-5"
-        v-if="getArea == 'DPTO. MESA DE ENTRADAS Y SALIDAS'"
+        v-if="get_user.area == 'DPTO. MESA DE ENTRADAS Y SALIDAS'"
       >
         <div class="textHereSmall d-flex flex-column Montserrat-Bold mb-2 mr-2">
           A efectos de:
@@ -128,7 +126,7 @@
             color="#FACD89"
             block
           >
-            <v-icon class="px-5"> mdi-check-bold </v-icon>
+            <v-icon class="px-5"> mdi-close </v-icon>
             Cerrar
           </v-btn>
         </v-col>
@@ -145,10 +143,10 @@ export default {
     datos: Object,
   },
 
-  computed: mapGetters(["getArea"]),
+  computed: mapGetters(['get_user']),
 
   methods: {
-    ...mapActions([ "getArchivos"]),
+    ...mapActions(['getArchivos']),
 
     getArchiv() {
       let files = {
@@ -164,12 +162,3 @@ export default {
   },
 };
 </script>
-<style>
-.round {
-  border-radius: 30px;
-}
-
-.descargar {
-  font-size: 18px !important;
-}
-</style>
