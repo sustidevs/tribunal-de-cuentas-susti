@@ -3,53 +3,68 @@
     <v-row>
       <v-col cols="12" lg="4">
         <v-text-field
-            color="#8D93AB"
-            v-model="search"
-            append-icon="mdi-magnify"
-            label="Buscar"
-            hide-details
-            outlined
-            class="py-6"
+          color="#8D93AB"
+          v-model="search"
+          append-icon="mdi-magnify"
+          label="Buscar"
+          hide-details
+          outlined
+          class="py-6"
         />
       </v-col>
     </v-row>
     <v-row class="mb-16">
       <v-col cols="12" lg="7">
         <v-data-table
-            :headers="headers"
-            :items="data"
-            :search="search"
-            :items-per-page="5"
-            
-            disable-sort
-            mobile-breakpoint="300"
-            class="elevation-1 mytable"
-            loading-text="Cargando expedientes. Por favor, espere."
-            :loading="loading"
-            no-data-text="No tienes expedientes"
-
+          :headers="headers"
+          :items="data"
+          :search="search"
+          :items-per-page="5"
+          disable-sort
+          mobile-breakpoint="300"
+          class="elevation-1 mytable"
+          loading-text="Cargando expedientes. Por favor, espere."
+          :loading="loading"
+          no-data-text="No tienes expedientes"
         >
-        
           <template v-slot:item.action="{ item }">
-                      <v-btn @click="seleccionar(item)" fab small color="#FACD89" depressed>
-                        <v-icon>mdi-arrow-right-thick</v-icon>
-                      </v-btn> 
+            <v-btn
+              @click="seleccionar(item)"
+              fab
+              small
+              color="#FACD89"
+              depressed
+            >
+              <v-icon>mdi-arrow-right-thick</v-icon>
+            </v-btn>
           </template>
-         
         </v-data-table>
+        <template>
+          <v-row justify="center">
+              <v-overlay :value="overlay">
+                <v-btn color="red" @click="overlay = false">
+                  Expediente ya Seleccionado
+                </v-btn>
+              </v-overlay>
+          </v-row>
+        </template>
+
       </v-col>
 
       <v-col cols="12" lg="5">
         <v-toolbar
-            color="#facd89"
-            dark
-            class="Montserrat-SemiBold text--darken-3 grey--text"
+          color="#facd89"
+          dark
+          class="Montserrat-SemiBold text--darken-3 grey--text"
         >
           Expedientes seleccionados
         </v-toolbar>
         <v-card class="mx-auto" tile>
           <v-list>
-            <div v-if="seleccionados.length === 0" class="contentSize Montserrat-Regular pa-4">
+            <div
+              v-if="seleccionados.length === 0"
+              class="contentSize Montserrat-Regular pa-4"
+            >
               Aún no ha seleccionado ningún expediente para englosar
             </div>
 
@@ -58,45 +73,64 @@
                 <v-icon>mdi-file</v-icon>
               </v-list-item-icon>
               <v-list-item-content>
-                <v-list-item-title class="contentSize Montserrat-SemiBold" v-text="item.nro_expediente"></v-list-item-title>
-                <v-list-item-content class="contentSize Montserrat-Regular" v-text="item.extracto"/>
-                <v-row @click="quitar(item.expediente_id)"  no-gutters>
-                  <v-icon class="red--text">mdi-close</v-icon><div class="pt-1 Montserrat-Regular red--text">Quitar Selección</div>
-                </v-row>
+                <v-list-item-title
+                  class="contentSize Montserrat-SemiBold"
+                  v-text="item.nro_expediente"
+                ></v-list-item-title>
+                <v-list-item-content
+                  class="contentSize Montserrat-Regular"
+                  v-text="item.extracto"
+                />
+                <v-btn @click="quitar(item)" class="justify-start">
+                  <v-icon class="red--text">mdi-close</v-icon>
+                  <div class="Montserrat-Regular text-start red--text">
+                    Quitar Selección
+                  </div>
+                </v-btn>
                 <v-divider class="my-2"></v-divider>
               </v-list-item-content>
             </v-list-item>
           </v-list>
 
-          <v-row justify="center" align="center" v-if="!(seleccionados.length === 0)" class="contentSize Montserrat-Regular pa-6">
-            <v-btn @click="confirmarEnglose" :disabled="this.$store.getters.get_consul_loading" class="pa-1 color Montserrat-SemiBold px-6" height="50" elevation="0" color="#FACD89">
-              <v-icon class="px-2">
-                mdi-check-bold
-              </v-icon>
-                Confirmar
+          <v-row
+            justify="center"
+            align="center"
+            v-if="!(seleccionados.length === 0)"
+            class="contentSize Montserrat-Regular pa-6"
+          >
+            <v-btn
+              @click="confirmarEnglose"
+              :disabled="this.$store.getters.get_consul_loading"
+              class="pa-1 color Montserrat-SemiBold px-6"
+              height="50"
+              elevation="0"
+              color="#FACD89"
+            >
+              <v-icon class="px-2"> mdi-check-bold </v-icon>
+              Confirmar
             </v-btn>
           </v-row>
         </v-card>
       </v-col>
     </v-row>
 
-    <modal-exito-englose :show="get_show_englose"/>
+    <modal-exito-englose :show="get_show_englose" />
     <v-overlay :value="this.$store.getters.get_consul_loading">
-        <v-progress-circular indeterminate size="60"></v-progress-circular>
+      <v-progress-circular indeterminate size="60"></v-progress-circular>
     </v-overlay>
   </div>
 </template>
 
 <script>
-import {mapActions, mapGetters} from "vuex";
-import ModalExitoEnglose from '../../components/dialogs/ModalExitoEnglose';
+import { mapActions, mapGetters } from "vuex";
+import ModalExitoEnglose from "../../components/dialogs/ModalExitoEnglose";
 
 export default {
-  components:{ModalExitoEnglose},
+  components: { ModalExitoEnglose },
   props: {
     headers: Array,
     data: Array,
-    loading: {type: Boolean, default: false},
+    loading: { type: Boolean, default: false },
   },
 
   data() {
@@ -104,18 +138,18 @@ export default {
       seleccionados: [],
       search: "",
       show: false,
-      btn: false 
+      btn: false,
+      overlay: false,
+      zIndex: 0,
     };
   },
 
-  computed: mapGetters(['get_consul_loading', 'get_show_englose']),
+  computed: mapGetters(["get_consul_loading", "get_show_englose"]),
 
   methods: {
-    ...mapActions([
-      "englosar"
-    ]),
+    ...mapActions(["englosar"]),
 
-    confirmarEnglose(){
+    confirmarEnglose() {
       let expediente_hijo = [];
 
       for (var i = 1; i < this.seleccionados.length; i++) {
@@ -123,45 +157,32 @@ export default {
       }
 
       let expedientes_englose = {
-          fojas_aux: this.seleccionados[0].fojas,
-           user_id: this.$store.getters.getIdUser,
-           exp_padre: this.seleccionados[0].expediente_id,
-          exp_hijos: expediente_hijo
-      }
-      this.englosar(expedientes_englose)
+        fojas_aux: this.seleccionados[0].fojas,
+        user_id: this.$store.getters.getIdUser,
+        exp_padre: this.seleccionados[0].expediente_id,
+        exp_hijos: expediente_hijo,
+      };
+      this.englosar(expedientes_englose);
 
       this.show = true;
     },
 
-
     seleccionar(item) {
-      let bandera = this.seleccionados.filter((e)=>e.expediente_id === item.expediente_id)
-      //console.log(bandera)
-      if(bandera.length === 0){
-         this.seleccionados.push(item)
-         this.btn = true
-      }else{
-      // alert("ya esta pa")
+      let bandera = this.seleccionados.filter(
+        (e) => e.expediente_id === item.expediente_id
+      );
+      if (bandera.length === 0) {
+        this.seleccionados.push(item);
+        this.btn = true;
+      } else {
+        this.overlay = !this.overlay;
       }
-
     },
 
-    // disablebtn(item){
-    //   if(item.expediente_id === this.seleccionados){
-    //     this.btn = true
-    //   }
-    //   console.log(this.seleccionados)
-    // },
-
-    quitar(item){
-      let borrar = this.seleccionados.filter((e)=>e.expediente_id !== item.expediente_id)
-      console.log(borrar)
-    }
-      
-    
-
-
-
+    quitar(item) {
+      this.seleccionados.splice(this.seleccionados.indexOf(item), 1);
+      console.log(item);
+    },
   },
 };
 </script>
@@ -186,11 +207,11 @@ export default {
   background-color: #fae3bf !important;
 }
 
-.subSize{
-  font-size: 22px ;
+.subSize {
+  font-size: 22px;
 }
 
-.contentSize{
+.contentSize {
   font-size: 18px;
 }
 </style>
