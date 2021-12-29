@@ -15,7 +15,6 @@
     </v-row>
 
     <v-data-table
-        show-select
       :headers="headers"
       :items="data"
       :search="search"
