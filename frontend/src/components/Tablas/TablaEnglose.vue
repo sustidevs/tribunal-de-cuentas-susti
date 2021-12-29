@@ -39,16 +39,6 @@
             </v-btn>
           </template>
         </v-data-table>
-        <template>
-          <v-row justify="center">
-              <v-overlay :value="overlay">
-                <v-btn color="red" @click="overlay = false">
-                  Expediente ya Seleccionado
-                </v-btn>
-              </v-overlay>
-          </v-row>
-        </template>
-
       </v-col>
 
       <v-col cols="12" lg="5">
@@ -139,8 +129,6 @@ export default {
       search: "",
       show: false,
       btn: false,
-      overlay: false,
-      zIndex: 0,
     };
   },
 
@@ -175,7 +163,7 @@ export default {
         this.seleccionados.push(item);
         this.btn = true;
       } else {
-        this.overlay = !this.overlay;
+        // dialog componets aca
       }
     },
 
