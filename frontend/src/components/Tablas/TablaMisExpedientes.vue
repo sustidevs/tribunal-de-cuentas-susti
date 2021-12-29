@@ -68,14 +68,17 @@ export default {
 
   data() {
     return {
+      disabledCount: 0,
+      selected: [],
+      singleSelect: false,
       datosSeleccionado: {},
       show_modal: false,
-      selected: [],
       search: "",
     };
   },
 
   methods: {
+
     getColor(prioridades) {
       if (prioridades === "alta") return "red lighten-3";
       if (prioridades === "normal") return "grey lighten-2";
@@ -86,7 +89,6 @@ export default {
     },
 
     ...mapActions(["getNuevoPase"]),
-
 
     detalle(item) {
       this.datosSeleccionado = item

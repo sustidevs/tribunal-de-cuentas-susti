@@ -44,7 +44,7 @@ const routes = [
         path: '/historial-enviados',
         name: 'MisEnviados',
         component: MisEnviados,
-        meta: { title: 'Mis enviados', middleware: [auth]}
+        meta: { title: 'Historial Enviados', middleware: [auth]}
       },
       {
         path: '/englose',
