@@ -103,7 +103,7 @@ class LoginController extends Controller
      * @param: password
      * Autor: Mariano Flores
      */
-    public function authenticate_new(LoginRequest $request)
+    public function authenticate_new_old(LoginRequest $request)
     {
         $user = ModelsUser::where("cuil", "=", "$request->cuil")->first();
         if(isset($user->id))
@@ -138,5 +138,65 @@ class LoginController extends Controller
                 "mensaje" => "usuario y/o contraseña incorrecta",
             ], 404);
         }
+    }
+
+    /**
+     * Agrega token personalizado para permitir englose y desglose
+     * areas 7,8,9 y 10
+     */
+    public function authenticate_new(LoginRequest $request)
+    {
+        $user = ModelsUser::where("cuil", "=", "$request->cuil")->first();
+        if(isset($user->id))
+        {
+            $user->tokens()->delete(); // comentar ésta línea si se requiere asignar más de un token al usuario
+            if(Hash::check($request->password, $user->password))
+            {
+                if($user->area_id === 7)
+                {
+                    $token = $user->createToken('englose-desglose', ['englosar:desglosar'])->plainTextToken;
+                    return response()->json([
+                        "status" => true,
+                        "mensaje" => "usuario logueado exitosamente",
+                        "nombre_apellido" => $user->persona->nombre ." ". $user->persona->apellido,
+                        "cuil" => $user->cuil,
+                        "id" => $user->area->id,
+                        "area" => $user->area->descripcion,
+                        "cargo" => $user->tipouser->descripcion,
+                        "access_token" => $token,
+                        "token_type" => "englosar:desglosar"
+                    ], 200);
+                }
+                else
+                {
+                    $token = $user->createToken("auth_token")->plainTextToken;
+                    return response()->json([
+                        "status" => true,
+                        "mensaje" => "usuario logueado exitosamente",
+                        "nombre_apellido" => $user->persona->nombre ." ". $user->persona->apellido,
+                        "cuil" => $user->cuil,
+                        "id" => $user->area->id,
+                        "area" => $user->area->descripcion,
+                        "cargo" => $user->tipouser->descripcion,
+                        "access_token" => $token,
+                        "token_type" => "token normalito"
+                    ], 200);
+                }
+            }
+            else
+            {
+                return response()->json([
+                    "status" => false,
+                    "mensaje" => "contraseña incorrecta",
+                ], 404);
+            }
+        }
+        else
+        {
+            return response()->json([
+                "status" => false,
+                "mensaje" => "usuario y/o contraseña incorrecta",
+            ], 404);       
+        }   
     }
 }
