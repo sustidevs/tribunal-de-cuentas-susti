@@ -15,7 +15,7 @@ class CreateExtractosTable extends Migration
     {
         Schema::create('extractos', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('descripcion');
+            $table->text('descripcion');
             $table->timestamps();
         });
     }
