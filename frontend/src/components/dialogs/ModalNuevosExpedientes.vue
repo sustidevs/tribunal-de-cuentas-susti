@@ -62,7 +62,7 @@
         </v-col>
 
         <v-col cols="12" md="6" lg="6" sm="6" xs="12" class="px-sm-2 py-5">
-          <Button link="/nuevo-expediente" texto="Nuevo expediente" icono="mdi-text-box-plus"/>
+          <Button link="/" texto="Cerrar" icono="mdi-close"/>
         </v-col>
 
       </v-row>
