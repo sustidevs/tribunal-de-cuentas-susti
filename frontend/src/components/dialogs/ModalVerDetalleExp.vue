@@ -51,46 +51,37 @@
           </v-col>
         </v-row>
 
+
         <v-row no-gutters align="start" class="mt-5">
-          <div class="textHereSmall d-flex flex-column Montserrat-Bold mb-2 mr-2">
-            Observaciones:
-          </div>
-          <div
-              class="textHereSmall d-flex flex-column Montserrat-Regular text-justify"
-          >
-            {{ datos.observacion }}
-          </div>
+            <div class="textHereSmall d-flex flex-column Montserrat-Bold mb-2 mr-2" >
+              Observaciones:
+            </div>
+            <div
+                class="textHereSmall d-flex flex-column Montserrat-Regular text-justify"
+            >
+              {{ datos.observacion }}
+            </div>
         </v-row>
       </v-card>
 
-      <v-row
-        no-gutters
-        align="start"
-        class="mt-5"
-        v-if="get_user.area == 'DPTO. MESA DE ENTRADAS Y SALIDAS'"
-      >
+
+      <v-row no-gutters align="start" class="mt-5">
+
         <div class="textHereSmall d-flex flex-column Montserrat-Bold mb-2 mr-2">
           A efectos de:
         </div>
-        <div
-          class="textHereSmall d-flex flex-column Montserrat-Regular text-justify"
-        >
-          <div v-if="!(datos.motivo === undefined)">
-            {{ datos.motivo[0].motivo }}
+
+        <div v-if="datos.observacion_pase === null">
+          <div class="textHereSmall d-flex flex-column Montserrat-Regular text-justify">
+            No se agregaron comentarios
           </div>
+        </div>
+
+        <div class="textHereSmall d-flex flex-column Montserrat-Regular text-justify" v-else>
+            {{ datos.observacion_pase }}
         </div>
       </v-row>
 
-      <v-row no-gutters align="start" class="mt-5" v-else>
-        <div class="textHereSmall d-flex flex-column Montserrat-Bold mb-2 mr-2">
-          A efectos de:
-        </div>
-        <div
-          class="textHereSmall d-flex flex-column Montserrat-Regular text-justify"
-        >
-          {{ datos.observacion_pase }}
-        </div>
-      </v-row>
 
       <v-row no-gutters align="start" class="mt-5">
         <v-col>
