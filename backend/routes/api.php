@@ -78,6 +78,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/storeExp',            [ExpedienteController::class, 'store']);
     Route::post('/zip',               [ExpedienteController::class, 'descargarZip']);
 
+    Route::get('/notificacion',               [NotificacionController::class, 'index']);
+
 });
 
 // Rutas que no se deben proteger

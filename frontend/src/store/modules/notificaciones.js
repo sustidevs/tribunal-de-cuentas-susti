@@ -13,9 +13,10 @@ const getters = {
 
 
 const actions = {
-    cantidad_subsidioAporteNR ({ commit } , id_usuario) {
-        axios.post(process.env.VUE_APP_API_URL+ '/api/contarSubsidioAporteNR', id_usuario)
+    cantidad_subsidioAporteNR ({ commit }) {
+        axios.get(process.env.VUE_APP_API_URL+ '/api/notificacion')
             .then(response => {
+                console.log(response.data)
                 commit('setcantidad_subsidioAporteNR', response.data)
             })
     },
