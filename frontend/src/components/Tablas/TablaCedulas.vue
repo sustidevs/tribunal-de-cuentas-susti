@@ -46,7 +46,6 @@
           <v-icon> mdi-credit-card-plus </v-icon>
         </v-btn>
       </template>
-
     </v-data-table>
     <modal-nueva-cedula :show="show_modal" :datos="this.datos"/>
     <modal-detalle-cedula :show="show_detalle" :datos="get_detalle"/>

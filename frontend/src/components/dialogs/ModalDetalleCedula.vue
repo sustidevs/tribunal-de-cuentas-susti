@@ -4,7 +4,7 @@
           <v-row>
             <v-col cols="10">
               <h2 class="Montserrat-Bold text-justify">
-                N° de cédulas asociadas
+                Cédulas asociadas
               </h2>
             </v-col>
             <v-col cols="2" align="right">
@@ -16,22 +16,23 @@
 
           <v-divider color="#393B44" class="my-2"></v-divider>
 
-          <div>
-            <v-list color="grey lighten-4">
-              <v-list-item
-                v-for="item in datos"
-                :key="item.id"
-              >
-                <v-list-item-icon>
-                  <v-icon color="#FDBC3F" large> mdi-card-bulleted </v-icon>
-                </v-list-item-icon>
-
-                <v-list-item-subtitle class="sizeTextSmall Montserrat-SemiBold">
-                  {{ item.nro_cedula }}
-                </v-list-item-subtitle>
-              </v-list-item>
-            </v-list>
-          </div>
+          <v-list color="grey lighten-4">
+            <v-list-item
+              v-for="item in datos"
+              :key="item.id"
+            >
+              <v-list-item-subtitle class="sizeTextSmall">
+                <v-row>
+                  <v-col cols="2" class="Montserrat-SemiBold text-justify">
+                    {{ item.nro_cedula }}
+                  </v-col>
+                  <v-col cols="6" class="Montserrat-Regular text-justify">
+                    Empleado: {{ item.user }}
+                  </v-col>
+                </v-row>
+              </v-list-item-subtitle>
+            </v-list-item>
+          </v-list>
 
           <div v-if="this.get_mensaje" class="Montserrat-Regular text-justify sizeCedula">
             Este expediente no tiene cédulas asociadas.
