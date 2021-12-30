@@ -1,6 +1,6 @@
 <template>
   <div>
-    <titulo texto="Historial Enviados"/>
+    <titulo texto="Historial Enviados" icono="mdi-file-send"/>
     <tabla-mis-enviados :headers="headers" :data="get_expedientes" :loading="get_finalizado"/>
   </div>
 </template>
