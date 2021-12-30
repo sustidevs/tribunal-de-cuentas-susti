@@ -12,7 +12,7 @@ class NotificacionController extends Controller
 {
     public function index()
     {
-        $notificaciones = Notificacion::index();
+        $notificaciones = Notificacion::all();
         return response()->json($notificaciones, 200);
     }
 
@@ -46,7 +46,7 @@ class NotificacionController extends Controller
         $notificacion = Notificacion::findOrFail($request->id);
         $notificacion->user_id = Auth::User()->id;
         $notificacion->fecha = Carbon::now();
-        $notificacion->estado = "2"; //Aceptado
+        $notificacion->estado = false; //Aceptado
         $notificacion->save();
         return response()->json($notificacion->getDatos(), 200);
     }
