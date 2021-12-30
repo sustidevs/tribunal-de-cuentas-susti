@@ -14,7 +14,7 @@
         </v-col>
       </v-row>
 
-      <v-card rounded class="pa-4" color="#EEEEEE">
+      <v-card rounded class="pa-4 text-responsive" color="#EEEEEE">
         <v-row no-gutters align="start">
           <v-col cols="12" xl="12" lg="12" sm="12" xs="12">
             <div
@@ -64,7 +64,7 @@
           A efectos de:
         </div>
         <div v-if="datos.observacion_pase === null">
-          <div class="textHereSmall d-flex flex-column Montserrat-Regular text-justify">
+          <div class="textHereSmall d-flex flex-column Montserrat-Regular">
             No se agregaron comentarios
           </div>
         </div>
@@ -155,3 +155,16 @@ export default {
   },
 };
 </script>
+<style>
+
+    @media (max-width: 600px) {
+        .text-responsive {
+            text-align: initial;
+        }
+    }
+    @media (min-width: 600px) {
+        .text-responsive {
+            text-align: justify;
+        }
+    }
+</style>
