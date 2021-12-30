@@ -2,19 +2,19 @@
   <v-dialog v-model="show" width="1200px" content-class="round" persistent>
     <v-card class="px-7 pt-1">
       <v-row class="mt-5 mb-2">
-        <v-col cols="12" xl="10" lg="6" sm="10" xs="12">
-          <h2 class="Montserrat-Bold text-justify">
+        <v-col cols="12" xl="10" lg="6" sm="10" xs="1">
+          <h2 class="Montserrat-Bold ">
             Expediente N° {{ datos.nro_expediente }}
           </h2>
         </v-col>
-        <v-col cols="12" xl="2" lg="6" sm="2" xs="12" align="right">
+        <v-col cols="12" xl="2" lg="6" sm="2" xs="12" align="right" class="iconoMobile">
           <v-btn @click="close" icon elevation="0" color="grey lighten-2">
             <v-icon color="#393B44" large>mdi-file-document</v-icon>
           </v-btn>
         </v-col>
       </v-row>
 
-      <v-card rounded class="pa-4" color="#EEEEEE">
+      <v-card rounded class="pa-4 text-responsive" color="#EEEEEE">
         <v-row no-gutters align="start">
           <v-col cols="12" xl="12" lg="12" sm="12" xs="12">
             <div
@@ -23,69 +23,71 @@
               Extracto:
             </div>
             <div
-                class="textHereSmall d-flex flex-column Montserrat-Regular text-justify"
+                class="textHereSmall d-flex flex-column Montserrat-Regular"
             >
               {{datos.extracto }}
             </div>
           </v-col>
-        </v-row>
-
-        <v-row no-gutters align="start">
-          <v-col lg="7" sm="12" xs="12">
-            <div class="d-flex pt-6">
-              <div class="textHereSmall Montserrat-Bold mr-1">Iniciador:</div>
-              <div class="textHereSmall Montserrat-Regular ml-1">
-                {{ datos.iniciador }}
-              </div>
-            </div>
-          </v-col>
-          <v-col lg="5" sm="12" xs="12">
-            <div class="d-flex pt-6">
-              <div class="textHereSmall Montserrat-Bold mr-1">
-                Fecha de creación:
-              </div>
-              <div class="textHereSmall Montserrat-Regular ml-1">
-                {{ datos.fecha_creacion }}
-              </div>
-            </div>
-          </v-col>
-        </v-row>
-
-
-        <v-row no-gutters align="start" class="mt-5">
-            <div class="textHereSmall d-flex flex-column Montserrat-Bold mb-2 mr-2" >
-              Observaciones:
-            </div>
-            <div
-                class="textHereSmall d-flex flex-column Montserrat-Regular text-justify"
-            >
-              {{ datos.observacion }}
-            </div>
-        </v-row>
-      </v-card>
-
-
-      <v-row no-gutters align="start" class="mt-5">
-
-        <div class="textHereSmall d-flex flex-column Montserrat-Bold mb-2 mr-2">
-          A efectos de:
+        </v-row> 
+        
+        <div class="d-flex flex-column pt-6">
+          <div class="textHereSmall Montserrat-Bold mr-1">
+            Fecha de creación:
+          </div>
+          <div class="textHereSmall Montserrat-Regular ml-1">
+            {{ datos.fecha_creacion }}
+          </div>
         </div>
-
-        <div v-if="datos.observacion_pase === null">
-          <div class="textHereSmall d-flex flex-column Montserrat-Regular text-justify">
-            No se agregaron comentarios
+        <div class="d-flex flex-column pt-6">
+          <div class="textHereSmall flex-column Montserrat-Bold mr-1">Iniciador:</div>
+          <div class="textHereSmall Montserrat-Regular ml-1">
+            {{ datos.iniciador }}
           </div>
         </div>
 
-        <div class="textHereSmall d-flex flex-column Montserrat-Regular text-justify" v-else>
-            {{ datos.observacion_pase }}
+
+        <v-row no-gutters align="start" class="mt-5">
+          <div class="textHereSmall d-flex flex-column Montserrat-Bold mb-2 mr-2">
+            Observaciones:
+          </div>
+          <div
+              class="textHereSmall d-flex flex-column Montserrat-Regular"
+          >
+            {{ datos.observacion }}
+          </div>
+        </v-row>
+      </v-card>
+
+      <v-row no-gutters align="start" class="mt-5" v-if="get_user.area == 'DPTO. MESA DE ENTRADAS Y SALIDAS'">
+        <v-col col="12" lg="12" sm="12" xs="12">
+        <div class="textHereSmall d-flex flex-column Montserrat-Bold mb-2 mr-2">
+          A efectos de:
         </div>
+        <div v-if="datos.observacion_pase === null">
+          <div class="textHereSmall d-flex flex-column Montserrat-Regular">
+            No se agregaron comentarios
+          </div>
+        </div>
+        </v-col>
+      </v-row>
+
+      <v-row no-gutters align="start" class="mt-5" v-else>
+        <v-col col="12" lg="12" sm="12" xs="12">
+        <div class="textHereSmall d-flex flex-column Montserrat-Bold mb-2 mr-2">
+          A efectos de:
+        </div>
+        <div
+          class="textHereSmall d-flex flex-column Montserrat-Regular"
+        >
+          {{ datos.observacion_pase }}
+        </div>
+        </v-col>
       </v-row>
 
 
       <v-row no-gutters align="start" class="mt-5">
-        <v-col>
-          <div class="d-flex">
+        <v-col col="12" lg="12" sm="12" xs="12">
+          <div>
             <div class="textHereSmall Montserrat-Bold mr-2">
               Archivos adjuntos:
             </div>
@@ -99,7 +101,7 @@
             </div>
             <div
               v-else
-              class="textHereSmall d-flex flex-column Montserrat-Regular text-justify"
+              class="textHereSmall d-flex flex-column Montserrat-Regular"
             >
               No se han cargado archivos
             </div>
@@ -153,3 +155,16 @@ export default {
   },
 };
 </script>
+<style>
+
+    @media (max-width: 600px) {
+        .text-responsive {
+            text-align: initial;
+        }
+    }
+    @media (min-width: 600px) {
+        .text-responsive {
+            text-align: justify;
+        }
+    }
+</style>
