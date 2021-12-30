@@ -1,6 +1,6 @@
 <template>
   <div>
-    <titulo texto="Recuperar" icono="mdi-email-fast" />
+    <titulo texto="Recuperar" icono="mdi-arrow-u-left-top-bold" />
     <div class="descripcion text-justify py-4">
       Si desea <strong>recuperar</strong> un expediente, haga clic en el botón
       de la tabla.

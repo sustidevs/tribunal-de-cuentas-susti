@@ -17,6 +17,11 @@ const state = {
     overlay: false,
     area:'',
     restart: false,
+
+    newPass: false,
+    verificarPass: false,
+    error_passwordOld: '',
+    error_passwordFail: '',
 };
 
 const getters = {
@@ -36,7 +41,12 @@ const getters = {
     get_error_contra: state => state.error_contra,
     get_nro: state => state.nro,
     get_logueo: state => state.logueado,
-    get_area: state => state.user.area
+    get_area: state => state.user.area,
+
+    getNewPass: state => state.newPass,
+    getVerificarPass: state => state.verificarPass,
+    getErrorPassOld: state => state.error_passwordOld,
+    getErrorPassFail: state => state.error_passwordFail,
 };
 
 const actions = {
@@ -141,6 +151,10 @@ const mutations = {
     set_error_logeo:(state, error_logeo) => state.error_logeo = error_logeo,
     set_error_cuil:(state, error_cuil) => state.error_cuil = error_cuil,
     set_error_contra:(state, error_contra) => state.error_contra = error_contra,
+    setNewPass: (state, newPass) => state.newPass = newPass,
+    set_error_passOld: (state, error_passwordOld) => state.error_passwordOld = error_passwordOld,
+    set_error_passFail: (state, error_passwordFail) => state.error_passwordFail = error_passwordFail,
+    setVerificarPass: (state, verificarPass) => state.verificarPass = verificarPass,
 };
 
 export default {
