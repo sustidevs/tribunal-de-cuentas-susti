@@ -19,6 +19,7 @@
         <v-list-item
             v-for="list in listDesplegable"
             :key="list.titulo"
+            :href="list.link"
             @click="sheet = false"
         >
           <v-icon class="pr-3 white--text">{{ list.icono }}</v-icon>
@@ -35,7 +36,7 @@ export default {
   props: {
     titulo: String,
     icono:String,
-    listDesplegable: Array
+    listDesplegable: Array,
   },
 
   data: () => ({

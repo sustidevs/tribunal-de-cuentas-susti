@@ -73,13 +73,15 @@ Route::middleware('auth:sanctum')->group(function () {
     /***** ALERTAS ***/
     Route::post('/contarExp',         [ExpedienteController::class, 'contadorBandejaEntrada']);
     Route::post('/contarSubsidioAporteNR', [NotificacionController::class, 'contadorSubsidioAporteNR']);
+    Route::get('/notificacion',               [NotificacionController::class, 'index']);
+    Route::get('/notificacion-cerrar',               [NotificacionController::class, 'update']);
+
 
     /*** NUEVO EXPEDIENTE ***/
     Route::post('/nroExp',              [ExpedienteController::class, 'createNroExpediente']);
     Route::post('/storeExp',            [ExpedienteController::class, 'store']);
     Route::post('/zip',               [ExpedienteController::class, 'descargarZip']);
 
-    
 });
 
 // Rutas que no se deben proteger

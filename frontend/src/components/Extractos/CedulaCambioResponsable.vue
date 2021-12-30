@@ -180,7 +180,7 @@ export default {
         cargaExtracto() {
             this.isEditing = !this.isEditing
             this.hasSaved = true
-            const extracto = "E/JUICIO DE CTAS.DE OFICIO A: " + this.input1 + ". CUIT/DNI: " + this.input2 + ". NORMA LEGAL:  " + this.input3 + ". OTORGÓ: " + this. input4 + ". GTOS: " + this.input5 + ". IMPORTE: $" + this.input6 + ". N° DE RECLAMO: " + this.input7 + ". DISPOSICIÓN: " + this. input8 + ". CÉDULA CAMBIO RESPONSABLE" + ". INICIADOR: " + this.nombreIniciador
+            const extracto = "E/JUICIO DE CTAS.DE OFICIO A: " + this.input1 + ". CUIT/DNI: " + this.input2 + ". NORMA LEGAL:  " + this.input3 + ". OTORGÓ: " + this.input4 + ". GTOS: " + this.input5 + ". IMPORTE: $" + this.input6 + ". N° DE RECLAMO: " + this.input7 + ". DISPOSICIÓN: " + this.input8 + ". CÉDULA CAMBIO RESPONSABLE. INICIADOR: " + this.nombreIniciador
             this.extracto(extracto)
         },
 

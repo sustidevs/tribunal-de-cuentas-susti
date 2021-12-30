@@ -133,7 +133,7 @@ class ExpedienteController extends Controller
             $historial->hora = Carbon::now()->format('h:i');
             //$historial->motivo = $request->observacion; TODO
             $historial->motivo = "Pase al área: ".Area::find( $historial->area_destino_id)->descripcion. ".";
-            $historial->observacion = "";
+            $historial->observacion = null;
             $historial->estado = "1";//Enviado
             if($historial->save())
             {
@@ -165,7 +165,7 @@ class ExpedienteController extends Controller
                 $notificacion->expediente_id = $expediente->id;
                 $notificacion->user_id = $user->id;
                 $notificacion->fecha = Carbon::now()->format('Y-m-d');
-                $notificacion->estado = "1";
+                $notificacion->estado = true;
                 $notificacion->save();
             }
             DB::commit();
