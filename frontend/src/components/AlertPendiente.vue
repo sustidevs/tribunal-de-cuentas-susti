@@ -1,6 +1,6 @@
 <template>
   <v-alert
-      icon="mdi-check"
+      icon="mdi-alert-circle"
       dense
       prominent
       text

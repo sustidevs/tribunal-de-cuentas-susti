@@ -45,6 +45,7 @@
           </div>
         </div>
 
+
         <v-row no-gutters align="start" class="mt-5">
           <div class="textHereSmall d-flex flex-column Montserrat-Bold mb-2 mr-2">
             Observaciones:
@@ -62,11 +63,9 @@
         <div class="textHereSmall d-flex flex-column Montserrat-Bold mb-2 mr-2">
           A efectos de:
         </div>
-        <div
-          class="textHereSmall d-flex flex-column Montserrat-Regular"
-        >
-          <div v-if="!(datos.motivo === undefined)">
-            {{ datos.motivo[0].motivo }}
+        <div v-if="datos.observacion_pase === null">
+          <div class="textHereSmall d-flex flex-column Montserrat-Regular text-justify">
+            No se agregaron comentarios
           </div>
         </div>
         </v-col>
@@ -84,6 +83,7 @@
         </div>
         </v-col>
       </v-row>
+
 
       <v-row no-gutters align="start" class="mt-5">
         <v-col col="12" lg="12" sm="12" xs="12">
