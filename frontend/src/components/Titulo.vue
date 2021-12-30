@@ -6,7 +6,7 @@
           {{texto}} {{ nro }}
         </h2>
       </v-col>
-      <v-col cols="2" align="right">
+      <v-col cols="2" class="iconoMobile" align="right">
         <v-icon color="#393B44" large>{{icono}}</v-icon>
       </v-col>
     </v-row>
@@ -28,5 +28,10 @@ export default {
 h2{
   font-size: 30px;
   color: #393B44;
+}
+@media (max-width: 600px){
+  .iconoMobile{
+    display: none;
+  }
 }
 </style>
