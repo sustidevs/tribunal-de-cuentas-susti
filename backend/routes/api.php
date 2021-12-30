@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\api\PagoController;
@@ -54,10 +55,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/store-cedula',    [CedulaController::Class, 'store']);
 
     /**** DESGLOSE Y ENGLOSE *****/
-    Route::get('/indexExpPadres',       [ExpedienteController::class, 'indexExpPadres'])->middleware(['auth:sanctum', 'ability:englosar:desglosar']);
-    Route::post('/createDesgloceExp',       [ExpedienteController::class, 'createDesgloce'])->middleware(['auth:sanctum', 'ability:englosar:desglosar']);
-    Route::post('/desgloceExp',       [ExpedienteController::class, 'desgloce'])->middleware(['auth:sanctum', 'ability:englosar:desglosar']);
-    Route::post('/unionExp',       [ExpedienteController::class, 'union'])->middleware(['auth:sanctum', 'ability:englosar:desglosar']);
+    Route::get('/indexExpPadres',       [ExpedienteController::class, 'indexExpPadres']);
+    Route::post('/createDesgloceExp',       [ExpedienteController::class, 'createDesgloce']);
+    Route::post('/desgloceExp',       [ExpedienteController::class, 'desgloce']);
+    Route::post('/unionExp',       [ExpedienteController::class, 'union']);
 
     /**** INICIADORES ****/
     Route::get('/createTipoEntidad', [IniciadorController::class, 'create']);
@@ -78,6 +79,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/storeExp',            [ExpedienteController::class, 'store']);
     Route::post('/zip',               [ExpedienteController::class, 'descargarZip']);
 
+    
 });
 
 // Rutas que no se deben proteger
@@ -86,3 +88,15 @@ Route::post('/login',[LoginController::class, 'authenticate_new'] ); // reemplaz
 
 Route::get('/all-expedientes',      [ExpedienteController::class, 'AllExpedientes']);
 
+
+Route::get('/prueba', function(){
+    $user = User::findOrFail(auth()->user()->id);
+    if($user->tokenCan('usuario:normalito'))
+    {
+        return "llega con token";
+    }
+    else
+    { 
+        return "no esta ingresando bien :/";
+    }
+});

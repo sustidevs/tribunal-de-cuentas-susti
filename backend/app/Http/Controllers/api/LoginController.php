@@ -152,9 +152,9 @@ class LoginController extends Controller
             $user->tokens()->delete(); // comentar ésta línea si se requiere asignar más de un token al usuario
             if(Hash::check($request->password, $user->password))
             {
-                if($user->area_id === 7)
+                if($user->area_id == 7)
                 {
-                    $token = $user->createToken('englose-desglose', ['englosar:desglosar'])->plainTextToken;
+                    $token = $user->createToken('englose', ['englose:desglose'])->plainTextToken;
                     return response()->json([
                         "status" => true,
                         "mensaje" => "usuario logueado exitosamente",
@@ -164,12 +164,12 @@ class LoginController extends Controller
                         "area" => $user->area->descripcion,
                         "cargo" => $user->tipouser->descripcion,
                         "access_token" => $token,
-                        "token_type" => "englosar:desglosar"
+                        "token_type" => "englose"
                     ], 200);
                 }
                 else
                 {
-                    $token = $user->createToken("auth_token")->plainTextToken;
+                    $token = $user->createToken('normal', ['normalito'])->plainTextToken;
                     return response()->json([
                         "status" => true,
                         "mensaje" => "usuario logueado exitosamente",
@@ -179,7 +179,7 @@ class LoginController extends Controller
                         "area" => $user->area->descripcion,
                         "cargo" => $user->tipouser->descripcion,
                         "access_token" => $token,
-                        "token_type" => "token normalito"
+                        "token_type" => "normal"
                     ], 200);
                 }
             }
