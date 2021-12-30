@@ -1,51 +1,88 @@
 <template>
-  <v-menu
-      width="10px"
-      rounded
-      offset-y
-  >
+  <v-menu width="10px" rounded offset-y>
     <template v-slot:activator="{ on }">
-      <v-hover v-slot="{ hover }" >
-        <v-btn v-on="on" width="55" height="64"  elevation="0" tile :color="hover ? '#393b44' : '#393b44'">
-          <v-icon :class="hover ? 'amber--text text--lighten-3' : 'white--text'">mdi-account</v-icon>
+      <v-hover v-slot="{ hover }">
+        <v-btn
+          v-on="on"
+          class="py-8"
+          elevation="0"
+          tile
+          :color="hover ? '#393b44' : '#393b44'"
+        >
+          <v-icon :class="hover ? 'amber--text text--lighten-3' : 'white--text'"
+            >mdi-account-circle</v-icon
+          >
         </v-btn>
       </v-hover>
     </template>
 
-    <v-card color="#393b44">
-      <v-list-item-content class="justify-center">
-        <div class="mx-auto text-center white--text">
+    <v-card color="#393b44" class="py-3 ">
+      <v-list-item>
+        <v-list-item-content class="justify-center">
+          <h6 class="px-2 Montserrat-Regular mx-auto text-end white--text">
+            {{ get_user.area }}
+          </h6>
+          <h6 class="px-2 py-1 Montserrat-Regular mx-auto text-end white--text">
+            {{ get_user.cuil }}
+          </h6>
+        </v-list-item-content>
+      </v-list-item>
 
-          <h3>{{ user.fullName }}</h3>
-          <span class="text-caption mt-1">
-                  {{ user.email }}
-                </span>
-          <v-divider  class="my-2"></v-divider>
+      <v-divider class="my-1"></v-divider>
 
-          <div :key="men.titulo" v-for="men in menuAccount">
-            <v-hover v-slot="{ hover }" >
-              <v-btn
-                  block
-                  depressed
-                  text
-                  class="py-4"
-              >
-                <h5 :class="hover ? 'black--text' : 'white--text' ">{{ men.titulo }}</h5>
-              </v-btn>
-            </v-hover>
-            <v-divider class="my-1"></v-divider>
-          </div>
-        </div>
-      </v-list-item-content>
+      <div>
+        <v-hover v-slot="{ hover }" class="d-flex justify-end py-2">
+          <v-btn block depressed text href="/usuario">
+            <h5
+              class="px-2 Montserrat-Regular"
+              :class="hover ? 'amber--text text--lighten-3' : 'white--text'"
+            >
+              Editar Perfil
+            </h5>
+            <v-icon
+              :class="hover ? 'amber--text text--lighten-3' : 'white--text'"
+              >mdi-account</v-icon
+            >
+          </v-btn>
+        </v-hover>
+        <v-divider class="my-1"></v-divider>
+      </div>
+
+      <div>
+        <v-hover v-slot="{ hover }" class="d-flex justify-end py-2">
+          <v-btn block large depressed text @click="onLogout()">
+            <h5
+              class="px-2 Montserrat-Regular"
+              :class="hover ? 'amber--text text--lighten-3' : 'white--text'"
+            >
+              Salir
+            </h5>
+            <v-icon
+              :class="hover ? 'amber--text text--lighten-3' : 'white--text'"
+              >mdi-logout</v-icon
+            >
+          </v-btn>
+        </v-hover>
+      </div>
     </v-card>
   </v-menu>
 </template>
 
 <script>
+import { mapActions, mapGetters } from "vuex";
+
 export default {
-  data: () => ({
-    user: { fullName: 'Juan123', email: 'john.doe@doe.com'},
-    menuAccount:[ {titulo:'Bandeja de Entrada'},{titulo: 'Editar Cuenta'},{titulo: 'Salir'}],
-  })
-}
+  computed: mapGetters(["get_user"]),
+
+  methods: {
+    ...mapActions({
+      salir: "logout",
+    }),
+
+    onLogout() {
+      this.salir();
+      this.$router.go(0);
+    },
+  },
+};
 </script>
