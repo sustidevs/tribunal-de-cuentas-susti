@@ -42,6 +42,7 @@ const actions = {
         axios.get(process.env.VUE_APP_API_URL+ '/api/indexExp')
             .then(response => {
                 commit('set_todos_expedientes', response.data)
+                commit('set_todos_expedientes', response.data)
                 commit('set_finalizado', false)
             })
     },

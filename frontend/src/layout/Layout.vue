@@ -6,7 +6,6 @@
         </v-main>
       </div>
       <div v-if="currentRoute !== '/login' ">
-
         <overlay :loading="get_btn_login"/>
 
         <NavbarMobile/>
@@ -21,8 +20,8 @@
             <alert-pendiente :cantidad="get_cantPendientes"/>
           </div>
 
-          <div v-if="(get_user.area === 'DIRECCIÓN DE REGISTRACIONES') && (getcantidad_subsidioAporteNR > 0) ">
-            <alerta-registraciones :texto="getcantidad_subsidioAporteNR" />
+          <div v-if="(get_user.area === 'DIRECCIÓN DE REGISTRACIONES') && (get_subsidioAporteNR === 1)">
+            <snackbar class="mb-8"/>
           </div>
 
           <router-view/>
@@ -38,30 +37,30 @@ import Navbar from "../components/Navbar"
 import Footer from "../components/Footer";
 import NavbarMobile from "../components/NavbarMobile";
 import AlertPendiente from  "../components/AlertPendiente"
-import AlertaRegistraciones from "../components/AlertaRegistraciones";
 import Overlay from "../components/Overlay";
 import ModalRecargar from "../components/dialogs/ModalRecargar";
+import Snackbar from "../components/Snackbars"
 
 import {mapActions, mapGetters} from "vuex";
 
 export default {
-  components: { Footer, Navbar, NavbarMobile, AlertPendiente, AlertaRegistraciones, Overlay, ModalRecargar},
+  components: { Footer, Navbar, NavbarMobile, AlertPendiente, Overlay, ModalRecargar,Snackbar},
 
   data: () => ({
     value: 'recent',
     currentRoute: window.location.pathname
   }),
 
-  computed: mapGetters(['get_user','get_cantPendientes', 'getcantidad_subsidioAporteNR','get_btn_login','get_restart']),
+  computed: mapGetters(['get_user','get_cantPendientes', 'getcantidad_subsidioAporteNR','get_btn_login','get_restart','get_subsidioAporteNR']),
 
   mounted() {
     this.getUsuario();
-    this.cantidad_subsidioAporteNR();
+    this.exp_subsidioAporteNR();
     this.cantidadPendientes();
   },
 
   methods: {
-    ...mapActions(['cantidadPendientes', 'cantidad_subsidioAporteNR', 'getUsuario']),
+    ...mapActions(['cantidadPendientes', 'exp_subsidioAporteNR', 'getUsuario']),
   }
 }
 </script>

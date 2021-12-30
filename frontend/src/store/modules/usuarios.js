@@ -36,6 +36,7 @@ const getters = {
     //usario o contraseña incorrecta
     get_error_logeo: state => state.error_logeo,
     get_error_Cuil: state => state.error_cuil,
+
     //para contraseña vacia o con letras
     get_error_contra: state => state.error_contra,
     get_nro: state => state.nro,
