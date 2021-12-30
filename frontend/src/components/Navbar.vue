@@ -32,7 +32,7 @@
               <DropdownMenu titulo="Iniciadores" :data-item="iniciadores"/>
             </div>
 
-            <div v-if="(get_user.area === 'SECRETARIA GENERAL TECNICA') || (get_user.area === 'SECRETARIA GENERAL ADMINISTRATIVA') || (get_user.area === 'ASESORIA LEGAL') || (get_user.area === 'DIRECCIÓN DE PERSONAL') || (get_user.area === 'DPTO. DE ADMINISTRACIÓN') || (get_user.area === 'DEPARTAMENTO FALLOS') || (get_user.area === 'ARCHIVO') || (get_user.area === 'DPTO. NOTIFICACIONES') || (get_user.area === 'DPTO. DE ADMINISTRACIÓN') || (get_user.area === 'AUDITORIA A') || (get_user.area === 'AUDITORIA B') || (get_user.area === 'AUDITORIA C') || (get_user.area === 'AUDITORIA D') || (get_user.area === 'PRESIDENCIA') || (get_user.area === 'MAESTRANZA')" cols="12" lg="6" align="center" align-self="center">
+            <div v-if="(get_user.area === 'SECRETARIA GENERAL TECNICA') || (get_user.area === 'SECRETARIA GENERAL ADMINISTRATIVA') || (get_user.area === 'ASESORIA LEGAL') || (get_user.area === 'DIRECCIÓN DE PERSONAL') || (get_user.area === 'DPTO. DE ADMINISTRACIÓN') || (get_user.area === 'DEPARTAMENTO FALLOS') || (get_user.area === 'ARCHIVO') || (get_user.area === 'DPTO. NOTIFICACIONES') || (get_user.area === 'AUDITORIA A') || (get_user.area === 'AUDITORIA B') || (get_user.area === 'AUDITORIA C') || (get_user.area === 'AUDITORIA D') || (get_user.area === 'PRESIDENCIA') || (get_user.area === 'MAESTRANZA')" cols="12" lg="6" align="center" align-self="center">
               <DropdownMenu titulo="Bandejas" :data-item="bandejas"/>
               <DropdownMenu titulo="Expedientes" :data-item="expedientes"/>
             </div>
