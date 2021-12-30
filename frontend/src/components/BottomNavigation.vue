@@ -1,9 +1,9 @@
 <template>
     <v-bottom-navigation background-color="#393b44" color="#FACD89" fixed height="70">
       <div class="Montserrat-SemiBold d-flex flex-row">
-          <BottomSheets titulo="Expedientes" icono="mdi-file-document-multiple-outline" :listDesplegable="expedientes"/>
-          <BottomSheets titulo="Documentos" icono="mdi-book-outline" :listDesplegable="documentos"/>
-        <BottomSheets titulo="Novedades" icono="mdi-chat-alert-outline" :listDesplegable="comunicaciones"/>
+          <BottomSheets titulo="BANDEJAS" icono="mdi-inbox-full" :listDesplegable="bandejas"/>
+          <BottomSheets titulo="EXPEDIENTES" icono="mdi-file-document-multiple-outline" :listDesplegable="expedientes"/>
+        <BottomSheets titulo="INICIADORES" icono="mdi-account-group" :listDesplegable="iniciadores"/>
       </div>
     </v-bottom-navigation>
 </template>
@@ -15,9 +15,9 @@ export default {
   components: {BottomSheets},
 
   data: () => ({
-    expedientes:[{titulo:'Nuevo Expediente', icono:'mdi-file-plus-outline'}, {titulo: 'Todos',icono:'mdi-file-document-multiple-outline'},{titulo: 'Enviados',icono:'mdi-file-upload-outline'},{titulo: 'Seguimientos',icono:'mdi-file-search-outline'},{titulo: 'Archivados',icono:'mdi-file-document-outline'}],
-    documentos:[ {titulo: 'Normativas',icono:'mdi-text-box-multiple-outline'},{titulo: 'Generar', icono:'mdi-text-box-plus-outline'}],
-    comunicaciones:[  {titulo: 'Reuniones',icono:'mdi-account-supervisor-outline'},{titulo: 'Novedades',icono:'mdi-book-open-blank-variant'}],
+    bandejas:[{titulo:'Pendientes', icono:'mdi-bell-outline', link:"/expedientes-pendientes"}, {titulo: 'Expedientes', icono:'mdi-file-document-multiple-outline', link:"/expedientes"},{titulo: 'Historial Enviados', icono:'mdi-file-send-outline', link:"/historial-enviados"}],
+    expedientes:[ {titulo: 'Nuevo', icono:'mdi-text-box-plus-outline', link:"/nuevo-expediente"},{titulo: 'Pase', icono:'mdi-file-send-outline', link:"/mis-expedientes"},{titulo: 'Recuperar', icono:'mdi-arrow-u-left-top', link:"/recuperar"},{titulo: 'Añadir Cédula', icono:'mdi-card-account-details-outline', link:"/cedula"}],
+    iniciadores:[  {titulo: 'Nuevo', icono:'mdi-account-plus-outline', link:"/nuevo-iniciador"},{titulo: 'Ver Todos', icono:'mdi-account-group', link:"/iniciadores"}],
   }),
 }
 </script>

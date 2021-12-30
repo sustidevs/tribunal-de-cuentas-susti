@@ -63,7 +63,7 @@ export default {
   data: () => ({
     bandejas:[ {titulo:'Pendientes', link:'/expedientes-pendientes'},{titulo: 'Expedientes', link:'/expedientes'},{titulo: 'Historial Enviados',link:'/historial-enviados'}],
     expedientes:[ {titulo: 'Nuevo Pase', link:'/mis-expedientes'}, {titulo: 'Recuperar', link:'/recuperar'}],
-    expedientesMesaEntrada:[ {titulo: 'Nuevo', link:'/nuevo-expediente'},{titulo: 'Pase', link:'/mis-expedientes'}, {titulo: 'Recuperar', link:'/recuperar'}, {titulo: 'Añadir cedula', link:'/cedula'}],
+    expedientesMesaEntrada:[ {titulo: 'Nuevo', link:'/nuevo-expediente'},{titulo: 'Pase', link:'/mis-expedientes'}, {titulo: 'Recuperar', link:'/recuperar'}, {titulo: 'Añadir cédula', link:'/cedula'}],
     expedientesRelatoriasyVocalias:[ {titulo: 'Nuevo Pase', link:'/mis-expedientes'}, {titulo: 'Recuperar', link:'/recuperar'}, {titulo: 'Desglose', link:'/desglose'}, {titulo: 'Englose', link:'/englose'}],
     iniciadores:[  {titulo: 'Nuevo', link:'/nuevo-iniciador'} , {titulo: 'Ver todos', link:'/iniciadores'}],
   }),
