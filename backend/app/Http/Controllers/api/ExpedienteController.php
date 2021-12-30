@@ -165,7 +165,7 @@ class ExpedienteController extends Controller
                 $notificacion->expediente_id = $expediente->id;
                 $notificacion->user_id = $user->id;
                 $notificacion->fecha = Carbon::now()->format('Y-m-d');
-                $notificacion->estado = "1";
+                //$notificacion->estado = true;
                 $notificacion->save();
             }
             DB::commit();

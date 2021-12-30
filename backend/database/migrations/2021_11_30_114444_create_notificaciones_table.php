@@ -19,7 +19,7 @@ class CreateNotificacionesTable extends Migration
             $table->foreignId('expediente_id')->constrained('expedientes');
             $table->integer('user_id');
             $table->date('fecha')->nullable();
-            $table->integer('estado')->nullable();
+            $table->boolean('estado')->default(false);
             $table->timestamps();
         });
     }
