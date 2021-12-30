@@ -13,8 +13,8 @@
         />
       </v-col>
     </v-row>
-    <v-row class="mb-16">
-      <v-col cols="12" lg="7">
+    <v-row class="mb-16" justify="center">
+      <v-col cols="12" xs="12" sm="12" md="12" lg="6">
         <v-data-table
           :headers="headers"
           :items="data"
@@ -37,11 +37,29 @@
             >
               <v-icon>mdi-arrow-right-thick</v-icon>
             </v-btn>
+
+            <v-dialog
+              v-model="dialog"
+              transition="dialog-top-transition"
+              max-width="600"
+            >
+              <v-card>
+                <v-toolbar color="#FACD89" dark>
+                  <v-icon x-large>mdi-alert-circle</v-icon>
+                  <v-row justify="center">
+                    <h2 class="white--text">¡Oops!</h2>
+                  </v-row>
+                </v-toolbar>
+                <div class="text-h6 pa-10 font-weight-regular">
+                  El expediente que seleccionaste ya se encuentra en uso!
+                </div>
+              </v-card>
+            </v-dialog>
           </template>
         </v-data-table>
       </v-col>
 
-      <v-col cols="12" lg="5">
+      <v-col cols="12" xs="12" sm="12" md="12" lg="6">
         <v-toolbar
           color="#facd89"
           dark
@@ -71,12 +89,14 @@
                   class="contentSize Montserrat-Regular"
                   v-text="item.extracto"
                 />
+                <v-row justify="start" class="my-1">
                 <v-btn @click="quitar(item)" class="justify-start">
                   <v-icon class="red--text">mdi-close</v-icon>
                   <div class="Montserrat-Regular text-start red--text">
                     Quitar Selección
                   </div>
                 </v-btn>
+                </v-row>
                 <v-divider class="my-2"></v-divider>
               </v-list-item-content>
             </v-list-item>
@@ -129,10 +149,19 @@ export default {
       search: "",
       show: false,
       btn: false,
+      dialog: false,
     };
   },
 
   computed: mapGetters(["get_consul_loading", "get_show_englose"]),
+
+  watch: {
+      dialog (val) {
+        val && setTimeout(() => {
+          this.dialog = false
+        }, 1000)
+  },
+  },
 
   methods: {
     ...mapActions(["englosar"]),
@@ -161,9 +190,8 @@ export default {
       );
       if (bandera.length === 0) {
         this.seleccionados.push(item);
-        this.btn = true;
       } else {
-        // dialog componets aca
+        this.dialog = true;
       }
     },
 
