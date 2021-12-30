@@ -1,10 +1,9 @@
 <template>
   <div class="Montserrat-SemiBold" >
-    <v-app-bar class="pl-3" height="64" color="#393b44">
+    <v-app-bar class="pl-4" height="64" color="#393b44">
       <v-row justify="start">
-        <LogoNavbar/>
+        <a href="/"><LogoNavbar/></a>
       </v-row>
-        <MensajeriaNotificacion/>
         <DropdownMenuPerfilMobile/>
     </v-app-bar>
   </div>
@@ -12,11 +11,10 @@
 
 <script>
 import LogoNavbar from "../components/LogoNavbar";
-import MensajeriaNotificacion from "./MensajeriaNotificacion";
 import DropdownMenuPerfilMobile from "./DropdownMenuPerfilMobile";
 
 export default {
-  components : {LogoNavbar, MensajeriaNotificacion, DropdownMenuPerfilMobile}
+  components : {LogoNavbar, DropdownMenuPerfilMobile}
 }
 
 </script>
