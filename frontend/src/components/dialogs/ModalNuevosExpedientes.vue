@@ -10,7 +10,7 @@
       <v-row no-gutters class="mt-8">
         <v-col cols="12">
           <div class="Montserrat-Bold mb-2 sizeTM"> Iniciador:</div>
-          <div class="Montserrat-Regular mb-6 text-justify sizeDM">{{ dato[1] }}</div>
+          <div class="Montserrat-Regular mb-6 sizeDM text-responsive">{{ dato[1] }}</div>
         </v-col>
       </v-row>
 
@@ -18,54 +18,56 @@
         <v-col cols="12" md="6" sm="12" xs="12">
           <div class="Montserrat-Bold mb-2 sizeTM"> Se derivó al área:</div>
           <div v-if="!(dato[3] === undefined)">
-            <div class="Montserrat-Regular mb-6 text-justify sizeDM">{{ dato[3].descripcion }}</div>
+            <div class="Montserrat-Regular mb-6 sizeDM text-responsive">{{ dato[3].descripcion }}</div>
           </div>
         </v-col>
         <v-col cols="12" md="6" sm="12" xs="12">
           <div class="Montserrat-Bold mb-2 sizeTM"> Fecha:</div>
-          <div class="Montserrat-Regular mb-6 ml-1 sizeDM"> {{ dato[0] }}</div>
+          <div class="Montserrat-Regular mb-6 ml-1 sizeDM text-responsive"> {{ dato[0] }}</div>
         </v-col>
       </v-row>
 
       <v-row no-gutters>
         <v-col cols="12" v-if="dato[6] !== '-'">
           <div class="Montserrat-Bold mr-1 mb-2 sizeTM"> Email:</div>
-          <div class="Montserrat-Regular mb-6 text-justify sizeDM">{{dato[6]}}</div>
+          <div class="Montserrat-Regular mb-6 sizeDM text-responsive">{{dato[6]}}</div>
         </v-col>
       </v-row>
 
       <v-row no-gutters>
         <v-col cols="12" md="12" sm="12" xs="12">
           <div class="Montserrat-Bold mb-2 sizeTM"> Extracto:</div>
-          <div class="Montserrat-Regular mb-6 text-justify sizeDM">{{ dato[2] }}</div>
+          <div class="Montserrat-Regular mb-6  sizeDM text-responsive">{{ dato[2] }}</div>
         </v-col>
       </v-row>
 
       <v-row no-gutters  v-if="dato[7] !== '-'">
         <v-col cols="12" md="12" sm="12" xs="12">
           <div class="Montserrat-Bold mb-2 sizeTM">Observación:</div>
-          <div class="Montserrat-Regular mb-6 text-justify sizeDM">{{dato[7]}}</div>
+          <div class="Montserrat-Regular mb-6  sizeDM text-responsive">{{dato[7]}}</div>
         </v-col>
       </v-row>
 
       <v-row no-gutters justify="center" class="py-4">
 
-        <v-col cols="12" lg="6" md="6" sm="6" xs="12" class="px-sm-2 py-5">
-          <v-btn @click="downloadPDF"  type="submit" class="pa-5 color Montserrat-SemiBold" height="55" elevation="0" color="#FACD89" block>
-            <v-icon class="px-5">
+        <v-col cols="12" lg="6" md="6" sm="12" class="px-sm-2 py-5 ">
+          <v-btn @click="downloadPDF" type="submit" class="pa-5 color Montserrat-SemiBold sizeButton" height="55" elevation="0" color="#FACD89" block>
+            <v-icon class="px-4">
               mdi-printer
             </v-icon>
             <div>
-              Imprimir caratula
+              Imprimir Caratula
             </div>
           </v-btn>
-        </v-col>
+        </v-col>     
 
-        <v-col cols="12" md="6" lg="6" sm="6" xs="12" class="px-sm-2 py-5">
-          <Button link="/" texto="Cerrar" icono="mdi-close"/>
+
+        <v-col cols="12" md="6" lg="6" sm="12" class="px-sm-2 py-5 ">
+          <Button link="/" texto="Cerrar" class="pa-5 color Montserrat-SemiBold sizeButton" icono="mdi-close"/>             
         </v-col>
 
       </v-row>
+      
     </v-card>
 
     <VueHtml2pdf pdf-content-width="800px" :preview-modal="true" pdf-format="a4" :filename="dato[4]" :manual-pagination="true" :enable-download="true" ref="DownloadComp">
@@ -178,7 +180,7 @@
 </template>
 <script>
 import Button from "../Button";
-import VueHtml2pdf from 'vue-html2pdf'
+import VueHtml2pdf from 'vue-html2pdf';
 import {mapGetters} from "vuex";
 
 export default {
@@ -273,5 +275,20 @@ hr.dashed {
 
 .paddExp{
   padding: 25px 0px 20px 0px;
+}
+
+@media (max-width: 420px) {
+  .sizeButton{
+    width: 10px;
+    text-align: center;
+  }  
+  .text-responsive {
+    text-align: initial;
+    }
+}
+ @media (min-width: 600px) {
+  .text-responsive {
+    text-align: justify;
+  }
 }
 </style>
