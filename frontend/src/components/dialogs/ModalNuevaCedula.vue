@@ -8,10 +8,8 @@
                 Agregar Cédula al Expediente N°{{ this.datos.nro_expediente }}
               </h2>
             </v-col>
-            <v-col cols="2" align="right">
-              <v-btn @click="close" icon elevation="0" color="grey lighten-2">
-                <v-icon left large color="#393B44"> mdi-close-thick </v-icon>
-              </v-btn>
+            <v-col cols="2" align="right" class="iconoMobile">
+              <v-icon left large color="#393B44"> mdi-credit-card-plus </v-icon>
             </v-col>
           </v-row>
 
@@ -36,16 +34,29 @@
               <label-error :texto="this.get_error"/>
               <text-field class="py-2" v-model="valorCedula" tipo="number"/>
 
-              <v-row no-gutters justify="center" class="py-3">
-                <v-col cols="12" lg="6" class="px-sm-2">
+              <v-row no-gutters justify="center" class="py-3">             
+                <v-col cols="12" sm="6" class="px-sm-2">
+                  <v-btn
+                    @click="close"
+                    class="pa-5 color Montserrat-SemiBold ma-2"
+                    height="55"
+                    elevation="0"
+                    color="#FACD89"
+                    block
+                  >
+                    <v-icon class="pr-5"> mdi-close-thick </v-icon>
+                    Cerrar
+                  </v-btn>
+                </v-col>
+                <v-col cols="12" sm="6" class="px-sm-2">
                   <v-btn
                     @click="save()"
-                    class="pa-5 color Montserrat-SemiBold"
+                    class="pa-5 color Montserrat-SemiBold ma-2"
                     height="55"
                     color="#FACD89"
                     block
                   >
-                    <v-icon class="pr-4"> mdi-content-save </v-icon>
+                    <v-icon class="pr-5"> mdi-content-save </v-icon>
                     Guardar
                   </v-btn>
                 </v-col>
@@ -58,30 +69,41 @@
       <div v-else>
         <v-card class="px-7 pt-1 pb-6">
           <v-row class="mt-5">
-            <v-col cols="10">
+            <v-col cols="12">
               <h2 class="Montserrat-Bold text-justify">
                 Se guardó con éxito el N° de Cédula
               </h2>
             </v-col>
-            <v-col cols="2" align="right">
-              <v-btn @click="close" icon elevation="0" color="grey lighten-2">
-                <v-icon left large color="#393B44">
-                  mdi-close-thick
-                </v-icon>
-              </v-btn>
-            </v-col>
           </v-row>
 
           <v-divider color="#393B44" class="mt-2"></v-divider>
-            <v-row class="Montserrat-Regular sizeCedula mb-1 py-4">
-              <v-col cols="6">
-                <div class="sizeTextSmall Montserrat-SemiBold pt-4">N° de Expediente: <span class="sizeTextSmall Montserrat-Regular"> {{getCedula.nro_expediente}} </span></div>
-              </v-col>
-              <v-col cols="6">
-                <div class="sizeTextSmall Montserrat-SemiBold pt-4">N° de Cédula: <span class="sizeTextSmall Montserrat-Regular">  {{ getCedula.descripcion }} </span></div>
-              </v-col>
-              <div class="sizeTextSmall Montserrat-SemiBold pt-4 px-2">Extracto: <span class="sizeTextSmall Montserrat-Regular"> {{getCedula.extracto}} </span></div>
-              <div class="sizeTextSmall Montserrat-SemiBold pt-4 px-2">Usuario: <span class="sizeTextSmall Montserrat-Regular"> {{ getCedula.user}} </span></div>
+          <v-row class="Montserrat-Regular sizeCedula mb-1 py-4">
+            <v-col cols="12" md="6" sm="12">
+              <div class="sizeTextSmall Montserrat-SemiBold pt-4">N° de Expediente: <span class="sizeTextSmall Montserrat-Regular"> {{getCedula.nro_expediente}} </span></div>
+            </v-col>
+            <v-col cols="12" md="6" sm="12">
+              <div class="sizeTextSmall Montserrat-SemiBold pt-4">N° de Cédula: <span class="sizeTextSmall Montserrat-Regular">  {{ getCedula.descripcion }} </span></div>
+            </v-col>
+            <v-col cols="12">
+              <div class="sizeTextSmall Montserrat-SemiBold pt-4">Extracto: <span class="sizeTextSmall Montserrat-Regular"> {{getCedula.extracto}} </span></div>
+              <div class="sizeTextSmall Montserrat-SemiBold pt-6">Usuario: <span class="sizeTextSmall Montserrat-Regular"> {{ getCedula.user}} </span></div>
+            </v-col>
+          </v-row>
+
+          <v-row no-gutters justify="center" class="py-3">             
+            <v-col cols="12" sm="6" class="px-sm-2">
+              <v-btn
+                @click="close"
+                class="pa-5 color Montserrat-SemiBold"
+                height="55"
+                elevation="0"
+                color="#FACD89"
+                block
+              >
+                <v-icon class="pr-5"> mdi-close-thick </v-icon>
+                Cerrar
+              </v-btn>
+            </v-col>
           </v-row>
         </v-card>
       </div>
