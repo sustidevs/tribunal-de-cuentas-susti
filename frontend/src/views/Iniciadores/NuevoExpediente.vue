@@ -1,14 +1,14 @@
 <template>
   <div class="mb-12">
     <form @submit.prevent="storeExpe()">
-      <v-row class="pt-5">
-        <v-col>
-          <h1 class="d-flex justify-start Montserrat-Bold pb-4">
+      <v-row class="py-3">
+        <v-col cols="12" sm="12" md="10" lg="10">
+          <h1 class="justify-start Montserrat-Bold ">
             Nuevo Expediente
           </h1>
         </v-col>
-        <v-col>
-          <div class="d-flex justify-end">
+        <v-col cols="6" sm="12" md="2" lg="2">
+          <div class="pb-3 alingText">
             <input-date :fecha="fecha" />
           </div>
         </v-col>
@@ -371,6 +371,11 @@ export default {
 }
 .alert {
   font-size: 13px;
+}
+@media (min-width: 1100px) {
+  .alingText {
+    text-align: end;
+  }
 }
 @media (max-width: 859px) {
   .alert {
