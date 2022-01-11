@@ -130,6 +130,6 @@ export default {
 </script>
 <style>
 .sizeCedula {
-  font-size: 20px !important;
+  font-size: 22px !important;
 }
 </style>

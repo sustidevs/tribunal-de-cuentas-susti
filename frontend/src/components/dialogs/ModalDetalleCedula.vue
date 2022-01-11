@@ -7,36 +7,71 @@
                 Cédulas asociadas
               </h2>
             </v-col>
-            <v-col cols="2" align="right">
-              <v-btn @click="close" icon elevation="0" color="grey lighten-2">
-                <v-icon left large color="#393B44"> mdi-close-thick </v-icon>
-              </v-btn>
+            <v-col cols="2" align="right" class="iconoMobile">
+              <v-icon left large color="#393B44"> mdi-card-account-details </v-icon>
             </v-col>
           </v-row>
 
           <v-divider color="#393B44" class="my-2"></v-divider>
 
-          <v-list color="grey lighten-4">
-            <v-list-item
+          <div v-if="!this.get_mensaje">
+            <div v-if="$vuetify.breakpoint.mdAndUp">
+              <v-row class="mt-2 pl-3 sizeTextSmall">
+                <v-col cols="3" class="Montserrat-SemiBold text-justify orange--text accent-1">
+                  NÚMERO
+                </v-col>
+                <v-col cols="6" class="Montserrat-SemiBold text-justify orange--text accent-1">
+                  EMPLEADO
+                </v-col>
+              </v-row>
+              <v-list color="grey lighten-4">
+                <v-list-item
+                  v-for="item in datos"
+                  :key="item.id"
+                >
+                  <v-list-item-subtitle class="sizeTextSmall">
+                    <v-row>
+                      <v-col cols="3" class="Montserrat-Regular text-justify">
+                        {{ item.nro_cedula }}
+                      </v-col>
+                      <v-col cols="6" class="Montserrat-Regular text-justify">
+                        {{ item.user }}
+                      </v-col>
+                    </v-row>
+                  </v-list-item-subtitle>
+                </v-list-item>
+              </v-list>
+            </div>
+
+            <div v-else
               v-for="item in datos"
               :key="item.id"
             >
-              <v-list-item-subtitle class="sizeTextSmall">
-                <v-row>
-                  <v-col cols="2" class="Montserrat-SemiBold text-justify">
-                    {{ item.nro_cedula }}
-                  </v-col>
-                  <v-col cols="6" class="Montserrat-Regular text-justify">
-                    Empleado: {{ item.user }}
-                  </v-col>
-                </v-row>
-              </v-list-item-subtitle>
-            </v-list-item>
-          </v-list>
+              <div class="Montserrat-Regular sizeTextSmall text-justify py-2">N° {{ item.nro_cedula }} </div>
+              <div class="Montserrat-Regular sizeTextSmall text-justify pb-2">Empleado: {{ item.user }}</div>
+              <v-divider/>
+            </div>
+          </div>
 
-          <div v-if="this.get_mensaje" class="Montserrat-Regular text-justify sizeCedula">
+          <div v-if="this.get_mensaje" class="Montserrat-Regular text-justify sizeCedula pt-2">
             Este expediente no tiene cédulas asociadas.
           </div>
+
+          <v-row no-gutters justify="center" class="mt-8 mb-2">
+            <v-col cols="12" sm="6" md="6" lg="6" class="px-sm-2">
+              <v-btn
+                @click="close"
+                class="pa-5 color Montserrat-SemiBold"
+                height="55"
+                elevation="0"
+                color="#FACD89"
+                block
+              >
+                <v-icon class="pr-5"> mdi-close </v-icon>
+                Cerrar
+              </v-btn>
+            </v-col>
+          </v-row>
         </v-card>
     </v-dialog>
 </template>
@@ -47,7 +82,7 @@ export default {
   name: 'ModalDetalleCedula',
   components: { },
   props: {
-    show: Boolean,
+    show: { type: Boolean, default: false },
     datos: Array,
   },
   methods: {
@@ -64,18 +99,14 @@ export default {
 }
 </script>
 <style>
-.detalle{
-  font-size: 25px;
-  color: #FACD89;
+@media (max-width: 600px) {
+    .text-responsive {
+        text-align: initial;
+    }
 }
-
-.fontBig{
-  font-size: 25px;
-  color: #393B44;
-}
-
-.fontSmall{
-  font-size: 24px;
-  color: #393B44;
+@media (min-width: 600px) {
+    .text-responsive {
+        text-align: justify;
+    }
 }
 </style>
