@@ -135,19 +135,19 @@
             <v-stepper-content step="2">
               <modal-detalle-pase :data="this.pase" :dataArea="this.areaSeleccionado" />
               <v-row justify="center" class="my-4">
-                <v-col cols="4">
+                <v-col cols="12" lg="6" md="6" sm="6">
                   <v-btn
                     @click="e1 = 1"
                     class="pa-5 Montserrat-Bold"
                     height="55"
-                    elevation="0"
+                    elevation="1"
                     block
                   >
                     <v-icon class="pr-5"> mdi-arrow-left-bold </v-icon>
                     <div>Volver</div>
                   </v-btn>
                 </v-col>
-                <v-col cols="4">
+                <v-col cols="12" lg="6" md="6" sm="6">
                   <v-btn
                     type="submit"
                     class="pa-5 Montserrat-Bold"
