@@ -7,14 +7,14 @@
       <v-divider class="mt-3"/>
 
       <v-row no-gutters>
-        <v-col cols="12" xl="6" lg="12" class="pt-5">
-          <div class="d-flex justify-start">
+        <v-col cols="12" xl="6" lg="6" md="12" sm="12" class="pt-5">
+          <div class=" justify-start">
             <div class="fontSmall Montserrat-SemiBold mr-3"> Derivado a:</div>
             <div class="fontBig Montserrat-Regular"> {{ dataArea.descripcion }} </div>
           </div>
         </v-col>
-        <v-col cols="12" xl="6" lg="12" class="pt-5">
-          <div class="d-flex justify-start">
+        <v-col cols="12" xl="6" lg="6" md="12" sm="12" class="pt-5">
+          <div class=" justify-start">
             <div class="fontSmall Montserrat-SemiBold mr-3"> Fecha y hora: </div>
             <div class="fontBig Montserrat-Regular"> {{ fecha[0]}}, {{ fecha[1] }}h. </div>
           </div>
@@ -22,13 +22,13 @@
       </v-row>
 
       <v-row no-gutters>
-        <v-col cols="12" xl="6" lg="12" class="pt-5">
-          <div class="d-flex justify-start">
+        <v-col cols="12" xl="6" lg="6" md="12" sm="12" class="pt-5">
+          <div class="justify-start">
             <div class="fontSmall Montserrat-SemiBold mr-3"> Agente que redacta el pase:</div>
             <div class="fontBig Montserrat-Regular"> {{ get_user.nombre_apellido }}</div>
           </div>
         </v-col>
-        <v-col cols="12" xl="6" lg="12" class="pt-5">
+        <v-col cols="12" xl="6" lg="6" md="12" sm="12" class="pt-5">
           <div class="d-flex">
             <div class="fontSmall Montserrat-SemiBold mr-3"> Fojas: </div>
             <div class="fontBig Montserrat-Regular"> {{ data.nro_fojas }} </div>
