@@ -1,18 +1,7 @@
 <template>
     <v-dialog v-model="show" max-width="1200px" content-class="round" persistent justify="center">
-        <v-card elevation="0" class="py-8 px-5" width="1700" color="grey lighten-4">
-          <v-row>
-            <v-col cols="10">
-              <h2 class="Montserrat-Bold text-justify">
-                Cédulas asociadas
-              </h2>
-            </v-col>
-            <v-col cols="2" align="right" class="iconoMobile">
-              <v-icon left large color="#393B44"> mdi-card-account-details </v-icon>
-            </v-col>
-          </v-row>
-
-          <v-divider color="#393B44" class="my-2"></v-divider>
+        <v-card elevation="0" class="py-4 px-5" width="1700" color="grey lighten-4">
+          <titulo texto="Cédulas asociadas" icono="mdi-card-account-details"/>
 
           <div v-if="!this.get_mensaje">
             <div v-if="$vuetify.breakpoint.mdAndUp">
@@ -78,9 +67,10 @@
 
 <script>
 import {mapGetters} from "vuex";
+import Titulo from "../../components/Titulo";
 export default {
   name: 'ModalDetalleCedula',
-  components: { },
+  components: {Titulo},
   props: {
     show: { type: Boolean, default: false },
     datos: Array,
