@@ -272,6 +272,21 @@ class ExpedienteController extends Controller
         $historial_ultimo_hijo->motivo = 'Expediente Nº ' . $exp_ultimo_hijo->nro_expediente . ' se ha desglosado';
         $historial_ultimo_hijo->save();
         $exp_padre->fojas = $exp_padre->historiales->first()->fojas;
+        //Eliminacion de archivos hijos
+        if($exp_padre->archivos != null)
+        {
+            $public_dir = public_path()."/storage/archivos_expedientes/". $exp_padre->archivos;
+            $zip = new ZipArchive;
+            $zip->open($public_dir);
+            foreach ($exp_hijos as $exp_hijo )
+            {
+                $fileName = $exp_hijo->nro_expediente;
+                $fileName = str_replace("/","-",$fileName).'.zip';
+                $zip->deleteName($fileName);
+            }
+            $zip->close();
+        }
+        //
         $exp_padre->save();
         $historial_padre = new Historial;
         $historial_padre->area_origen_id = $user->area_id;
@@ -480,8 +495,7 @@ class ExpedienteController extends Controller
                             $fileName = $value->nro_expediente;
                             $fileName = str_replace("/","-",$fileName).'.zip';
                             $zip->addFile($public_dir_hijo, $fileName);
-                        }
-                        
+                        }   
                     }
                     //$zip->close();
                     $headers = array('Content-Type'=>'arraybuffer',);
