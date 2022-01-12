@@ -4,20 +4,18 @@
         <v-row class="mt-5 mb-2">
           <v-col cols="10">
             <h2 class="Montserrat-Bold text-justify red--text">
-              Tipo de archivo seleccionado no valido
-              <v-icon left large color="#FF0000"> mdi-alert-circle </v-icon>
+              Tipo de archivo seleccionado no válido
+              
             </h2>
           </v-col>
           <v-col cols="2" align="right">
-            <v-btn @click="close" icon elevation="0" color="grey lighten-2">
-              <v-icon left large color="#393B44"> mdi-close-thick </v-icon>
-            </v-btn>
+            <v-icon left large color="#FF0000"> mdi-alert-circle </v-icon>
           </v-col>
         </v-row>
 
         <v-divider color="#393B44" class="mt-2"></v-divider>   
 
-        <div class="sizeTextSmall Montserrat-SemiBold pt-4">Por favor seleccione un tipo de archivo valido (.docx .txt .pdf .jpg .jpeg). No mayor a 25MB.</div>
+        <div class="sizeTextSmall Montserrat-SemiBold pt-4">Por favor, seleccione un tipo de archivo válido (.docx .txt .pdf .jpg .jpeg). No mayor a 25MB.</div>
         <v-row no-gutters justify="center" class="mt-8">
             <v-col cols="12" sm="6" md="6" lg="6" class="py-6 px-sm-2">
                 <v-btn @click="close" class="pa-5 color Montserrat-SemiBold" height="55" elevation="0" color="#FACD89" block>

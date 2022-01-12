@@ -2,17 +2,16 @@
   <v-dialog v-model="show" width="1200px" content-class="round" persistent>
     <v-card class="px-7 pt-1">
       <v-row class="mt-5 mb-2">
-        <v-col cols="12" xl="10" lg="6" sm="10" xs="1">
+        <v-col cols="12" xl="10" lg="6" sm="6" xs="12">
           <h2 class="Montserrat-Bold ">
             Expediente N° {{ datos.nro_expediente }}
           </h2>
         </v-col>
-        <v-col cols="12" xl="2" lg="6" sm="2" xs="12" align="right" class="iconoMobile">
-          <v-btn @click="close" icon elevation="0" color="grey lighten-2">
-            <v-icon color="#393B44" large>mdi-file-document</v-icon>
-          </v-btn>
+        <v-col cols="12" xl="2" lg="6" sm="6" xs="12" align="right" class="iconoMobile">
+          <v-icon color="#393B44" large>mdi-file-document</v-icon>
         </v-col>
       </v-row>
+      <v-divider color="#393B44" class="mt-2 mb-6"></v-divider>
 
       <v-card rounded class="pa-4 text-responsive" color="#EEEEEE">
         <v-row no-gutters align="start">
@@ -47,14 +46,16 @@
 
 
         <v-row no-gutters align="start" class="mt-5">
-          <div class="textHereSmall d-flex flex-column Montserrat-Bold mb-2 mr-2">
-            Observaciones:
-          </div>
-          <div
-              class="textHereSmall d-flex flex-column Montserrat-Regular"
-          >
-            {{ datos.observacion }}
-          </div>
+          <v-col cols="12" xl="12" lg="12" sm="12" xs="12">
+            <div class="textHereSmall d-flex flex-column Montserrat-Bold mb-2 mr-2">
+              Observaciones:
+            </div>
+            <div
+                class="textHereSmall d-flex flex-column Montserrat-Regular"
+            >
+              {{ datos.observacion }}
+            </div>
+          </v-col>
         </v-row>
       </v-card>
 

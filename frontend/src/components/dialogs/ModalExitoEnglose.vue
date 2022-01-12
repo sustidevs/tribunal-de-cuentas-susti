@@ -1,7 +1,8 @@
 <template>
   <v-dialog v-model="show" width="1200px" content-class="round" persistent>
     <v-card class="px-7 pt-1">
-      <v-row class="mt-5 mb-2">
+      <titulo texto="Englose realizado con éxito" icono="mdi-check-all"/>
+      <!-- <v-row class="mt-5 mb-2">
         <v-col cols="10">
           <div class="Montserrat-Bold titleBig text-justify">Englose realizado con éxito</div>
         </v-col>
@@ -9,7 +10,7 @@
           <v-icon color="#393B44" large>mdi-check-all</v-icon>
         </v-col>
       </v-row>
-      <v-divider color="#393B44" class="my-2"></v-divider>
+      <v-divider color="#393B44" class="my-2"></v-divider>-->
 
       <div class="textHereSmall Montserrat-Regular my-4 mr-2">
           {{ this.$store.getters.get_englose.data }}
@@ -35,8 +36,10 @@
 </template>
 
 <script>
+import Titulo from "../../components/Titulo";
 export default {
   name: "ModalExitoEnglose",
+  components: {Titulo},
   props: {
     show: { type: Boolean, default: false },
   },

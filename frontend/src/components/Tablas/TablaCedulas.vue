@@ -46,10 +46,12 @@
           <v-icon> mdi-credit-card-plus </v-icon>
         </v-btn>
       </template>
-
     </v-data-table>
+    <v-overlay :value="this.$store.getters.get_detalle_loading">
+      <v-progress-circular indeterminate size="60"></v-progress-circular>
+    </v-overlay>
     <modal-nueva-cedula :show="show_modal" :datos="this.datos"/>
-    <modal-detalle-cedula :show="show_detalle" :datos="get_detalle"/>
+    <modal-detalle-cedula :show="get_show_detalle" :datos="get_detalle"/>
   </div>
 </template>
 
@@ -81,7 +83,7 @@ export default {
   },
 
   computed: {
-    ... mapGetters(['get_detalle'])
+    ... mapGetters(['get_detalle', 'get_detalle_loading', 'get_show_detalle'])
   },
 
   methods: {
@@ -111,7 +113,7 @@ export default {
       let exp = {
         expediente_id: item.expediente_id,
       }
-      this.show_detalle = true;
+      this.get_show_detalle = !this.get_show_detalle;
       this.verDetalle (exp)
     },
   },
