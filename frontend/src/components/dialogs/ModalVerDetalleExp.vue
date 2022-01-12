@@ -8,11 +8,10 @@
           </h2>
         </v-col>
         <v-col cols="12" xl="2" lg="6" sm="6" xs="12" align="right" class="iconoMobile">
-          <v-btn @click="close" icon elevation="0" color="grey lighten-2">
-            <v-icon color="#393B44" large>mdi-file-document</v-icon>
-          </v-btn>
+          <v-icon color="#393B44" large>mdi-file-document</v-icon>
         </v-col>
       </v-row>
+      <v-divider color="#393B44" class="mt-2 mb-6"></v-divider>
 
       <v-card rounded class="pa-4 text-responsive" color="#EEEEEE">
         <v-row no-gutters align="start">

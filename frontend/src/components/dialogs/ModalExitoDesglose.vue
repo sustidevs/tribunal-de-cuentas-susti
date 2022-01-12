@@ -1,15 +1,7 @@
 <template>
   <v-dialog v-model="show" width="1200px" content-class="round" persistent>
     <v-card class="px-7 pt-1">
-      <v-row class="mt-5 mb-2">
-        <v-col cols="10">
-          <div class="Montserrat-Bold titleBig text-justify">Desglose realizado con éxito</div>
-        </v-col>
-        <v-col cols="2" align="right">
-          <v-icon color="#393B44" large>mdi-check-all</v-icon>
-        </v-col>
-      </v-row>
-      <v-divider color="#393B44" class="my-2"></v-divider>
+      <titulo texto="Desglose realizado con éxito" icono="mdi-check-all"/>
 
       <div class="textHereSmall Montserrat-Regular my-4 mr-2">
           {{ this.$store.getters.get_desglose.data }}
@@ -35,8 +27,12 @@
 </template>
 
 <script>
+import Titulo from "../../components/Titulo";
 export default {
   name: "ModalExitoDesglose",
+  
+  components: {Titulo},
+
   props: {
     show: { type: Boolean, default: false },
   },

@@ -1,7 +1,7 @@
 <template>
   <v-dialog v-model="show" width="1200px" content-class="round">
     <v-card class="px-7 pt-1">
-        <titulo texto="Se guardaron con éxito los cambios" icono="mdi-close-thick"/>
+        <titulo texto="Se guardaron con éxito los cambios" icono="mdi-check-all"/>
         <div class="sizeTextSmall Montserrat-SemiBold pt-4">Nombre: <span class="sizeTextSmall Montserrat-Regular"> {{iniciador.nombre}} </span></div>
         <div v-if="iniciador.cuil !== '-'" class="sizeTextSmall Montserrat-SemiBold pt-4">CUIL: <span class="sizeTextSmall Montserrat-Regular"> {{iniciador.cuil}} </span></div>
         <div v-if="iniciador.cuit !== '-'" class="sizeTextSmall Montserrat-SemiBold pt-4">CUIT: <span class="sizeTextSmall Montserrat-Regular"> {{iniciador.cuit}} </span></div>
