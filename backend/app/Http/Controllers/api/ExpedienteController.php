@@ -664,4 +664,16 @@ class ExpedienteController extends Controller
         $datos = Expediente::detalle_cedulas($request->expediente_id);
         return response()->json($datos, 200);
     }
+
+    public function pruebaNormal(Request $request)
+    {
+        $user = $request->user();
+        return response()->json($user, 200);
+    }
+
+    public function pruebaEnglose(Request $request)
+    {
+        $user = $request->user();
+        return response()->json($user, 200);
+    }
 }

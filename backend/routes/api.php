@@ -82,6 +82,11 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/storeExp',            [ExpedienteController::class, 'store']);
     Route::post('/zip',               [ExpedienteController::class, 'descargarZip']);
 
+    //Rutas de prueba para mostrar implementacion de permisos -- se pueden borrar rutas y métodos en controladores
+    Route::get('/prueba',    [ExpedienteController::class, 'pruebaNormal'])->middleware(['auth:sanctum', 'abilities:normalito']);
+    Route::get('/prueba2',    [ExpedienteController::class, 'pruebaEnglose'])->middleware(['auth:sanctum', 'abilities:englose:desglose']);
+    //Rutas de prueba para mostrar implementacion de permisos -- se pueden borrar rutas y métodos en controladores
+
 });
 
 // Rutas que no se deben proteger
@@ -90,15 +95,3 @@ Route::post('/login',[LoginController::class, 'authenticate_new'] ); // reemplaz
 
 Route::get('/all-expedientes',      [ExpedienteController::class, 'AllExpedientes']);
 
-
-Route::get('/prueba', function(){
-    $user = User::findOrFail(auth()->user()->id);
-    if($user->tokenCan('usuario:normalito'))
-    {
-        return "llega con token";
-    }
-    else
-    { 
-        return "no esta ingresando bien :/";
-    }
-});
