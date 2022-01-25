@@ -4,15 +4,15 @@
       <div class="py-8 Montserrat-Bold  tituloModal">
         Se realizó con éxito el pase del expediente N° {{ dato[6] }}
       </div>
-      <v-divider color="#393B44"></v-divider>
+      <v-divider color="#393B44" class="mb-4"></v-divider>
 
       <v-row no-gutters>
-        <v-col sm="6">
-          <div class="Montserrat-Bold mb-2 mt-8 sizeTM">Derivado a:</div>
+        <v-col cols="12" md="6" sm="12">
+          <div class="Montserrat-Bold mb-2 mt-4 sizeTM">Derivado a:</div>
           <div class="Montserrat-Regular mb-6 ml-1 sizeDM">{{ dato[0] }}</div>
         </v-col>
-        <v-col sm="6">
-          <div class="Montserrat-Bold mb-2 mt-8 sizeTM">Fecha y hora:</div>
+        <v-col cols="12" md="6" sm="12">
+          <div class="Montserrat-Bold mb-2 mt-4 sizeTM">Fecha y hora:</div>
           <div class="Montserrat-Regular mb-6 ml-1 sizeDM">
             {{ dato[1] }}, {{ dato[2] }}hs.
           </div>
@@ -20,7 +20,7 @@
       </v-row>
 
       <v-row no-gutters>
-        <v-col sm="6">
+        <v-col cols="12" md="6" sm="12">
           <div class="Montserrat-Bold mb-2 sizeTM">
             Agente que redacta el pase:
           </div>
@@ -28,7 +28,7 @@
             {{ dato[4] }}
           </div>
         </v-col>
-        <v-col sm="6">
+        <v-col cols="12" md="6" sm="12">
           <div class="Montserrat-Bold mb-2 sizeTM">Fojas:</div>
           <div class="Montserrat-Regular mb-6 text-justify sizeDM">
             {{ dato[3] }}
@@ -37,7 +37,7 @@
       </v-row>
 
       <v-row no-gutters>
-        <v-col sm="12">
+        <v-col cols="12">
           <div class=" Montserrat-Bold mb-2 sizeTM">A efectos de:</div>
           <div class="Montserrat-Regular mb-6 text-justify sizeDM">
             {{ dato[5]}}
@@ -46,7 +46,7 @@
       </v-row>
 
       <v-row no-gutters>
-        <v-col sm="12">
+        <v-col cols="12">
           <div class=" Montserrat-Bold mb-2 sizeTM">Extracto:</div>
           <div class="Montserrat-Regular mb-6 text-justify sizeDM">
             {{ dato[7] }}
@@ -66,7 +66,7 @@
             color="#FACD89"
             block
           >
-            <v-icon class="px-5">
+            <v-icon class="pr-5">
               mdi-printer
             </v-icon>
             <div>
