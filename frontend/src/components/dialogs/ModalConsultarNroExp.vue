@@ -2,104 +2,97 @@
   <v-dialog persistent v-model="show" width="auto" content-class="round">
     <div v-if="this.get_encontrado == false">
       <v-card class="px-7 pt-1 pb-6">
-        <v-row class="mt-5">
-          <v-col cols="10">
-            <h2 class="Montserrat-Bold text-justify">
+        <v-row class="my-5">
+          <v-col>
+            <h2 class="Montserrat-Bold text-justify textRadioTitlte">
               Consultar Expediente por:
             </h2>
           </v-col>
           <v-col cols="2" align="right">
             <v-btn @click="close" icon elevation="0" color="grey lighten-2">
-              <v-icon left large color="#393B44">
-                mdi-close-thick
-              </v-icon>
+              <v-icon left large color="#393B44"> mdi-close-thick </v-icon>
             </v-btn>
           </v-col>
         </v-row>
-
         <v-divider color="#393B44" class="mt-2"></v-divider>
 
-        <v-form @submit.prevent="validate()"  ref="form" v-model="valid">
-
-          <v-row justify="center" class="my-4 px-4">
-            <v-btn-toggle
-              rounded
-              class="py-3"
-              v-model="busqueda.buscar_por"
-              group
-              @change="showBuscar = true"
-            >
-              <v-btn value="1" class="px-8 pa-8 textRadio">
-                <v-icon large color="#FDBC3F" class="pr-2">
-                  mdi-text-box
-                </v-icon>
-                <p class="pt-4 text-capitalize">
-                  N° Expediente
-                </p>
-              </v-btn>
-
-              <v-divider vertical></v-divider>
-
-              <v-btn value="3" class="px-8 pa-8 textRadio">
-                <v-icon class="pr-2" large color="#FDBC3F">
-                  mdi-cash
-                </v-icon>
-                <p class="pt-4 text-capitalize">
-                  N° Cheque/Transferencia
-                </p>
-              </v-btn>
-
-              <v-divider vertical></v-divider>
-
-              <v-btn value="2" class="px-8 pa-8 textRadio">
-                <v-icon class="pr-2" large color="#FDBC3F">
-                  mdi-account
-                </v-icon>
-                <p class="pt-4 text-capitalize">
-                  CUIL  Iniciador
-                </p>
-              </v-btn>
-              <v-divider vertical></v-divider>
-                <v-btn v-if="(get_user.area == 'DPTO. NOTIFICACIONES') || (get_user.area == 'DIRECCIÓN DE REGISTRACIONES')" file value="6" class="px-8 pa-8 textRadio">
-
-                  <v-icon class="pr-2" large color="#FDBC3F">
-                    mdi-clipboard-text-search
+        <v-btn-toggle
+          rounded
+          v-model="busqueda.buscar_por"
+          group
+          @change="showBuscar = true"
+        >
+          <v-form @submit.prevent="validate()" ref="form" v-model="valid">
+            <v-row class="my-4 py-2" justify="center">
+              <v-col col="12">
+                <v-btn value="1" class="mx-4 my-4 pa-8 textRadio sizeBtn">
+                  <v-icon large color="#FDBC3F" class="pr-2 sizeIcon">
+                    mdi-text-box
                   </v-icon>
-                  <p class="pt-4 text-capitalize">
-                    Norma Legal
-                  </p>
+                  <p class="pt-4 text-capitalize">N° Expediente</p>
                 </v-btn>
 
-            </v-btn-toggle>
-          </v-row>
+                <v-btn value="3" class="mx-4 my-4 pa-8 textRadio">
+                  <v-icon class="pr-2 sizeIcon" large color="#FDBC3F"> mdi-cash </v-icon>
+                  <p class="pt-4 text-capitalize">N° Cheque/Transferencia</p>
+                </v-btn>
 
-          <div v-if="showBuscar" class="pt-2">
-              <div class="Montserrat-SemiBold mt-2 mb-1 py-2 textRadio">
-                Ingrese el valor:
-              </div>
+                <v-btn value="2" class="mx-4 my-4 pa-8 textRadio">
+                  <v-icon class="pr-2 sizeIcon" large color="#FDBC3F">
+                    mdi-account
+                  </v-icon>
+                  <p class="pt-4 text-capitalize">CUIL Iniciador</p>
+                </v-btn>
 
-            <v-text-field
-                class="Montserrat-Regular text-justify"
-                color="amber accent-4"
-                v-model="busqueda.valor"
-                :rules="nameRules"
-                outlined
-            ></v-text-field>
-
-            <v-row justify="center" class="pb-6">
-              <v-btn
-                :disabled="!valid"
-                type="submit"
-                class="pa-5 color Montserrat-SemiBold"
-                height="45"
-                color="#FACD89"
-              >
-                <v-icon class="pr-4"> mdi-magnify </v-icon>
-                Buscar
-              </v-btn>
+                <v-btn
+                  v-if="
+                    get_user.area == 'DPTO. NOTIFICACIONES' ||
+                    get_user.area == 'DIRECCIÓN DE REGISTRACIONES'
+                  "
+                  file
+                  value="6"
+                  class="mx-4 my-4 pa-8 textRadio"
+                >
+                  <v-icon class="pr-2 sizeIcon" large color="#FDBC3F">
+                    mdi-clipboard-text-search
+                  </v-icon>
+                  <p class="pt-4 text-capitalize">Norma Legal</p>
+                </v-btn>
+              </v-col>
             </v-row>
-          </div>
-        </v-form>
+
+            <v-row>
+              <v-col cols="11" lg="12" md="12" sm="12" align="center">
+                <div v-if="showBuscar" class="pt-2">
+                  <div class="Montserrat-SemiBold mt-2 mb-1 py-2 textRadio">
+                    Ingrese el valor:
+                  </div>
+
+                  <v-text-field
+                    class="Montserrat-Regular text-justify"
+                    color="amber accent-4"
+                    v-model="busqueda.valor"
+                    :rules="nameRules"
+                    outlined
+                  ></v-text-field>
+
+                  <v-row justify="center" class="pb-6">
+                    <v-btn
+                      :disabled="!valid"
+                      type="submit"
+                      class="pa-5 color Montserrat-SemiBold"
+                      height="45"
+                      color="#FACD89"
+                    >
+                      <v-icon class="pr-4"> mdi-magnify </v-icon>
+                      Buscar
+                    </v-btn>
+                  </v-row>
+                </div>
+              </v-col>
+            </v-row>
+          </v-form>
+        </v-btn-toggle>
       </v-card>
     </div>
 
@@ -107,15 +100,11 @@
       <v-card class="px-7 pt-1 pb-6">
         <v-row class="mt-5">
           <v-col cols="10">
-            <h2 class="Montserrat-Bold text-justify">
-              Resultados Obtenidos
-            </h2>
+            <h2 class="Montserrat-Bold text-justify">Resultados Obtenidos</h2>
           </v-col>
           <v-col cols="2" align="right">
             <v-btn @click="close" icon elevation="0" color="grey lighten-2">
-              <v-icon left large color="#393B44">
-                mdi-close-thick
-              </v-icon>
+              <v-icon left large color="#393B44"> mdi-close-thick </v-icon>
             </v-btn>
           </v-col>
         </v-row>
@@ -145,7 +134,6 @@
               >
                 {{ item.expediente_id }})
                 {{ item.nro_expediente }}
-
               </v-expansion-panel-header>
 
               <v-expansion-panel-content>
@@ -171,7 +159,7 @@
         </div>
       </v-card>
     </div>
-  </v-dialog>
+  </v-dialog>  
 </template>
 
 <script>
@@ -192,7 +180,7 @@ export default {
       buscador: null,
       resultados: false,
       showBuscar: false,
-      opcion_elegida: '',
+      opcion_elegida: "",
       busqueda: {
         buscar_por: "",
         valor: "",
@@ -206,29 +194,33 @@ export default {
     };
   },
 
-  computed: mapGetters(["get_resultado", "get_encontrado", 'get_historial','get_user']),
+  computed: mapGetters([
+    "get_resultado",
+    "get_encontrado",
+    "get_historial",
+    "get_user",
+  ]),
 
   methods: {
-    ...mapActions(['consultarExpediente', 'historial_expediente']),
+    ...mapActions(["consultarExpediente", "historial_expediente"]),
 
     close() {
       this.$emit("close");
       this.$router.go(0);
     },
 
-    validate () {
-      if(this.$refs.form.validate()){
-        this.consultarExpediente(this.busqueda)
+    validate() {
+      if (this.$refs.form.validate()) {
+        this.consultarExpediente(this.busqueda);
       }
     },
 
     historial_pase: function (item) {
       let id = {
-        id: item.expediente_id
-      }
-      this.historial_expediente(id)
+        id: item.expediente_id,
+      };
+      this.historial_expediente(id);
     },
-
   },
 };
 </script>
@@ -236,11 +228,23 @@ export default {
 <style>
 .textRadio {
   font-family: Montserrat-SemiBold, serif;
-  font-size: 22px !important;
-  color: #393B44;
+  font-size: 18px !important;
+  color: #393b44;
 }
 
 .sizeNroExp {
   font-size: 20px !important;
+}
+
+@media (max-width: 600px) {
+  .textRadio{
+    font-size: 14px !important;
+  }
+  .sizeIcon{
+    display: none !important;
+  }
+  .textRadioTitlte{
+    font-size: 25px;
+  }
 }
 </style>
