@@ -272,21 +272,6 @@ class ExpedienteController extends Controller
         $historial_ultimo_hijo->motivo = 'Expediente Nº ' . $exp_ultimo_hijo->nro_expediente . ' se ha desglosado';
         $historial_ultimo_hijo->save();
         $exp_padre->fojas = $exp_padre->historiales->first()->fojas;
-        //Eliminacion de archivos hijos
-        if($exp_padre->archivos != null)
-        {
-            $public_dir = public_path()."/storage/archivos_expedientes/". $exp_padre->archivos;
-            $zip = new ZipArchive;
-            $zip->open($public_dir);
-            foreach ($exp_hijos as $exp_hijo )
-            {
-                $fileName = $exp_hijo->nro_expediente;
-                $fileName = str_replace("/","-",$fileName).'.zip';
-                $zip->deleteName($fileName);
-            }
-            $zip->close();
-        }
-        //
         $exp_padre->save();
         $historial_padre = new Historial;
         $historial_padre->area_origen_id = $user->area_id;
@@ -470,7 +455,6 @@ class ExpedienteController extends Controller
     public function descargarZip(Request $request) //TODO hasta que tenga boton
     {
         $expediente = Expediente::findOrFail($request->id);
-        $exp_hijos = $expediente->hijos;
         if($request->download == true)
         {
             //Define Dir Folder
@@ -480,31 +464,9 @@ class ExpedienteController extends Controller
             // Zip File Name
             if(file_exists($public_dir))
             {
-                //LOGICA PARA UNIR ARCHIVOS DEL EXP HIJO AL EXP PADRE
-                $zip = new ZipArchive;
-                if ($zip->open($public_dir) === TRUE) {
-                    foreach ($exp_hijos as $key => $value)
-                    {
-                        $zip_hijo = new ZipArchive;
-                        $fileName = $value->nro_expediente;
-                        $fileName = str_replace("/","-",$fileName).'.zip';
-                        $path =storage_path()."/app/public/archivos_expedientes/".$fileName;
-                        if($zip_hijo->open($path) === TRUE)
-                        {
-                            $public_dir_hijo = public_path()."/storage/archivos_expedientes/".$value->archivos;
-                            $fileName = $value->nro_expediente;
-                            $fileName = str_replace("/","-",$fileName).'.zip';
-                            $zip->addFile($public_dir_hijo, $fileName);
-                        }   
-                    }
-                    //$zip->close();
-                    $headers = array('Content-Type'=>'arraybuffer',);
-                    return response()->download($public_dir , $fileName, $headers);
-                } else {
-                    echo 'failed';
-                }
-                //FIN 
-               
+                //return view('zip');
+                $headers = array('Content-Type'=>'arraybuffer',);
+                return response()->download($public_dir , $fileName, $headers);
             }
             else
             {
