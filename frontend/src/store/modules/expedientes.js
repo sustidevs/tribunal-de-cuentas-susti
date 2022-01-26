@@ -70,8 +70,12 @@ const actions = {
     consultarExpediente ({ commit }, busqueda) {
         axios.post(process.env.VUE_APP_API_URL+ '/api/buscar-expediente', busqueda)
             .then(response => {
+                console.log(response.data)
                 commit('set_resultados', response.data)
                 commit('set_encontrado', true)
+            })
+            .catch( () => {
+                console.log('response')
             })
     },
 

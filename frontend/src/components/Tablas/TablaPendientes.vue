@@ -103,7 +103,7 @@ export default {
     },
 
     recibirI (item) {
-          item.estado_expediente = 3
+          item.estado_expediente = 3,
           item.estado= 1,
           item.bandeja= 1,
           this.cambiarEstado(item)

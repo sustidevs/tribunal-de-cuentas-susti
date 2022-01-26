@@ -22,7 +22,7 @@
           group
           @change="showBuscar = true"
         >
-          <v-form @submit.prevent="validate()" ref="form" v-model="valid">
+          <v-form  ref="form" v-model="valid">
             <v-row class="my-4 py-2" justify="center">
               <v-col col="12">
                 <v-btn value="1" class="mx-4 my-4 pa-8 textRadio sizeBtn">
@@ -79,7 +79,7 @@
                   <v-row justify="center" class="pb-6">
                     <v-btn
                       :disabled="!valid"
-                      type="submit"
+                      @click="validate"
                       class="pa-5 color Montserrat-SemiBold"
                       height="45"
                       color="#FACD89"
