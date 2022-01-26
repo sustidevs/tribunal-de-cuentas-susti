@@ -52,6 +52,7 @@
           <ButtonBig class="my-4 mx-5" texto="Nuevo" link="/nuevo-expediente" icon="mdi-text-box-plus"/>
           <ButtonBig class="my-4 mx-5" texto="Pase" link="/mis-expedientes" icon="mdi-file-move"/>
           <ButtonBig class="my-4 mx-5" texto="Recuperar" link="/recuperar" icon="mdi-file-undo"/>
+
         </v-col>
         <v-col cols="12" md="12" lg="5" sm="12" xs="12">
           <titulo-inicio texto="Cédulas" class="my-2 mt-5"/>
