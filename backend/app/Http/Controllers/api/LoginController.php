@@ -103,7 +103,7 @@ class LoginController extends Controller
      * @param: password
      * Autor: Mariano Flores
      */
-    public function authenticate_new(LoginRequest $request)
+    public function authenticate_new_old(LoginRequest $request)
     {
         $user = ModelsUser::where("cuil", "=", "$request->cuil")->first();
         if(isset($user->id))
@@ -138,5 +138,141 @@ class LoginController extends Controller
                 "mensaje" => "usuario y/o contraseña incorrecta",
             ], 404);
         }
+    }
+
+    /**
+     * Método para autenticar un usuario y loquearlo en el sistema,
+     * genera un token para utilizar la API con habilidades dependiendo del área
+     * @param: cuil
+     * Autor: Mariano Flores
+     */
+    public function authenticate_new(LoginRequest $request)
+    {
+        $user = ModelsUser::where("cuil", "=", "$request->cuil")->first();
+        //return $user->id;
+        if(isset($user->id))
+        {
+            $areas_englose = array(7, 8, 9, 10, 16, 17, 18, 19);
+            $areas_creaExpediente_agregaCedula = array(13);
+            $areas_agregarIniciador = array(15);
+            $areas_agregarCedulas = array(6, 14);
+            
+            $usuarios_agregaIniciador = array(36);              //user_id
+
+            $user->tokens()->delete(); // comentar ésta línea si se requiere asignar más de un token al usuario
+            
+            if(Hash::check($request->password, $user->password))
+            {
+                if(in_array($user->area_id, $areas_englose))
+                {
+                    $token = $user->createToken('englose_desglose', ['englose_desglose'])->plainTextToken;
+                    return response()->json([
+                        "status" => true,
+                        "mensaje" => "usuario logueado exitosamente",
+                        "nombre_apellido" => $user->persona->nombre ." ". $user->persona->apellido,
+                        "cuil" => $user->cuil,
+                        "id" => $user->area->id,
+                        "area" => $user->area->descripcion,
+                        "cargo" => $user->tipouser->descripcion,
+                        "access_token" => $token,
+                        "token_type" => "englose_desglose"
+                    ], 200);
+                }
+
+                if((in_array($user->area_id, $areas_creaExpediente_agregaCedula)) && (in_array($user->id, $usuarios_agregaIniciador)))
+                {
+                    $token = $user->createToken('crear_expediente_e_iniciador', ['agregar_iniciador', 'crear_expediente', 'agregar_cedula'])->plainTextToken;
+                    return response()->json([
+                        "status" => true,
+                        "mensaje" => "usuario logueado exitosamente",
+                        "nombre_apellido" => $user->persona->nombre ." ". $user->persona->apellido,
+                        "cuil" => $user->cuil,
+                        "id" => $user->area->id,
+                        "area" => $user->area->descripcion,
+                        "cargo" => $user->tipouser->descripcion,
+                        "access_token" => $token,
+                        "token_type" => "agregar_iniciador - crea_expediente - agrega_cedula"
+                    ], 200);
+                }
+                else if(in_array($user->area_id, $areas_agregarIniciador))
+                    {
+                        $token = $user->createToken('agregar_iniciador', ['agregar_iniciador'])->plainTextToken;
+                        return response()->json([
+                            "status" => true,
+                            "mensaje" => "usuario logueado exitosamente",
+                            "nombre_apellido" => $user->persona->nombre ." ". $user->persona->apellido,
+                            "cuil" => $user->cuil,
+                            "id" => $user->area->id,
+                            "area" => $user->area->descripcion,
+                            "cargo" => $user->tipouser->descripcion,
+                            "access_token" => $token,
+                            "token_type" => "agregar_iniciador"
+                        ], 200);
+                    }
+                
+
+                if(in_array($user->area_id, $areas_creaExpediente_agregaCedula))
+                {
+                    $token = $user->createToken('crear_expediente_agrega_cedula', ['crear_expediente', 'agregar_cedula'])->plainTextToken;
+                    return response()->json([
+                        "status" => true,
+                        "mensaje" => "usuario logueado exitosamente",
+                        "nombre_apellido" => $user->persona->nombre ." ". $user->persona->apellido,
+                        "cuil" => $user->cuil,
+                        "id" => $user->area->id,
+                        "area" => $user->area->descripcion,
+                        "cargo" => $user->tipouser->descripcion,
+                        "access_token" => $token,
+                        "token_type" => "crear_expediente_agrega_cedula"
+                    ], 200);
+                }
+
+                if(in_array($user->area_id, $areas_agregarCedulas))
+                {
+                    $token = $user->createToken('agregar_cedulas', ['agregar_cedulas'])->plainTextToken;
+                    return response()->json([
+                        "status" => true,
+                        "mensaje" => "usuario logueado exitosamente",
+                        "nombre_apellido" => $user->persona->nombre ." ". $user->persona->apellido,
+                        "cuil" => $user->cuil,
+                        "id" => $user->area->id,
+                        "area" => $user->area->descripcion,
+                        "cargo" => $user->tipouser->descripcion,
+                        "access_token" => $token,
+                        "token_type" => "agregar_cedulas"
+                    ], 200);
+                }
+                
+                else
+                {
+                    $token = $user->createToken('normal', ['normalito'])->plainTextToken;
+                    return response()->json([
+                        "status" => true,
+                        "mensaje" => "usuario logueado exitosamente",
+                        "nombre_apellido" => $user->persona->nombre ." ". $user->persona->apellido,
+                        "cuil" => $user->cuil,
+                        "id" => $user->area->id,
+                        "area" => $user->area->descripcion,
+                        "cargo" => $user->tipouser->descripcion,
+                        "access_token" => $token,
+                        "token_type" => "normal"
+                    ], 200);
+                }
+            }
+            else
+            {
+                return response()->json([
+                    "status" => false,
+                    "mensaje" => "contraseña incorrecta",
+                ], 404);
+            }
+        }
+        else
+        {
+            return response()->json([
+                "status" => false,
+                "mensaje" => "usuario y/o contraseña incorrecta",
+            ], 404);       
+        }   
     }
 }
