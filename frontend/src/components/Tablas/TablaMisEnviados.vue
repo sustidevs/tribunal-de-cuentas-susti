@@ -31,7 +31,6 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
 
 export default {
   props: {
@@ -57,17 +56,6 @@ export default {
       else return "mdi-check-bold";
     },
 
-    ...mapActions([
-      "recuperar"
-    ]),
-
-    recuperacion: function(item) {
-      item.estado_expediente = 4
-      item.estado= 1,
-          item.bandeja= 1,
-          item.user_id= this.$store.getters.getIdUser,
-          this.recuperar(item);
-    },
   },
 };
 </script>

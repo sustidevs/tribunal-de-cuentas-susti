@@ -10,6 +10,8 @@ const state = {
     areas_nuevo: [],
     prioridad: [],
     iniciadorSelected: 0,
+    motivoSelected: 0,
+
     creado: false,
     expediente: [],
     extracto: '', //para guardar el extracto v-model
@@ -44,9 +46,14 @@ const getters = {
     pase_a_error:  state => state.pase_a_error,
 
     get_btn_creado: state => state.btn_creado,
+    get_motivo_selected: state => state.motivoSelected,
 };
 
 const actions = {
+
+    capturarMotivo ({ commit }, motivo) {
+        commit ('set_motivoSelected', motivo)
+    },
 
     capturarIniciador ({ commit }, iniciador) {
         commit ('set_iniciadorSelected', iniciador)
@@ -143,6 +150,8 @@ const mutations = {
     saveNewExp: (state, expediente) => state.expediente = expediente,
     set_creado: (state, creado) => state.creado = creado,
     set_decargado: (state, descargado) => state.descargado = descargado,
+
+    set_motivoSelected: (state, motivoSelected) => state.motivoSelected = motivoSelected,
 
     set_descripcion_extracto_error: (state,descripcion_extractoerror)  =>  state.descripcion_extractoerror = descripcion_extractoerror,
     set_iniciador_id_error: (state,iniciador_iderror ) => state.iniciador_iderror = iniciador_iderror,

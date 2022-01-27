@@ -58,17 +58,6 @@ export default {
     return {
       selected: [],
       search: "",
-
-
-
-
-
-
-
-
-
-
-      
     };
   },
 
@@ -88,8 +77,9 @@ export default {
 
     recuperacion: function(item) {
       item.estado_expediente = 4
+
       item.estado= 1,
-      item.bandeja= 1,
+      item.bandeja= 4,
       this.cambiarEstado(item);
     },
   },
