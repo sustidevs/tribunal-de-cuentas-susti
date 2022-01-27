@@ -110,7 +110,7 @@ class HistorialController extends Controller
     public function updateEstado(Request $request)
     {
         # 1-Enviado/Pendiente, 3-Aceptado, 4-Recuperado
-        $user = Auth::user();;//$user = Auth::user();
+        $user = Auth::user();
         $expediente = Expediente::findOrFail($request->expediente_id);
 
         $historial = new Historial;
@@ -147,7 +147,7 @@ class HistorialController extends Controller
 
         $estado = $request->estado;//parametro
         $bandeja = $request->bandeja;
-        $user_id = $request->user_id;
+        $user_id = $user->id;
         $listado_expedientes = Expediente::listadoExpedientes($user_id,$estado,$bandeja);
         return response()->json($listado_expedientes,200);
 
