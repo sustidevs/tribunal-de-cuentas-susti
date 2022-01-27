@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\api\PagoController;
@@ -81,7 +82,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/storeExp',            [ExpedienteController::class, 'store']);
     Route::post('/zip',               [ExpedienteController::class, 'descargarZip']);
 
-
+    //Rutas de prueba para mostrar implementacion de permisos -- se pueden borrar rutas y métodos en controladores
+    Route::get('/prueba',    [ExpedienteController::class, 'pruebaNormal'])->middleware(['auth:sanctum', 'abilities:normalito']);
+    Route::get('/prueba2',    [ExpedienteController::class, 'pruebaEnglose'])->middleware(['auth:sanctum', 'abilities:englose:desglose']);
+    //Rutas de prueba para mostrar implementacion de permisos -- se pueden borrar rutas y métodos en controladores
 
 });
 
