@@ -63,7 +63,8 @@
         <v-col cols="12" sm="12" lg="6" class="pr-lg-2">
           <LabelInput texto="Motivo del Expediente *" />
           <autocomplete-field
-            :data="motivoConExtracto"
+              @input="capturarMotivoP()"
+            :data="motivoSinExtracto"
             nombre="descripcion"
             v-model="expe.tipo_exp_id"
           />
@@ -273,6 +274,10 @@ export default {
       this.capturarIniciador(this.expe.iniciador_id);
     },
 
+    capturarMotivoP(){
+      this.capturarMotivo(this.expe.tipo_exp_id);
+    },
+
     handleFileUpload(event) {
       this.files = event.target.files;
       for (var i = 0; i < this.files.length; i++) {
@@ -316,6 +321,7 @@ export default {
       "nroExpedienteAleatorio",
       "cerrarModal",
       "capturarIniciador",
+        'capturarMotivo',
     ]),
   },
 
@@ -329,7 +335,6 @@ export default {
 
       "expediente",
       "getTipoUsuario",
-      "motivoConExtracto",
       "get_areas_all",
       "descripcion_extracto_error",
       "iniciador_id_error",

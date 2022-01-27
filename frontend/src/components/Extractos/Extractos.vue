@@ -54,6 +54,10 @@
     <div v-if="tipo==26" >
       <acordadas-en-general/>
     </div>
+    <div v-if="(tipo===5) || (tipo===6) || (tipo===12) || (tipo===14) || (tipo===16) || (tipo===19) || (tipo===22) || (tipo===23)" >
+     <general/>
+    </div>
+
   </div>
 </template>
 
@@ -72,6 +76,7 @@ import Oficio from './Oficio.vue';
 import CedulaAcordada3201 from "./CedulaAcordada32-01";
 import CedulaCambioResponsable from "./CedulaCambioResponsable";
 import ExtractoGeneral from "./ExtractoGeneral";
+import General from "./General";
 
 export default {
   name: 'Extractos',
@@ -93,6 +98,7 @@ export default {
     CedulaAcordada3201,
     CedulaCambioResponsable,
     ExtractoGeneral,
+    General
   }
 }
 </script>
