@@ -1,8 +1,7 @@
 <template>
   <v-dialog v-model="show" width="1200px" content-class="round">
     <v-card class="px-7 pt-1">
-        <titulo texto="La solicitud para agregar un nuevo iniciador ha sido enviada" icono="mdi-account-check"/>
-        <div class="descripcion text-justify pt-2">Quedará en estado pendiente hasta que un administrador la apruebe.</div>
+        <titulo texto="Se ha creado con éxito un nuevo iniciador" icono="mdi-account-check"/>
         <v-row no-gutters justify="center" class="mt-8">
             <v-col cols="12" sm="6" md="6" lg="6" class="py-4 px-sm-2">
                 <v-btn @click="close" href="/" class="pa-5 color Montserrat-SemiBold" height="55" elevation="0" color="#FACD89" block>
