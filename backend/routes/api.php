@@ -71,7 +71,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/expSubsidiosNoReintegrables', [ExpedienteController::class, 'expSubsidiosNoReintegrables']);
 
     /***** ALERTAS ***/
-    Route::post('/contarExp',         [ExpedienteController::class, 'contadorBandejaEntrada']);
+    Route::get('/contarExp',         [ExpedienteController::class, 'contadorBandejaEntrada']);
     Route::post('/contarSubsidioAporteNR', [NotificacionController::class, 'contadorSubsidioAporteNR']);
     Route::get('/notificacion',               [NotificacionController::class, 'index']);
     Route::get('/notificacion-cerrar',               [NotificacionController::class, 'update']);

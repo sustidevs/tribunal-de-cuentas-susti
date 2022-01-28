@@ -300,7 +300,9 @@ class Expediente extends Model
                 'archivo'=>$exp->archivos,
                 'observacion'=>$exp->caratula->observacion,
                 'motivo'=>$exp->historiales->sortByDesc('id')->skip(1)->take(1)->values(),
-                'observacion_pase'=>$exp->historiales->last()->observacion
+                'observacion_pase'=>$exp->historiales->last()->observacion,
+                'hora'=>$exp->historiales->last()->hora,
+                'fecha'=>$exp->historiales->last()->fecha,
             ]);
 
         }
@@ -311,6 +313,11 @@ class Expediente extends Model
         #BANDEJA DE ENTRADA
         if ($bandeja == 1) {
             return $array_expediente->where('area_destino_id',$user->area_id)
+                                    ->sortBy([
+                                        ['prioridad', 'asc'],
+                                        ['fecha', 'asc'],
+                                        ['hora', 'asc']
+                                    ])
                                     ->where('estado',$estado)->values();
         }
 
@@ -320,6 +327,11 @@ class Expediente extends Model
             return $array_expediente->where('area_destino_id',$user->area_id)
                                     ->where('user_id',$user->id)
                                     ->whereIn('estado', [4,3])
+                                    ->sortBy([
+                                        ['prioridad', 'asc'],
+                                        ['fecha', 'asc'],
+                                        ['hora', 'asc']
+                                    ])
                                     ->values();
         }
 
