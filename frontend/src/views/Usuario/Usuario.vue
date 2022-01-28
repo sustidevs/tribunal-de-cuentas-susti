@@ -34,7 +34,7 @@
               </div>
 
                 <div v-if="getVerificarPass === true">
-                  <label-error :texto="getErrorPass"/>
+                  <label-error :texto="getErrorPassFail"/>
                     <v-row no-gutters justify="start" class="pb-2">
                         <v-col cols="12" class="pb-3">
                             <label-input class="mt-8" texto="Ingrese una nueva contraseña"/>
@@ -125,13 +125,14 @@ export default {
             error2: false,
             mostrar: false,
             mostrar2: false,
+            SucessPass: false,
         }
     },
 
-  computed: mapGetters(['get_user','get_btn_login','getErrorPassFail', 'getNewPass', 'cambiado', 'getVerificarPass','getErrorPassOld','getErrorPass']),
+  computed: mapGetters(['get_user','get_btn_login','getErrorPassFail', 'getNewPass', 'cambiado', 'getVerificarPass','getErrorPassOld']),
 
   methods:{
-    ...mapActions(['verificarPass']),
+    ...mapActions(['verificarPass', 'nuevaContrasena']),
 
     verificarPassword () {
       let user = {

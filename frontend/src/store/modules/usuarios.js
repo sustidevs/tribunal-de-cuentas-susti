@@ -117,12 +117,12 @@ const actions = {
 
     nuevaContrasena({commit}, newPass){
         axios.post(process.env.VUE_APP_API_URL+ '/api/actualizaPassword', newPass)
-            .then(response => {
-                commit('setNewPass', response.data)
-                commit('set_error_pass', '')
+            .then(() => {
+                commit('setNewPass', true)
+                commit('set_error_passFail', '')
             })
             .catch(error => {
-                commit('set_error_pass', error.response.data.errors.password[0])
+                commit('set_error_passFail', error.response.data.errors.password[0])
             })
     },
 
