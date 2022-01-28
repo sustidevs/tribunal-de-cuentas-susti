@@ -313,6 +313,11 @@ class Expediente extends Model
         #BANDEJA DE ENTRADA
         if ($bandeja == 1) {
             return $array_expediente->where('area_destino_id',$user->area_id)
+                                    ->sortBy([
+                                        ['prioridad', 'asc'],
+                                        ['fecha', 'asc'],
+                                        ['hora', 'asc']
+                                    ])
                                     ->where('estado',$estado)->values();
         }
 
