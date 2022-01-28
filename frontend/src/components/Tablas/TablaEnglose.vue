@@ -105,7 +105,7 @@
           <v-row
             justify="center"
             align="center"
-            v-if="!(seleccionados.length === 0)"
+            v-if="!(seleccionados.length === 1)"
             class="contentSize Montserrat-Regular pa-6"
           >
             <v-btn
