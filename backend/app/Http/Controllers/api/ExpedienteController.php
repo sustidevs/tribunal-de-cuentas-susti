@@ -109,6 +109,7 @@ class ExpedienteController extends Controller
             $historial->fojas = $request->nro_fojas;
             $historial->fecha = Carbon::now()->format('Y-m-d');
             $historial->hora = Carbon::now()->format('h:i');
+            $historial->observacion = $request->observacion;
             $historial->motivo = "Expediente creado.";
             $historial->estado = 1;
             if(($request->allFiles()) != null)
@@ -493,7 +494,7 @@ class ExpedienteController extends Controller
         return response()->json($listado_expedientes,200);
     }
 
-    public function contadorBandejaEntrada(Request $request)
+    public function contadorBandejaEntrada()
     {
         $contador = Expediente::listadoExpedientes(Auth::user()->id,1,1)->count();
         return response()->json($contador, 200);
