@@ -18,7 +18,7 @@ export default {
         {text: 'Prioridad', value: 'prioridad', align: 'center', width: "5%"},
         {text: 'Nro. de Expediente', value: 'nroExpediente', align: 'center', width: "10%"},
         {text: 'Extracto', value: 'extracto', width: "40%"},
-        {text: 'Area Actual', value: 'descripcionArea', width: "12%"},
+        {text: 'Área Actual', value: 'descripcionArea', width: "12%"},
         {text: 'Tramite', value: 'tipoExpediente', align: 'center', width: "5%"},
         {text: 'Fecha Creación', value: 'fecha_creacion', align: 'center', width: "5%"},
         {text: 'Hora Creación', value: 'hora', align: 'center', width: "5%"},

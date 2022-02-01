@@ -15,11 +15,11 @@ export default {
   data() {
     return {
       headers: [
-        {text: 'Nro. de Expediente', value: 'nro_expediente'},
+        {text: 'N° de Expediente', value: 'nro_expediente'},
         {text: 'Extracto', value: 'extracto'},
         {text: 'Motivo', value: 'motivo'},
-        {text: 'Fecha Envio', value: 'fecha'},
-        {text: 'Area Destino', value: 'area_destino'},
+        {text: 'Fecha Envío', value: 'fecha'},
+        {text: 'Área Destino', value: 'area_destino'},
         {text: 'Usuario', value: 'nombre_usuario'},
       ],
     }
