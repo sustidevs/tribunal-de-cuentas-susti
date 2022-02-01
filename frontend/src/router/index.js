@@ -30,6 +30,7 @@ import middlewarePipeline from "./middlewarePipeline";
 import vocalias from "../middleware/vocalias"
 //import informatica from "../middleware/informatica"
 import nuevo_iniciador from "../middleware/nuevo_iniciador"
+import cedula from "../middleware/cedula"
 
 Vue.use(VueRouter)
 
@@ -133,7 +134,7 @@ const routes = [
         path: '/cedula',
         name: 'Cedula',
         component: Cedula,
-        meta: { title: 'Cedula', middleware: [auth, mesa_entrada]}
+        meta: { title: 'Cedula', middleware: [auth, cedula]}
       },
       {
         path: '/expedientes-subsidios',
