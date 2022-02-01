@@ -15,16 +15,21 @@ import layout from '../layout/Layout'
 import Expedientes from "../views/Expedientes/Expedientes";
 import Enviados from "../views/Expedientes/Enviados";
 import Usuario from "../views/Usuario/Usuario";
-import auth from "../middleware/auth";
-import guest from "../middleware/guest";
-import mesa_entrada from "../middleware/mesa_entrada";
-import middlewarePipeline from "./middlewarePipeline";
 import store from "../store/index";
 import Englose from "../views/Expedientes/Englose";
 import Cedula from "../views/Cedula/Cedula";
 import MisEnviados from "../views/Usuario/HistorialEnviados";
 import Desglose from "../views/Expedientes/Desglose"
 import MotivoSubsidio from "../views/Expedientes/MotivoSubsidio"
+
+import auth from "../middleware/auth";
+import guest from "../middleware/guest";
+import mesa_entrada from "../middleware/mesa_entrada";
+import middlewarePipeline from "./middlewarePipeline";
+//import relatorias from "../middleware/relatorias";
+import vocalias from "../middleware/vocalias"
+//import informatica from "../middleware/informatica"
+import nuevo_iniciador from "../middleware/nuevo_iniciador"
 
 Vue.use(VueRouter)
 
@@ -50,13 +55,13 @@ const routes = [
         path: '/englose',
         name: 'Englose',
         component: Englose,
-        meta: { title: 'Englose', middleware: [auth]}
+        meta: { title: 'Englose', middleware: [auth, vocalias]}
       },
       {
         path: '/desglose',
         name: 'Desglose',
         component: Desglose,
-        meta: { title: 'Desglose', middleware: [auth]}
+        meta: { title: 'Desglose', middleware: [auth, vocalias]}
       },
       {
         path: '/nuevo-expediente',
@@ -98,7 +103,7 @@ const routes = [
         path: '/nuevo-iniciador',
         name: 'NuevoIniciador',
         component: NuevoIniciador,
-        meta: { title: 'Nuevo Iniciador', middleware: [auth, mesa_entrada] }
+        meta: { title: 'Nuevo Iniciador', middleware: [auth, nuevo_iniciador] }
       },
       {
         path: '/iniciadores',
@@ -128,7 +133,7 @@ const routes = [
         path: '/cedula',
         name: 'Cedula',
         component: Cedula,
-        meta: { title: 'Cedula', middleware: [auth]  }
+        meta: { title: 'Cedula', middleware: [auth, mesa_entrada]}
       },
       {
         path: '/expedientes-subsidios',
