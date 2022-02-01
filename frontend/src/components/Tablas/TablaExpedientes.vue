@@ -79,27 +79,44 @@
           </v-chip>
         </template>
 
-        <template v-slot:item.action="{ item}">
+        <template v-slot:item.action1="{ item }">
+          <v-btn @click="caratula(item)" fab small color="#FACD89" depressed>
+            <v-icon> mdi-download </v-icon>
+          </v-btn>
+        </template>
+
+        <template v-slot:item.action2="{ item }">
           <v-btn @click="historial_expediente(item)" fab small color="#FACD89" depressed title="Haga click para ver el historial del expediente">
             <v-icon> mdi-eye </v-icon>
           </v-btn>
         </template>
       </v-data-table>
-    <div v-if="pageCount > 0" class="text-center pt-2">
-      <v-pagination
-          v-model="page"
-          :length="pageCount"
-          :total-visible="7"
-          color="amber accent-4 pb-2"
-      ></v-pagination>
-    </div>
+
+      <modal-caratula
+        :show="showCaratula"
+        :dato="datosCaratula"
+      />
+
+      <div v-if="pageCount > 0" class="text-center pt-2">
+        <v-pagination
+            v-model="page"
+            :length="pageCount"
+            :total-visible="7"
+            color="amber accent-4 pb-2"
+        ></v-pagination>
+      </div>
   </div>
 </template>
 
 <script>
 import {mapActions, mapGetters} from "vuex";
+import ModalCaratula from "../../components/dialogs/ModalCaratula";
 
 export default {
+
+  components: {
+    ModalCaratula
+  },
   props: {
     data: Array,
     loading: {type: Boolean, default: false},
@@ -111,6 +128,8 @@ export default {
       pageCount: 0,
       selected:[],
       search: '',
+      showCaratula: false,
+      datosCaratula: {},
       nro_expediente: '',
       motivo:'',
       area:'',
@@ -123,14 +142,15 @@ export default {
         {text: 'Trámite', value: 'tramite', widh: "5%", filter:this.motivoFilter},
         {text: 'Cuerpo', value: 'cantCuerpos', align: 'center'},
         {text: 'Fojas', value: 'fojas', align: 'center'},
-        {text: 'Historial', value: 'action', align: 'center', sortable: false},
+        {text: 'Carátula', value: 'action1', align: 'center', sortable: false},
+        {text: 'Historial', value: 'action2', align: 'center', sortable: false},
         {class: "display-4"},
       ],
     }
   },
 
   computed: {
-    ... mapGetters(['get_motivos','get_areas_filtros']),
+    ... mapGetters(['get_todos_expedientes', 'get_motivos','get_areas_filtros']),
   },
 
   mounted() {
@@ -191,6 +211,14 @@ export default {
       else return 'mdi-check-bold'
     },
 
+    caratula(item) {
+      this.datosCaratula = item
+      this.showCaratula = true
+    },
+
+    ...mapActions([
+      'historial_expediente',
+    ]),
   }
 }
 </script>
