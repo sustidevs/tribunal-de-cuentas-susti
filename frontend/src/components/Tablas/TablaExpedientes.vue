@@ -137,7 +137,7 @@ export default {
         {text: 'Prioridad', value: 'prioridad'},
         {text: 'N° de Expediente', value: 'nro_expediente',filter: this.nroExpedienteFilter},
         {text: 'Extracto', value: 'extracto', width: "33%"},
-        {text: 'Area Actual', value: 'area_actual', filter: this.areaActualFilter},
+        {text: 'Área Actual', value: 'area_actual', filter: this.areaActualFilter},
         {text: 'Creación', value: 'fecha_creacion',align: 'center'},
         {text: 'Trámite', value: 'tramite', widh: "5%", filter:this.motivoFilter},
         {text: 'Cuerpo', value: 'cantCuerpos', align: 'center'},
