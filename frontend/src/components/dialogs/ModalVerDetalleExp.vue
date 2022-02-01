@@ -120,7 +120,7 @@
             color="#FACD89"
             block
           >
-            <v-icon class="px-5"> mdi-close </v-icon>
+            <v-icon class="px-5"> mdi-close-thick </v-icon>
             Cerrar
           </v-btn>
         </v-col>

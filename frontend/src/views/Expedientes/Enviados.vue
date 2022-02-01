@@ -35,7 +35,7 @@ export default {
         { text: 'Nro. de Expediente', value: 'nro_expediente' },
         { text: 'Extracto', value: 'extracto' },
         { text: 'Fecha Creación', value: 'fecha_creacion' },
-        { text: 'Area Destino', value: 'area_destino' },
+        { text: 'Área Destino', value: 'area_destino' },
         { text: 'Trámite', value: 'tramite' },
         { text: 'Cuerpo', value: 'cant_cuerpos' },
         { text: 'Fojas', value: 'fojas' },
