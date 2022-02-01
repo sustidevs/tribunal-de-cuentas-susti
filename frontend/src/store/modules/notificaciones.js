@@ -1,4 +1,5 @@
 import axios from "axios";
+import router from "../../router";
 
 const state = {
     cantidad_subsidioAporteNR: 0,
@@ -32,6 +33,7 @@ const actions = {
             .then(response => {
                 commit('set_estado_notificacion', false)
                 commit('set_expSubsidioAporteNR', response.data)
+                router.push('/expedientes-subsidios');
             })
     },
 
