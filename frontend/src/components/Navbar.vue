@@ -23,13 +23,12 @@
             <div v-if="get_user.area === 'DIRECCIÓN DE REGISTRACIONES'" cols="12" lg="6" align="center" align-self="center">
               <DropdownMenu titulo="Bandejas" :data-item="bandejas"/>
               <DropdownMenu titulo="Expedientes" :data-item="expedientesMesaEntrada"/>
-              <DropdownMenu titulo="Iniciadores" :data-item="iniciadores"/>
             </div>
 
             <div v-if="get_user.area === 'DIRECCIÓN DE INFORMATICA'" cols="12" lg="6" align="center" align-self="center">
               <DropdownMenu titulo="Bandejas" :data-item="bandejas"/>
               <DropdownMenu titulo="Expedientes" :data-item="expedientes"/>
-              <DropdownMenu titulo="Iniciadores" :data-item="iniciadores"/>
+              <DropdownMenu titulo="Iniciadores" :data-item="iniciadoresInformatica"/>
             </div>
 
             <div v-if="(get_user.area === 'SECRETARIA GENERAL TECNICA') || (get_user.area === 'SECRETARIA GENERAL ADMINISTRATIVA') || (get_user.area === 'ASESORIA LEGAL') || (get_user.area === 'DIRECCIÓN DE PERSONAL') || (get_user.area === 'DPTO. DE ADMINISTRACIÓN') || (get_user.area === 'DEPARTAMENTO FALLOS') || (get_user.area === 'ARCHIVO') || (get_user.area === 'DPTO. NOTIFICACIONES') || (get_user.area === 'AUDITORIA A') || (get_user.area === 'AUDITORIA B') || (get_user.area === 'AUDITORIA C') || (get_user.area === 'AUDITORIA D') || (get_user.area === 'PRESIDENCIA') || (get_user.area === 'MAESTRANZA')" cols="12" lg="6" align="center" align-self="center">
@@ -66,6 +65,7 @@ export default {
     expedientesMesaEntrada:[ {titulo: 'Nuevo', link:'/nuevo-expediente'},{titulo: 'Pase', link:'/mis-expedientes'}, {titulo: 'Recuperar', link:'/recuperar'}, {titulo: 'Añadir cédula', link:'/cedula'}],
     expedientesRelatoriasyVocalias:[ {titulo: 'Pase', link:'/mis-expedientes'}, {titulo: 'Recuperar', link:'/recuperar'}, {titulo: 'Desglose', link:'/desglose'}, {titulo: 'Englose', link:'/englose'}],
     iniciadores:[  {titulo: 'Nuevo', link:'/nuevo-iniciador'} , {titulo: 'Ver todos', link:'/iniciadores'}],
+    iniciadoresInformatica:[ {titulo: 'Ver todos', link:'/iniciadores'}],
   }),
 
   computed: mapGetters(['get_user']),
