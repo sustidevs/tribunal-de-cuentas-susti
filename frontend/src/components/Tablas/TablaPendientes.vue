@@ -170,6 +170,47 @@ export default {
       'index_filtros'
     ]),
 
+
+    nroExpedienteFilter(value) {
+      // If this filter has no value we just skip the entire filter.
+      if (!this.nro_expediente) {
+        return true;
+      }
+
+      // Check if the current loop value (The dessert name)
+      // partially contains the searched word.
+      return value.toLowerCase().includes(this.nro_expediente.toLowerCase());
+    },
+
+    /**
+     * Filter for calories column.
+     * @param value Value to be tested.
+     * @returns {boolean}
+     */
+    motivoFilter(value) {
+
+      // If this filter has no value we just skip the entire filter.
+      if (!this.motivo) {
+        return true;
+      }
+
+      // Check if the current loop value (The calories value)
+      // equals to the selected value at the <v-select>.
+      return value === this.motivo;
+    },
+
+    areaActualFilter(value) {
+
+      // If this filter has no value we just skip the entire filter.
+      if (!this.area) {
+        return true;
+      }
+
+      // Check if the current loop value (The calories value)
+      // equals to the selected value at the <v-select>.
+      return value === this.area;
+    },
+
     getColor (prioridades) {
       if (prioridades === 'alta') return 'red lighten-3'
       if (prioridades === 'normal') return 'grey lighten-2'
