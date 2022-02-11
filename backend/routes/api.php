@@ -8,7 +8,7 @@ use App\Http\Controllers\api\UserController;
 use App\Http\Controllers\api\LoginController;
 use App\Http\Controllers\api\CedulaController;
 use App\Http\Controllers\api\HistorialController;
-use App\Http\Controllers\Api\IniciadorController;
+use App\Http\Controllers\api\IniciadorController;
 use App\Http\Controllers\api\SolicitudController;
 use App\Http\Controllers\api\ExpedienteController;
 use App\Http\Controllers\api\NotificacionController;
@@ -54,7 +54,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     /********** CEDULA ***********/
     Route::post('/contar-cedula',       [ExpedienteController::class, 'contar_cedulas']);
-    Route::post('/store-cedula',    [CedulaController::Class, 'store']);
+    Route::post('/store-cedula',    [CedulaController::class, 'store']);
 
     /**** DESGLOSE Y ENGLOSE *****/
     Route::get('/indexExpPadres',       [ExpedienteController::class, 'indexExpPadres']);
@@ -65,9 +65,9 @@ Route::middleware('auth:sanctum')->group(function () {
     /**** INICIADORES ****/
     Route::get('/createTipoEntidad', [IniciadorController::class, 'create']);
     Route::post('/store-iniciador',   [IniciadorController::class, 'store']);
-    Route::get('/index-iniciador',  [IniciadorController::Class, 'index']);
-    Route::post('/edit-iniciador',  [IniciadorController::Class, 'edit']);
-    Route::post('/update-iniciador',[IniciadorController::Class, 'update']);
+    Route::get('/index-iniciador',  [IniciadorController::class, 'index']);
+    Route::post('/edit-iniciador',  [IniciadorController::class, 'edit']);
+    Route::post('/update-iniciador',[IniciadorController::class, 'update']);
 
     /**** SUBSIDIO Y NO REINTEGRABLES ****/
     Route::post('/expSubsidiosNoReintegrables', [ExpedienteController::class, 'expSubsidiosNoReintegrables']);
