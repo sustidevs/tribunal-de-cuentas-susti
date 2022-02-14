@@ -71,12 +71,13 @@ const actions = {
        commit('set_btn_login', true);
         axios.post(process.env.VUE_APP_API_URL+ '/api/login', user)
             .then(response => {
+                //commit('set_authenticated', response.data.status)
                     localStorage.setItem('status',JSON.stringify(response.data.status))
                     localStorage.setItem('token',JSON.stringify(response.data.access_token))
                     localStorage.setItem('nro',JSON.stringify(response.data.id))
-                    commit('set_logueo', true)
                     commit('set_user', response.data)
-                    commit('set_btn_login', false)
+                    commit('set_logueo', true)
+
             })
             .catch(error => {
                 commit('set_btn_login', false)
