@@ -493,6 +493,15 @@ class ExpedienteController extends Controller
         return response()->json($listado_expedientes,200);
     }
 
+    public function bandeja_new(Request $request)//entrada,area,mis expedientes,enviado,recuperados
+    {
+        $estado = $request->estado;//parametro
+        $bandeja = $request->bandeja;
+        $user_id = Auth::user()->id;
+        $listado_expedientes = Expediente::listadoExpedientes_new($user_id,$estado,$bandeja);
+        return response()->json($listado_expedientes,200);
+    }
+
     public function contadorBandejaEntrada()
     {
         $contador = Expediente::listadoExpedientes(Auth::user()->id,1,1)->count();

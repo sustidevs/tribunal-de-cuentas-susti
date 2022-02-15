@@ -260,6 +260,68 @@ class Expediente extends Model
         return $nro_exp;
     }
 
+    public static function listadoExpedientes_new($user_id, $estado, $bandeja)
+    {
+        //Trae el id
+        $ultimo_movimiento = DB::table('historiales')
+                            ->select('id', 'expediente_id')
+                            ->where('id', '=', (function($query)
+                            {
+                                $query->select(DB::raw('MAX(id)'));
+                            }))
+                            //->groupBy('id')
+                            ->get();
+                            
+                        return $ultimo_movimiento;
+        /*
+        $subAreaOrigen = DB::table('historiales')
+                        ->select('expediente_id', DB::raw('MAX(fecha)'), 'areas.descripcion', 'estado')
+                        ->join('areas', 'areas.id', '=', 'historiales.area_origen_id')
+                        ->groupBy('historiales.expediente_id', 'fecha', 'areas.descripcion', 'estado');
+                
+        $subAreaDestino = DB::table('historiales')
+                        ->select('expediente_id', DB::raw('MAX(fecha)'), 'areas.descripcion', 'estado')
+                        ->join('areas', 'areas.id', '=', 'historiales.area_destino_id')
+                        ->groupBy('historiales.expediente_id', 'areas.descripcion', 'estado');
+                        
+
+        switch($bandeja)
+        {
+            case "1": //Bandeja de entrada
+                
+                $query = DB::table('expedientes')
+                        ->select('expedientes.id',
+                                 'prioridad_expedientes.descripcion as prioridad',
+                                 'expedientes.nro_expediente',
+                                 'extractos.descripcion as extracto',
+                                 'expedientes.fecha as fecha_creacion',
+                                 'tipo_expedientes.descripcion as tramite',
+                                 DB::raw('ceil(expedientes.fojas / 200) as cuerpos'),
+                                 'caratulas.id as caratula',
+                                 'expedientes.fojas',
+                                 'areas.descripcion as area_actual',
+                                 'areaOrigen.descripcion as area_origen',
+                                 'expedientes.archivos as archivo'
+                                 )
+                        ->where('expedientes.expediente_id', '=', null)
+                        ->joinSub($subAreaOrigen, 'areaOrigen', function($join)
+                        {
+                            $join->on('expedientes.id', '=', 'areaOrigen.expediente_id');
+                        })     
+                        ->join('prioridad_expedientes', 'prioridad_expedientes.id', '=', 'expedientes.prioridad_id')
+                        ->join('caratulas', 'expedientes.id', '=', 'caratulas.expediente_id')
+                        ->join('extractos', 'caratulas.extracto_id', '=', 'extractos.id')
+                        ->join('tipo_expedientes', 'expedientes.tipo_expediente', '=', 'tipo_expedientes.id')
+                        ->join('areas', 'areas.id', '=', 'expedientes.area_actual_id')
+                        ->orderBy('expedientes.id')
+                        ->get();
+        return $query;
+        */
+    
+        
+
+    }
+
     public static function listadoExpedientes($user_id, $estado, $bandeja)
     {
         $Expedientes = Expediente::where('expediente_id', null)->get();
