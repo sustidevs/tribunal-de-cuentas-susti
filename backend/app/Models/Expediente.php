@@ -262,17 +262,31 @@ class Expediente extends Model
 
     public static function listadoExpedientes_new($user_id, $estado, $bandeja)
     {
-        //Trae el id
-        $ultimo_movimiento = DB::table('historiales')
-                            ->select('id', 'expediente_id')
-                            ->where('id', '=', (function($query)
-                            {
-                                $query->select(DB::raw('MAX(id)'));
-                            }))
-                            //->groupBy('id')
-                            ->get();
+        //devuelve solo el 'id' del historial, del ultimo movimiento del expediente 
+        $id_ultimos_movimientos = DB::table('historiales')
+                        ->select(DB::raw('MAX(id) as id'))
+                        ->groupBy('expediente_id');
+                        
+        //recupera el registro completo del historial del último movimiento del expediente
+        $historial_ultimo_movimiento = DB::table('historiales')
+                        ->select('areas.descripcion as descrippppp')
+                        ->join('areas', 'areas.id', '=', 'historiales.area_origen_id')
+                        ->joinSub($id_ultimos_movimientos, 'ultimo_movimiento_expediente', function($join)
+                        {
+                            $join->on('historiales.id', '=', 'ultimo_movimiento_expediente.id');
+                        })->get();
+        
+                        return $historial_ultimo_movimiento;
+        
+        //recupera datos del área de origen
+        $historial_con_areaOrigen = DB::table('areas')
+                        ->joinSub($historial_ultimo_movimiento, 'h_u_m', function($join)
+                        {
+                            $join->on('id', '=', 'h_u_m.area_origen_id');
+                        })
+                        ->get();
+                        return $historial_con_areaOrigen;                
                             
-                        return $ultimo_movimiento;
         /*
         $subAreaOrigen = DB::table('historiales')
                         ->select('expediente_id', DB::raw('MAX(fecha)'), 'areas.descripcion', 'estado')
