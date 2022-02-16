@@ -264,25 +264,40 @@ class Expediente extends Model
     {
         //devuelve solo el 'id' del historial, del ultimo movimiento del expediente 
         $id_ultimos_movimientos = DB::table('historiales')
-                        ->select(DB::raw('MAX(id) as id'))
+                        ->select(DB::raw('MAX(id) as id_movimiento'))
                         ->groupBy('expediente_id');
+
+        $areas = DB::table('areas')
+                        ->select('id as area_id_origen', 'descripcion as area_descripcion_origen');
+
+        $areas_d = DB::table('areas')
+                        ->select('id as area_id_destino', 'descripcion as area_descripcion_destino');
+                        
                         
         //recupera el registro completo del historial del último movimiento del expediente
         $historial_ultimo_movimiento = DB::table('historiales')
-                        ->select('areas.descripcion as descrippppp')
-                        ->join('areas', 'areas.id', '=', 'historiales.area_origen_id')
                         ->joinSub($id_ultimos_movimientos, 'ultimo_movimiento_expediente', function($join)
                         {
-                            $join->on('historiales.id', '=', 'ultimo_movimiento_expediente.id');
-                        })->get();
+                            $join->on('historiales.id', '=', 'ultimo_movimiento_expediente.id_movimiento');
+                        })
+                        ->joinSub($areas, 'areasDeOrigen', function($join)
+                        {
+                            $join->on('historiales.area_origen_id', "=", 'areasDeOrigen.area_id_origen');
+                        })
+                        ->joinSub($areas_d, 'areasDeDestino', function($join)
+                        {
+                            $join->on('historiales.area_destino_id', "=", 'areasDeDestino.area_id_destino');
+                        })
+                        ->get();
         
                         return $historial_ultimo_movimiento;
         
         //recupera datos del área de origen
         $historial_con_areaOrigen = DB::table('areas')
+                        ->select('id as id_areaOrigen')
                         ->joinSub($historial_ultimo_movimiento, 'h_u_m', function($join)
                         {
-                            $join->on('id', '=', 'h_u_m.area_origen_id');
+                            $join->on('id_areaOrigen', '=', 'h_u_m.area_origen_id');
                         })
                         ->get();
                         return $historial_con_areaOrigen;                
