@@ -484,7 +484,7 @@ class ExpedienteController extends Controller
         return response()->json($datos, 200);
     }*/
 
-    public function bandeja(Request $request)//entrada,area,mis expedientes,enviado,recuperados
+    public function bandeja_old(Request $request)//entrada,area,mis expedientes,enviado,recuperados
     {
         $estado = $request->estado;//parametro
         $bandeja = $request->bandeja;
@@ -493,7 +493,7 @@ class ExpedienteController extends Controller
         return response()->json($listado_expedientes,200);
     }
 
-    public function bandeja_new(Request $request)//entrada,area,mis expedientes,enviado,recuperados
+    public function bandeja(Request $request)//entrada,area,mis expedientes,enviado,recuperados
     {
         $estado = $request->estado;//parametro
         $bandeja = $request->bandeja;
