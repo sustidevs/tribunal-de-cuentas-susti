@@ -260,7 +260,7 @@ class Expediente extends Model
         return $nro_exp;
     }
 
-    public static function listadoExpedientes_new($user_id, $estado, $bandeja)
+    public static function listadoExpedientes($user_id, $bandeja)
     {
         $user = User::findOrFail($user_id);
         //devuelve solo el 'id' del historial, del ultimo movimiento del expediente 
@@ -325,7 +325,7 @@ class Expediente extends Model
                                                                 ->orderBy('prioridad', 'asc')
                                                                 ->orderBy('fecha', 'asc')
                                                                 ->orderBy('hora', 'asc')
-                                                                ->where('estado', $estado)
+                                                                ->where('estado', 1)
                                                                 ->get();
                         }
                         if ($bandeja == 3) {
@@ -340,101 +340,19 @@ class Expediente extends Model
                         if ($bandeja == 4) {
                             return $historial_ultimo_movimiento ->where('area_origen_id', $user->area_id)
                                                                 ->where('user_id', $user->id)
-                                                                ->where('estado', $estado)
+                                                                ->where('estado', 1)
                                                                 ->orderBy('prioridad', 'asc')
                                                                 ->orderBy('fecha', 'asc')
                                                                 ->orderBy('hora', 'asc')
-                                                                ->get();
+                                                                ->get();                                                               
                         }
-    }
-
-    public static function listadoExpedientes($user_id, $estado, $bandeja)
-    {
-        $Expedientes = Expediente::where('expediente_id', null)->get();
-        $user = User::findOrFail($user_id);
-        $array_expediente = collect([]);
-
-        foreach ($Expedientes as $exp)
-        {
-            switch ($bandeja)
-            {
-                case "1":
-                case "4":     #BANDEJA DE ENTRADA O #ENVIADOS
-                    $area_destino_id = $exp->historiales->last()->areaDestino->id;
-                    $area_destino = $exp->historiales->last()->areaDestino->descripcion;
-                    $estado_expediente = $exp->historiales->last()->estado;
-                    break;
-                case "3": #MI EXPEDIENTE
-                    $area_destino_id = $exp->area_actual_id;
-                    $area_destino = $exp->area->descripcion;
-                    $estado_expediente = $exp->estado_expediente_id;
-                    break;
-            }
-
-            $array_expediente->push([
-                'expediente_id'=>$exp->id,
-                'prioridad'=>$exp->prioridadExpediente->descripcion,
-                'nro_expediente'=>$exp->nro_expediente,
-                'extracto'=>$exp->caratula->extracto->descripcion,
-                'fecha_creacion'=>$exp->created_at->format('d-m-Y'),
-                'tramite'=>$exp->tipoExpediente->descripcion,
-                'cant_cuerpos'=>$exp->cantidadCuerpos(),
-                'fojas'=>$exp->fojas,
-                'iniciador'=>$exp->caratula->iniciador->nombre,
-                'cuit_iniciador'=>$exp->caratula->iniciador->cuit,
-                'area_origen_id'=>$exp->historiales->last()->areaOrigen->id,
-                'area_origen'=>$exp->historiales->last()->areaOrigen->descripcion,
-                'area_destino_id'=>$area_destino_id,
-                'area_destino'=>$area_destino,
-                //'area_actual_id'=>$exp->area_actual_id,
-                //'area_actual'=>$exp->area->descripcion,
-                'estado'=>$estado_expediente,
-                'user_id'=>$exp->historiales->last()->user_id,
-                'archivo'=>$exp->archivos,
-                'observacion'=>$exp->caratula->observacion,
-                //'motivo'=>$exp->historiales->sortByDesc('id')->skip(1)->take(1)->values(),
-                'observacion_pase'=>$exp->historiales->last()->observacion,
-                'hora'=>$exp->historiales->last()->hora,
-                'fecha'=>$exp->historiales->last()->fecha,
-            ]);
-
-        }
-        /*
-        * Filtro los Exp. por bandeja
-        */
-
-        #BANDEJA DE ENTRADA
-        if ($bandeja == 1) {
-            return $array_expediente->where('area_destino_id',$user->area_id)
-                                    ->sortBy([
-                                        ['prioridad', 'asc'],
-                                        ['fecha', 'asc'],
-                                        ['hora', 'asc']
-                                    ])
-                                    ->where('estado',$estado)->values();
-        }
-
-
-        #MIS EXPEDIENTE
-        if ($bandeja == 3) {
-            return $array_expediente->where('area_destino_id',$user->area_id)
-                                    ->where('user_id',$user->id)
-                                    ->whereIn('estado', [5,3])
-                                    ->sortBy([
-                                        ['prioridad', 'asc'],
-                                        ['fecha', 'asc'],
-                                        ['hora', 'asc']
-                                    ])
-                                    ->values();
-        }
-
-        #ENVIADOS
-        if ($bandeja == 4) {
-            return $array_expediente->where('area_origen_id',$user->area_id)
-                                    ->where('user_id',$user->id)
-                                    ->where('estado',$estado)->values();
-        }
-        return $array_expediente;
+                        if ($bandeja == 5) {
+                            return $historial_ultimo_movimiento ->where('estado', 6)
+                                                                ->orderBy('prioridad', 'asc')
+                                                                ->orderBy('fecha', 'asc')
+                                                                ->orderBy('hora', 'asc')
+                                                                ->get();                                                               
+                        }
     }
 
     /*
