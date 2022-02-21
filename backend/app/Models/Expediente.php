@@ -260,93 +260,99 @@ class Expediente extends Model
         return $nro_exp;
     }
 
-    public static function listadoExpedientes($user_id, $estado, $bandeja)
+    public static function listadoExpedientes($user_id, $bandeja)
     {
-        $Expedientes = Expediente::where('expediente_id', null)->get();
         $user = User::findOrFail($user_id);
-        $array_expediente = collect([]);
+        //devuelve solo el 'id' del historial, del ultimo movimiento del expediente 
+        $id_ultimos_movimientos = DB::table('historiales')
+                        ->select(DB::raw('MAX(id) as id_movimiento'))
+                        ->groupBy('expediente_id');
+        
+        //devuelve las areas para join con origen
+        $areas_o = DB::table('areas')
+                        ->select('id as area_id_origen', 'descripcion as area_descripcion_origen');
 
-        foreach ($Expedientes as $exp)
-        {
-            switch ($bandeja)
-            {
-                case "1":
-                case "4":     #BANDEJA DE ENTRADA O #ENVIADOS
-                    $area_destino_id = $exp->historiales->last()->areaDestino->id;
-                    $area_destino = $exp->historiales->last()->areaDestino->descripcion;
-                    $estado_expediente = $exp->historiales->last()->estado;
-                    break;
-                case "3": #MI EXPEDIENTE
-                    $area_destino_id = $exp->area_actual_id;
-                    $area_destino = $exp->area->descripcion;
-                    $estado_expediente = $exp->estado_expediente_id;
-                    break;
-            }
-
-            $array_expediente->push([
-                'expediente_id'=>$exp->id,
-                'prioridad'=>$exp->prioridadExpediente->descripcion,
-                'nro_expediente'=>$exp->nro_expediente,
-                'extracto'=>$exp->caratula->extracto->descripcion,
-                'fecha_creacion'=>$exp->created_at->format('d-m-Y'),
-                'tramite'=>$exp->tipoExpediente->descripcion,
-                'cant_cuerpos'=>$exp->cantidadCuerpos(),
-                'fojas'=>$exp->fojas,
-                'iniciador'=>$exp->caratula->iniciador->nombre,
-                'cuit_iniciador'=>$exp->caratula->iniciador->cuit,
-                'area_origen_id'=>$exp->historiales->last()->areaOrigen->id,
-                'area_origen'=>$exp->historiales->last()->areaOrigen->descripcion,
-                'area_destino_id'=>$area_destino_id,
-                'area_destino'=>$area_destino,
-                //'area_actual_id'=>$exp->area_actual_id,
-                //'area_actual'=>$exp->area->descripcion,
-                'estado'=>$estado_expediente,
-                'user_id'=>$exp->historiales->last()->user_id,
-                'archivo'=>$exp->archivos,
-                'observacion'=>$exp->caratula->observacion,
-                'motivo'=>$exp->historiales->sortByDesc('id')->skip(1)->take(1)->values(),
-                'observacion_pase'=>$exp->historiales->last()->observacion,
-                'hora'=>$exp->historiales->last()->hora,
-                'fecha'=>$exp->historiales->last()->fecha,
-            ]);
-
-        }
-        /*
-        * Filtro los Exp. por bandeja
-        */
-
-        #BANDEJA DE ENTRADA
-        if ($bandeja == 1) {
-            return $array_expediente->where('area_destino_id',$user->area_id)
-                                    ->sortBy([
-                                        ['prioridad', 'asc'],
-                                        ['fecha', 'asc'],
-                                        ['hora', 'asc']
-                                    ])
-                                    ->where('estado',$estado)->values();
-        }
-
-
-        #MIS EXPEDIENTE
-        if ($bandeja == 3) {
-            return $array_expediente->where('area_destino_id',$user->area_id)
-                                    ->where('user_id',$user->id)
-                                    ->whereIn('estado', [4,3])
-                                    ->sortBy([
-                                        ['prioridad', 'asc'],
-                                        ['fecha', 'asc'],
-                                        ['hora', 'asc']
-                                    ])
-                                    ->values();
-        }
-
-        #ENVIADOS
-        if ($bandeja == 4) {
-            return $array_expediente->where('area_origen_id',$user->area_id)
-                                    ->where('user_id',$user->id)
-                                    ->where('estado',$estado)->values();
-        }
-        return $array_expediente;
+        //devuelve las areas para join con destino
+        $areas_d = DB::table('areas')
+                        ->select('id as area_id_destino', 'descripcion as area_descripcion_destino');
+                                                
+        //recupera el registro completo del historial del último movimiento del expediente
+        $historial_ultimo_movimiento = DB::table('historiales')
+                        ->select('expedientes.id as expediente_id',
+                                 'prioridad_expedientes.descripcion as prioridad',
+                                 'expedientes.nro_expediente as nro_expediente',
+                                 'extractos.descripcion as extracto',
+                                 DB::raw("DATE_FORMAT(expedientes.created_at, '%d-%m-%Y') as fecha_creacion"),
+                                 'tipo_expedientes.descripcion as tramite',
+                                 DB::raw('truncate((expedientes.fojas / 200), 0) + 1 as cant_cuerpos'),
+                                 'expedientes.fojas as fojas',
+                                 'iniciadores.nombre as iniciador',
+                                 'iniciadores.cuit as cuit_iniciador',
+                                 'areasDeOrigen.area_id_origen as area_origen_id',
+                                 'areasDeOrigen.area_descripcion_origen as area_origen',
+                                 'areasDeDestino.area_id_destino as area_destino_id',
+                                 'areasDeDestino.area_descripcion_destino as area_destino',
+                                 'expedientes.estado_expediente_id as estado',
+                                 'historiales.user_id as user_id',
+                                 'expedientes.archivos as archivos',
+                                 'caratulas.observacion as observacion',
+                                 'historiales.observacion as observacion_pase',
+                                 'historiales.hora as hora',
+                                 'historiales.fecha as fecha')
+                        ->joinSub($id_ultimos_movimientos, 'ultimo_movimiento_expediente', function($join)
+                        {
+                            $join->on('historiales.id', '=', 'ultimo_movimiento_expediente.id_movimiento');
+                        })
+                        ->joinSub($areas_o, 'areasDeOrigen', function($join)
+                        {
+                            $join->on('historiales.area_origen_id', "=", 'areasDeOrigen.area_id_origen');
+                        })
+                        ->joinSub($areas_d, 'areasDeDestino', function($join)
+                        {
+                            $join->on('historiales.area_destino_id', "=", 'areasDeDestino.area_id_destino');
+                        })
+                        ->join('expedientes', 'historiales.expediente_id', '=', 'expedientes.id')
+                        ->join('prioridad_expedientes', 'expedientes.prioridad_id', '=', 'prioridad_expedientes.id')
+                        ->join('caratulas', 'expedientes.id', '=', 'caratulas.expediente_id')
+                        ->join('extractos', 'caratulas.extracto_id', '=', 'extractos.id')
+                        ->join('tipo_expedientes', 'expedientes.tipo_expediente', '=', 'tipo_expedientes.id')
+                        ->join('iniciadores', 'caratulas.iniciador_id', '=', 'iniciadores.id');
+                        //->get();
+        
+                        //return $historial_ultimo_movimiento;
+                        if ($bandeja == 1) {
+                            return $historial_ultimo_movimiento ->where('area_destino_id', $user->area_id)
+                                                                ->orderBy('prioridad', 'asc')
+                                                                ->orderBy('fecha', 'asc')
+                                                                ->orderBy('hora', 'asc')
+                                                                ->where('estado', 1)
+                                                                ->get();
+                        }
+                        if ($bandeja == 3) {
+                            return $historial_ultimo_movimiento ->where('area_destino_id', $user->area_id)
+                                                                ->where('user_id', $user->id)
+                                                                ->whereIn('estado', [5,3])
+                                                                ->orderBy('prioridad', 'asc')
+                                                                ->orderBy('fecha', 'asc')
+                                                                ->orderBy('hora', 'asc')                                                                
+                                                                ->get();
+                        }
+                        if ($bandeja == 4) {
+                            return $historial_ultimo_movimiento ->where('area_origen_id', $user->area_id)
+                                                                ->where('user_id', $user->id)
+                                                                ->where('estado', 1)
+                                                                ->orderBy('prioridad', 'asc')
+                                                                ->orderBy('fecha', 'asc')
+                                                                ->orderBy('hora', 'asc')
+                                                                ->get();                                                               
+                        }
+                        if ($bandeja == 5) {
+                            return $historial_ultimo_movimiento ->where('estado', 6)
+                                                                ->orderBy('prioridad', 'asc')
+                                                                ->orderBy('fecha', 'asc')
+                                                                ->orderBy('hora', 'asc')
+                                                                ->get();                                                               
+                        }
     }
 
     /*

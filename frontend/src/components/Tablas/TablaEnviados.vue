@@ -91,10 +91,9 @@ export default {
       ]),
 
     recuperacion: function(item) {
-      item.estado_expediente = 4
-
-      item.estado= 1,
-      item.bandeja= 4,
+      item.estado_expediente = 5 //cambia el estado del expediente
+      item.estado = 1, //tabla
+      item.bandeja= 4, //tabla
       this.cambiarEstado(item);
     },
   },

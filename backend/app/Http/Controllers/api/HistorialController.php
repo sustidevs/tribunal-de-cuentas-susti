@@ -127,14 +127,14 @@ class HistorialController extends Controller
         /*
         * Si el estado al que cambia es 3 (mis expediente), Actualizo el area actual del expediente.
         */
-        if ($request->estado_expediente == 3 or $request->estado_expediente == 4) {
+        if ($request->estado_expediente == 3 or $request->estado_expediente == 5) {
             $expediente->area_actual_id = $user->area_id;
             $expediente->update();
-            if ($request->estado_expediente == 4)
+            if ($request->estado_expediente == 5)
             {
                 $historial->motivo = "Pase recuperado";
-                $historial->estado = 4;
-                $expediente->estado_expediente_id = 4;
+                $historial->estado = 5;
+                $expediente->estado_expediente_id = 5;
                 $expediente->save();
             }
         }

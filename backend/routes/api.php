@@ -41,6 +41,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/buscar-expediente',   [ExpedienteController::class, 'buscarExpediente']);
     Route::get('/indexExp',             [ExpedienteController::class, 'index']);
     Route::post('/ListadoExp',       [ExpedienteController::class, 'bandeja']);
+    //
+    Route::post('/ListadoExp_new',       [ExpedienteController::class, 'bandeja_new']);
+    //
     Route::post('/expSubsidiosNoReintegrables', [ExpedienteController::class, 'expSubsidiosNoReintegrables']);
     Route::get('/all-motivos',       [ExpedienteController::class, 'indexMotivos']);
 
