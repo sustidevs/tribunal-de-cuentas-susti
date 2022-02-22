@@ -260,6 +260,12 @@ class Expediente extends Model
         return $nro_exp;
     }
 
+    /**
+     * Método que devuelve el listado de expedientes según bandeja seleccionada y área del usuario logueado
+     * @param: id usuario
+     * @param: id bandeja
+     * Autor: Mariano Flores
+     */
     public static function listadoExpedientes($user_id, $bandeja)
     {
         $user = User::findOrFail($user_id);
@@ -353,6 +359,11 @@ class Expediente extends Model
                         }
     }
 
+    /**
+     * Método que devuelve la cantidad de expedientes pendientes por aceptar según el área del usuario logueado
+     * @param: id usuario
+     * Autor: Mariano Flores
+     */
     public static function contadorBandejaEntrada($user_id)
     {
         $user = User::findOrFail($user_id);
