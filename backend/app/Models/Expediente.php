@@ -317,9 +317,7 @@ class Expediente extends Model
                         ->join('extractos', 'caratulas.extracto_id', '=', 'extractos.id')
                         ->join('tipo_expedientes', 'expedientes.tipo_expediente', '=', 'tipo_expedientes.id')
                         ->join('iniciadores', 'caratulas.iniciador_id', '=', 'iniciadores.id');
-                        //->get();
-        
-                        //return $historial_ultimo_movimiento;
+
                         if ($bandeja == 1) {
                             return $historial_ultimo_movimiento ->where('area_destino_id', $user->area_id)
                                                                 ->orderBy('prioridad', 'asc')
@@ -353,6 +351,26 @@ class Expediente extends Model
                                                                 ->orderBy('hora', 'asc')
                                                                 ->get();                                                               
                         }
+    }
+
+    public static function contadorBandejaEntrada($user_id)
+    {
+        $user = User::findOrFail($user_id);
+        //devuelve solo el 'id' del historial, del ultimo movimiento del expediente 
+        $id_ultimos_movimientos = DB::table('historiales')
+                        ->select(DB::raw('MAX(id) as id_movimiento'))
+                        ->groupBy('expediente_id');
+
+        $en_bandeja_entrada = DB::table('historiales')
+                        ->select('historiales.estado', 'historiales.area_destino_id')
+                        ->joinSub($id_ultimos_movimientos, 'ultimo_movimiento_expediente', function($join)
+                        {
+                            $join->on('historiales.id', '=', 'ultimo_movimiento_expediente.id_movimiento');
+                        })
+                        ->where('estado', 1)
+                        ->where('area_destino_id', $user->area_id);
+        
+        return $en_bandeja_entrada;
     }
 
     /*
