@@ -64,7 +64,7 @@
                       <!-- <label-error :texto="this.a_afectosde_error" /> -->
                     </v-col>
                     <v-col cols="12" lg="12">
-                      <label-input texto="A afectos de:" />
+                      <label-input texto="A efectos de:" />
                       <v-textarea
                         v-model="pase.observacion"
                         outlined
@@ -84,7 +84,7 @@
 
                   <v-row>
                     <v-col cols="12" lg="4">
-                      <label-input texto="Fecha y Hora del Pase:" />
+                      <label-input texto="Fecha y hora del pase" />
                       <v-text-field
                         class="Montserrat-Regular text-justify"
                         color="amber accent-4"
