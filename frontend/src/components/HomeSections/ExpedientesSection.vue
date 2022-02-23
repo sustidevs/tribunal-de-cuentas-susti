@@ -20,26 +20,27 @@
         </v-btn>
       </v-hover>
       <modal-consultar-nro-exp :show="showModalConsultarNroExp" @close="closeModalConsultarNroExp"/>
-      <ButtonBig class="my-2 mr-6" texto="Pase" link="/mis-expedientes" icon="mdi-file-move"/>
+      <ButtonBigTooltip class="my-2 mr-6" texto="Pase" link="/mis-expedientes" icon="mdi-file-move" tooltip="Mis expedientes"/>
       <ButtonBig class="my-2 mr-6" texto="Recuperar" link="/recuperar" icon="mdi-file-undo"/>
-    <ButtonBig v-if="(get_user.area === 'DPTO. MESA DE ENTRADAS Y SALIDAS')" class="my-2 mr-6" texto="Nuevo" link="/nuevo-expediente" icon="mdi-text-box-plus"/>
+      <ButtonBig v-if="(get_user.area === 'DPTO. MESA DE ENTRADAS Y SALIDAS')" class="my-2 mr-6" texto="Nuevo" link="/nuevo-expediente" icon="mdi-text-box-plus"/>
 
       <div v-if="(get_user.area === 'VOCALIA A') || (get_user.area === 'VOCALIA B') || (get_user.area === 'VOCALIA C') || (get_user.area === 'VOCALIA D') || (get_user.area === 'RELATORIA A') || (get_user.area === 'RELATORIA B') || (get_user.area === 'RELATORIA C' || (get_user.area === 'RELATORIA D')) ">
         <ButtonBig class="my-2 mr-6" texto="Englose" link="/englose" icon="mdi-file-plus"/>
         <ButtonBig class="my-2 mr-6" texto="Desglose" link="/desglose" icon="mdi-file-percent"/>
       </div>
 
-    </div>
+  </div>
 </template>
 
 <script>
 import ButtonBig from "../ButtonBig";
+import ButtonBigTooltip from "../ButtonBigTooltip";
 import TituloInicio from "../TituloInicio";
 import ModalConsultarNroExp from "../dialogs/ModalConsultarNroExp";
 import {mapGetters} from "vuex";
 
 export default {
-  components: {ButtonBig, TituloInicio, ModalConsultarNroExp},
+  components: {ButtonBig, ButtonBigTooltip, TituloInicio, ModalConsultarNroExp},
 
   data() {
     return {
