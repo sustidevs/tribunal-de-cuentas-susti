@@ -7,7 +7,7 @@
               width="170"
               height="170"
               :class="hover ? 'orange accent-1' : 'grey lighten-3'"
-              class="mr-6 justify-center Montserrat-Bold grey--text text--darken-3"
+              class="mr-6 my-2 justify-center Montserrat-Bold grey--text text--darken-3"
               :href="link"
               :target="target"
               v-on="on"

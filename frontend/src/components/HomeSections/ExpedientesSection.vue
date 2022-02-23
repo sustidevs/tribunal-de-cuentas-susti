@@ -11,7 +11,7 @@
             class="pa-8 mr-6 Montserrat-Bold grey--text text--darken-3"
         >
           <div class="d-flex flex-column justify-center">
-            <v-icon size="80" class="py-2" :color="hover ? 'grey darken-1' : '#FDBC3F'">mdi-magnify</v-icon>
+            <v-icon size="90" class="py-2" :color="hover ? 'grey darken-1' : '#FDBC3F'">mdi-magnify</v-icon>
 
             <div class="sizeBig pt-4">
               Consultar
