@@ -87,7 +87,6 @@ class ExpedienteController extends Controller
             $expediente->estado_expediente_id = '1';
             $expediente->area_actual_id = '13';
             $expediente->monto = $request->monto;
-            $expediente->expediente_id = $request->expediente_id;
             $expediente->save();
 
             $extracto = new Extracto;
