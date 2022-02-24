@@ -39,16 +39,6 @@
         <v-col cols="12" sm="12" lg="6" class="pr-lg-2">
           <label-input texto="Iniciador *" />
 
-          <!--
-          <autocomplete-field
-              nombre="nombre"
-              label="email"
-              @input="cargarExpediente"
-              :data="$store.state.nuevo_expediente.iniciadores"
-              :value="$store.state.nuevo_expediente.iniciadorSelected"
-          ></autocomplete-field>
-          />-->
-
 
           <autocomplete-field
             :data="allIniciadores"
@@ -56,24 +46,9 @@
             @input="cargarExpediente()"
             v-model="expe.iniciador_id"
         ></autocomplete-field>
-
         </v-col>
 
         <v-col cols="12" sm="12" lg="6" class="pl-lg-2">
-          <label-input texto="Nº de Expediente" />
-          <v-text-field
-            class="Montserrat-Regular text-justify"
-            color="amber accent-4"
-            outlined
-            readonly
-            v-model="nroExpediente"
-          >
-          </v-text-field>
-        </v-col>
-      </v-row>
-
-      <v-row no-gutters justify="start" class="py-3">
-        <v-col cols="12" sm="12" lg="6" class="pr-lg-2">
           <LabelInput texto="Motivo del Expediente *" />
 
           <autocomplete-field
@@ -82,20 +57,6 @@
             nombre="descripcion"
             v-model="expe.tipo_exp_id"
           />
-        </v-col>
-
-        <v-col cols="12" sm="12" lg="6" class="pl-lg-2 pb-3">
-          <v-alert
-            icon="mdi-alert-outline"
-            border="left"
-            dense
-            text
-            type="warning"
-            class="alert Montserrat-Regular pa-4 mt-10"
-          >
-            Seleccione un motivo de expediente para cargar la plantilla del
-            extracto.
-          </v-alert>
         </v-col>
       </v-row>
 
@@ -284,7 +245,6 @@ export default {
 
   methods: {
     cargarExpediente() {
-      this.nroExpedienteAleatorio(this.expe);
       this.capturarIniciador(this.expe.iniciador_id);
     },
 
@@ -315,7 +275,6 @@ export default {
       formData.append("iniciador_id", this.expe.iniciador_id);
       formData.append("nro_fojas", this.expe.nro_fojas);
       formData.append("observacion", this.expe.observacion);
-      formData.append("nro_expediente", this.nroExpediente);
       formData.append("prioridad_id", this.expe.prioridad);
       formData.append("tipo_exp_id", this.expe.tipo_exp_id);
       formData.append("descripcion_extracto", this.extracto);
@@ -332,7 +291,6 @@ export default {
     ...mapActions([
       "getCreate",
       "storeExpediente",
-      "nroExpedienteAleatorio",
       "cerrarModal",
       "capturarIniciador",
         'capturarMotivo',
@@ -364,13 +322,6 @@ export default {
 
 
     //si el valor de nro expediente cambia, se ejecuta la funcion y el componente reacciona a los cambios
-
-
-    nroExpediente: {
-      get() {
-        return this.$store.getters.nro_expediente;
-      },
-    },
 
     extracto: {
       get() {
