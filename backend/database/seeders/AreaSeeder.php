@@ -16,7 +16,7 @@ class AreaSeeder extends Seeder
         //array('descripcion' => 'ASESORIA LETRADA'),
         array('descripcion' => 'ASESORIA LEGAL'),
         array('descripcion' => 'DIRECCIÓN DE PERSONAL'),
-        array('descripcion' => 'DPTO. DE ADMINISTRACIÓN'),
+        array('descripcion' => 'DIRECCIÓN DE ADMINISTRACIÓN'),
         array('descripcion' => 'DIRECCIÓN DE REGISTRACIONES'),
         array('descripcion' => 'VOCALIA A'),
         array('descripcion' => 'VOCALIA B'),
