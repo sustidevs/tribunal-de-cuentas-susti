@@ -53,6 +53,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/historial',               [HistorialController::class, 'create']);
     Route::post('/historialExp',            [HistorialController::class, 'historialExpediente']);
     Route::post('/update-estado',           [HistorialController::class, 'updateEstado']);
+    Route::post('/regresar',                [HistorialController::class, 'regresarExpediente']);
     Route::get('/mis-enviados',             [HistorialController::class, 'misEnviados']);
 
     /********** CEDULA ***********/
