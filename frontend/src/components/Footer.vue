@@ -13,7 +13,8 @@
             md="6"
             align="center"
         ><v-img
-            width="190"
+            width="300"
+            height="60"
             class="hidden-xs-only"
             src="/img/logo-corrientes-blanco.svg"
         ></v-img>
@@ -29,7 +30,8 @@
             align="center"
         >
           <v-img
-              width="180"
+              width="300"
+              height="60"
               class="hidden-xs-only"
               src="/img/logo-susti-blanco.svg"
           ></v-img>
