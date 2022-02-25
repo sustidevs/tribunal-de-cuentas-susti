@@ -58,88 +58,6 @@ class LoginController extends Controller
         return ('usuario deslogueado');
     }
 
-                /**
-         * PROXIMAMENTE EN DESUSO... CUANDO FRONT SOLUCIONE ENVIAR TOKEN => UTILIZAR authenticate_new
-         */
-    public function authenticate(LoginRequest $request)
-    {
-       /*
-        $request = new Request;
-        $request->cuil = '20101234564';
-        $request->password = 'password';
-        */
-            if ($request->validated())
-            {
-                $credentials = ['cuil'=> $request->cuil,'password'=>$request->password];
-
-                if (Auth::attempt($credentials))
-                {
-                    $user = Auth::user();
-                    //$token = $user->createToken('my-app-token')->plainTextToken;
-                    if ($user->remember_token != null)
-                    {
-                        $token = $user->createToken($user->remember_token)->plainTextToken;
-                    }
-                    else
-                    {
-                        $token = $user->createToken(Str::random(10))->plainTextToken;
-                    }
-                    $response = ["user" => $user->datos_user(), "token" => $token];
-                    return response()->json($response, 200);
-                    //return response($response, 201);
-                }
-                else
-                {
-                    $response = "El CUIL y la contraseña no coinciden. Vuelva a intentarlo.";
-                    return response()->json($response, 201);
-                }
-            }
-    }
-
-    /**
-     * Método para autenticar un usuario y loquearlo en el sistema,
-     * genera un token para utilizar la API
-     * @param: cuil
-     * @param: password
-     * Autor: Mariano Flores
-     */
-    public function authenticate_new_old(LoginRequest $request)
-    {
-        $user = ModelsUser::where("cuil", "=", "$request->cuil")->first();
-        if(isset($user->id))
-        {
-            $user->tokens()->delete(); // comentar ésta línea si se requiere asignar más de un token al usuario
-            if(Hash::check($request->password, $user->password))
-            {
-                $token = $user->createToken("auth_token")->plainTextToken;
-                return response()->json([
-                    "status" => true,
-                    "mensaje" => "usuario logueado exitosamente",
-                    "nombre_apellido" => $user->persona->nombre ." ". $user->persona->apellido,
-                    "cuil" => $user->cuil,
-                    "id" => $user->area->id,
-                    "area" => $user->area->descripcion,
-                    "cargo" => $user->tipouser->descripcion,
-                    "access_token" => $token
-                ], 200);
-            }
-            else
-            {
-                return response()->json([
-                    "status" => false,
-                    "mensaje" => "contraseña incorrecta",
-                ], 404);
-            }
-        }
-        else
-        {
-            return response()->json([
-                "status" => false,
-                "mensaje" => "usuario y/o contraseña incorrecta",
-            ], 404);
-        }
-    }
-
     /**
      * Método para autenticar un usuario y loquearlo en el sistema,
      * genera un token para utilizar la API con habilidades dependiendo del área
@@ -153,9 +71,9 @@ class LoginController extends Controller
         if(isset($user->id))
         {
             $areas_englose = array(7, 8, 9, 10, 16, 17, 18, 19);
-            $areas_creaExpediente_agregaCedula = array(13);
+            $areas_creaExpediente = array(13);
             $areas_agregarIniciador = array(15);
-            $areas_agregarCedulas = array(6, 14);
+            $areas_agregarCedulas = array(14);
             
             $usuarios_agregaIniciador = array(36);              //user_id
 
@@ -179,9 +97,9 @@ class LoginController extends Controller
                     ], 200);
                 }
 
-                if((in_array($user->area_id, $areas_creaExpediente_agregaCedula)) && (in_array($user->id, $usuarios_agregaIniciador)))
+                if((in_array($user->area_id, $areas_creaExpediente)) && (in_array($user->id, $usuarios_agregaIniciador)))
                 {
-                    $token = $user->createToken('crear_expediente_e_iniciador', ['agregar_iniciador', 'crear_expediente', 'agregar_cedula'])->plainTextToken;
+                    $token = $user->createToken('crear_expediente_e_iniciador', ['agregar_iniciador', 'crear_expediente'])->plainTextToken;
                     return response()->json([
                         "status" => true,
                         "mensaje" => "usuario logueado exitosamente",
@@ -191,7 +109,7 @@ class LoginController extends Controller
                         "area" => $user->area->descripcion,
                         "cargo" => $user->tipouser->descripcion,
                         "access_token" => $token,
-                        "token_type" => "agregar_iniciador - crea_expediente - agrega_cedula"
+                        "token_type" => "agregar_iniciador - crea_expediente"
                     ], 200);
                 }
                 else if(in_array($user->area_id, $areas_agregarIniciador))
@@ -211,9 +129,9 @@ class LoginController extends Controller
                     }
                 
 
-                if(in_array($user->area_id, $areas_creaExpediente_agregaCedula))
+                if(in_array($user->area_id, $areas_creaExpediente))
                 {
-                    $token = $user->createToken('crear_expediente_agrega_cedula', ['crear_expediente', 'agregar_cedula'])->plainTextToken;
+                    $token = $user->createToken('crear_expediente', ['crear_expediente'])->plainTextToken;
                     return response()->json([
                         "status" => true,
                         "mensaje" => "usuario logueado exitosamente",
@@ -223,7 +141,7 @@ class LoginController extends Controller
                         "area" => $user->area->descripcion,
                         "cargo" => $user->tipouser->descripcion,
                         "access_token" => $token,
-                        "token_type" => "crear_expediente_agrega_cedula"
+                        "token_type" => "crear_expediente"
                     ], 200);
                 }
 
