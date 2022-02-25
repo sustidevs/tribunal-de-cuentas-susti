@@ -3,9 +3,7 @@
     <form @submit.prevent="storeExpe()">
       <v-row class="py-3">
         <v-col cols="12" sm="12" md="10" lg="10">
-          <h1 class="justify-start Montserrat-Bold ">
-            Nuevo Expediente
-          </h1>
+          <h1 class="justify-start Montserrat-Bold">Nuevo Expediente</h1>
         </v-col>
         <v-col cols="6" sm="12" md="2" lg="2">
           <div class="pb-3 alingText">
@@ -22,9 +20,9 @@
             icon="mdi-information-outline orange--text"
             colored-border
             dense
-            class="alert Montserrat-Regular pa-4 orange--text text-left pl-0"            
+            class="alert Montserrat-Regular pa-4 orange--text text-left pl-0"
           >
-           (*) Campo Obligatorio 
+            (*) Campo Obligatorio
           </v-alert>
         </v-col>
       </v-row>
@@ -49,14 +47,12 @@
           ></autocomplete-field>
           />-->
 
-
           <autocomplete-field
             :data="allIniciadores"
             nombre="nombre"
             @input="cargarExpediente()"
             v-model="expe.iniciador_id"
-        ></autocomplete-field>
-
+          ></autocomplete-field>
         </v-col>
 
         <v-col cols="12" sm="12" lg="6" class="pl-lg-2">
@@ -225,10 +221,38 @@
           </v-btn>
         </v-col>
       </v-row>
+
+      <!-- Boton para vista previa. Todavia falta conexion para que al aceptar cree el expedinte -->
+
+      <!-- <v-row no-gutters justify="center" class="py-16">
+        <v-col cols="12" sm="6" md="6" lg="6" class="px-sm-2">
+          <v-btn
+            class="pa-5 color Montserrat-SemiBold"
+            height="55"
+            elevation="0"
+            color="#FACD89"
+            block
+            :disabled="this.$store.getters.get_btn_creado"
+            @click="AbrirModalDetalle()"
+          >
+            <v-icon class="px-5"> mdi-check-bold </v-icon>
+            <div class="">Vista Previa</div>
+          </v-btn>
+        </v-col>
+      </v-row> -->
+
+
     </form>
     <v-overlay :value="this.$store.getters.get_btn_creado">
       <v-progress-circular indeterminate size="64"></v-progress-circular>
     </v-overlay>
+
+    <!-- <modal-mensaje-previo
+      :show="show_modal"
+      :dato="this.expe"
+      @close="closeModal"
+    /> -->
+
     <modal-nuevos-expedientes
       :show="creado_exito"
       :dato="expediente_new"
@@ -246,6 +270,7 @@ import AutocompleteField from "../../components/AutocompleteField";
 import ModalNuevosExpedientes from "../../components/dialogs/ModalNuevosExpedientes";
 import LabelError from "../../components/LabelError";
 import ModalErrorTipoArchivo from "../../components/dialogs/ModalErrorTipoArchivo";
+// import ModalMensajePrevio from "../../components/dialogs/ModalMensajePrevio";
 
 export default {
   name: "Home",
@@ -258,6 +283,7 @@ export default {
     ModalNuevosExpedientes,
     LabelError,
     ModalErrorTipoArchivo,
+    // ModalMensajePrevio,
   },
   data: () => ({
     radioGroup: 1,
@@ -266,8 +292,9 @@ export default {
       { texto: "Agregar Iniciador", imagen: "./img/cards/ver-todos.svg" },
     ],
     motivo: [],
+    // show_modal: false,
     showDetalle: false,
-    files: "dasdas",
+    files: "",
     loader: null,
     expe: {
       iniciador_id: "",
@@ -289,7 +316,7 @@ export default {
     },
 
     setMotivo() {
-      this.capturarMotivo(this.expe.tipo_exp_id)
+      this.capturarMotivo(this.expe.tipo_exp_id);
     },
 
     handleFileUpload(event) {
@@ -329,26 +356,33 @@ export default {
       this.showArchivoError = false;
     },
 
+    // AbrirModalDetalle() {
+    //   this.show_modal = true;
+    // },
+
+    closeModal() {
+      this.show_modal = false;
+    },
+
     ...mapActions([
       "getCreate",
       "storeExpediente",
       "nroExpedienteAleatorio",
       "cerrarModal",
       "capturarIniciador",
-        'capturarMotivo',
+      "capturarMotivo",
     ]),
   },
 
   computed: {
     ...mapGetters([
-        'get_motivo_selected',
-        'get_iniciadorSelected',
-      'creado_exito',
+      "get_motivo_selected",
+      "get_iniciadorSelected",
+      "creado_exito",
       "extracto",
       "allIniciadores",
       "fecha",
       "motivoSinExtracto",
-
       "expediente",
       "getTipoUsuario",
       "get_areas_all",
@@ -362,9 +396,7 @@ export default {
       "get_btn_creado",
     ]),
 
-
     //si el valor de nro expediente cambia, se ejecuta la funcion y el componente reacciona a los cambios
-
 
     nroExpediente: {
       get() {
@@ -385,7 +417,6 @@ export default {
 };
 </script>
 <style>
-
 .radioFont {
   font-family: "Montserrat-Bold";
   font-size: 18px;
