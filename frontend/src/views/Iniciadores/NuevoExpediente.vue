@@ -39,24 +39,31 @@
         <v-col cols="12" sm="12" lg="6" class="pr-lg-2">
           <label-input texto="Iniciador *" />
 
-
           <autocomplete-field
             :data="allIniciadores"
             nombre="nombre"
             @input="cargarExpediente()"
             v-model="expe.iniciador_id"
-        ></autocomplete-field>
+          ></autocomplete-field>
         </v-col>
 
         <v-col cols="12" sm="12" lg="6" class="pl-lg-2">
-          <LabelInput texto="Motivo del Expediente *" />
+            <LabelInput texto="Motivo del Expediente *" />
 
-          <autocomplete-field
-            @input="setMotivo"
-            :data="motivoSinExtracto"
-            nombre="descripcion"
-            v-model="expe.tipo_exp_id"
-          />
+            <v-autocomplete
+              class="Montserrat-Regular text-justify"
+              color="amber accent-4"
+              outlined
+              @input="setMotivo"
+              :items="motivoSinExtracto"
+              item-value="id"
+              item-text="descripcion"
+              v-model="expe.tipo_exp_id"
+              single-line
+              item-color="amber accent-4"
+              :disabled="!this.showMotivo"
+            >
+            </v-autocomplete>
         </v-col>
       </v-row>
 
@@ -241,11 +248,13 @@ export default {
       archivos: "",
     },
     showArchivoError: false,
+    showMotivo: false,
   }),
 
   methods: {
     cargarExpediente() {
       this.capturarIniciador(this.expe.iniciador_id);
+      this.showMotivo = true;
     },
 
     setMotivo() {
