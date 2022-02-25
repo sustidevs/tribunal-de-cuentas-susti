@@ -1,9 +1,6 @@
 <template>
   <div>
     <titulo texto="Expedientes de mi Área" icono="mdi-file-marker" />
-    <div class="descripcion text-justify py-4">
-      Si desea <strong>tomar</strong> un expediente que <strong>está siendo tramitado por otro empleado del área</strong>, haga clic en el botón de la tabla.
-    </div>
     <alert
         texto="El expediente fue tomado con éxito."
         type="success"
