@@ -11,6 +11,7 @@ use App\Models\Iniciador;
 use App\Models\Expediente;
 use App\Models\TipoEntidad;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\StoreHistorialRequest;
@@ -162,8 +163,12 @@ class HistorialController extends Controller
         */
     }
 
+    /*
+        Metodo que reasigna un expediente de un usuario a otro de la misma area.
+    */
     public function regresarExpediente(Request $request)
     {
+        DB::beginTransaction();
         $user = Auth::user();
         $expediente = Expediente::findOrFail($request->expediente_id);
         $historial_exp = Historial::all()->where('expediente_id', $request->expediente_id)->last();
@@ -184,6 +189,7 @@ class HistorialController extends Controller
         $expediente->update();
         $historial->save();
         $listado = Expediente::listadoExpedientes($user->id, 3);
+        DB::commit();
         return response()->json($listado, 200);
     }
 
