@@ -46,7 +46,8 @@ class Historial extends Model
             'user_id'           =>$this->user->id,
             'nombre_usuario'    =>$this->user->persona->nombre . ", " . $this->user->persona->apellido,
             'fecha'             =>date("d-m-Y", strtotime($this->fecha)),
-            'motivo'            =>$this->motivo
+            'motivo'            =>$this->motivo,
+            'hora'              =>$this->hora
         ]);
         return $array;
     }
