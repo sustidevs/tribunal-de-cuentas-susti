@@ -393,10 +393,17 @@ class Expediente extends Model
         switch ($busqueda)
         {
             case "1": //Busca por nro_expediente
-                $expediente = Expediente::where('expediente_id',null)->where('nro_expediente', $valor)->get()->first();//Deberia retornar solo un expediente
-                if ($expediente != null)
+                $expediente = Expediente::where('nro_expediente', $valor)->get()->first();//Deberia retornar solo un expediente
+                if ($expediente->expediente_id == null)
                 {
                     $lista_expedientes->push($expediente->getDatos());
+                }
+                else
+                {
+                    $exp_padre = $expediente->padre()->first()->getDatos();
+                    $exp_hijos = $expediente->getDatos();
+                    //return [$exp_padre, $exp_hijos];
+                    return $lista_expedientes->push($exp_padre, $exp_hijos);
                 }
                 break;
 
@@ -454,6 +461,8 @@ class Expediente extends Model
 
                     }
                     break;
+
+                
         }
         return $lista_expedientes;
     }
