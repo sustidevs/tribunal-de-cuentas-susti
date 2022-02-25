@@ -55,13 +55,13 @@ Route::middleware('auth:sanctum')->group(function () {
 
     /********** CEDULA ***********/
     Route::post('/contar-cedula',       [ExpedienteController::class, 'contar_cedulas']);
-    Route::post('/store-cedula',    [CedulaController::class, 'store']);
+    Route::post('/store-cedula',        [CedulaController::class, 'store'])->middleware(['auth:sanctum', 'abilities:agregar_cedulas']);
 
     /**** DESGLOSE Y ENGLOSE *****/
-    Route::get('/indexExpPadres',       [ExpedienteController::class, 'indexExpPadres']);
-    Route::post('/createDesgloceExp',       [ExpedienteController::class, 'createDesgloce']);
-    Route::post('/desgloceExp',       [ExpedienteController::class, 'desgloce']);
-    Route::post('/unionExp',       [ExpedienteController::class, 'union']);
+    Route::get('/indexExpPadres',       [ExpedienteController::class, 'indexExpPadres'])->middleware(['auth:sanctum', 'ability:englosar:desglosar']); 
+    Route::post('/createDesgloceExp',   [ExpedienteController::class, 'createDesgloce'])->middleware(['auth:sanctum', 'ability:englosar:desglosar']); 
+    Route::post('/desgloceExp',         [ExpedienteController::class, 'desgloce'])->middleware(['auth:sanctum', 'ability:englosar:desglosar']); 
+    Route::post('/unionExp',            [ExpedienteController::class, 'union'])->middleware(['auth:sanctum', 'ability:englosar:desglosar']);
 
     /**** INICIADORES ****/
     Route::get('/createTipoEntidad', [IniciadorController::class, 'create']);
