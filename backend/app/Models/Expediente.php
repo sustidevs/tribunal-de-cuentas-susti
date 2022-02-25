@@ -402,7 +402,6 @@ class Expediente extends Model
                 {
                     $exp_padre = $expediente->padre()->first()->getDatos();
                     $exp_hijos = $expediente->getDatos();
-                    //return [$exp_padre, $exp_hijos];
                     return $lista_expedientes->push($exp_padre, $exp_hijos);
                 }
                 break;
