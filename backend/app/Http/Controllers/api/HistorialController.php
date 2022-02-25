@@ -175,15 +175,15 @@ class HistorialController extends Controller
         $historial->fojas = $expediente->fojas;
         $historial->fecha = Carbon::now()->format('Y-m-d');
         $historial->hora = Carbon::now()->format('h:i');
-        $historial->motivo = "Regresado al área de origen";
+        $historial->motivo = "Reasignado al usuario: " . $user->persona->nombre . " " . $user->persona->apellido;
         $historial->observacion = $historial_exp->observacion;
         $historial->nombre_archivo = $historial_exp->nombre_archivo;
         $historial->fojas_aux = $historial_exp->fojas_aux;
-        $historial->estado = 1;
-        $expediente->estado_expediente_id = 1;
+        $historial->estado = 3;
+        $expediente->estado_expediente_id = 3;
         $expediente->update();
         $historial->save();
-        $listado = Expediente::listadoExpedientes($user->id, 1);
+        $listado = Expediente::listadoExpedientes($user->id, 3);
         return response()->json($listado, 200);
     }
 
