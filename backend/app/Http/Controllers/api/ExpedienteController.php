@@ -173,7 +173,17 @@ class ExpedienteController extends Controller
                 //(2 = separacion barras, 80 = ancho de la barra)
                 $cod = new DNS1D;
                 $codigoBarra = $cod->getBarcodeHTML($expediente->nro_expediente, 'C39',2,80,'black', true);
-                $datos = [$expediente->fecha, $caratula->iniciador->nombre, $extracto->descripcion, $estado_actual, $expediente->nro_expediente, $codigoBarra, $caratula->iniciador->email, $caratula->observacion ];
+                $datos = [
+                    $expediente->fecha,
+                    $caratula->iniciador->nombre,
+                    $extracto->descripcion,
+                    $estado_actual,
+                    $expediente->nro_expediente,
+                    $codigoBarra,
+                    $caratula->iniciador->email,
+                    $caratula->observacion,
+                    $expediente->nro_expediente_ext
+                ];
                 return response()->json($datos,200);
         }
     }
