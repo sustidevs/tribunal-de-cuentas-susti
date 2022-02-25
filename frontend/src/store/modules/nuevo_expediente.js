@@ -82,14 +82,6 @@ const actions = {
             })
     },
 
-    nroExpedienteAleatorio ({ commit }, expediente) {
-        axios.post(process.env.VUE_APP_API_URL+ '/api/nroExp', expediente)
-            .then(response => {
-                commit('saveNewNroExpediente', response.data)
-            })
-    },
-
-
     storeExpediente ({ commit }, expediente) {
         commit('set_btn_creado', true);
         axios.post(process.env.VUE_APP_API_URL+ '/api/storeExp', expediente).
