@@ -21,8 +21,7 @@ class AreaSeeder extends Seeder
         array('descripcion' => 'VOCALIA A'),
         array('descripcion' => 'VOCALIA B'),
         array('descripcion' => 'VOCALIA C'),
-        array('descripcion' => 'VOCALIA D'),
-        array('descripcion' => 'UNIDAD EXTERNA')
+        array('descripcion' => 'VOCALIA D')
     );
 
     Private $arraySubAreas = array (
@@ -46,6 +45,7 @@ class AreaSeeder extends Seeder
         array('descripcion' => 'AUDITORIA D'),
         array('descripcion' => 'PRESIDENCIA'),
         array('descripcion' => 'MAESTRANZA'),
+        array('descripcion' => 'UNIDAD EXTERNA')
         //array('descripcion' => 'EQUIPO CTA DE INVERSIÓN')
         //último sin coma
         );
