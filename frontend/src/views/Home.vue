@@ -16,9 +16,6 @@
             <iniciadores/>
           </v-col>
 
-          <v-col cols="12" lg="2" xs="12" class="my-sm-6">
-            <cedula/>
-          </v-col>
         </v-row>
 
         <v-divider color="#393B44" class="my-4"></v-divider>
@@ -58,6 +55,14 @@
 
         <v-col cols="12" lg="6" xs="12" class="my-sm-6">
           <expedientes-section />
+        </v-col>
+      </v-row>
+      
+      <v-divider color="#393B44" class="my-4"></v-divider>
+
+      <v-row no-gutters class="mx-xl-16">
+        <v-col cols="12" lg="12" xs="12" class="pt-9">
+          <cedula />
         </v-col>
       </v-row>
     </div>

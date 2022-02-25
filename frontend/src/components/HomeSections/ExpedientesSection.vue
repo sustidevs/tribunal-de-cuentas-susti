@@ -24,7 +24,7 @@
       <ButtonBig class="my-2 mr-6" texto="Recuperar" link="/recuperar" icon="mdi-file-undo"/>
       <ButtonBig v-if="(get_user.area === 'DPTO. MESA DE ENTRADAS Y SALIDAS')" class="my-2 mr-6" texto="Nuevo" link="/nuevo-expediente" icon="mdi-text-box-plus"/>
 
-      <div v-if="(get_user.area === 'VOCALIA A') || (get_user.area === 'VOCALIA B') || (get_user.area === 'VOCALIA C') || (get_user.area === 'VOCALIA D') || (get_user.area === 'RELATORIA A') || (get_user.area === 'RELATORIA B') || (get_user.area === 'RELATORIA C' || (get_user.area === 'RELATORIA D')) ">
+      <div v-if="(get_user.area === 'DPTO. MESA DE ENTRADAS Y SALIDAS')">
         <ButtonBig class="my-2 mr-6" texto="Englose" link="/englose" icon="mdi-file-plus"/>
         <ButtonBig class="my-2 mr-6" texto="Desglose" link="/desglose" icon="mdi-file-percent"/>
       </div>
