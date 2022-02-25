@@ -39,11 +39,8 @@ Route::middleware('auth:sanctum')->group(function () {
     /********** EXPEDIENTES **************/
     Route::get('/createExp',    [ExpedienteController::class, 'create']);
     Route::post('/buscar-expediente',   [ExpedienteController::class, 'buscarExpediente']);
-    Route::get('/indexExp',             [ExpedienteController::class, 'index']); //TODOS LOS EXPEDIETES DE TODAS LAS AREAS
-    Route::post('/ListadoExp',       [ExpedienteController::class, 'bandeja']); //EXPEDIENTES DE LAS BANDEJAS
-    //
-    Route::post('/ListadoExp_new',       [ExpedienteController::class, 'bandeja_new']);
-    //
+    Route::get('/indexExp',             [ExpedienteController::class, 'index']);//TODOS LOS EXPEDIETES DE TODAS LAS AREAS
+    Route::post('/ListadoExp',       [ExpedienteController::class, 'bandeja']);//EXPEDIENTES DE LAS BANDEJAS
     Route::post('/expSubsidiosNoReintegrables', [ExpedienteController::class, 'expSubsidiosNoReintegrables']);
     Route::get('/all-motivos',       [ExpedienteController::class, 'indexMotivos']);
 
