@@ -379,7 +379,7 @@ class Expediente extends Model
                 {
                     $exp_padre = $expediente->padre()->first()->getDatos();
                     $exp_hijos = $expediente->getDatos();
-                    return $lista_expedientes->push($exp_padre, $exp_hijos);
+                    $lista_expedientes->push($exp_padre, $exp_hijos);
                 }
                 break;
 
@@ -438,6 +438,11 @@ class Expediente extends Model
                     }
                     break;
 
+                    case "7": //Busca por numero de Cedula
+                        $ced = Cedula::where('descripcion',$valor)->first();
+                        $exp = Expediente::FindOrFail($ced->expediente_id);
+                        $lista_expedientes->push($exp->getDatos());
+                        break;
                 
         }
         return $lista_expedientes;
