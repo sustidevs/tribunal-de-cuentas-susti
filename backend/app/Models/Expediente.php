@@ -370,10 +370,16 @@ class Expediente extends Model
         switch ($busqueda)
         {
             case "1": //Busca por nro_expediente
-                $expediente = Expediente::where('expediente_id',null)->where('nro_expediente', $valor)->get()->first();//Deberia retornar solo un expediente
-                if ($expediente != null)
+                $expediente = Expediente::where('nro_expediente', $valor)->get()->first();//Deberia retornar solo un expediente
+                if ($expediente->expediente_id == null)
                 {
                     $lista_expedientes->push($expediente->getDatos());
+                }
+                else
+                {
+                    $exp_padre = $expediente->padre()->first()->getDatos();
+                    $exp_hijos = $expediente->getDatos();
+                    $lista_expedientes->push($exp_padre, $exp_hijos);
                 }
                 break;
 
@@ -433,8 +439,11 @@ class Expediente extends Model
                     break;
 
                     case "7": //Busca por numero de Cedula
-                        $exp = Cedula::where('descripcion',$valor)->first();
+                        $ced = Cedula::where('descripcion',$valor)->first();
+                        $exp = Expediente::FindOrFail($ced->expediente_id);
+                        $lista_expedientes->push($exp->getDatos());
                         break;
+                
         }
         return $lista_expedientes;
     }
