@@ -11,6 +11,7 @@ use App\Models\Iniciador;
 use App\Models\Expediente;
 use App\Models\TipoEntidad;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\StoreHistorialRequest;
@@ -109,7 +110,7 @@ class HistorialController extends Controller
     */
     public function updateEstado(Request $request)
     {
-        # 1-Enviado/Pendiente, 3-Aceptado, 4-Recuperado
+        # 1-Pendiente, 3-Aceptado, 4-Enviado 5-Recuperado
         $user = Auth::user();
         $expediente = Expediente::findOrFail($request->expediente_id);
 
@@ -148,7 +149,7 @@ class HistorialController extends Controller
         $estado = $request->estado;//parametro
         $bandeja = $request->bandeja;
         $user_id = $user->id;
-        $listado_expedientes = Expediente::listadoExpedientes($user_id,$estado,$bandeja);
+        $listado_expedientes = Expediente::listadoExpedientes($user_id, $bandeja);
         return response()->json($listado_expedientes,200);
 
         /*   Datos de prueba
@@ -160,6 +161,36 @@ class HistorialController extends Controller
             "bandeja": 3
         }
         */
+    }
+
+    /*
+        Metodo que reasigna un expediente de un usuario a otro de la misma area.
+    */
+    public function regresarExpediente(Request $request)
+    {
+        DB::beginTransaction();
+        $user = Auth::user();
+        $expediente = Expediente::findOrFail($request->expediente_id);
+        $historial_exp = Historial::all()->where('expediente_id', $request->expediente_id)->last();
+        $historial = new Historial;
+        $historial->expediente_id = $expediente->id;
+        $historial->user_id = $user->id;
+        $historial->area_origen_id = $user->area_id;
+        $historial->area_destino_id = $user->area_id;
+        $historial->fojas = $expediente->fojas;
+        $historial->fecha = Carbon::now()->format('Y-m-d');
+        $historial->hora = Carbon::now()->format('h:i');
+        $historial->motivo = "Reasignado al usuario: " . $user->persona->nombre . " " . $user->persona->apellido;
+        $historial->observacion = $historial_exp->observacion;
+        $historial->nombre_archivo = $historial_exp->nombre_archivo;
+        $historial->fojas_aux = $historial_exp->fojas_aux;
+        $historial->estado = 3;
+        $expediente->estado_expediente_id = 3;
+        $expediente->update();
+        $historial->save();
+        $listado = Expediente::listadoExpedientes($user->id, 3);
+        DB::commit();
+        return response()->json($listado, 200);
     }
 
     /*
