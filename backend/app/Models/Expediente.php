@@ -431,6 +431,10 @@ class Expediente extends Model
 
                     }
                     break;
+
+                    case "7": //Busca por numero de Cedula
+                        $exp = Cedula::where('descripcion',$valor)->first();
+                        break;
         }
         return $lista_expedientes;
     }
