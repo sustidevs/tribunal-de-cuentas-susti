@@ -193,31 +193,7 @@ class Expediente extends Model
     }
 
     /**
-     * En desuso
-     */
-    public static function index_old()
-    {
-        $expedientes = Expediente::where('expediente_id', null)->get();
-        $array_expediente = collect([]);
-        foreach ($expedientes as $exp)
-        {
-            $array_expediente->push([
-                                'id'=>$exp->id,
-                                'prioridad'=>$exp->prioridadExpediente->descripcion,
-                                'nro_expediente'=>$exp->nro_expediente,
-                                'extracto'=>$exp->caratula->extracto->descripcion,
-                                'fecha_creacion'=>$exp->created_at->format('d-m-Y'),
-                                'tramite'=>$exp->tipoExpediente->descripcion,
-                                'cuerpos'=>$exp->cantidadCuerpos(),
-                                'caratula'=>$exp->caratula->id,
-                                'fojas'=>$exp->fojas,
-                            ]);
-        }
-        return $array_expediente;
-    }
-
-    /**
-     * Método index replanteado para utilizar la db facade
+     * Método index replanteado utilizando Query Builder
      * Autor: Mariano Flores
      */
     public static function index()
@@ -322,7 +298,8 @@ class Expediente extends Model
                         ->join('caratulas', 'expedientes.id', '=', 'caratulas.expediente_id')
                         ->join('extractos', 'caratulas.extracto_id', '=', 'extractos.id')
                         ->join('tipo_expedientes', 'expedientes.tipo_expediente', '=', 'tipo_expedientes.id')
-                        ->join('iniciadores', 'caratulas.iniciador_id', '=', 'iniciadores.id');
+                        ->join('iniciadores', 'caratulas.iniciador_id', '=', 'iniciadores.id')
+                        ->whereNull('expedientes.expediente_id'); //solo expedientes padres
 
                         if ($bandeja == 1) {
                             return $historial_ultimo_movimiento ->where('area_destino_id', $user->area_id)
@@ -393,10 +370,16 @@ class Expediente extends Model
         switch ($busqueda)
         {
             case "1": //Busca por nro_expediente
-                $expediente = Expediente::where('expediente_id',null)->where('nro_expediente', $valor)->get()->first();//Deberia retornar solo un expediente
-                if ($expediente != null)
+                $expediente = Expediente::where('nro_expediente', $valor)->get()->first();//Deberia retornar solo un expediente
+                if ($expediente->expediente_id == null)
                 {
                     $lista_expedientes->push($expediente->getDatos());
+                }
+                else
+                {
+                    $exp_padre = $expediente->padre()->first()->getDatos();
+                    $exp_hijos = $expediente->getDatos();
+                    $lista_expedientes->push($exp_padre, $exp_hijos);
                 }
                 break;
 
@@ -454,6 +437,13 @@ class Expediente extends Model
 
                     }
                     break;
+
+                    case "7": //Busca por numero de Cedula
+                        $ced = Cedula::where('descripcion',$valor)->first();
+                        $exp = Expediente::FindOrFail($ced->expediente_id);
+                        $lista_expedientes->push($exp->getDatos());
+                        break;
+                
         }
         return $lista_expedientes;
     }

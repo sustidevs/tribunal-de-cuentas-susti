@@ -39,11 +39,8 @@ Route::middleware('auth:sanctum')->group(function () {
     /********** EXPEDIENTES **************/
     Route::get('/createExp',    [ExpedienteController::class, 'create']);
     Route::post('/buscar-expediente',   [ExpedienteController::class, 'buscarExpediente']);
-    Route::get('/indexExp',             [ExpedienteController::class, 'index']);
-    Route::post('/ListadoExp',       [ExpedienteController::class, 'bandeja']);
-    //
-    Route::post('/ListadoExp_new',       [ExpedienteController::class, 'bandeja_new']);
-    //
+    Route::get('/indexExp',             [ExpedienteController::class, 'index']);//TODOS LOS EXPEDIETES DE TODAS LAS AREAS
+    Route::post('/ListadoExp',       [ExpedienteController::class, 'bandeja']);//EXPEDIENTES DE LAS BANDEJAS
     Route::post('/expSubsidiosNoReintegrables', [ExpedienteController::class, 'expSubsidiosNoReintegrables']);
     Route::get('/all-motivos',       [ExpedienteController::class, 'indexMotivos']);
 
@@ -53,6 +50,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/historial',               [HistorialController::class, 'create']);
     Route::post('/historialExp',            [HistorialController::class, 'historialExpediente']);
     Route::post('/update-estado',           [HistorialController::class, 'updateEstado']);
+    Route::post('/regresar',                [HistorialController::class, 'regresarExpediente']);
     Route::get('/mis-enviados',             [HistorialController::class, 'misEnviados']);
 
     /********** CEDULA ***********/

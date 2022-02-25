@@ -92,7 +92,7 @@
             <div class="textHereSmall Montserrat-Bold mr-2">
               Archivos adjuntos:
             </div>
-            <div v-if="datos.archivo !== null">
+            <div v-if="datos.archivos !== null">
               <v-chip
                 class="textHereSmall Montserrat-Regular"
                 @click="getArchiv()"
