@@ -31,6 +31,7 @@ import vocalias from "../middleware/vocalias"
 //import informatica from "../middleware/informatica"
 import nuevo_iniciador from "../middleware/nuevo_iniciador"
 import cedula from "../middleware/cedula"
+import Area from "../views/Expedientes/Area"
 
 Vue.use(VueRouter)
 
@@ -141,6 +142,12 @@ const routes = [
         name: 'Expedientes Subsidios',
         component: MotivoSubsidio,
         meta: { title: 'Subsidios' , middleware: [auth] }
+      },
+      {
+        path: '/expedientes-area',
+        name: 'Expedientes del Área',
+        component: Area,
+        meta: { title: 'Expedientes del Área' , middleware: [auth] }
       },
     ]
   },
