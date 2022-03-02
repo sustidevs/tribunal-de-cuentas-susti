@@ -43,6 +43,7 @@
                       <!-- <label-error /> -->
                       <label-input texto="Pase a:" />
                       <v-autocomplete
+                        v-if="get_user.area === 'DPTO. MESA DE ENTRADAS Y SALIDAS' || get_user.area === 'ARCHIVO' "
                         class="Montserrat-Regular text-justify"
                         color="amber accent-4"
                         outlined
@@ -50,12 +51,29 @@
                         single-line
                         return-object
                         item-color="amber accent-4"
-                        :items="get_areas"
+                        :items="get_areas_mesa_archivos"
                         item-text="descripcion"
                         v-model="areaSeleccionado"
                         :rules="paseRules"
                       >
                       </v-autocomplete>
+
+                      <v-autocomplete
+                          v-if="!(get_user.area === 'DPTO. MESA DE ENTRADAS Y SALIDAS' || get_user.area === 'ARCHIVO')"
+                          class="Montserrat-Regular text-justify"
+                          color="amber accent-4"
+                          outlined
+                          item-value="idd"
+                          single-line
+                          return-object
+                          item-color="amber accent-4"
+                          :items="get_areas"
+                          item-text="descripcion"
+                          v-model="areaSeleccionado"
+                          :rules="paseRules"
+                      >
+                      </v-autocomplete>
+
                     </v-col>
                   </v-row>
 
@@ -97,6 +115,7 @@
                     <v-col cols="12" lg="4">
                       <label-input texto="Agente que redacta el pase" />
                       <text-field
+                        :readonly="true"
                         v-model="get_user.nombre_apellido"
                       />
                     </v-col>
@@ -245,7 +264,8 @@ export default {
       "pasea_error",
       "a_afectosde_error",
       "nrofojas_error",
-       'get_user'
+       'get_user',
+        'get_areas_mesa_archivos'
     ]),
   },
 

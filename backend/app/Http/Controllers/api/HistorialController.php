@@ -22,12 +22,13 @@ class HistorialController extends Controller
     {
         $expediente = Expediente::findOrFail($request->expediente_id);
         $area_destino = Area::All();
+        $area_destino_mesa_archivos = $area_destino->except(['26']);
         $fecha = Carbon::now()->format('d-m-Y');
         $hora = Carbon::now()->format('h:i');
         $horario = [$fecha,$hora];
         //$user = User::findOrFail($c["user_id"]);
         //$agente = [$user->persona->nombre, $user->persona->apellido, $user->id];
-        $historial = [$expediente, $area_destino, $horario];
+        $historial = [$expediente, $area_destino, $horario,$area_destino_mesa_archivos];
         return response()->json($historial, 200);
     }
 

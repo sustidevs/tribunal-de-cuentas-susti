@@ -4,6 +4,7 @@
       color="amber accent-4"
       v-model="inputVal"
       outlined
+      :readonly="readonly"
       :type="tipo"
       :prepend-inner-icon="icon"
   ></v-text-field>
@@ -11,7 +12,7 @@
 
 <script>
 export default {
-  props: ['value', 'tipo', 'icon'],
+  props: ['value', 'tipo', 'icon','readonly'],
   data() {
     return { inputVal: this.value }
   },
