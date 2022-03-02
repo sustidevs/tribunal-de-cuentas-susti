@@ -216,10 +216,10 @@ class Expediente extends Model
                                     DB::raw('ceil(expedientes.fojas / 200) as cantCuerpos'),
                                     'caratulas.id as caratula',
                                     'expedientes.fojas',
-                                    'expedientes.nro_expediente_ext as nro_siif',
                                     'iniciadores.nombre as iniciador_nombre',
                                     'iniciadores.email',
-                                    'caratulas.observacion'
+                                    'caratulas.observacion',
+                                    'expedientes.nro_expediente_ext as nro_siif'
                                 )
                         ->orderBy('expedientes.id', 'DESC')
                         ->get();
