@@ -2,7 +2,7 @@
   <div class="mb-16">
     <titulo texto="Iniciadores" icono="mdi-account-group" />
     <div class="descripcion text-justify py-4">Si desea <strong>editar</strong> los datos de un iniciador, haga clic en el botón de la tabla.</div>
-    <tabla-iniciadores :data="get_listado"/>
+    <tabla-iniciadores :data="get_listado" class="mb-15 pb-15"/>
   </div>
 </template>
 

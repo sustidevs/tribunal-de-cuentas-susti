@@ -1,6 +1,6 @@
 <template>
   <div>
-    <titulo-inicio texto="Expedientes" class="my-2"/>
+    <titulo-inicio texto="Expedientes"/>
       <v-hover v-slot="{ hover }">
         <v-btn
             rounded
