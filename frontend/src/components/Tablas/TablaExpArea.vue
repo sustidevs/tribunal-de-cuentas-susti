@@ -68,8 +68,8 @@
         >
 
             <template v-slot:item.action="{ }">
-                <v-btn fab small color="#FACD89" depressed >
-                <v-icon>mdi-hand-extended</v-icon>
+                <v-btn @click="tomar()" fab small color="#FACD89" depressed >
+                    <v-icon>mdi-hand-extended</v-icon>
                 </v-btn>
             </template>
         </v-data-table>
@@ -82,11 +82,15 @@
                 color="amber accent-4 pb-2"
             ></v-pagination>
         </div>
+
+        <modal-tomar-exp :show="showModalTomar"/>
     </div>
 </template>
 
 <script>
+import ModalTomarExp from "../../components/dialogs/ModalTomarExp";
 export default {
+  components: { ModalTomarExp },
   props: {
     headers: Array,
     data: Array,
@@ -96,7 +100,14 @@ export default {
     return {
       page: 1,
       pageCount: 0,
+      showModalTomar: false,
     }
   },
+
+  methods: {
+    tomar () {
+      this.showModalTomar = true;
+    },
+  }
 }
 </script>
