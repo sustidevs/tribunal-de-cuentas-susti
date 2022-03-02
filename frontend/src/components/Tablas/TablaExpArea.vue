@@ -67,8 +67,8 @@
             no-data-text="No hay expedientes en el área"
         >
 
-            <template v-slot:item.action="{ }">
-                <v-btn @click="tomar()" fab small color="#FACD89" depressed >
+            <template v-slot:item.action="{item}">
+                <v-btn @click="tomar(item)" fab small color="#FACD89" depressed >
                     <v-icon>mdi-hand-extended</v-icon>
                 </v-btn>
             </template>
@@ -83,7 +83,7 @@
             ></v-pagination>
         </div>
 
-        <modal-tomar-exp :show="showModalTomar"/>
+        <modal-tomar-exp :show="showModalTomar" :dato="datosExpTomar"/>
     </div>
 </template>
 
@@ -101,12 +101,14 @@ export default {
       page: 1,
       pageCount: 0,
       showModalTomar: false,
+      datosExpTomar: {},
     }
   },
 
   methods: {
-    tomar () {
+    tomar (item) {
       this.showModalTomar = true;
+      this.datosExpTomar = item;
     },
   }
 }

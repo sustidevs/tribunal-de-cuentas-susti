@@ -95,6 +95,14 @@ const actions = {
                 commit('set_finalizado', false)
             })
     },
+
+    tomarExpediente ({commit}, expediente) {
+        axios.post(process.env.VUE_APP_API_URL+ '/api/regresar', expediente).
+        then(response => {
+            commit('set_expedientes', response.data)
+            commit('set_aceptado', true)
+        })
+    },
 }
 
 const mutations = {

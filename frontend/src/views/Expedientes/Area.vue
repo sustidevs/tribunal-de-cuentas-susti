@@ -23,7 +23,6 @@ import TablaExpArea from "../../components/Tablas/TablaExpArea";
 import {mapGetters} from "vuex";
 
 export default {
-  name: 'Expedientes del Área',
   components: {Titulo, Alert, TablaExpArea},
   data() {
     return {
@@ -36,14 +35,14 @@ export default {
         {text: 'Tomar', value: 'action', align: 'center', sortable: false},
       ],
       datos: [
-        {nro_expediente : '800-00002/2022', extracto: 'RENDICIÓN DE CUENTAS N° 333 FDO.PTE.GTOS DECRETO IMPORTE: $456 Fondo Permanente. Iniciador: Ministerio de Hacienda y Finanzas', fecha_creacion: '19-11-2011', tramite: 'Fondo Permanente', usuario: 'Jose Antonio Terraes'},
-        {nro_expediente : '800-00006/2022', extracto: 'RENDICIÓN DE CUENTAS N° 456 FDO.PTE.GTOS DECRETO IMPORTE: $789 Fondo Permanente. Iniciador: Ministerio de Hacienda y Finanzas', fecha_creacion: '19-11-2011', tramite: 'Subsidio', usuario: 'Mariano Gabriel Paredes'},
-        {nro_expediente : '800-00025/2022', extracto: 'RENDICIÓN DE CUENTAS N° 752 FDO.PTE.GTOS DECRETO IMPORTE: $5564 Fondo Permanente. Iniciador: Ministerio de Hacienda y Finanzas', fecha_creacion: '19-11-2011', tramite: 'Aporte no reintegrable', usuario: 'Hugo Luis Villan'},
+        {nro_expediente : '800-00002/2022', extracto: 'RENDICIÓN DE CUENTAS N° 333 FDO.PTE.GTOS DECRETO IMPORTE: $456 Fondo Permanente. Iniciador: Ministerio de Hacienda y Finanzas', fecha_creacion: '19-11-2011', tramite: 'Fondo Permanente', usuario: 'Jose Antonio Terraes', expediente_id: '1'},
+        {nro_expediente : '800-00006/2022', extracto: 'RENDICIÓN DE CUENTAS N° 456 FDO.PTE.GTOS DECRETO IMPORTE: $789 Fondo Permanente. Iniciador: Ministerio de Hacienda y Finanzas', fecha_creacion: '19-11-2011', tramite: 'Subsidio', usuario: 'Mariano Gabriel Paredes', expediente_id: '2'},
+        {nro_expediente : '800-00025/2022', extracto: 'RENDICIÓN DE CUENTAS N° 752 FDO.PTE.GTOS DECRETO IMPORTE: $5564 Fondo Permanente. Iniciador: Ministerio de Hacienda y Finanzas', fecha_creacion: '19-11-2011', tramite: 'Aporte no reintegrable', usuario: 'Hugo Luis Villan', expediente_id: '3'},
       ],
     }
   },
 
-  computed: mapGetters(['get_finalizado']),
+  computed: mapGetters(['get_aceptado', 'get_finalizado']),
 
 }
 </script>
