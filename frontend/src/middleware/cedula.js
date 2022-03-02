@@ -1,5 +1,5 @@
 export default function guest({ next, store }) {
-    if (!(store.getters.get_nro === 13 || store.getters.get_nro === 6)) {
+    if (!(store.getters.get_nro === 14 || store.getters.get_nro === 6)) {
         return next({
             name: 'Home'
         })
