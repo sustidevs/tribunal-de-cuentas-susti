@@ -108,7 +108,7 @@ class LoginController extends Controller
                         "area" => $user->area->descripcion,
                         "cargo" => $user->tipouser->descripcion,
                         "access_token" => $token,
-                        "token_type" => "agregar_iniciador - crea_expediente - acumula_desglose"
+                        "token_type" => "agregar_iniciador - crea_expediente - acumular_desglosar"
                     ], 200);
                 }
                 else if(in_array($user->area_id, $areas_agregarIniciador))
@@ -140,7 +140,7 @@ class LoginController extends Controller
                         "area" => $user->area->descripcion,
                         "cargo" => $user->tipouser->descripcion,
                         "access_token" => $token,
-                        "token_type" => "crear_expediente - acumula_desglose"
+                        "token_type" => "crear_expediente - acumular_desglosar"
                     ], 200);
                 }
 
