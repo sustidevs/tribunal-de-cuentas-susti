@@ -218,7 +218,8 @@ class Expediente extends Model
                                     'expedientes.fojas',
                                     'iniciadores.nombre as iniciador_nombre',
                                     'iniciadores.email',
-                                    'caratulas.observacion'
+                                    'caratulas.observacion',
+                                    'expedientes.nro_expediente_ext as nro_siif'
                                 )
                         ->orderBy('expedientes.id', 'DESC')
                         ->get();
