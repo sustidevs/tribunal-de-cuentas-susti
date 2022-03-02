@@ -70,8 +70,7 @@ class LoginController extends Controller
         //return $user->id;
         if(isset($user->id))
         {
-            $areas_englose = array(7, 8, 9, 10, 16, 17, 18, 19);
-            $areas_creaExpediente = array(13);
+            $areas_creaExpediente_acumula = array(13);
             $areas_agregarIniciador = array(15);
             $areas_agregarCedulas = array(14);
             
@@ -81,7 +80,7 @@ class LoginController extends Controller
             
             if(Hash::check($request->password, $user->password))
             {
-                if(in_array($user->area_id, $areas_englose))
+                /*if(in_array($user->area_id, $areas_englose))
                 {
                     $token = $user->createToken('englose_desglose', ['englose_desglose'])->plainTextToken;
                     return response()->json([
@@ -95,11 +94,11 @@ class LoginController extends Controller
                         "access_token" => $token,
                         "token_type" => "englose_desglose"
                     ], 200);
-                }
+                }*/
 
-                if((in_array($user->area_id, $areas_creaExpediente)) && (in_array($user->id, $usuarios_agregaIniciador)))
+                if((in_array($user->area_id, $areas_creaExpediente_acumula)) && (in_array($user->id, $usuarios_agregaIniciador)))
                 {
-                    $token = $user->createToken('crear_expediente_e_iniciador', ['agregar_iniciador', 'crear_expediente'])->plainTextToken;
+                    $token = $user->createToken('crear_expediente_e_iniciador', ['agregar_iniciador', 'crear_expediente', 'acumular_desglosar'])->plainTextToken;
                     return response()->json([
                         "status" => true,
                         "mensaje" => "usuario logueado exitosamente",
@@ -109,7 +108,7 @@ class LoginController extends Controller
                         "area" => $user->area->descripcion,
                         "cargo" => $user->tipouser->descripcion,
                         "access_token" => $token,
-                        "token_type" => "agregar_iniciador - crea_expediente"
+                        "token_type" => "agregar_iniciador - crea_expediente - acumula_desglose"
                     ], 200);
                 }
                 else if(in_array($user->area_id, $areas_agregarIniciador))
@@ -129,9 +128,9 @@ class LoginController extends Controller
                     }
                 
 
-                if(in_array($user->area_id, $areas_creaExpediente))
+                if(in_array($user->area_id, $areas_creaExpediente_acumula))
                 {
-                    $token = $user->createToken('crear_expediente', ['crear_expediente'])->plainTextToken;
+                    $token = $user->createToken('crear_expediente_acumula', ['crear_expediente'. 'acumular_desglosar'])->plainTextToken;
                     return response()->json([
                         "status" => true,
                         "mensaje" => "usuario logueado exitosamente",
@@ -141,7 +140,7 @@ class LoginController extends Controller
                         "area" => $user->area->descripcion,
                         "cargo" => $user->tipouser->descripcion,
                         "access_token" => $token,
-                        "token_type" => "crear_expediente"
+                        "token_type" => "crear_expediente - acumula_desglose"
                     ], 200);
                 }
 
