@@ -23,6 +23,7 @@ const state = {
     pase_a_error: [],
 
     btn_creado: false,
+    error_preview: false
 };
 
 const getters = {
@@ -38,7 +39,7 @@ const getters = {
     creado: state => state.creado,
     descargado: state => state.descargado,
 
-    extracto: state => state.extracto,
+    get_extracto: state => state.extracto,
     descripcion_extracto_error: state => state.descripcion_extractoerror,
     iniciador_id_error: state => state.iniciador_iderror,
     nro_fojas_error:  state => state.nro_fojaserror,
@@ -47,6 +48,7 @@ const getters = {
 
     get_btn_creado: state => state.btn_creado,
     get_motivo_selected: state => state.motivoSelected,
+    get_error_modal_preview: state => state.error_preview
 };
 
 const actions = {
@@ -89,8 +91,10 @@ const actions = {
                 commit('saveNewExp', response.data)
                 commit('set_creado', true)
                 commit('set_btn_creado', false)
+                commit('cerrar_modal_preview', false)
         })
         .catch(error => {
+                commit('cerrar_modal_preview', false)
                 commit('set_descripcion_extracto_error', error.response.data.errors.descripcion_extracto)
                 commit('set_iniciador_id_error', error.response.data.errors.iniciador_id)
                 commit('set_nro_fojas_error', error.response.data.errors.nro_fojas)
@@ -122,6 +126,9 @@ const actions = {
             })
     },
 
+    abrir_modal_preview ({commit}, modal_valor) {
+        commit('cerrar_modal_preview', modal_valor)
+    },
     extracto ({ commit }, extracto) {
         commit('saveExtracto',extracto)
     },
@@ -152,6 +159,8 @@ const mutations = {
     set_pase_a_error:  (state,pase_a_error ) => state.pase_a_error = pase_a_error,
     
     set_btn_creado:(state,btn_creado) =>state.btn_creado = btn_creado,
+
+    cerrar_modal_preview: (state, error_preview) => state.error_preview = error_preview
 };
 
 export default {

@@ -68,7 +68,7 @@ const mutations = {
     set_pasea_error: (state, pase_aerror) => state.pase_aerror = pase_aerror,
     set_a_afectos_de_error: (state, aafectetosde_error) => state.aafectetosde_error = aafectetosde_error,
     set_nrofojas_error: (state, nrofojas_error) => state.nrofojas_error = nrofojas_error,
-    set_areas_mesa_archivos: (state, areas_mesa_archivos) => state.areas_mesa_archivos = areas_mesa_archivos
+    set_areas_mesa_archivos: (state, areas_mesa_archivos) => state.areas_mesa_archivos = areas_mesa_archivos,
 };
 
 export default {

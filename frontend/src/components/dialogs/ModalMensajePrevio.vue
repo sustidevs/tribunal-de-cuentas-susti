@@ -13,7 +13,7 @@
                   Iniciador:
                 </div>
                 <div class="textHereSmall Montserrat-Regular ml-1">
-                  {{ iniciador().nombre }}
+                 {{ dato.iniciador }}
                 </div>
               </div>
             </v-col>
@@ -24,7 +24,7 @@
                   Motivo:
                 </div>
                 <div class="textHereSmall Montserrat-Regular ml-1">
-                  {{ motivo().descripcion }}
+                  {{ dato.motivo }}
                 </div>
               </div>
             </v-col>
@@ -35,7 +35,7 @@
                   Extracto:
                 </div>
                 <div class="textHereSmall Montserrat-Regular ml-1">
-                  {{ extracto }}
+                  {{ get_extracto }}
                 </div>
               </div>
             </v-col>
@@ -46,7 +46,7 @@
                   Cantidad de Fojas:
                 </div>
                 <div class="textHereSmall Montserrat-Regular ml-1">
-                  {{ dato.nro_fojas }}
+                  {{ expe.nro_fojas }}
                 </div>
               </div>
             </v-col>
@@ -59,7 +59,7 @@
                 <div
                   class="textHereSmall text-uppercase Montserrat-Regular ml-1"
                 >
-                  {{ dato.observacion }}
+                 {{ expe.observacion }}
                 </div>
               </div>
             </v-col>
@@ -70,7 +70,7 @@
                   Pase a:
                 </div>
                 <div class="textHereSmall Montserrat-Regular ml-1">
-                  {{ pasea().nombre }}
+                 {{ dato.pasea}}
                 </div>
               </div>
             </v-col>
@@ -81,7 +81,7 @@
       <v-row no-gutters justify="center" class="mt-6">
         <v-col cols="12" sm="6" md="6" lg="6" class="py-6 px-sm-2">
           <v-btn
-            @click="close"
+            @click="storeExpe"
             class="pa-5 color Montserrat-SemiBold"
             height="55"
             elevation="0"
@@ -118,39 +118,55 @@ export default {
   components: { Titulo },
   props: {
     show: Boolean,
-    dato: Object,
+    dato: {
+      type: Object,
+      default: () => ({
+        iniciador: 'no hay dato',
+        motivo: 'no hay dato',
+        pasea: 'no hay dato'
+      })
+    },
+    expe: {
+      type: Object,
+      default: () => ({})
+    }
   },
 
   computed: {
     ...mapGetters([
-      "get_user",
-      "allIniciadores",
-      "get_iniciadorSelected",
-      "extracto",
-      "motivoSinExtracto",
-      "get_areas_all",
-      "get_motivo_selected",
-      "get_motivo_selected"
+        'get_error_modal_preview',
+        'get_extracto'
     ]),
-    
-    iniciador: function () {
-      return this.allIniciadores.find(
-        (item) => item.id === this.get_motivo_selected
-      );
-    },
 
-    motivo: function () {
-      return this.motivoSinExtracto.find(
-        (item) => item.id === this.get_motivo_selected
-      );
-    },
-    pasea: function () {
-      return this.get_areas_all.find((item) => item.id === this.dato.area_id);
-    },
   },
 
   methods: {
-    ...mapActions(["getArchivos"]),
+    ...mapActions(["getArchivos", 'storeExpediente','extracto']),
+
+    storeExpe() {
+
+      let formData = new FormData();
+
+      for (var i = 0; i < this.dato.files_length; i++) {
+        let file = this.files[i];
+
+        formData.append("archivo" + i + "", file);
+      }
+
+      let cantidad = this.dato.files_length
+      formData.append("iniciador_id", this.expe.iniciador_id);
+      formData.append("nro_fojas", this.expe.nro_fojas);
+      formData.append("nro_expediente_ext", this.expe.nro_expediente_ext);
+      formData.append("observacion", this.expe.observacion);
+      formData.append("prioridad_id", this.expe.prioridad);
+      formData.append("tipo_exp_id", this.expe.tipo_exp_id);
+      formData.append("descripcion_extracto", this.get_extracto);
+      formData.append("area_id", this.expe.area_id);
+      formData.append("archivos_length", cantidad);
+
+      this.storeExpediente(formData);
+
+    },
 
     close() {
       this.$emit("close");
