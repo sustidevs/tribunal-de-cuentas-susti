@@ -145,9 +145,9 @@ const routes = [
       },
       {
         path: '/expedientes-area',
-        name: 'Expedientes del Área',
+        name: 'Expedientes de mi Área',
         component: Area,
-        meta: { title: 'Expedientes del Área' , middleware: [auth] }
+        meta: { title: 'Expedientes de mi Área' , middleware: [auth] }
       },
     ]
   },
