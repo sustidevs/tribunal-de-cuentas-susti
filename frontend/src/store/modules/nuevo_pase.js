@@ -7,6 +7,7 @@ const state = {
     areas: [],
     expediente: [],
     exitopase: false,
+    areas_mesa_archivos:[],
 
     pase_aerror: '',
     aafectetosde_error: '',
@@ -17,6 +18,7 @@ const getters = {
     expedientePase: state => state.expedientes,
     idExpedientePase: state => state.expedientes.id,
     get_areas: state => state.areas,
+    get_areas_mesa_archivos: state => state.areas_mesa_archivos,
     fechaPase: state => state.fecha,
     expediente_exito: state => state.expediente,
     creado_exito:state => state.exitopase,
@@ -33,7 +35,8 @@ const actions = {
             .then(response => {
                 commit('set_expedientes', response.data[0])
                 commit('set_fecha',response.data[2])
-                commit('set_areas',response.data[1])
+                commit('set_areas',response.data[3])
+                commit('set_areas_mesa_archivos', response.data[1])
                 router.push('/nuevo-pase');
             })
     },
@@ -65,6 +68,7 @@ const mutations = {
     set_pasea_error: (state, pase_aerror) => state.pase_aerror = pase_aerror,
     set_a_afectos_de_error: (state, aafectetosde_error) => state.aafectetosde_error = aafectetosde_error,
     set_nrofojas_error: (state, nrofojas_error) => state.nrofojas_error = nrofojas_error,
+    set_areas_mesa_archivos: (state, areas_mesa_archivos) => state.areas_mesa_archivos = areas_mesa_archivos
 };
 
 export default {
