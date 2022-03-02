@@ -70,7 +70,6 @@ class LoginController extends Controller
         //return $user->id;
         if(isset($user->id))
         {
-            //$areas_englose = array(7, 8, 9, 10, 16, 17, 18, 19);
             $areas_creaExpediente_acumula = array(13);
             $areas_agregarIniciador = array(15);
             $areas_agregarCedulas = array(14);
@@ -131,7 +130,7 @@ class LoginController extends Controller
 
                 if(in_array($user->area_id, $areas_creaExpediente_acumula))
                 {
-                    $token = $user->createToken('crear_expediente_acumula', ['crear_expediente'. 'acumular_desglose'])->plainTextToken;
+                    $token = $user->createToken('crear_expediente_acumula', ['crear_expediente'. 'acumular_desglosar'])->plainTextToken;
                     return response()->json([
                         "status" => true,
                         "mensaje" => "usuario logueado exitosamente",
