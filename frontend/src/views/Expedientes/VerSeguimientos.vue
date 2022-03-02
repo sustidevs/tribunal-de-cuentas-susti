@@ -61,6 +61,8 @@
                   <p>{{item.area_destino}}</p>
                   <div class="Montserrat-Bold pb-2"> Motivo: </div>
                   <p>{{item.motivo}}</p>
+                  <div class="Montserrat-Bold pb-2"> Hora: </div>
+                  <p>{{item.hora}}</p>
                 </v-card-text>
 
               </v-card>
