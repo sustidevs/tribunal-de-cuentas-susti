@@ -27,7 +27,7 @@ import guest from "../middleware/guest";
 import mesa_entrada from "../middleware/mesa_entrada";
 import middlewarePipeline from "./middlewarePipeline";
 //import relatorias from "../middleware/relatorias";
-import vocalias from "../middleware/vocalias"
+//import vocalias from "../middleware/vocalias"
 //import informatica from "../middleware/informatica"
 import nuevo_iniciador from "../middleware/nuevo_iniciador"
 import cedula from "../middleware/cedula"
@@ -57,13 +57,13 @@ const routes = [
         path: '/englose',
         name: 'Englose',
         component: Englose,
-        meta: { title: 'Englose', middleware: [auth, vocalias]}
+        meta: { title: 'Englose', middleware: [auth, mesa_entrada]}
       },
       {
         path: '/desglose',
         name: 'Desglose',
         component: Desglose,
-        meta: { title: 'Desglose', middleware: [auth, vocalias]}
+        meta: { title: 'Desglose', middleware: [auth, mesa_entrada]}
       },
       {
         path: '/nuevo-expediente',
