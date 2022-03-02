@@ -100,7 +100,7 @@
       <v-row no-gutters justify="center" class="pt-5">
         <v-col cols="12" sm="12" lg="6" class="pr-lg-2 pb-3">
           <label-input texto="Número SIIF" />
-          <text-field tipo="number" />
+          <text-field tipo="number" v-model="expe.nro_expediente_ext" />
         </v-col>
         <v-col cols="12" sm="12" lg="6" class="pl-lg-2 pb-3">
           <Label-input texto="Cantidad de Fojas *" />
@@ -279,6 +279,7 @@ export default {
     expe: {
       iniciador_id: "",
       nro_fojas: "",
+      nro_expediente_ext: "",
       prioridad: "",
       tipo_exp_id: 0,
       observacion: "",
@@ -322,6 +323,7 @@ export default {
       let cantidad = this.files.length.toString();
       formData.append("iniciador_id", this.expe.iniciador_id);
       formData.append("nro_fojas", this.expe.nro_fojas);
+      formData.append("nro_expediente_ext", this.expe.nro_expediente_ext);
       formData.append("observacion", this.expe.observacion);
       formData.append("prioridad_id", this.expe.prioridad);
       formData.append("tipo_exp_id", this.expe.tipo_exp_id);
