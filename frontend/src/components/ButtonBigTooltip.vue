@@ -1,6 +1,6 @@
 <template>
   <v-hover v-slot="{ hover }">
-    <v-tooltip right>
+    <v-tooltip bottom>
       <template v-slot:activator="{ on }">
           <v-btn
               rounded
