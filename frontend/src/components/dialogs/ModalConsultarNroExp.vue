@@ -58,6 +58,24 @@
                   </v-icon>
                   <p class="pt-4 text-capitalize">Norma Legal</p>
                 </v-btn>
+                
+                <!-- Disable por ahora hasta tener conexion -->
+
+                <v-btn value="" disabled class="mx-4 my-4 pa-8 textRadio">
+                  <v-icon class="pr-2 sizeIcon" large color="#FDBC3F">
+                    mdi-card-account-details
+                  </v-icon>
+                  <p class="pt-4 text-capitalize">N° de Cedula</p>
+                </v-btn>
+
+                <v-btn value="" disabled class="mx-4 my-4 pa-8 textRadio">
+                  <v-icon class="pr-2 sizeIcon" large color="#FDBC3F">
+                    mdi-sticker-text
+                  </v-icon>
+                  <p class="pt-4 text-capitalize">N° de SIIF</p>
+                </v-btn>
+                <!-- hasta aca -->
+
               </v-col>
             </v-row>
 
@@ -221,6 +239,7 @@ export default {
       };
       this.historial_expediente(id);
     },
+    
   },
 };
 </script>
@@ -238,7 +257,7 @@ export default {
 
 @media (max-width: 600px) {
   .textRadio{
-    font-size: 14px !important;
+    font-size: 15px !important;
   }
   .sizeIcon{
     display: none !important;
