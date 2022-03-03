@@ -83,12 +83,13 @@
             ></v-pagination>
         </div>
 
-        <modal-tomar-exp :show="showModalTomar" :dato="datosExpTomar"/>
+        <modal-tomar-exp :show="get_show_modal_tomar_exp" :dato="datosExpTomar"/>
     </div>
 </template>
 
 <script>
 import ModalTomarExp from "../../components/dialogs/ModalTomarExp";
+import {mapGetters} from "vuex";
 export default {
   components: { ModalTomarExp },
   props: {
@@ -100,15 +101,16 @@ export default {
     return {
       page: 1,
       pageCount: 0,
-      showModalTomar: false,
       datosExpTomar: {},
     }
   },
 
+  computed: mapGetters(['get_show_modal_tomar_exp']),
+
   methods: {
     tomar (item) {
-      this.showModalTomar = true;
       this.datosExpTomar = item;
+      this.get_show_modal_tomar_exp = true;
     },
   }
 }

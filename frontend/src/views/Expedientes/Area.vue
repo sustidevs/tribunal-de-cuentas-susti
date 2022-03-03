@@ -31,7 +31,7 @@ export default {
         {text: 'Extracto', value: 'extracto'},
         {text: 'Fecha Creación', value: 'fecha_creacion' },
         {text: 'Trámite', value: 'tramite'},
-        {text: 'Usuario', value: 'user_id'},
+        {text: 'Usuario', value: 'nombre_apellido'},
         {text: 'Tomar', value: 'action', align: 'center', sortable: false},
       ],
     }
