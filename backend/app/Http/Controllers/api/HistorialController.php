@@ -197,38 +197,49 @@ class HistorialController extends Controller
     /*
     *   Trae el historial completo de un expediente.
     */
-    public function historialExpediente(Request $request)
+    public function historialExpediente_old(Request $request)
     {
         $expediente = Expediente::findOrFail($request->id);
-        /*$array = [];
+        $array = [];
         foreach ($expediente->historiales as $historial)
         {
                 array_push($array, $historial->getHistorial());
         }
         $array = array_reverse($array);
-        return response()->json($array, 200);*/
+        return response()->json($array, 200);
 
-        $historiales = /*DB::table('historiales')
+        return response()->json($expediente, 200);
+    }
+
+    public function historialExpediente(Request $request)
+    {
+        $historiales = DB::table('historiales')
                          ->where('historiales.expediente_id',$request->id)
                          ->join('expedientes','expedientes.id','=','historiales.expediente_id')
                          ->join('users','users.id','=','historiales.user_id')
-                         //->join('areas','areas.id','=','historiales.area_destino_id')
+                         ->join('personas','personas.id','=','users.persona_id')
                          ->join('caratulas','caratulas.expediente_id','=','expedientes.id')
                          ->join('extractos','extractos.id','=','caratulas.extracto_id')
-                         /*->joinSub($area_origen, 'areaOrigen', function($join)
-                        {
-                            $join->on('expedientes.id', '=', 'areaOrigen.expediente_id');
-                        })
-                        //->selectRaw('select * from areas')
+                         ->join('areas','areas.id','=','historiales.area_origen_id')
                          ->get([
                              'historiales.expediente_id as expediente_id',
                              'expedientes.nro_expediente as nro_expediente',
                              'extractos.descripcion as extracto',
                              'historiales.area_origen_id as area_origen_id',
-                             */DB::select('select historiales.id, areas.descripcion from tribunaldecuentas.areas as areas 
-                                           join tribunaldecuentas.historiales as historiales on areas.id = historiales.area_origen_id');
-                             //DB::table('areas')->where('id',1)->get(['id'])
-                            //]);
+                             'areas.descripcion as area_origen',
+                             'historiales.area_destino_id as area_destino_id',
+                             'historiales.area_destino_id as area_destino',
+                             'users.id as user_id',
+                             DB::raw("CONCAT(personas.nombre,', ',personas.apellido) as nombre_usuario"),
+                             DB::raw("DATE_FORMAT(historiales.created_at, '%d-%m-%y %h:%i:%s') as fecha"),
+                             'historiales.motivo as motivo',
+                             DB::raw("DATE_FORMAT(historiales.created_at, '%h:%i:%s') as hora"),
+                            ]);
+
+        $historiales->map(function($historial){
+            $historial->area_destino = Area::find($historial->area_destino)->first()->descripcion;
+            //$historial->area_destino = Area::find($historial->area_destino)->first()->descripcion;
+        });
 
         return response()->json($historiales, 200);
     }
