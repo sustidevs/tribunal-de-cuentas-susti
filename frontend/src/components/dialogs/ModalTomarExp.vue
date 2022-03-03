@@ -28,6 +28,7 @@
             elevation="0"
             color="#FACD89"
             block
+            @click="regresar(dato)"
           >
             <v-icon class="px-5"> mdi-check-bold </v-icon>
             Tomar
@@ -40,11 +41,13 @@
 
 <script>
 import Titulo from "../../components/Titulo";
+import { mapActions } from "vuex";
 export default {
   name: "ModalTomarExp",
   components: {Titulo},
   props: {
     show: { type: Boolean, default: false },
+    dato: Object,
   },
 
    methods: {
@@ -52,7 +55,17 @@ export default {
       this.$emit("close");
       this.$router.go(0);
     },
+
+    regresar (dato) {
+      this.tomarExpediente(dato);
+      this.show = false;
+    },
+
+    ...mapActions([
+      "tomarExpediente"
+      ]),
    }
+
 };
 </script>
 <style>
