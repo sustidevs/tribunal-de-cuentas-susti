@@ -5,78 +5,79 @@
       <titulo texto="Por favor revise sus datos antes de continuar." />
 
       <div class="textHereSmall text-center Montserrat-Regular my-4 mr-2">
-        <v-card rounded class="pa-4 text-responsive" color="#EEEEEE">
-          <v-row no-gutters align="start">
-            <v-col cols="12" xl="12" lg="12" sm="12" xs="12">
-              <div class="d-flex flex-column pb-6">
-                <div class="textHereSmall flex-column Montserrat-Bold mr-1">
-                  Iniciador:
-                </div>
-                <div class="textHereSmall Montserrat-Regular ml-1">
-                 {{ dato.iniciador }}
-                </div>
+            <v-card height="full" rounded class="pa-4 text-responsive my-6" color="#FACD89" style="background-color:rgba(250, 205, 137, 0.6)">
+              <div class="textHereSmall flex-column Montserrat-Bold mr-1">
+                Iniciador:
               </div>
-            </v-col>
+              <div class="textHereSmall Montserrat-Regular ml-1">
+                {{ dato.iniciador }}
+              </div>
+            </v-card>
 
-            <v-col cols="12" xl="12" lg="12" sm="12" xs="12">
-              <div class="d-flex flex-column pb-6">
-                <div class="textHereSmall flex-column Montserrat-Bold mr-1">
-                  Motivo:
-                </div>
-                <div class="textHereSmall Montserrat-Regular ml-1">
-                  {{ dato.motivo }}
-                </div>
+            <v-card height="full" rounded class="pa-4 text-responsive my-6" color="#FACD89" style="background-color:rgba(250, 205, 137, 0.6)">
+              <div class="textHereSmall flex-column Montserrat-Bold mr-1">
+                Motivo:
               </div>
-            </v-col>
+              <div class="textHereSmall Montserrat-Regular ml-1">
+                {{ dato.motivo }}
+              </div>
+            </v-card>
 
-            <v-col cols="12" xl="12" lg="12" sm="12" xs="12">
-              <div class="d-flex flex-column pb-6">
-                <div class="textHereSmall flex-column Montserrat-Bold mr-1">
-                  Extracto:
-                </div>
-                <div class="textHereSmall Montserrat-Regular ml-1">
-                  {{ get_extracto }}
-                </div>
+            <v-card height="full" rounded class="pa-4 text-responsive my-6" color="#FACD89" style="background-color:rgba(250, 205, 137, 0.6)">
+              <div class="textHereSmall flex-column Montserrat-Bold mr-1">
+                Extracto:
               </div>
-            </v-col>
+              <div class="textExtracto Montserrat-Regular ml-1">
+                {{ get_extracto }}
+              </div>
+            </v-card>
 
-            <v-col cols="12" xl="12" lg="12" sm="12" xs="12">
-              <div class="d-flex flex-column pb-6">
-                <div class="textHereSmall flex-column Montserrat-Bold mr-1">
-                  Cantidad de Fojas:
-                </div>
-                <div class="textHereSmall Montserrat-Regular ml-1">
-                  {{ expe.nro_fojas }}
-                </div>
+            <v-card v-if="!(expe.nro_expediente_ext === '')" height="full" rounded class="pa-4 text-responsive my-6" color="#FACD89" style="background-color:rgba(250, 205, 137, 0.6)">
+              <div class="textHereSmall flex-column Montserrat-Bold mr-1">
+                Numero SIIF
               </div>
-            </v-col>
+              <div class="textHereSmall Montserrat-Regular ml-1">
+                {{ expe.nro_expediente_ext }}
+              </div>
+            </v-card>
 
-            <v-col cols="12" xl="12" lg="12" sm="12" xs="12">
-              <div class="d-flex flex-column pb-6">
-                <div class="textHereSmall flex-column Montserrat-Bold mr-1">
-                  Observaciones:
-                </div>
-                <div
-                  class="textHereSmall text-uppercase Montserrat-Regular ml-1"
-                >
-                 {{ expe.observacion }}
-                </div>
-              </div>
-            </v-col>
+          <v-card height="full" rounded class="pa-4 text-responsive my-6" color="#FACD89" style="background-color:rgba(250, 205, 137, 0.6)">
+            <div class="textHereSmall flex-column Montserrat-Bold mr-1">
+              Cantidad de Fojas:
+            </div>
+            <div class="textHereSmall Montserrat-Regular ml-1">
+              {{ expe.nro_fojas }}
+            </div>
+          </v-card>
 
-            <v-col cols="12" xl="12" lg="12" sm="12" xs="12">
-              <div class="d-flex flex-column pb-6">
-                <div class="textHereSmall flex-column Montserrat-Bold mr-1">
-                  Pase a:
-                </div>
-                <div class="textHereSmall Montserrat-Regular ml-1">
-                 {{ dato.pasea}}
-                </div>
+          <v-card height="full" rounded class="pa-4 text-responsive my-6" color="#FACD89" style="background-color:rgba(250, 205, 137, 0.6)">
+            <div class="textHereSmall flex-column Montserrat-Bold mr-1">
+              Observaciones:
+            </div>
+
+            <div v-if="expe.observacion === ''">
+              <div class="textHereSmall text-uppercase Montserrat-Regular ml-1" >
+                No se ha adjuntado observaciones
               </div>
-            </v-col>
-          </v-row>
-        </v-card>
+            </div>
+
+            <div v-else>
+              <div class="textHereSmall text-uppercase Montserrat-Regular ml-1">
+                {{ expe.observacion }}
+              </div>
+            </div>
+          </v-card>
+
+          <v-card height="full" rounded class="pa-4 text-responsive my-6" color="#FACD89" style="background-color:rgba(250, 205, 137, 0.6)">
+            <div class="textHereSmall flex-column Montserrat-Bold mr-1">
+              Pase a:
+            </div>
+            <div class="textHereSmall Montserrat-Regular ml-1">
+              {{ dato.pasea}}
+            </div>
+          </v-card>
       </div>
+
 
       <v-row no-gutters justify="center" class="mt-6">
         <v-col cols="12" sm="6" md="6" lg="6" class="py-6 px-sm-2">
@@ -91,10 +92,12 @@
             Aceptar
           </v-btn>
         </v-col>
+
         <v-col cols="12" sm="6" md="6" lg="6" class="py-6 px-sm-2">
           <v-btn
+            outlined
             @click="close"
-            class="pa-5 color Montserrat-SemiBold"
+            class="pa-5 Montserrat-SemiBold"
             height="55"
             elevation="0"
             color="#FACD89"
@@ -104,6 +107,7 @@
             Modificar
           </v-btn>
         </v-col>
+
       </v-row>
     </v-card>
   </v-dialog>
@@ -137,22 +141,18 @@ export default {
         'get_error_modal_preview',
         'get_extracto'
     ]),
-
   },
 
   methods: {
     ...mapActions(["getArchivos", 'storeExpediente','extracto']),
 
     storeExpe() {
-
       let formData = new FormData();
-
       for (var i = 0; i < this.dato.files_length; i++) {
         let file = this.files[i];
 
         formData.append("archivo" + i + "", file);
       }
-
       let cantidad = this.dato.files_length
       formData.append("iniciador_id", this.expe.iniciador_id);
       formData.append("nro_fojas", this.expe.nro_fojas);
@@ -165,11 +165,10 @@ export default {
       formData.append("archivos_length", cantidad);
 
       this.storeExpediente(formData);
-
     },
 
     close() {
-      this.$emit("close");
+      this.$emit("close_mensaje_previo");
     },
   },
 
@@ -180,3 +179,9 @@ export default {
   },
 };
 </script>
+
+<style>
+.textExtracto {
+  font-size: 28px !important;
+}
+</style>
