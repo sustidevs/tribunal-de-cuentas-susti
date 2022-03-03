@@ -220,15 +220,16 @@ class HistorialController extends Controller
                          ->join('personas','personas.id','=','users.persona_id')
                          ->join('caratulas','caratulas.expediente_id','=','expedientes.id')
                          ->join('extractos','extractos.id','=','caratulas.extracto_id')
-                         ->join('areas','areas.id','=','historiales.area_origen_id')
+                         ->join('areas as area_origen','area_origen.id','=','historiales.area_origen_id')
+                         ->join('areas as area_destino','area_destino.id','=','historiales.area_destino_id')
                          ->get([
                              'historiales.expediente_id as expediente_id',
                              'expedientes.nro_expediente as nro_expediente',
                              'extractos.descripcion as extracto',
                              'historiales.area_origen_id as area_origen_id',
-                             'areas.descripcion as area_origen',
                              'historiales.area_destino_id as area_destino_id',
-                             'historiales.area_destino_id as area_destino',
+                             'area_origen.descripcion as area_origen',
+                             'area_destino.descripcion as area_destino',
                              'users.id as user_id',
                              DB::raw("CONCAT(personas.nombre,', ',personas.apellido) as nombre_usuario"),
                              DB::raw("DATE_FORMAT(historiales.created_at, '%d-%m-%y %h:%i:%s') as fecha"),
@@ -236,10 +237,10 @@ class HistorialController extends Controller
                              DB::raw("DATE_FORMAT(historiales.created_at, '%h:%i:%s') as hora"),
                             ]);
 
-        $historiales->map(function($historial){
-            $historial->area_destino = Area::find($historial->area_destino)->first()->descripcion;
+        //$historiales->map(function($historial){
+        //    $historial->area_destino = Area::find($historial->area_destino)->first()->descripcion;
             //$historial->area_destino = Area::find($historial->area_destino)->first()->descripcion;
-        });
+        //}); 
 
         return response()->json($historiales, 200);
     }
