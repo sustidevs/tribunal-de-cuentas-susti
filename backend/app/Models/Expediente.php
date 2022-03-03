@@ -301,6 +301,8 @@ class Expediente extends Model
                         ->join('extractos', 'caratulas.extracto_id', '=', 'extractos.id')
                         ->join('tipo_expedientes', 'expedientes.tipo_expediente', '=', 'tipo_expedientes.id')
                         ->join('iniciadores', 'caratulas.iniciador_id', '=', 'iniciadores.id')
+                        //->join('users', 'historiales.user_id', '=', 'users.id')
+                        //->join('personas', 'users.persona_id', '=', 'personas.id')
                         ->whereNull('expedientes.expediente_id'); //solo expedientes padres
 
                         if ($bandeja == 1) {
