@@ -200,13 +200,37 @@ class HistorialController extends Controller
     public function historialExpediente(Request $request)
     {
         $expediente = Expediente::findOrFail($request->id);
-        $array = [];
+        /*$array = [];
         foreach ($expediente->historiales as $historial)
         {
                 array_push($array, $historial->getHistorial());
         }
         $array = array_reverse($array);
-        return response()->json($array, 200);
+        return response()->json($array, 200);*/
+
+        $historiales = /*DB::table('historiales')
+                         ->where('historiales.expediente_id',$request->id)
+                         ->join('expedientes','expedientes.id','=','historiales.expediente_id')
+                         ->join('users','users.id','=','historiales.user_id')
+                         //->join('areas','areas.id','=','historiales.area_destino_id')
+                         ->join('caratulas','caratulas.expediente_id','=','expedientes.id')
+                         ->join('extractos','extractos.id','=','caratulas.extracto_id')
+                         /*->joinSub($area_origen, 'areaOrigen', function($join)
+                        {
+                            $join->on('expedientes.id', '=', 'areaOrigen.expediente_id');
+                        })
+                        //->selectRaw('select * from areas')
+                         ->get([
+                             'historiales.expediente_id as expediente_id',
+                             'expedientes.nro_expediente as nro_expediente',
+                             'extractos.descripcion as extracto',
+                             'historiales.area_origen_id as area_origen_id',
+                             */DB::select('select historiales.id, areas.descripcion from tribunaldecuentas.areas as areas 
+                                           join tribunaldecuentas.historiales as historiales on areas.id = historiales.area_origen_id');
+                             //DB::table('areas')->where('id',1)->get(['id'])
+                            //]);
+
+        return response()->json($historiales, 200);
     }
 
     /*
