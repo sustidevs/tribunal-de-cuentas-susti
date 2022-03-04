@@ -26,7 +26,6 @@ class CreateExpedientesTable extends Migration
             $table->date('fecha');
             $table->double('monto',10,2)->nullable();
             $table->string('archivos')->nullable();
-            $table->boolean('padre')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
