@@ -189,7 +189,7 @@ class HistorialController extends Controller
         $expediente->estado_expediente_id = 3;
         $expediente->update();
         $historial->save();
-        $listado = Expediente::listadoExpedientes($user->id, 3);
+        $listado = Expediente::listadoExpedientes($user->id, 7);
         DB::commit();
         return response()->json($listado, 200);
     }
