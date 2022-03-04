@@ -27,14 +27,14 @@ class HistorialFactory extends Factory
         $areaOrigen = Area::factory();
         $areaDestino = Area::factory();
         return [
-            'expediente_id'     => Expediente::factory(),  
-            'user_id'           => User::factory(),
-            'area_origen_id'    => Area::factory(),
-            'area_destino_id'   => Area::factory(),
+            'expediente_id'     => '1',  
+            'user_id'           => $this->faker->numberBetween(1, 115),
+            'area_origen_id'    => $this->faker->numberBetween(1, 25),
+            'area_destino_id'   => $this->faker->numberBetween(1, 25),
             'fojas'             => $this->faker->numberBetween(1, 1000),
             'fecha'             => $this->faker->date(),
             'hora'              => $this->faker->time(),
-            'estado'            => $this->faker->numberBetween(1, 3),
+            'estado'            => $this->faker->randomElement([1,3,4,5]),
             'motivo'            => $this->faker->text()
         ];
     }

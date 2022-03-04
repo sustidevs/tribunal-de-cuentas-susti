@@ -197,7 +197,7 @@ class HistorialController extends Controller
     /*
     *   Trae el historial completo de un expediente.
     */
-    public function historialExpediente(Request $request)
+    public function historialExpediente_old(Request $request)
     {
         $expediente = Expediente::findOrFail($request->id);
         $array = [];
@@ -207,6 +207,38 @@ class HistorialController extends Controller
         }
         $array = array_reverse($array);
         return response()->json($array, 200);
+
+        return response()->json($expediente, 200);
+    }
+
+    public function historialExpediente(Request $request)
+    {
+        $historiales = DB::table('historiales')
+                         ->where('historiales.expediente_id',$request->id)
+                         ->join('expedientes','expedientes.id','=','historiales.expediente_id')
+                         ->join('users','users.id','=','historiales.user_id')
+                         ->join('personas','personas.id','=','users.persona_id')
+                         ->join('caratulas','caratulas.expediente_id','=','expedientes.id')
+                         ->join('extractos','extractos.id','=','caratulas.extracto_id')
+                         ->join('areas as area_origen','area_origen.id','=','historiales.area_origen_id')
+                         ->join('areas as area_destino','area_destino.id','=','historiales.area_destino_id')
+                         ->orderBy('historiales.created_at', 'DESC')
+                         ->get([
+                             'historiales.expediente_id as expediente_id',
+                             'expedientes.nro_expediente as nro_expediente',
+                             'extractos.descripcion as extracto',
+                             'historiales.area_origen_id as area_origen_id',
+                             'historiales.area_destino_id as area_destino_id',
+                             'area_origen.descripcion as area_origen',
+                             'area_destino.descripcion as area_destino',
+                             'users.id as user_id',
+                             DB::raw("CONCAT(personas.nombre,', ',personas.apellido) as nombre_usuario"),
+                             DB::raw("DATE_FORMAT(historiales.created_at, '%d-%m-%y %h:%i:%s') as fecha"),
+                             'historiales.motivo as motivo',
+                             DB::raw("DATE_FORMAT(historiales.created_at, '%h:%i:%s') as hora"),
+                            ]);
+
+        return response()->json($historiales, 200);
     }
 
     /*
