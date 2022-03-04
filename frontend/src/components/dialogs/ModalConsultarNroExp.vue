@@ -22,7 +22,7 @@
           group
           @change="showBuscar = true"
         >
-          <v-form  ref="form" v-model="valid">
+          <v-form ref="form" v-model="valid">
             <v-row class="my-4 py-2" justify="center">
               <v-col col="12">
                 <v-btn value="1" class="mx-4 my-4 pa-8 textRadio sizeBtn">
@@ -33,7 +33,9 @@
                 </v-btn>
 
                 <v-btn value="3" class="mx-4 my-4 pa-8 textRadio">
-                  <v-icon class="pr-2 sizeIcon" large color="#FDBC3F"> mdi-cash </v-icon>
+                  <v-icon class="pr-2 sizeIcon" large color="#FDBC3F">
+                    mdi-cash
+                  </v-icon>
                   <p class="pt-4 text-capitalize">N° Cheque/Transferencia</p>
                 </v-btn>
 
@@ -58,7 +60,7 @@
                   </v-icon>
                   <p class="pt-4 text-capitalize">Norma Legal</p>
                 </v-btn>
-                
+
                 <v-btn value="7" class="mx-4 my-4 pa-8 textRadio">
                   <v-icon class="pr-2 sizeIcon" large color="#FDBC3F">
                     mdi-card-account-details
@@ -72,7 +74,6 @@
                   </v-icon>
                   <p class="pt-4 text-capitalize">N° de SIIF</p>
                 </v-btn>
-
               </v-col>
             </v-row>
 
@@ -147,7 +148,7 @@
                 color="#FACD89"
                 class="Montserrat-SemiBold sizeNroExp"
               >
-                {{ item.expediente_id }})
+                {{ item.id }})
                 {{ item.nro_expediente }}
               </v-expansion-panel-header>
 
@@ -172,9 +173,52 @@
             </v-expansion-panel>
           </v-expansion-panels>
         </div>
+
+        <!-- muestra englosados -->
+        <div v-if="this.get_resultado.length > 0">
+          <div class="descripcion mt-4 py-2" >
+            Aviso para los englosados
+          </div>
+          <v-expansion-panels focusable >
+            <v-expansion-panel
+              class="my-2"
+              v-for="dato in get_resultadoEnglosado"
+              :key="dato.id"
+            >
+              <v-expansion-panel-header
+                color="#FACD89"
+                class="Montserrat-SemiBold sizeNroExp"
+              >
+                {{ dato.id }}) {{ dato.nro_expediente }}
+                <div v-if="dato.expediente_id !== null " >
+                  &nbsp; El expediente se encuentra englosado 
+                </div>
+              </v-expansion-panel-header>
+
+              <v-expansion-panel-content>
+                <div class="Montserrat-Bold mt-4">Iniciador:</div>
+                <div class="Montserrat-Regular">{{ dato.iniciador }}</div>
+
+                <div class="Montserrat-Bold mt-4">CUIT:</div>
+                <div class="Montserrat-Regular">{{ dato.cuit }}</div>
+
+                <div class="Montserrat-Bold mt-4">Extracto:</div>
+                <div class="Montserrat-Regular">{{ dato.extracto }}</div>
+
+                <div class="Montserrat-Bold mt-4">Área Actual:</div>
+                <div class="Montserrat-Regular">{{ dato.area_actual }}</div>
+
+                <v-btn class="mt-6" @click="historial_pase(dato)" depressed>
+                  <v-icon left size="25px"> mdi-magnify </v-icon>
+                  Ver Historial
+                </v-btn>
+              </v-expansion-panel-content>
+            </v-expansion-panel>
+          </v-expansion-panels>
+        </div>
       </v-card>
     </div>
-  </v-dialog>  
+  </v-dialog>
 </template>
 
 <script>
@@ -211,13 +255,18 @@ export default {
 
   computed: mapGetters([
     "get_resultado",
+    "get_resultadoEnglosado",
     "get_encontrado",
     "get_historial",
     "get_user",
   ]),
 
   methods: {
-    ...mapActions(["consultarExpediente", "historial_expediente"]),
+    ...mapActions([
+      "consultarExpediente",
+      "historial_expediente",
+      "consultarExpedienteEnglosado",
+    ]),
 
     close() {
       this.$emit("close");
@@ -230,13 +279,23 @@ export default {
       }
     },
 
+    englosado(){
+      if(this.busqueda.valor === 1){
+        for(var i = 0; this.get_resultadoEnglosado.length; i++){
+          let datos = this.get_resultadoEnglosado[i]
+            if(datos.expediente_id !== null){
+              {{datos.nroexpediente}}
+            }
+        }
+      }
+    },
+
     historial_pase: function (item) {
       let id = {
-        id: item.expediente_id,
+        id: item.id,
       };
       this.historial_expediente(id);
     },
-    
   },
 };
 </script>
@@ -253,13 +312,13 @@ export default {
 }
 
 @media (max-width: 600px) {
-  .textRadio{
+  .textRadio {
     font-size: 15px !important;
   }
-  .sizeIcon{
+  .sizeIcon {
     display: none !important;
   }
-  .textRadioTitlte{
+  .textRadioTitlte {
     font-size: 25px;
   }
 }
