@@ -106,6 +106,10 @@ const actions = {
             commit('set_show_modal_tomar_exp', false)
         })
     },
+
+    showModalTomarExp ({commit}, modal) {
+        commit('set_show_modal_tomar_exp', modal)
+    }
 }
 
 const mutations = {

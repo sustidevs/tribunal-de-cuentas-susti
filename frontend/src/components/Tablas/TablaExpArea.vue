@@ -68,7 +68,7 @@
         >
 
             <template v-slot:item.action="{item}">
-                <v-btn @click="tomar(item)" fab small color="#FACD89" depressed >
+                <v-btn @click="tomar(item)" :disabled="get_user.nombre_apellido==item.nombre_apellido" fab small color="#FACD89" depressed >
                     <v-icon>mdi-hand-extended</v-icon>
                 </v-btn>
             </template>
@@ -83,13 +83,13 @@
             ></v-pagination>
         </div>
 
-        <modal-tomar-exp :show="get_show_modal_tomar_exp" :dato="datosExpTomar"/>
+        <modal-tomar-exp :show="get_show_modal_tomar_exp" :dato="datosExpTomar" @close_modal="closeModal"/>
     </div>
 </template>
 
 <script>
 import ModalTomarExp from "../../components/dialogs/ModalTomarExp";
-import {mapGetters} from "vuex";
+import {mapActions, mapGetters} from "vuex";
 export default {
   components: { ModalTomarExp },
   props: {
@@ -105,13 +105,24 @@ export default {
     }
   },
 
-  computed: mapGetters(['get_show_modal_tomar_exp']),
+  computed: mapGetters(['get_show_modal_tomar_exp', 'get_user',]),
 
   methods: {
+    ...mapActions(['showModalTomarExp']),
+
     tomar (item) {
       this.datosExpTomar = item;
-      this.get_show_modal_tomar_exp = true;
+      this.showModalTomarExp(true)
+    },
+
+    closeModal() {
+      this.showModalTomarExp(false)
     },
   }
 }
 </script>
+<style>
+  .v-autocomplete.v-select--is-menu-active .v-input__icon--append .v-icon {
+    transform: none;
+  }
+</style>
