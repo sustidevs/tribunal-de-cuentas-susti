@@ -222,6 +222,7 @@ class HistorialController extends Controller
                          ->join('extractos','extractos.id','=','caratulas.extracto_id')
                          ->join('areas as area_origen','area_origen.id','=','historiales.area_origen_id')
                          ->join('areas as area_destino','area_destino.id','=','historiales.area_destino_id')
+                         ->orderBy('historiales.created_at', 'DESC')
                          ->get([
                              'historiales.expediente_id as expediente_id',
                              'expedientes.nro_expediente as nro_expediente',
@@ -236,11 +237,6 @@ class HistorialController extends Controller
                              'historiales.motivo as motivo',
                              DB::raw("DATE_FORMAT(historiales.created_at, '%h:%i:%s') as hora"),
                             ]);
-
-        //$historiales->map(function($historial){
-        //    $historial->area_destino = Area::find($historial->area_destino)->first()->descripcion;
-            //$historial->area_destino = Area::find($historial->area_destino)->first()->descripcion;
-        //}); 
 
         return response()->json($historiales, 200);
     }

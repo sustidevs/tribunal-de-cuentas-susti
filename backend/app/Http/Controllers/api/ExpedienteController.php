@@ -135,10 +135,9 @@ class ExpedienteController extends Controller
             $historial->motivo = "Pase al área: ".Area::find( $historial->area_destino_id)->descripcion. ".";
             $historial->observacion = null;
             $historial->estado = "1";//Enviado
-            if($historial->save())
-            {
-                $estado_actual = Area::findOrFail($request->area_id);
-            }
+            $nano = time_nanosleep(0, 500000000);
+            $historial->save();
+            $estado_actual = Area::findOrFail($request->area_id);
             if(($request->allFiles()) != null)
             {
                 $zip = new ZipArchive;
