@@ -8,7 +8,6 @@
     />
 
     <tabla-exp-area
-      :headers="headers"
       :data="get_expedientes"
       :loading="this.get_finalizado"
       class="mb-15 pb-15"
@@ -24,18 +23,6 @@ import {mapActions, mapGetters} from "vuex";
 
 export default {
   components: {Titulo, Alert, TablaExpArea},
-  data() {
-    return {
-      headers: [
-        {text: 'Nro. de Expediente', value: 'nro_expediente'},
-        {text: 'Extracto', value: 'extracto'},
-        {text: 'Fecha Creación', value: 'fecha_creacion' },
-        {text: 'Trámite', value: 'tramite'},
-        {text: 'Usuario', value: 'nombre_apellido'},
-        {text: 'Tomar', value: 'action', align: 'center', sortable: false},
-      ],
-    }
-  },
 
   computed: mapGetters(['get_expedientes', 'get_aceptado', 'get_finalizado']),
 

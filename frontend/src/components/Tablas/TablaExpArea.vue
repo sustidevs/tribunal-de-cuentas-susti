@@ -6,7 +6,20 @@
                 <v-col cols="12" xs="12" lg="3">
                 <v-text-field
                     append-icon="mdi-magnify"
+                    v-model="nro_expediente"
                     label="N° DE EXPEDIENTE "
+                    outlined
+                    hide-details
+                    class="Montserrat-Regular text-justify"
+                    color="amber accent-4"
+                />
+                </v-col>
+
+                <v-col cols="12" xs="12" lg="3">
+                <v-text-field
+                    append-icon="mdi-magnify"
+                    v-model="users"
+                    label="USUARIO"
                     outlined
                     hide-details
                     class="Montserrat-Regular text-justify"
@@ -19,19 +32,9 @@
                     append-icon="mdi-magnify"
                     class="Montserrat-Regular text-justify"
                     color="amber accent-4"
-                    outlined
-                    label="USUARIO"
-                    item-color="amber accent-4"
-                    hide-details
-                ></v-autocomplete>
-                </v-col>
-
-                <v-col cols="12" xs="12" lg="3">
-                <v-autocomplete
-                    append-icon="mdi-magnify"
-                    class="Montserrat-Regular text-justify"
-                    color="amber accent-4"
                     item-text="descripcion"
+                    v-model="motivo"
+                    :items="get_motivos"
                     outlined
                     label="TRÁMITE"
                     item-color="amber accent-4"
@@ -42,6 +45,7 @@
                 <v-col cols="12" xs="12" lg="3">
                 <v-text-field
                     color="amber accent-4"
+                    v-model="search"
                     append-icon="mdi-magnify"
                     label="INICIADOR, FECHA"
                     hide-details
@@ -53,11 +57,11 @@
         </v-card>
 
         <v-data-table
-            @page-count="pageCount = $event"
             :page.sync="page"
             hide-default-footer
             :headers="headers"
             :items="data"
+            :search="search"
             :items-per-page="5"
             disable-sort
             mobile-breakpoint="300"
@@ -65,6 +69,7 @@
             loading-text="Cargando expedientes del área. Por favor, espere."
             :loading="loading"
             no-data-text="No hay expedientes en el área"
+            @page-count="pageCount = $event"
         >
 
             <template v-slot:item.action="{item}">
@@ -93,22 +98,39 @@ import {mapActions, mapGetters} from "vuex";
 export default {
   components: { ModalTomarExp },
   props: {
-    headers: Array,
     data: Array,
     loading: { type: Boolean, default: false },
   },
   data () {
     return {
+      headers: [
+        {text: 'N° de Expediente', value: 'nro_expediente', filter: this.nroExpedienteFilter},
+        {text: 'Extracto', value: 'extracto'},
+        {text: 'Creación', value: 'fecha_creacion' },
+        {text: 'Trámite', value: 'tramite', filter:this.motivoFilter},
+        {text: 'Usuario', value: 'nombre_apellido', filter: this.usersFilter},
+        {text: 'Tomar', value: 'action', align: 'center', sortable: false},
+      ],
+
       page: 1,
       pageCount: 0,
       datosExpTomar: {},
+      search: '',
+      nro_expediente: '',
+      users:'',
+      motivo:'',
+      
     }
   },
 
-  computed: mapGetters(['get_show_modal_tomar_exp', 'get_user',]),
+  computed: mapGetters(['get_show_modal_tomar_exp', 'get_user', 'get_motivos','get_user_filtros']),
+
+  mounted() {
+    this.index_filtros();
+  },
 
   methods: {
-    ...mapActions(['showModalTomarExp']),
+    ...mapActions(['showModalTomarExp', 'index_filtros']),
 
     tomar (item) {
       this.datosExpTomar = item;
@@ -117,6 +139,30 @@ export default {
 
     closeModal() {
       this.showModalTomarExp(false)
+    },
+
+    nroExpedienteFilter(value) {
+      if (!this.nro_expediente) {
+        return true;
+      }
+
+      return value.toLowerCase().includes(this.nro_expediente.toLowerCase());
+    },
+
+    motivoFilter(value) {
+
+      if (!this.motivo) {
+        return true;
+      }
+
+      return value === this.motivo;
+    },
+
+    usersFilter(value) {
+      if (!this.users) {
+        return true;
+      }
+      return value.toLowerCase().includes(this.users.toLowerCase());
     },
   }
 }
