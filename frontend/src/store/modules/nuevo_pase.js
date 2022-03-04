@@ -54,7 +54,7 @@ const actions = {
     },
 
     cerrarModal ({ commit }){
-        commit('creado',false)
+        commit('set_creado',false)
     },
 };
 

@@ -51,7 +51,7 @@
       <v-row no-gutters justify="center" class="py-4">
 
         <v-col cols="12" lg="6" md="6" sm="12" class="px-sm-2 py-5 ">
-          <v-btn @click="downloadPDF" type="submit" class="pa-5 color Montserrat-SemiBold sizeButton" height="55" elevation="0" color="#FACD89" block>
+          <v-btn :disabled="pdf_loading" @click="downloadPDF" type="submit" class="pa-5 color Montserrat-SemiBold sizeButton" height="55" elevation="0" color="#FACD89" block>
             <v-icon class="px-4">
               mdi-printer
             </v-icon>
@@ -63,12 +63,15 @@
 
 
         <v-col cols="12" md="6" lg="6" sm="12" class="px-sm-2 py-5 ">
-          <Button link="/" texto="Cerrar" class="pa-5 color Montserrat-SemiBold sizeButton" icono="mdi-close-thick"/>             
+          <Button :sombras="true" link="/" texto="Cerrar" class="pa-5 Montserrat-SemiBold sizeButton" icono="mdi-close-thick"/>
         </v-col>
 
       </v-row>
       
     </v-card>
+
+
+
 
     <VueHtml2pdf pdf-content-width="800px" :preview-modal="true" pdf-format="a4" :filename="dato[4]" :manual-pagination="true" :enable-download="true" ref="DownloadComp">
       <section slot="pdf-content" class="margin">
@@ -82,7 +85,7 @@
           />
 
               <div class="Montserrat-Bold sizeExpediente paddExp"> EXPEDIENTE Nº {{ dato[4] }} </div>
-              <div class="Montserrat-Bold sizeNroSiif paddNroSiif"> EXPEDIENTE SIIF Nº {{dato[8]}} </div>
+              <div v-if="!(dato[8] === null )" class="Montserrat-Bold sizeNroSiif paddNroSiif"> EXPEDIENTE SIIF Nº {{dato[8]}} </div>
 
               <div class="direction pad">
                 <div class="Montserrat-SemiBold sizeAll pl"> Iniciador:</div>
@@ -133,7 +136,7 @@
 
             <section>
               <div class="Montserrat-Bold sizeExpediente paddExp"> EXPEDIENTE Nº {{ dato[4] }} </div>
-              <div class="Montserrat-Bold sizeNroSiif paddNroSiif"> EXPEDIENTE SIIF Nº {{dato[8]}} </div>
+              <div v-if="!(dato[8] === null )" class="Montserrat-Bold sizeNroSiif paddNroSiif"> EXPEDIENTE SIIF Nº {{dato[8]}}</div>
             </section>
 
             <section>
@@ -198,6 +201,11 @@ export default {
     dato: Array,
   },
 
+  data: () => ({
+    pdf_loading: false
+  }),
+
+
   computed: {
     ...mapGetters(['areas', 'fecha'])
   },
@@ -205,6 +213,7 @@ export default {
   methods: {
 
     downloadPDF () {
+      this.pdf_loading = true
       this.$refs.DownloadComp.generatePdf()
     },
 
