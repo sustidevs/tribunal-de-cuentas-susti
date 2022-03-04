@@ -13,6 +13,7 @@ const state = {
     finalizado: false,
     aceptado: false,
     encontrado: false,
+    show_modal_tomar_exp: false,
 };
 
 const getters = {
@@ -24,6 +25,7 @@ const getters = {
     get_encontrado: state => state.encontrado,
     get_resultado: state => state.resultado,
     get_subsidio_expedientes: state => state.expedientes_subsidio,
+    get_show_modal_tomar_exp: state => state.show_modal_tomar_exp,
 }
 
 const actions = {
@@ -101,8 +103,13 @@ const actions = {
         then(response => {
             commit('set_expedientes', response.data)
             commit('set_aceptado', true)
+            commit('set_show_modal_tomar_exp', false)
         })
     },
+
+    showModalTomarExp ({commit}, modal) {
+        commit('set_show_modal_tomar_exp', modal)
+    }
 }
 
 const mutations = {
@@ -114,6 +121,7 @@ const mutations = {
     set_resultados: (state, resultado) => state.resultado = resultado,
     set_encontrado: (state, encontrado) => state.encontrado = encontrado,
     set_subsidio_expedientes: (state, expedientes_subsidio) => state.expedientes_subsidio = expedientes_subsidio,
+    set_show_modal_tomar_exp: (state, show_modal_tomar_exp) => state.show_modal_tomar_exp = show_modal_tomar_exp,
 }
 
 export default {

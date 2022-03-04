@@ -50,7 +50,7 @@ export default {
     dato: Object,
   },
 
-   methods: {
+  methods: {
     close() {
       this.$emit("close");
       this.$router.go(0);
@@ -58,13 +58,12 @@ export default {
 
     regresar (dato) {
       this.tomarExpediente(dato);
-      this.show = false;
     },
 
     ...mapActions([
       "tomarExpediente"
-      ]),
-   }
+    ]),
+  }
 
 };
 </script>

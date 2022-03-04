@@ -63,14 +63,14 @@
                   <v-icon class="pr-2 sizeIcon" large color="#FDBC3F">
                     mdi-card-account-details
                   </v-icon>
-                  <p class="pt-4 text-capitalize">N° de Cedula</p>
+                  <p class="pt-4 text-capitalize">N° Cédula</p>
                 </v-btn>
 
                 <v-btn value="5" class="mx-4 my-4 pa-8 textRadio">
                   <v-icon class="pr-2 sizeIcon" large color="#FDBC3F">
                     mdi-sticker-text
                   </v-icon>
-                  <p class="pt-4 text-capitalize">N° de SIIF</p>
+                  <p class="pt-4 text-capitalize">N° SIIF</p>
                 </v-btn>
 
               </v-col>
@@ -134,7 +134,7 @@
 
         <div v-if="this.get_resultado.length > 0">
           <div class="descripcion mt-4 py-2">
-            Haga click en el resultado para más detalles
+            Haga clic en el resultado para más detalles
           </div>
 
           <v-expansion-panels focusable>
@@ -147,7 +147,7 @@
                 color="#FACD89"
                 class="Montserrat-SemiBold sizeNroExp"
               >
-                {{ item.expediente_id }})
+                {{ item.id }})
                 {{ item.nro_expediente }}
               </v-expansion-panel-header>
 
@@ -232,7 +232,7 @@ export default {
 
     historial_pase: function (item) {
       let id = {
-        id: item.expediente_id,
+        id: item.id,
       };
       this.historial_expediente(id);
     },
