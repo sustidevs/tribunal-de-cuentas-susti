@@ -349,6 +349,15 @@ class Expediente extends Model
                                                                 ->orderBy('hora', 'asc')
                                                                 ->get();
                         }
+                        if ($bandeja == 7) // bandeja de expedientes del area completa
+                        {
+                            return $historial_ultimo_movimiento ->where('area_destino_id', $user->area_id)
+                                                                ->whereIn('estado', [5,3])
+                                                                ->orderBy('prioridad', 'asc')
+                                                                ->orderBy('fecha', 'asc')
+                                                                ->orderBy('hora', 'asc')
+                                                                ->get();
+                        }
     }
 
     /**
