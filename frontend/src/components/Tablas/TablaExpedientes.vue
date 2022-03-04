@@ -24,7 +24,7 @@
               v-model="area"
               :items="get_areas_filtros"
               outlined
-              label="AREA ACTUAL"
+              label="ÁREA ACTUAL"
               item-color="amber accent-4"
               hide-details
           ></v-autocomplete>
