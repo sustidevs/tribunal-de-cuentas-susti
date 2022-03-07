@@ -24,7 +24,6 @@ const getters = {
     get_aceptado: state => state.aceptado,
     get_encontrado: state => state.encontrado,
     get_resultado: state => state.resultado,
-    get_resultadoEnglosado: state => state.resultado,
     get_subsidio_expedientes: state => state.expedientes_subsidio,
     get_show_modal_tomar_exp: state => state.show_modal_tomar_exp,
 }
@@ -71,18 +70,6 @@ const actions = {
     },
 
     consultarExpediente ({ commit }, busqueda) {
-        axios.post(process.env.VUE_APP_API_URL+ '/api/buscar-expediente', busqueda)
-            .then(response => {
-                console.log(response.data)
-                commit('set_resultados', response.data)
-                commit('set_encontrado', true)
-            })
-            .catch( () => {
-                console.log('response')
-            })
-    },
-
-    consultarExpedienteEnglosado({ commit }, busqueda) {
         axios.post(process.env.VUE_APP_API_URL+ '/api/buscar-expediente', busqueda)
             .then(response => {
                 console.log(response.data)

@@ -65,14 +65,14 @@
                   <v-icon class="pr-2 sizeIcon" large color="#FDBC3F">
                     mdi-card-account-details
                   </v-icon>
-                  <p class="pt-4 text-capitalize">N° Cédula</p>
+                  <p class="pt-4 text-capitalize">N° de Cedula</p>
                 </v-btn>
 
                 <v-btn value="5" class="mx-4 my-4 pa-8 textRadio">
                   <v-icon class="pr-2 sizeIcon" large color="#FDBC3F">
                     mdi-sticker-text
                   </v-icon>
-                  <p class="pt-4 text-capitalize">N° SIIF</p>
+                  <p class="pt-4 text-capitalize">N° de SIIF</p>
                 </v-btn>
               </v-col>
             </v-row>
@@ -133,88 +133,133 @@
           </div>
         </div>
 
-        <div v-if="this.get_resultado.length > 0">
+        <div v-if="this.get_resultado.length > 0 || this.get_resultado[1] == 1">
           <div class="descripcion mt-4 py-2">
-            Haga clic en el resultado para más detalles
+            Haga click en el resultado para más detalles
           </div>
 
-          <v-expansion-panels focusable>
-            <v-expansion-panel
-              class="my-2"
-              v-for="item in get_resultado"
-              :key="item.id"
-            >
-              <v-expansion-panel-header
-                color="#FACD89"
-                class="Montserrat-SemiBold sizeNroExp"
-              >
-                {{ item.id }})
-                {{ item.nro_expediente }}
-              </v-expansion-panel-header>
+          <!-- muestra los englosados padre e hijo -->
+          <div v-if="get_resultado[2] === 1">
+            <v-expansion-panels focusable>
+              <v-expansion-panel class="my-2">
+                <v-expansion-panel-header
+                  color="#FACD89"
+                  class="Montserrat-SemiBold sizeNroExp"
+                >
+                  El expediente {{ get_resultado[1].nro_expediente }}, se
+                  encuentra acumulado en el
+                  {{ get_resultado[0].nro_expediente }}
+                </v-expansion-panel-header>
 
-              <v-expansion-panel-content>
-                <div class="Montserrat-Bold mt-4">Iniciador:</div>
-                <div class="Montserrat-Regular">{{ item.iniciador }}</div>
+                <v-row>
+                  <v-col cols="6">
+                    <v-expansion-panel-content>
+                      <div class="Montserrat-Bold mt-4">
+                        DATOS EXPEDIENTE {{ get_resultado[0].nro_expediente }}
+                      </div>
+                      <div class="Montserrat-Bold mt-4">Iniciador:</div>
+                      <div class="Montserrat-Regular">
+                        {{ get_resultado[0].iniciador }}
+                      </div>
 
-                <div class="Montserrat-Bold mt-4">CUIT:</div>
-                <div class="Montserrat-Regular">{{ item.cuit }}</div>
+                      <div class="Montserrat-Bold mt-4">CUIT:</div>
+                      <div class="Montserrat-Regular">
+                        {{ get_resultado[0].cuit }}
+                      </div>
 
-                <div class="Montserrat-Bold mt-4">Extracto:</div>
-                <div class="Montserrat-Regular">{{ item.extracto }}</div>
+                      <div class="Montserrat-Bold mt-4">Extracto:</div>
+                      <div class="Montserrat-Regular">
+                        {{ get_resultado[0].extracto }}
+                      </div>
 
-                <div class="Montserrat-Bold mt-4">Área Actual:</div>
-                <div class="Montserrat-Regular">{{ item.area_actual }}</div>
+                      <div class="Montserrat-Bold mt-4">Área Actual:</div>
+                      <div class="Montserrat-Regular">
+                        {{ get_resultado[0].area_actual }}
+                      </div>
 
-                <v-btn class="mt-6" @click="historial_pase(item)" depressed>
-                  <v-icon left size="25px"> mdi-magnify </v-icon>
-                  Ver Historial
-                </v-btn>
-              </v-expansion-panel-content>
-            </v-expansion-panel>
-          </v-expansion-panels>
-        </div>
+                      <v-btn
+                        class="mt-6"
+                        @click="historial_pase(get_resultado[0])"
+                        depressed
+                      >
+                        <v-icon left size="25px"> mdi-magnify </v-icon>
+                        Ver Historial
+                      </v-btn>
+                    </v-expansion-panel-content>
+                  </v-col>
 
-        <!-- muestra englosados -->
-        <div v-if="this.get_resultado.length > 0">
-          <div class="descripcion mt-4 py-2" >
-            Aviso para los englosados
+                  <v-divider class="my-6" vertical></v-divider>
+
+                  <v-col cols="6">
+                    <v-expansion-panel-content>
+                      <div class="Montserrat-Bold mt-4">
+                        DATOS EXPEDIENTE {{ get_resultado[1].nro_expediente }}
+                      </div>
+                      <div class="Montserrat-Bold mt-4">Iniciador:</div>
+                      <div class="Montserrat-Regular">
+                        {{ get_resultado[1].iniciador }}
+                      </div>
+
+                      <div class="Montserrat-Bold mt-4">CUIT:</div>
+                      <div class="Montserrat-Regular">
+                        {{ get_resultado[1].cuit }}
+                      </div>
+
+                      <div class="Montserrat-Bold mt-4">Extracto:</div>
+                      <div class="Montserrat-Regular">
+                        {{ get_resultado[1].extracto }}
+                      </div>
+
+                      <v-btn
+                        class="mt-6"
+                        @click="historial_pase(get_resultado[1])"
+                        depressed
+                      >
+                        <v-icon left size="25px"> mdi-magnify </v-icon>
+                        Ver Historial
+                      </v-btn>
+                    </v-expansion-panel-content>
+                  </v-col>
+                </v-row>
+              </v-expansion-panel>
+            </v-expansion-panels>
           </div>
-          <v-expansion-panels focusable >
-            <v-expansion-panel
-              class="my-2"
-              v-for="dato in get_resultadoEnglosado"
-              :key="dato.id"
-            >
-              <v-expansion-panel-header
-                color="#FACD89"
-                class="Montserrat-SemiBold sizeNroExp"
+
+          <div v-else>
+            <v-expansion-panels focusable>
+              <v-expansion-panel
+                class="my-2"
+                v-for="item in get_resultado"
+                :key="item.id"
               >
-                {{ dato.id }}) {{ dato.nro_expediente }}
-                <div v-if="dato.expediente_id !== null " >
-                  &nbsp; El expediente se encuentra englosado 
-                </div>
-              </v-expansion-panel-header>
+                <v-expansion-panel-header
+                  color="#FACD89"
+                  class="Montserrat-SemiBold sizeNroExp"
+                >
+                  {{ item.nro_expediente }}
+                </v-expansion-panel-header>
 
-              <v-expansion-panel-content>
-                <div class="Montserrat-Bold mt-4">Iniciador:</div>
-                <div class="Montserrat-Regular">{{ dato.iniciador }}</div>
+                <v-expansion-panel-content>
+                  <div class="Montserrat-Bold mt-4">Iniciador:</div>
+                  <div class="Montserrat-Regular">{{ item.iniciador }}</div>
 
-                <div class="Montserrat-Bold mt-4">CUIT:</div>
-                <div class="Montserrat-Regular">{{ dato.cuit }}</div>
+                  <div class="Montserrat-Bold mt-4">CUIT:</div>
+                  <div class="Montserrat-Regular">{{ item.cuit }}</div>
 
-                <div class="Montserrat-Bold mt-4">Extracto:</div>
-                <div class="Montserrat-Regular">{{ dato.extracto }}</div>
+                  <div class="Montserrat-Bold mt-4">Extracto:</div>
+                  <div class="Montserrat-Regular">{{ item.extracto }}</div>
 
-                <div class="Montserrat-Bold mt-4">Área Actual:</div>
-                <div class="Montserrat-Regular">{{ dato.area_actual }}</div>
+                  <div class="Montserrat-Bold mt-4">Área Actual:</div>
+                  <div class="Montserrat-Regular">{{ item.area_actual }}</div>
 
-                <v-btn class="mt-6" @click="historial_pase(dato)" depressed>
-                  <v-icon left size="25px"> mdi-magnify </v-icon>
-                  Ver Historial
-                </v-btn>
-              </v-expansion-panel-content>
-            </v-expansion-panel>
-          </v-expansion-panels>
+                  <v-btn class="mt-6" @click="historial_pase(item)" depressed>
+                    <v-icon left size="25px"> mdi-magnify </v-icon>
+                    Ver Historial
+                  </v-btn>
+                </v-expansion-panel-content>
+              </v-expansion-panel>
+            </v-expansion-panels>
+          </div>
         </div>
       </v-card>
     </div>
@@ -255,18 +300,13 @@ export default {
 
   computed: mapGetters([
     "get_resultado",
-    "get_resultadoEnglosado",
     "get_encontrado",
     "get_historial",
     "get_user",
   ]),
 
   methods: {
-    ...mapActions([
-      "consultarExpediente",
-      "historial_expediente",
-      "consultarExpedienteEnglosado",
-    ]),
+    ...mapActions(["consultarExpediente", "historial_expediente"]),
 
     close() {
       this.$emit("close");
@@ -279,23 +319,13 @@ export default {
       }
     },
 
-    englosado(){
-      if(this.busqueda.valor === 1){
-        for(var i = 0; this.get_resultadoEnglosado.length; i++){
-          let datos = this.get_resultadoEnglosado[i]
-            if(datos.expediente_id !== null){
-              {{datos.nroexpediente}}
-            }
-        }
-      }
-    },
-
     historial_pase: function (item) {
       let id = {
         id: item.id,
       };
       this.historial_expediente(id);
     },
+
   },
 };
 </script>
