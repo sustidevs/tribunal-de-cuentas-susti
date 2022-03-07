@@ -22,7 +22,7 @@
           group
           @change="showBuscar = true"
         >
-          <v-form  ref="form" v-model="valid">
+          <v-form ref="form" v-model="valid">
             <v-row class="my-4 py-2" justify="center">
               <v-col col="12">
                 <v-btn value="1" class="mx-4 my-4 pa-8 textRadio sizeBtn">
@@ -33,7 +33,9 @@
                 </v-btn>
 
                 <v-btn value="3" class="mx-4 my-4 pa-8 textRadio">
-                  <v-icon class="pr-2 sizeIcon" large color="#FDBC3F"> mdi-cash </v-icon>
+                  <v-icon class="pr-2 sizeIcon" large color="#FDBC3F">
+                    mdi-cash
+                  </v-icon>
                   <p class="pt-4 text-capitalize">N° Cheque/Transferencia</p>
                 </v-btn>
 
@@ -58,21 +60,20 @@
                   </v-icon>
                   <p class="pt-4 text-capitalize">Norma Legal</p>
                 </v-btn>
-                
+
                 <v-btn value="7" class="mx-4 my-4 pa-8 textRadio">
                   <v-icon class="pr-2 sizeIcon" large color="#FDBC3F">
                     mdi-card-account-details
                   </v-icon>
-                  <p class="pt-4 text-capitalize">N° Cédula</p>
+                  <p class="pt-4 text-capitalize">N° de Cedula</p>
                 </v-btn>
 
                 <v-btn value="5" class="mx-4 my-4 pa-8 textRadio">
                   <v-icon class="pr-2 sizeIcon" large color="#FDBC3F">
                     mdi-sticker-text
                   </v-icon>
-                  <p class="pt-4 text-capitalize">N° SIIF</p>
+                  <p class="pt-4 text-capitalize">N° de SIIF</p>
                 </v-btn>
-
               </v-col>
             </v-row>
 
@@ -132,49 +133,137 @@
           </div>
         </div>
 
-        <div v-if="this.get_resultado.length > 0">
+        <div v-if="this.get_resultado.length > 0 || this.get_resultado[1] == 1">
           <div class="descripcion mt-4 py-2">
-            Haga clic en el resultado para más detalles
+            Haga click en el resultado para más detalles
           </div>
 
-          <v-expansion-panels focusable>
-            <v-expansion-panel
-              class="my-2"
-              v-for="item in get_resultado"
-              :key="item.id"
-            >
-              <v-expansion-panel-header
-                color="#FACD89"
-                class="Montserrat-SemiBold sizeNroExp"
+          <!-- muestra los englosados padre e hijo -->
+          <div v-if="get_resultado[2] === 1">
+            <v-expansion-panels focusable>
+              <v-expansion-panel class="my-2">
+                <v-expansion-panel-header
+                  color="#FACD89"
+                  class="Montserrat-SemiBold sizeNroExp"
+                >
+                  El expediente {{ get_resultado[1].nro_expediente }}, se
+                  encuentra acumulado en el
+                  {{ get_resultado[0].nro_expediente }}
+                </v-expansion-panel-header>
+
+                <v-row>
+                  <v-col cols="6">
+                    <v-expansion-panel-content>
+                      <div class="Montserrat-Bold mt-4">
+                        DATOS EXPEDIENTE {{ get_resultado[0].nro_expediente }}
+                      </div>
+                      <div class="Montserrat-Bold mt-4">Iniciador:</div>
+                      <div class="Montserrat-Regular">
+                        {{ get_resultado[0].iniciador }}
+                      </div>
+
+                      <div class="Montserrat-Bold mt-4">CUIT:</div>
+                      <div class="Montserrat-Regular">
+                        {{ get_resultado[0].cuit }}
+                      </div>
+
+                      <div class="Montserrat-Bold mt-4">Extracto:</div>
+                      <div class="Montserrat-Regular">
+                        {{ get_resultado[0].extracto }}
+                      </div>
+
+                      <div class="Montserrat-Bold mt-4">Área Actual:</div>
+                      <div class="Montserrat-Regular">
+                        {{ get_resultado[0].area_actual }}
+                      </div>
+
+                      <v-btn
+                        class="mt-6"
+                        @click="historial_pase(get_resultado[0])"
+                        depressed
+                      >
+                        <v-icon left size="25px"> mdi-magnify </v-icon>
+                        Ver Historial
+                      </v-btn>
+                    </v-expansion-panel-content>
+                  </v-col>
+
+                  <v-divider class="my-6" vertical></v-divider>
+
+                  <v-col cols="6">
+                    <v-expansion-panel-content>
+                      <div class="Montserrat-Bold mt-4">
+                        DATOS EXPEDIENTE {{ get_resultado[1].nro_expediente }}
+                      </div>
+                      <div class="Montserrat-Bold mt-4">Iniciador:</div>
+                      <div class="Montserrat-Regular">
+                        {{ get_resultado[1].iniciador }}
+                      </div>
+
+                      <div class="Montserrat-Bold mt-4">CUIT:</div>
+                      <div class="Montserrat-Regular">
+                        {{ get_resultado[1].cuit }}
+                      </div>
+
+                      <div class="Montserrat-Bold mt-4">Extracto:</div>
+                      <div class="Montserrat-Regular">
+                        {{ get_resultado[1].extracto }}
+                      </div>
+
+                      <v-btn
+                        class="mt-6"
+                        @click="historial_pase(get_resultado[1])"
+                        depressed
+                      >
+                        <v-icon left size="25px"> mdi-magnify </v-icon>
+                        Ver Historial
+                      </v-btn>
+                    </v-expansion-panel-content>
+                  </v-col>
+                </v-row>
+              </v-expansion-panel>
+            </v-expansion-panels>
+          </div>
+
+          <div v-else>
+            <v-expansion-panels focusable>
+              <v-expansion-panel
+                class="my-2"
+                v-for="item in get_resultado"
+                :key="item.id"
               >
-                {{ item.id }})
-                {{ item.nro_expediente }}
-              </v-expansion-panel-header>
+                <v-expansion-panel-header
+                  color="#FACD89"
+                  class="Montserrat-SemiBold sizeNroExp"
+                >
+                  {{ item.nro_expediente }}
+                </v-expansion-panel-header>
 
-              <v-expansion-panel-content>
-                <div class="Montserrat-Bold mt-4">Iniciador:</div>
-                <div class="Montserrat-Regular">{{ item.iniciador }}</div>
+                <v-expansion-panel-content>
+                  <div class="Montserrat-Bold mt-4">Iniciador:</div>
+                  <div class="Montserrat-Regular">{{ item.iniciador }}</div>
 
-                <div class="Montserrat-Bold mt-4">CUIT:</div>
-                <div class="Montserrat-Regular">{{ item.cuit }}</div>
+                  <div class="Montserrat-Bold mt-4">CUIT:</div>
+                  <div class="Montserrat-Regular">{{ item.cuit }}</div>
 
-                <div class="Montserrat-Bold mt-4">Extracto:</div>
-                <div class="Montserrat-Regular">{{ item.extracto }}</div>
+                  <div class="Montserrat-Bold mt-4">Extracto:</div>
+                  <div class="Montserrat-Regular">{{ item.extracto }}</div>
 
-                <div class="Montserrat-Bold mt-4">Área Actual:</div>
-                <div class="Montserrat-Regular">{{ item.area_actual }}</div>
+                  <div class="Montserrat-Bold mt-4">Área Actual:</div>
+                  <div class="Montserrat-Regular">{{ item.area_actual }}</div>
 
-                <v-btn class="mt-6" @click="historial_pase(item)" depressed>
-                  <v-icon left size="25px"> mdi-magnify </v-icon>
-                  Ver Historial
-                </v-btn>
-              </v-expansion-panel-content>
-            </v-expansion-panel>
-          </v-expansion-panels>
+                  <v-btn class="mt-6" @click="historial_pase(item)" depressed>
+                    <v-icon left size="25px"> mdi-magnify </v-icon>
+                    Ver Historial
+                  </v-btn>
+                </v-expansion-panel-content>
+              </v-expansion-panel>
+            </v-expansion-panels>
+          </div>
         </div>
       </v-card>
     </div>
-  </v-dialog>  
+  </v-dialog>
 </template>
 
 <script>
@@ -236,7 +325,7 @@ export default {
       };
       this.historial_expediente(id);
     },
-    
+
   },
 };
 </script>
@@ -253,13 +342,13 @@ export default {
 }
 
 @media (max-width: 600px) {
-  .textRadio{
+  .textRadio {
     font-size: 15px !important;
   }
-  .sizeIcon{
+  .sizeIcon {
     display: none !important;
   }
-  .textRadioTitlte{
+  .textRadioTitlte {
     font-size: 25px;
   }
 }
