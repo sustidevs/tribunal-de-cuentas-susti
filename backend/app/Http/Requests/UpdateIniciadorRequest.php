@@ -30,7 +30,7 @@ class UpdateIniciadorRequest extends FormRequest
         ];
     }
 
-    public function message()
+    public function messages()
     {
         return [
             'telefono.integer'          => 'Solo puede ingresar números',
