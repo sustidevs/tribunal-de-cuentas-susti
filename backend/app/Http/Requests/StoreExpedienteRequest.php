@@ -30,7 +30,8 @@ class StoreExpedienteRequest extends FormRequest
             'descripcion_extracto'  => 'required',
             'iniciador_id'          => 'required',
             'archivos'              => 'mimes:docx|txt|pdf|jpg|jpeg|xlsx|xls|file|size:25600',
-            'area_id'               => 'required'
+            'area_id'               => 'required',
+            'observacion'           => 'max:150'
         ];
     }
 
@@ -47,7 +48,8 @@ class StoreExpedienteRequest extends FormRequest
             'iniciador_id.required' => 'Seleccione un iniciador.',
             'archivos.mimes'        => 'Seleccione un archivo con la extensión correcta.',
             'archivos.size'         => 'El archivo es demasiado pesado.',
-            'area_id.required'      => 'Seleccione un área.'
+            'area_id.required'      => 'Seleccione un área.',
+            'observacion.max'           => 'La observación no debe ser superior a 150 caracteres.'
         ];
     }
 }
