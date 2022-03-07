@@ -66,15 +66,14 @@
         <v-divider color="#393B44" class="my-4"></v-divider>
 
         <!--OBSERVACIONES-->
-        <div class="d-flex flex-row">
-          <v-icon class="mr-4" size="50" color="#FB8C00">mdi-text-box-search</v-icon>
+        <div class="flex-row">
           <div v-if="expe.observacion === ''">
-            <div style="font-size: 26px; color:#FB8C00" class="textTitle flex-column Montserrat-Bold"> OBSERVACION:</div>
+            <div style="font-size: 26px; color:#FB8C00" class="textTitle flex-column Montserrat-Bold"><v-icon class="mr-4" size="50" color="#FB8C00">mdi-text-box-search</v-icon> OBSERVACION:</div>
             <div style="font-size: 26px; font-weight: bold" class="textHereSmall Montserrat-Regular"> - </div>
           </div>
 
           <div v-else>
-              <div style="font-size: 26px; color:#FB8C00" class="textTitle flex-column Montserrat-Bold"> OBSERVACION:</div>
+              <div style="font-size: 26px; color:#FB8C00" class="textTitle flex-column Montserrat-Bold"><v-icon class="mr-4" size="50" color="#FB8C00">mdi-text-box-search</v-icon> OBSERVACION:</div>
               <div style="font-size: 26px; font-weight: bold" class="textHereSmall Montserrat-Regular"> {{ expe.observacion }} </div>
           </div>
         </div>
