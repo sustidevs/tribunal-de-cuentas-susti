@@ -17,12 +17,9 @@ const actions = {
             .then(response => {
                 let todos = {id: 0, descripcion: 'TODOS'}
                 let motivos_response = response.data[0]
-
-                console.log(motivos_response[0])
                 let todos_motivos_response = motivos_response.concat(todos)
 
                 commit('set_motivos', todos_motivos_response)
-
                 commit('set_areas_filtros', response.data[1])
             })
     },

@@ -135,10 +135,9 @@ class ExpedienteController extends Controller
             $historial->motivo = "Pase al área: ".Area::find( $historial->area_destino_id)->descripcion. ".";
             $historial->observacion = null;
             $historial->estado = "1";//Enviado
-            if($historial->save())
-            {
-                $estado_actual = Area::findOrFail($request->area_id);
-            }
+            $nano = time_nanosleep(0, 500000000);
+            $historial->save();
+            $estado_actual = Area::findOrFail($request->area_id);
             if(($request->allFiles()) != null)
             {
                 $zip = new ZipArchive;
@@ -197,7 +196,7 @@ class ExpedienteController extends Controller
         $expedientes_hijos = "";
         foreach ($exp_hijos as $exp_hijo)
         {
-            if(($exp_hijo->expediente_id == null) && ($exp_hijo->id != $exp_padre->id))
+            if(($exp_hijo->expediente_id == null) && ($exp_hijo->id != $exp_padre->id) && ($exp_hijo->hijos()->get()->count() < 1))
             {
                 $exp_hijo->expediente_id = $exp_padre->id;
                 if($exp_hijo->save())
@@ -218,7 +217,21 @@ class ExpedienteController extends Controller
             }
             else
             {
-                return response()->json("ERROR",400);
+                $array = collect([]);
+                foreach ($exp_hijos as $exp_hijo)
+                {
+                    if($exp_hijo->hijos()->get()->count() > 0)
+                    {
+                        $array->push([
+                            'nro_expediente'    => $exp_hijo->nro_expediente,
+                        ]);
+                    }
+                }
+
+                return response()->json([
+                    "Mensaje" => 'El\los expediente\s seleccionado como hijo ya se encuentran acumulados.',
+                    "Expediente\s padre" => $array
+                ],400);
             }
             $exp_padre->fojas = $exp_padre->fojas + $exp_hijo->fojas;
             $exp_padre->save();

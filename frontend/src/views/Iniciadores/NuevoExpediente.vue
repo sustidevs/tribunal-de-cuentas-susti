@@ -1,6 +1,6 @@
 <template>
   <div class="mb-12">
-    <form @submit.prevent="storeExpe()">
+    <v-form ref="form" v-model="campos_obligatorios">
       <v-row class="py-3">
         <v-col cols="12" sm="12" md="10" lg="10">
           <h1 class="justify-start Montserrat-Bold">Nuevo Expediente</h1>
@@ -36,17 +36,6 @@
       <v-row no-gutters justify="start">
         <v-col cols="12" sm="12" lg="6" class="pr-lg-2">
           <label-input texto="Iniciador *" />
-
-          <!--
-          <autocomplete-field
-              nombre="nombre"
-              label="email"
-              @input="cargarExpediente"
-              :data="$store.state.nuevo_expediente.iniciadores"
-              :value="$store.state.nuevo_expediente.iniciadorSelected"
-          ></autocomplete-field>
-          />-->
-
           <autocomplete-field
             :data="allIniciadores"
             nombre="nombre"
@@ -104,7 +93,7 @@
         </v-col>
         <v-col cols="12" sm="12" lg="6" class="pl-lg-2 pb-3">
           <Label-input texto="Cantidad de Fojas *" />
-          <text-field tipo="number" v-model="expe.nro_fojas" />
+          <text-field :rules="[v => !!v || 'You must agree to continue!']" tipo="number" v-model="expe.nro_fojas" />
         </v-col>
       </v-row>
 
@@ -185,53 +174,54 @@
         color="yellow darken-3"
       ></v-progress-linear>
 
-      <v-row no-gutters justify="center" class="py-16">
-        <v-col cols="12" sm="6" md="6" lg="6" class="px-sm-2">
-          <v-btn
-            type="submit"
-            class="pa-5 color Montserrat-SemiBold"
-            height="55"
-            elevation="0"
-            color="#FACD89"
-            block
-            :disabled="this.$store.getters.get_btn_creado"
-          >
-            <v-icon class="px-5"> mdi-check-bold </v-icon>
-            <div class="">Confirmar</div>
-          </v-btn>
-        </v-col>
-      </v-row>
+      <div v-if="( this.expe.iniciador_id === ''  || this.expe.area_id === ''  || this.expe.nro_fojas === '' || this.expe.tipo_exp_id === 0 || this.expe.prioridad === '' || this.get_extracto === '' )">
+        <v-row no-gutters justify="center" class="py-16">
+          <v-col cols="12" sm="6" md="6" lg="6" class="px-sm-2">
+            <v-btn
+                class="pa-5 color Montserrat-SemiBold"
+                height="55"
+                elevation="0"
+                color="#FACD89"
+                block
+                :disabled="true"
+            >
+              <v-icon class="px-5"> mdi-timelapse </v-icon>
+              <div class="">Complete los datos obligatorios ... </div>
+            </v-btn>
+          </v-col>
+        </v-row>
+      </div>
 
-      <!-- Boton para vista previa. Todavia falta conexion para que al aceptar cree el expedinte -->
+      <div v-else>
+        <v-row no-gutters justify="center" class="py-16">
+          <v-col cols="12" sm="6" md="6" lg="6" class="px-sm-2">
+            <v-btn
+                class="pa-5 color Montserrat-SemiBold"
+                height="55"
+                elevation="0"
+                color="#FACD89"
+                block
+                :disabled="false"
+                @click="AbrirModalDetalle()"
+            >
+              <v-icon class="px-5"> mdi-arrow-right-bold </v-icon>
+              <div class="">Siguiente</div>
+            </v-btn>
+          </v-col>
+        </v-row>
+      </div>
 
-      <!-- <v-row no-gutters justify="center" class="py-16">
-        <v-col cols="12" sm="6" md="6" lg="6" class="px-sm-2">
-          <v-btn
-            class="pa-5 color Montserrat-SemiBold"
-            height="55"
-            elevation="0"
-            color="#FACD89"
-            block
-            :disabled="this.$store.getters.get_btn_creado"
-            @click="AbrirModalDetalle()"
-          >
-            <v-icon class="px-5"> mdi-check-bold </v-icon>
-            <div class="">Vista Previa</div>
-          </v-btn>
-        </v-col>
-      </v-row> -->
-
-
-    </form>
+    </v-form>
     <v-overlay :value="this.$store.getters.get_btn_creado">
       <v-progress-circular indeterminate size="64"></v-progress-circular>
     </v-overlay>
 
-    <!-- <modal-mensaje-previo
-      :show="show_modal"
-      :dato="this.expe"
-      @close="closeModal"
-    /> -->
+    <modal-mensaje-previo
+      :show="get_error_modal_preview"
+      :dato="this.datosModal"
+      :expe="expe"
+      @close_mensaje_previo="closeModal"
+    />
 
     <modal-nuevos-expedientes
       :show="creado_exito"
@@ -250,7 +240,7 @@ import AutocompleteField from "../../components/AutocompleteField";
 import ModalNuevosExpedientes from "../../components/dialogs/ModalNuevosExpedientes";
 import LabelError from "../../components/LabelError";
 import ModalErrorTipoArchivo from "../../components/dialogs/ModalErrorTipoArchivo";
-// import ModalMensajePrevio from "../../components/dialogs/ModalMensajePrevio";
+import ModalMensajePrevio from "../../components/dialogs/ModalMensajePrevio";
 
 export default {
   name: "Home",
@@ -263,7 +253,7 @@ export default {
     ModalNuevosExpedientes,
     LabelError,
     ModalErrorTipoArchivo,
-    // ModalMensajePrevio,
+    ModalMensajePrevio,
   },
   data: () => ({
     radioGroup: 1,
@@ -272,7 +262,7 @@ export default {
       { texto: "Agregar Iniciador", imagen: "./img/cards/ver-todos.svg" },
     ],
     motivo: [],
-    // show_modal: false,
+    show_modal: false,
     showDetalle: false,
     files: "",
     loader: null,
@@ -283,12 +273,13 @@ export default {
       prioridad: "",
       tipo_exp_id: 0,
       observacion: "",
-      descripcion_extracto: "",
       area_id: "",
       archivos: "",
     },
+    datosModal:{},
     showArchivoError: false,
     showMotivo: false,
+    campos_obligatorios: true,
   }),
 
   methods: {
@@ -311,39 +302,23 @@ export default {
       }
     },
 
-    storeExpe() {
-      let formData = new FormData();
-
-      for (var i = 0; i < this.files.length; i++) {
-        let file = this.files[i];
-
-        formData.append("archivo" + i + "", file);
-      }
-
-      let cantidad = this.files.length.toString();
-      formData.append("iniciador_id", this.expe.iniciador_id);
-      formData.append("nro_fojas", this.expe.nro_fojas);
-      formData.append("nro_expediente_ext", this.expe.nro_expediente_ext);
-      formData.append("observacion", this.expe.observacion);
-      formData.append("prioridad_id", this.expe.prioridad);
-      formData.append("tipo_exp_id", this.expe.tipo_exp_id);
-      formData.append("descripcion_extracto", this.extracto);
-      formData.append("area_id", this.expe.area_id);
-      formData.append("archivos_length", cantidad);
-
-      this.storeExpediente(formData);
-    },
-
     closeModalErrorArchivo() {
       this.showArchivoError = false;
     },
 
-    // AbrirModalDetalle() {
-    //   this.show_modal = true;
-    // },
+     AbrirModalDetalle() {
+      //datos para mostrar
+      this.datosModal = {
+        iniciador: (this.allIniciadores.find( (item) => item.id === this.expe.iniciador_id)).nombre,
+        motivo: (this.motivoSinExtracto.find((item) => item.id === this.expe.tipo_exp_id)).descripcion,
+        pasea: (this.get_areas_all.find((item) => item.id === this.expe.area_id)).nombre,
+        files_length: this.files.length
+      };
+      this.abrir_modal_preview(true)
+     },
 
     closeModal() {
-      this.show_modal = false;
+      this.abrir_modal_preview(false)
     },
 
     ...mapActions([
@@ -352,6 +327,7 @@ export default {
       "cerrarModal",
       "capturarIniciador",
       "capturarMotivo",
+      'abrir_modal_preview'
     ]),
   },
 
@@ -360,7 +336,6 @@ export default {
       "get_motivo_selected",
       "get_iniciadorSelected",
       "creado_exito",
-      "extracto",
       "allIniciadores",
       "fecha",
       "motivoSinExtracto",
@@ -373,11 +348,10 @@ export default {
       "prioridad_error",
       "pase_a_error",
       "expediente_new",
-
+      'get_error_modal_preview',
       "get_btn_creado",
+      'get_extracto'
     ]),
-
-    //si el valor de nro expediente cambia, se ejecuta la funcion y el componente reacciona a los cambios
 
     nroExpediente: {
       get() {
@@ -393,7 +367,7 @@ export default {
   },
 
   mounted() {
-    this.getCreate();
+        this.getCreate();
   },
 };
 </script>
