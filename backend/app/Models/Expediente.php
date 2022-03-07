@@ -408,15 +408,39 @@ class Expediente extends Model
                 break;
 
             case "2": //Busca por cuit iniciador
-                $iniciador = Iniciador::where('cuit',$valor)->get()->first();
+                $iniciador_id = Iniciador::whereOr('cuit',$valor)->whereOr('cuil',$valor)->first()->id ?? null;//->first()->id;
 
-                if ($iniciador != null)
+                //return $iniciador_id;
+                if ($iniciador_id != null)
                 {
                     //Recorro las caratulas del iniciador para obtener los expedientes
-                    foreach ($iniciador->caratulas as $caratula)
+                    /*foreach ($iniciador->caratulas as $caratula)
                     {
                         $lista_expedientes->push($caratula->expediente->getDatos());
-                    }
+                    }*/
+
+                    $expedientes = DB::table('caratulas')
+                                     ->where('caratulas.iniciador_id',$iniciador_id)
+                                     ->where('expedientes.expediente_id','=',null)
+                                     ->join('expedientes','expedientes.id','caratulas.expediente_id')
+                                     ->join('iniciadores','iniciadores.id','caratulas.iniciador_id')
+                                     ->join('extractos','extractos.id','caratulas.extracto_id')
+                                     ->join('areas','expedientes.area_actual_id','areas.id')
+                                     //->where('expedientes.nro_expediente',null)
+                                     ->orderBy('expedientes.created_at', 'DESC')
+                                     ->get([
+                                         'expedientes.id as expediente_padre_id',
+                                         'expedientes.expediente_id as expediente_hijo_id',
+                                         'expedientes.nro_expediente as nro_expediente',
+                                         DB::raw("DATE_FORMAT(expedientes.created_at, '%d-%m-%y %h:%i:%s') as fecha"),
+                                         //DB::raw("CONCAT(iniciadores.nombre,', ',iniciadores.apellido) as iniciadores"),
+                                         'iniciadores.nombre as nombre',
+                                         'iniciadores.apellido as apellido',
+                                         'iniciadores.cuit as cuit',
+                                         'iniciadores.cuil as cuil',
+                                         'extractos.descripcion as extracto',
+                                     ]);
+                    return response()->json($expedientes, 200);
                 }
                 break;
             case "3"://Busca por nro_cheque o nro_transaccion
