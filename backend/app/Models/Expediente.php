@@ -126,7 +126,9 @@ class Expediente extends Model
                           "nro_expediente"  => $this->nro_expediente,
                           "fecha"           => date("d-m-Y", strtotime($this->fecha)),
                           "iniciador"       => $this->caratula->iniciador->nombre,
+                          "apellido"        => $this->caratula->iniciador->apellido,
                           "cuit"            => $this->caratula->iniciador->cuit,
+                          "cuil"            => $this->caratula->iniciador->cuil,
                           "extracto"        => $this->caratula->extracto->descripcion,
                           "area_actual"     => $this->area->descripcion,
                           "cantidad_cedulas"=> $this->cedulas->count()
@@ -408,7 +410,7 @@ class Expediente extends Model
                 break;
 
             case "2": //Busca por cuit iniciador
-                $iniciador_id = Iniciador::whereOr('cuit',$valor)->whereOr('cuil',$valor)->first()->id ?? null;//->first()->id;
+                $iniciador_id = Iniciador::where('cuit',$valor)->orWhere('cuil',$valor)->first()->id ?? null;//->first()->id;
 
                 //return $iniciador_id;
                 if ($iniciador_id != null)
@@ -429,18 +431,33 @@ class Expediente extends Model
                                      //->where('expedientes.nro_expediente',null)
                                      ->orderBy('expedientes.created_at', 'DESC')
                                      ->get([
-                                         'expedientes.id as expediente_padre_id',
+                                         'expedientes.id as id',
                                          'expedientes.expediente_id as expediente_hijo_id',
                                          'expedientes.nro_expediente as nro_expediente',
                                          DB::raw("DATE_FORMAT(expedientes.created_at, '%d-%m-%y %h:%i:%s') as fecha"),
                                          //DB::raw("CONCAT(iniciadores.nombre,', ',iniciadores.apellido) as iniciadores"),
-                                         'iniciadores.nombre as nombre',
+                                         'iniciadores.nombre as iniciador',
                                          'iniciadores.apellido as apellido',
                                          'iniciadores.cuit as cuit',
                                          'iniciadores.cuil as cuil',
                                          'extractos.descripcion as extracto',
+                                         'areas.descripcion as area_actual'
                                      ]);
-                    return response()->json($expedientes, 200);
+
+                                     $array = Collect($expedientes,
+                                        //"expediente_id"   => $expedientes->expediente_id,
+                                        //"nro_expediente" => $this->nroExpediente($this->caratula->iniciador->prefijo, date("d-m",strtotime($this->fecha)),date("Y",strtotime($this->fecha))),
+                                        //"nro_expediente"  =>$expedientess->nro_expediente,
+                                        //"fecha"           => date("d-m-Y", strtotime($this->fecha)),
+                                        //"iniciador"       => $expedientes->caratula->iniciador->nombre,
+                                        //"cuit"            => $expedientes->caratula->iniciador->cuit,
+                                        //"extracto"        => $expedientes->caratula->extracto->descripcion,
+                                        //"area_actual"     => $expedientes->area->descripcion,
+                                        //"cantidad_cedulas"=> $expedientes->cedulas->count()
+                                     );
+                   
+                 return $array;
+                   // return response()->json($expedientes->toArray(), 200);
                 }
                 break;
             case "3"://Busca por nro_cheque o nro_transaccion
