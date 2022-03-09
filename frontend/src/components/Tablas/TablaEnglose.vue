@@ -197,7 +197,6 @@ export default {
 
     quitar(item) {
       this.seleccionados.splice(this.seleccionados.indexOf(item), 1);
-      console.log(item);
     },
   },
 };

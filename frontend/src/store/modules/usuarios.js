@@ -84,12 +84,6 @@ const actions = {
                 commit('set_error_logeo',error.response.data.mensaje)
                 commit('set_error_cuil', error.response.data.errors.cuil)
                 commit('set_error_contra', error.response.data.errors.password)
-                
-                /**
-                  * revisar errores
-                    No se cachea el mensaje de las request de CUIL vacio o contraseña vacia
-                **/
-
             })
     },
 
@@ -97,9 +91,6 @@ const actions = {
         commit('set_btn_login', true);
         axios.post(process.env.VUE_APP_API_URL+ '/api/salir')
             .then( commit('clearUserData'))
-            .catch(error => {
-                console.log(error.response.data)
-            })
     },
 
     verificarPass({commit}, newPass){
