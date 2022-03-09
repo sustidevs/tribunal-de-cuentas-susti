@@ -43,7 +43,7 @@
                   <v-icon class="pr-2 sizeIcon" large color="#FDBC3F">
                     mdi-account
                   </v-icon>
-                  <p class="pt-4 text-capitalize">CUIL Iniciador</p>
+                  <p class="pt-4 text-capitalize">CUIL/CUIT Iniciador</p>
                 </v-btn>
 
                 <v-btn
@@ -127,7 +127,7 @@
 
         <v-divider color="#393B44" class="mt-2"></v-divider>
 
-        <div v-if="this.get_resultado.length == 0">
+        <div v-if="this.get_resultado.length === 0">
           <div class="descripcion mt-4 py-2">
             No se han encontrado resultados
           </div>
@@ -242,9 +242,15 @@
                 <v-expansion-panel-content>
                   <div class="Montserrat-Bold mt-4">Iniciador:</div>
                   <div class="Montserrat-Regular">{{ item.iniciador }}</div>
+                  <div class="Montserrat-Regular">{{ item.apellido }}</div>
 
                   <div class="Montserrat-Bold mt-4">CUIT:</div>
                   <div class="Montserrat-Regular">{{ item.cuit }}</div>
+
+                  <div v-if="(item.cuil !== null)  && (item.cuil !== '-') " >
+                  <div class="Montserrat-Bold mt-4">CUIL:</div>                  
+                  <div class="Montserrat-Regular">{{ item.cuil }}</div>
+                  </div>              
 
                   <div class="Montserrat-Bold mt-4">Extracto:</div>
                   <div class="Montserrat-Regular">{{ item.extracto }}</div>
@@ -261,6 +267,13 @@
             </v-expansion-panels>
           </div>
         </div>
+
+        <!-- <div v-if="this.get_resultado.length > 0">
+          <div class="descripcion mt-4 py-2">
+            12312
+          </div>
+        </div> -->
+
       </v-card>
     </div>
   </v-dialog>
