@@ -1,15 +1,5 @@
 <template> 
     <div class="mb-16">
-
-<!-- {{iniciador}}
-    <div v-if="iniciador.length > 1" >
-        ola pepe ---
-    </div>
-
-    <div v-else>
-        AHORA SIIII
-    </div> -->
-
         <form @submit.prevent="guardarCambios()">
             <!-- VISTA NOTEBOOK-->
             <div v-if="$vuetify.breakpoint.lgAndUp">
@@ -81,14 +71,17 @@
                         <v-row no-gutters justify="start" class="pb-6">
                             <label-input class="pt-10" texto="Correo electrónico"/> 
                             <v-col cols="12">
+                                <label-error :texto="this.get_error_email"/>
                                 <text-field v-model="inic.email" icon="mdi-email"/>
                             </v-col> 
-                            <label-input texto="Teléfono"/> 
-                            <v-col cols="12"> 
-                                <text-field v-model="inic.telefono" icon="mdi-phone"/> 
+                            <label-input texto="Teléfono"/>
+                            <v-col cols="12">
+                                <label-error :texto="this.get_error_telefono"/>
+                                <text-field v-model="inic.telefono" icon="mdi-phone"/>
                             </v-col> 
                             <label-input texto="Dirección"/> 
-                            <v-col cols="12"> 
+                            <v-col cols="12">
+                                <label-error :texto="this.get_error_direccion"/>
                                 <text-field v-model="inic.direccion" icon="mdi-map-marker"/> 
                             </v-col> 
 
@@ -98,7 +91,7 @@
                                     <div> Guardar </div> 
                                 </v-btn>
                             </v-col>
-                            <modal-exito-editar-iniciador :show="get_show_modal_edit_iniciador" @close_modal="closeModalExitoEditarIniciador"/>
+                            <modal-exito-editar-iniciador :close="closeModalExitoEditarIniciador" :show="get_show_modal_edit_iniciador"/>
                         </v-row> 
                     </v-col>
                 </v-row>
