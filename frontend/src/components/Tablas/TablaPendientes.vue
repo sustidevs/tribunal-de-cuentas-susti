@@ -25,7 +25,7 @@
               v-model="area"
               :items="get_areas_filtros"
               outlined
-              label="AREA ORIGEN"
+              label="ÁREA ORIGEN"
               item-color="amber accent-4"
               hide-details
           ></v-autocomplete>
