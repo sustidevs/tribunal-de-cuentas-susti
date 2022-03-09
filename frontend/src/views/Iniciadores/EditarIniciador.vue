@@ -1,31 +1,45 @@
 <template> 
     <div class="mb-16">
-        <form @submit.prevent="guardarCambios() ">
+
+<!-- {{iniciador}}
+    <div v-if="iniciador.length > 1" >
+        ola pepe ---
+    </div>
+
+    <div v-else>
+        AHORA SIIII
+    </div> -->
+
+        <form @submit.prevent="guardarCambios()">
+            <!-- VISTA NOTEBOOK-->
             <div v-if="$vuetify.breakpoint.lgAndUp">
                 <v-row no-gutters justify="start" class="my-6">
                     <v-col cols="12" sm="12" lg="6" class="pb-6"> 
                         <h1 class="d-flex justify-start Montserrat-Bold pb-3 mt-6"> Editar Iniciador </h1> 
                         <v-divider color="#393B44" class="mt-2"></v-divider>
                         <v-row cols="6" no-gutters justify="start" class="pb-6">
-                            <label-input class="pt-10" texto="Correo electrónico"/> 
+                            <label-input class="pt-10" texto="Correo electrónico"/>
                             <v-col cols="12">
+                                <label-error :texto="this.get_error_email"/>
                                 <text-field v-model="inic.email" icon="mdi-email"/>
                             </v-col> 
-                            <label-input texto="Teléfono"/> 
-                            <v-col cols="12"> 
-                                <text-field v-model="inic.telefono" icon="mdi-phone"/> 
+                            <label-input texto="Teléfono"/>
+                            <v-col cols="12">
+                                <label-error :texto="this.get_error_telefono"/>
+                                <text-field v-model="inic.telefono" icon="mdi-phone"/>
                             </v-col> 
                             <label-input texto="Dirección"/> 
-                            <v-col cols="12"> 
+                            <v-col cols="12">
+                                <label-error :texto="this.get_error_direccion"/>
                                 <text-field v-model="inic.direccion" icon="mdi-map-marker"/> 
                             </v-col> 
 
                             <v-col cols="12"> 
-                                <v-btn type="submit" @click="abrirModalExitoEditarIniciador()" class="mt-8 pa-5 Montserrat-SemiBold" height="55" elevation="0" color="#FACD89" block> 
+                                <v-btn type="submit" class="mt-8 pa-5 Montserrat-SemiBold" height="55" elevation="0" color="#FACD89" block> 
                                     <v-icon class="pr-5"> mdi-content-save </v-icon> 
                                     <div> Guardar </div> 
                                 </v-btn> 
-                                <modal-exito-editar-iniciador :show="showModal" @close="closeModalExitoEditarIniciador"/>
+                                <modal-exito-editar-iniciador :close="closeModalExitoEditarIniciador" :show="get_show_modal_edit_iniciador"/>
                             </v-col> 
                         </v-row> 
                     </v-col>
@@ -44,6 +58,8 @@
                     </v-col>
                 </v-row> 
             </div>
+
+            <!-- VISTA DESKTOP Y MOBILE-->
             <div v-else>
                 <v-row no-gutters justify="start" class="my-6">
                     <v-col cols="12" class="pl-lg-6 pb-16"> 
@@ -77,12 +93,12 @@
                             </v-col> 
 
                             <v-col cols="12"> 
-                                <v-btn type="submit" @click="abrirModalExitoEditarIniciador()" class="mt-8 pa-5 Montserrat-SemiBold" height="55" elevation="0" color="#FACD89" block> 
+                                <v-btn type="submit" class="mt-8 pa-5 Montserrat-SemiBold" height="55" elevation="0" color="#FACD89" block> 
                                     <v-icon class="pr-5"> mdi-content-save </v-icon> 
                                     <div> Guardar </div> 
                                 </v-btn>
                             </v-col>
-                            <modal-exito-editar-iniciador :show="showModal" @close="closeModalExitoEditarIniciador"/>
+                            <modal-exito-editar-iniciador :show="get_show_modal_edit_iniciador" @close_modal="closeModalExitoEditarIniciador"/>
                         </v-row> 
                     </v-col>
                 </v-row>
@@ -95,11 +111,12 @@
 import LabelInput from "../../components/LabelInput";
 import {mapActions, mapGetters} from "vuex"; 
 import TextField from "../../components/TextField";
+import LabelError from "../../components/LabelError";
 import ModalExitoEditarIniciador from '../../components/dialogs/ModalExitoEditarIniciador.vue'
  
 export default { 
   name: 'EditarIniciador', 
-  components: {LabelInput, TextField, ModalExitoEditarIniciador}, 
+  components: {LabelInput, TextField, LabelError, ModalExitoEditarIniciador}, 
     data() { 
         return {
           iniciadorA: '',
@@ -113,10 +130,10 @@ export default {
         }
     },
 
-    computed: mapGetters(['iniciador', 'get_error_nombre']),
+    computed: mapGetters(['iniciador', 'get_show_modal_edit_iniciador', 'get_error_telefono', 'get_error_email', 'get_error_direccion',]),
  
     methods: { 
-        ...mapActions([ 'updateIniciador']),
+        ...mapActions([ 'updateIniciador', 'showModalEditIniciador']),
 
         guardarCambios (){
             if(this.inic.email == "-"){
@@ -139,13 +156,10 @@ export default {
             this.updateIniciador(iniciadorUpdate)
         },
 
-        abrirModalExitoEditarIniciador() {
-            this.showModal=!this.showModal
-        },
         closeModalExitoEditarIniciador() {
-            this.showModal = false;
-        }
-    } 
+            this.showModalEditIniciador(false)
+         },
+    },
 } 
 </script>
  

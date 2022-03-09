@@ -6,6 +6,8 @@ const state = {
     iniciador: [],
     listado: [],
 
+    //Modals
+    show_modal_edit_iniciador: false,
 
     //errores
     error_nombre: [],
@@ -23,6 +25,8 @@ const getters = {
     allTipoEntidad: state => state.tipoEntidad,
     get_tipoSelected: state => state.tipoSelected,
     get_listado: state => state.listado,
+
+    get_show_modal_edit_iniciador: state => state.show_modal_edit_iniciador,
 
     get_error_nombre: state => state.error_nombre,
     get_error_tipo_entidad: state => state.error_tipo_entidad,
@@ -78,8 +82,18 @@ const actions = {
         axios.post(process.env.VUE_APP_API_URL+ '/api/update-iniciador', inic)
             .then(response => {
                 commit('set_iniciador', response.data)
+                commit('set_show_modal_edit_iniciador', true)
+            })
+            .catch(error => {
+                 commit('set_error_email', error.response.data.errors.email)
+                 commit('set_error_telefono', error.response.data.errors.telefono)
+                 commit('set_error_direccion', error.response.data.errors.direccion)
             })
     },
+
+     showModalEditIniciador ({commit}, modal) {
+         commit('set_show_modal_edit_iniciador', modal)
+     }
 };
 
 const mutations = {
@@ -87,6 +101,7 @@ const mutations = {
     set_iniciador: (state, iniciador) => state.iniciador = iniciador,
     set_listado: (state, listado) => state.listado = listado,
     set_exito_iniciador: (state, exito_iniciador) => state.exito_iniciador = exito_iniciador,
+    set_show_modal_edit_iniciador: (state, show_modal_edit_iniciador) => state.show_modal_edit_iniciador = show_modal_edit_iniciador,
 
     set_error_nombre: (state, error_nombre) => state.error_nombre = error_nombre,
     set_error_tipo_entidad: (state, error_tipo_entidad) => state.error_tipo_entidad = error_tipo_entidad,
