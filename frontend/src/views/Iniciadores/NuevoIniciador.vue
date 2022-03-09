@@ -1,5 +1,5 @@
 <template>
-    <div class="mb-16">
+    <div class="mb-16 pb-8">
         <form @submit.prevent="storeIniciador(inicia)" >
             <titulo texto="Nuevo Iniciador" icono="mdi-account-plus" class="pb-8"/>
 

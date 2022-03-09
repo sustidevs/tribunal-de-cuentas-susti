@@ -10,7 +10,7 @@
         <div v-if="iniciador.direccion !== '-'" class="sizeTextSmall Montserrat-SemiBold pt-4">Dirección: <span class="sizeTextSmall Montserrat-Regular"> {{iniciador.direccion}} </span></div>
         <v-row no-gutters justify="center" class="mt-8">
             <v-col cols="12" sm="6" md="6" lg="6" class="py-6 px-sm-2">
-                <v-btn @click="close" href="/" class="pa-5 color Montserrat-SemiBold" height="55" elevation="0" color="#FACD89" block>
+                <v-btn @click="close" href="/iniciadores" class="pa-5 color Montserrat-SemiBold" height="55" elevation="0" color="#FACD89" block>
                     <v-icon class="px-5"> mdi-check-bold </v-icon>
                     Aceptar
                 </v-btn>
@@ -28,7 +28,7 @@ export default {
   name: 'ModalExitoEditarIniciador',
   components: {Titulo},
 
-  computed: mapGetters(["iniciador"]),
+  computed: mapGetters(['iniciador']),
 
   props: {
     show: Boolean,
@@ -36,7 +36,8 @@ export default {
 
   methods: {
     close() {
-      this.$emit("close")
+      this.$emit("close");
+      this.$router.go(0);
     },
   }
 }
