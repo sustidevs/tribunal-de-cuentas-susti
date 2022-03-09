@@ -24,6 +24,7 @@
             <div v-if="get_user.area === 'DIRECCIÓN DE REGISTRACIONES'" cols="12" lg="6" align="center" align-self="center">
               <DropdownMenu titulo="Bandejas" :data-item="bandejas"/>
               <DropdownMenu titulo="Expedientes" :data-item="expedienteNotificaciones"/>
+              <DropdownMenu titulo="Cédulas" :data-item="cedulas"/>
             </div>
 
             <div v-if="get_user.area === 'DIRECCIÓN DE INFORMATICA'" cols="12" lg="6" align="center" align-self="center">
@@ -32,7 +33,7 @@
               <DropdownMenu titulo="Iniciadores" :data-item="iniciadoresInformatica"/>
             </div>
 
-            <div v-if="(get_user.area === 'SECRETARIA GENERAL TECNICA') || (get_user.area === 'SECRETARIA GENERAL ADMINISTRATIVA') || (get_user.area === 'ASESORIA LEGAL') || (get_user.area === 'DIRECCIÓN DE PERSONAL') || (get_user.area === 'DPTO. DE ADMINISTRACIÓN') || (get_user.area === 'DEPARTAMENTO FALLOS') || (get_user.area === 'ARCHIVO') || (get_user.area === 'AUDITORIA A') || (get_user.area === 'AUDITORIA B') || (get_user.area === 'AUDITORIA C') || (get_user.area === 'AUDITORIA D') || (get_user.area === 'PRESIDENCIA') || (get_user.area === 'MAESTRANZA')" cols="12" lg="6" align="center" align-self="center">
+            <div v-if="(get_user.area === 'SECRETARIA GENERAL TECNICA') || (get_user.area === 'SECRETARIA GENERAL ADMINISTRATIVA') || (get_user.area === 'ASESORIA LEGAL') || (get_user.area === 'DIRECCIÓN DE PERSONAL') || (get_user.area === 'DIRECCIÓN DE ADMINISTRACIÓN') || (get_user.area === 'DEPARTAMENTO FALLOS') || (get_user.area === 'ARCHIVO') || (get_user.area === 'AUDITORIA A') || (get_user.area === 'AUDITORIA B') || (get_user.area === 'AUDITORIA C') || (get_user.area === 'AUDITORIA D') || (get_user.area === 'PRESIDENCIA') || (get_user.area === 'MAESTRANZA')" cols="12" lg="6" align="center" align-self="center">
               <DropdownMenu titulo="Bandejas" :data-item="bandejas"/>
               <DropdownMenu titulo="Expedientes" :data-item="expedientes"/>
             </div>
@@ -40,6 +41,7 @@
             <div v-if=" (get_user.area === 'DPTO. NOTIFICACIONES')" cols="12" lg="6" align="center" align-self="center">
               <DropdownMenu titulo="Bandejas" :data-item="bandejas"/>
               <DropdownMenu titulo="Expedientes" :data-item="expedienteNotificaciones"/>
+              <DropdownMenu titulo="Cédulas" :data-item="cedulas"/>
             </div>
           </v-col>
 
@@ -66,13 +68,14 @@ export default {
   components: {LogoNavbar,DropdownMenu,DropdownMenuPerfil},
 
   data: () => ({
-    bandejas:[ {titulo:'Pendientes', link:'/expedientes-pendientes'},{titulo: 'Expedientes', link:'/expedientes'},{titulo: 'Historial Enviados',link:'/historial-enviados'}],
+    bandejas:[ {titulo:'Pendientes', link:'/expedientes-pendientes'},{titulo: 'Expedientes', link:'/expedientes'},{titulo: 'Enviados',link:'/historial-enviados'}, {titulo: 'Mi Área', link:"/expedientes-area"}],
     expedientes:[ {titulo: 'Pase', link:'/mis-expedientes'}, {titulo: 'Recuperar', link:'/recuperar'}],
-    expedientesMesaEntrada:[ {titulo: 'Nuevo', link:'/nuevo-expediente'},{titulo: 'Pase', link:'/mis-expedientes'}, {titulo: 'Recuperar', link:'/recuperar'}, {titulo: 'Desglose', link:'/desglose'}, {titulo: 'Englose', link:'/englose'}],
+    expedientesMesaEntrada:[ {titulo: 'Nuevo', link:'/nuevo-expediente'},{titulo: 'Pase', link:'/mis-expedientes'}, {titulo: 'Recuperar', link:'/recuperar'}, {titulo: 'Englose', link:'/englose'}, {titulo: 'Desglose', link:'/desglose'}],
     expedientesRelatoriasyVocalias:[ {titulo: 'Pase', link:'/mis-expedientes'}, {titulo: 'Recuperar', link:'/recuperar'}],
     iniciadores:[  {titulo: 'Nuevo', link:'/nuevo-iniciador'} , {titulo: 'Ver todos', link:'/iniciadores'}],
     iniciadoresInformatica:[ {titulo: 'Ver todos', link:'/iniciadores'}],
-    expedienteNotificaciones:[{titulo: 'Añadir cédula', link:'/cedula'}, {titulo: 'Pase', link:'/mis-expedientes'}, {titulo: 'Recuperar', link:'/recuperar'}]
+    expedienteNotificaciones:[{titulo: 'Pase', link:'/mis-expedientes'}, {titulo: 'Recuperar', link:'/recuperar'}],
+    cedulas:[{titulo: 'Listado', link:'/cedula'}],
   }),
 
   computed: mapGetters(['get_user']),

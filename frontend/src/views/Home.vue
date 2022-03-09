@@ -74,7 +74,7 @@
         </v-col>
 
         <v-col cols="12" lg="6" xs="12" class="my-sm-6">
-          <cedula/>
+          <expedientes-section />
         </v-col>
       </v-row>
 
@@ -82,7 +82,7 @@
 
       <v-row no-gutters class="mx-xl-16">
         <v-col cols="12" lg="12" xs="12" class="my-sm-6">
-          <expedientes-section />
+          <cedula/>
         </v-col>
       </v-row>
     </div>
