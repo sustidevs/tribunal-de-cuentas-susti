@@ -31,13 +31,14 @@ use App\Http\Controllers\api\NotificacionController;
 Route::middleware('auth:sanctum')->group(function () {
 
     /******* USUARIO **************/
-    Route::get('/salir',[LoginController::class, 'logout'] );
-    Route::post('/validarPassword', [UserController::class, 'validar_password']);
-    Route::post('/actualizaPassword', [UserController::class, 'actualiza_password']);
-    Route::post('/userData', [UserController::class, 'getUserData']);
+    Route::get('/salir',                [LoginController::class, 'logout'] );
+    Route::post('/validarPassword',     [UserController::class, 'validar_password']);
+    Route::post('/actualizaPassword',   [UserController::class, 'actualiza_password']);
+    Route::post('/userData',            [UserController::class, 'getUserData']);
+    Route::get('/asignar-permisos',     [UserController::class, 'asignarPermisos']);
 
     /********** EXPEDIENTES **************/
-    Route::get('/createExp',    [ExpedienteController::class, 'create']);
+    Route::get('/createExp',    [ExpedienteController::class, 'create'])->middleware(['CREAR EXPEDIENTE']); 
     Route::post('/buscar-expediente',   [ExpedienteController::class, 'buscarExpediente']);
     Route::get('/indexExp',             [ExpedienteController::class, 'index']);//TODOS LOS EXPEDIETES DE TODAS LAS AREAS
     Route::post('/ListadoExp',       [ExpedienteController::class, 'bandeja']);//EXPEDIENTES DE LAS BANDEJAS
@@ -55,17 +56,17 @@ Route::middleware('auth:sanctum')->group(function () {
 
     /********** CEDULA ***********/
     Route::post('/contar-cedula',       [ExpedienteController::class, 'contar_cedulas']);
-    Route::post('/store-cedula',        [CedulaController::class, 'store'])->middleware(['auth:sanctum', 'abilities:agregar_cedulas']);
+    Route::post('/store-cedula',        [CedulaController::class, 'store']);//->middleware(['auth:sanctum', 'abilities:agregar_cedulas']);
 
     /**** DESGLOSE Y ENGLOSE *****/
-    Route::get('/indexExpPadres',       [ExpedienteController::class, 'indexExpPadres'])->middleware(['auth:sanctum', 'ability:acumular_desglosar']); 
-    Route::post('/createDesgloceExp',   [ExpedienteController::class, 'createDesgloce'])->middleware(['auth:sanctum', 'ability:acumular_desglosar']); 
-    Route::post('/desgloceExp',         [ExpedienteController::class, 'desgloce'])->middleware(['auth:sanctum', 'ability:acumular_desglosar']); 
-    Route::post('/unionExp',            [ExpedienteController::class, 'union'])->middleware(['auth:sanctum', 'ability:acumular_desglosar']);
+    Route::get('/indexExpPadres',       [ExpedienteController::class, 'indexExpPadres'])->middleware(['UNIR EXPEDIENTES']); 
+    Route::post('/createDesgloceExp',   [ExpedienteController::class, 'createDesgloce'])->middleware(['UNIR EXPEDIENTES']); 
+    Route::post('/desgloceExp',         [ExpedienteController::class, 'desgloce'])->middleware(['UNIR EXPEDIENTES']); 
+    Route::post('/unionExp',            [ExpedienteController::class, 'union'])->middleware(['UNIR EXPEDIENTES']); 
 
     /**** INICIADORES ****/
     Route::get('/createTipoEntidad', [IniciadorController::class, 'create']);
-    Route::post('/store-iniciador',   [IniciadorController::class, 'store']);
+    Route::post('/store-iniciador',   [IniciadorController::class, 'store'])->middleware(['can:AGREGAR INICIADOR']);
     Route::get('/index-iniciador',  [IniciadorController::class, 'index']);
     Route::post('/edit-iniciador',  [IniciadorController::class, 'edit']);
     Route::post('/update-iniciador',[IniciadorController::class, 'update']);
@@ -97,4 +98,6 @@ Route::get('/login',[LoginController::class, 'showLoginForm'] );
 Route::post('/login',[LoginController::class, 'authenticate_new'] ); // reemplazar por Route::post('/login',[LoginController::class, 'authenticate_new'] );
 
 Route::get('/all-expedientes',      [ExpedienteController::class, 'AllExpedientes']);
+
+
 
