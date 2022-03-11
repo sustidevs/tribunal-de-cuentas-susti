@@ -35,10 +35,11 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/validarPassword',     [UserController::class, 'validar_password']);
     Route::post('/actualizaPassword',   [UserController::class, 'actualiza_password']);
     Route::post('/userData',            [UserController::class, 'getUserData']);
+    
     Route::get('/asignar-permisos',     [UserController::class, 'asignarPermisos']);
 
     /********** EXPEDIENTES **************/
-    Route::get('/createExp',    [ExpedienteController::class, 'create'])->middleware(['CREAR EXPEDIENTE']); 
+    Route::get('/createExp',    [ExpedienteController::class, 'create'])->middleware(['can:CREAR EXPEDIENTE']); 
     Route::post('/buscar-expediente',   [ExpedienteController::class, 'buscarExpediente']);
     Route::get('/indexExp',             [ExpedienteController::class, 'index']);//TODOS LOS EXPEDIETES DE TODAS LAS AREAS
     Route::post('/ListadoExp',       [ExpedienteController::class, 'bandeja']);//EXPEDIENTES DE LAS BANDEJAS
@@ -56,13 +57,13 @@ Route::middleware('auth:sanctum')->group(function () {
 
     /********** CEDULA ***********/
     Route::post('/contar-cedula',       [ExpedienteController::class, 'contar_cedulas']);
-    Route::post('/store-cedula',        [CedulaController::class, 'store']);//->middleware(['auth:sanctum', 'abilities:agregar_cedulas']);
+    Route::post('/store-cedula',        [CedulaController::class, 'store'])->middleware(['can:AGREGAR CEDULA']);
 
     /**** DESGLOSE Y ENGLOSE *****/
-    Route::get('/indexExpPadres',       [ExpedienteController::class, 'indexExpPadres'])->middleware(['UNIR EXPEDIENTES']); 
-    Route::post('/createDesgloceExp',   [ExpedienteController::class, 'createDesgloce'])->middleware(['UNIR EXPEDIENTES']); 
-    Route::post('/desgloceExp',         [ExpedienteController::class, 'desgloce'])->middleware(['UNIR EXPEDIENTES']); 
-    Route::post('/unionExp',            [ExpedienteController::class, 'union'])->middleware(['UNIR EXPEDIENTES']); 
+    Route::get('/indexExpPadres',       [ExpedienteController::class, 'indexExpPadres'])->middleware(['can:UNIR EXPEDIENTES']); 
+    Route::post('/createDesgloceExp',   [ExpedienteController::class, 'createDesgloce'])->middleware(['can:UNIR EXPEDIENTES']); 
+    Route::post('/desgloceExp',         [ExpedienteController::class, 'desgloce'])->middleware(['can:UNIR EXPEDIENTES']); 
+    Route::post('/unionExp',            [ExpedienteController::class, 'union'])->middleware(['can:UNIR EXPEDIENTES']); 
 
     /**** INICIADORES ****/
     Route::get('/createTipoEntidad', [IniciadorController::class, 'create']);
@@ -85,17 +86,11 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/nroExp',              [ExpedienteController::class, 'createNroExpediente']);
     Route::post('/storeExp',            [ExpedienteController::class, 'store']);
     Route::post('/zip',               [ExpedienteController::class, 'descargarZip']);
-
-    //Rutas de prueba para mostrar implementacion de permisos -- se pueden borrar rutas y métodos en controladores
-    Route::get('/prueba',    [ExpedienteController::class, 'pruebaNormal'])->middleware(['auth:sanctum', 'abilities:normalito']);
-    Route::get('/prueba2',    [ExpedienteController::class, 'pruebaEnglose'])->middleware(['auth:sanctum', 'abilities:englose:desglose']);
-    //Rutas de prueba para mostrar implementacion de permisos -- se pueden borrar rutas y métodos en controladores
-
 });
 
 // Rutas que no se deben proteger
 Route::get('/login',[LoginController::class, 'showLoginForm'] );
-Route::post('/login',[LoginController::class, 'authenticate_new'] ); // reemplazar por Route::post('/login',[LoginController::class, 'authenticate_new'] );
+Route::post('/login',[LoginController::class, 'authenticate'] );
 
 Route::get('/all-expedientes',      [ExpedienteController::class, 'AllExpedientes']);
 
