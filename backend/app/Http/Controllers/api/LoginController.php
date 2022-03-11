@@ -68,17 +68,22 @@ class LoginController extends Controller
     {
         $user = ModelsUser::where("cuil", "=", "$request->cuil")->first();
         
-        $token = $user->createToken('token')->plainTextToken;
-        return response()->json([
-            "status" => true,
-            "mensaje" => "usuario logueado exitosamente",
-            "nombre_apellido" => $user->persona->nombre ." ". $user->persona->apellido,
-            "cuil" => $user->cuil,
-            "id" => $user->area->id,
-            "area" => $user->area->descripcion,
-            "cargo" => $user->tipouser->descripcion,
-            "access_token" => $token,
-            "token_type" => "login token"
-        ], 200);                
+        if(isset($user->id))
+        {
+            $user->tokens()->delete(); // comentar ésta línea si se requiere asignar más de un token al usuario
+
+            $token = $user->createToken('token')->plainTextToken;
+            return response()->json([
+                "status" => true,
+                "mensaje" => "usuario logueado exitosamente",
+                "nombre_apellido" => $user->persona->nombre ." ". $user->persona->apellido,
+                "cuil" => $user->cuil,
+                "id" => $user->area->id,
+                "area" => $user->area->descripcion,
+                "cargo" => $user->tipouser->descripcion,
+                "access_token" => $token,
+                "token_type" => "login token"
+            ], 200);
+        }               
     }
 }
