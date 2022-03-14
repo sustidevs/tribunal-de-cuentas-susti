@@ -19,7 +19,7 @@ export default {
       headers: [
         {text: 'Nro. de Expediente', value: 'nro_expediente'},
         {text: 'Extracto', value: 'extracto'},
-        {text: 'Seleccionar', value: 'action', sortable: false, align: 'center'},
+        {text: 'Seleccionar', value: 'action', align: 'center'},
       ],
     }
   },

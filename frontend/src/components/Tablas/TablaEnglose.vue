@@ -28,6 +28,51 @@
           no-data-text="No tienes expedientes"
         >
           <template v-slot:item.action="{ item }">
+            <div v-if="item.hijos">
+              <v-btn
+                @click="padre_asignar(item)"
+                fab
+                small
+                color="#FACD89"
+                depressed
+              >
+                <v-icon>mdi-arrow-right-thick</v-icon>
+              </v-btn>
+              <p>tiene hijos</p>
+            </div>
+            <div v-else>
+              <p>no pe</p>
+              <v-btn
+                @click="seleccionar(item)"
+                fab
+                small
+                color="#FACD89"
+                depressed
+              >
+                <v-icon>mdi-arrow-right-thick</v-icon>
+              </v-btn>
+            </div>
+          </template>
+
+          <v-dialog
+            v-model="dialog"
+            transition="dialog-top-transition"
+            max-width="600"
+          >
+            <v-card>
+              <v-toolbar color="#FACD89" dark>
+                <v-icon x-large>mdi-alert-circle</v-icon>
+                <v-row justify="center">
+                  <h2 class="white--text">¡Oops!</h2>
+                </v-row>
+              </v-toolbar>
+              <div class="text-h6 pa-10 font-weight-regular">
+                El expediente que seleccionaste ya se encuentra en uso!
+              </div>
+            </v-card>
+          </v-dialog>
+          <!-- prueba error englose 
+          <template v-slot:item.action="{ item }">
             <v-btn
               @click="seleccionar(item)"
               fab
@@ -37,7 +82,6 @@
             >
               <v-icon>mdi-arrow-right-thick</v-icon>
             </v-btn>
-
             <v-dialog
               v-model="dialog"
               transition="dialog-top-transition"
@@ -51,13 +95,34 @@
                   </v-row>
                 </v-toolbar>
                 <div class="text-h6 pa-10 font-weight-regular">
-                  El expediente que seleccionaste ya se encuentra en uso!
+                  Asi no selecciones perrito!
                 </div>
               </v-card>
             </v-dialog>
-          </template>
+          </template>-->
         </v-data-table>
       </v-col>
+
+      <v-dialog
+        v-model="exp_padre"
+        transition="dialog-top-transition"
+        max-width="600"
+      >
+        <v-card>
+          <v-toolbar color="#FACD89" dark>
+            <v-icon x-large>mdi-alert-circle</v-icon>
+            <v-row justify="center">
+              <h2 class="white--text">¡Oops!</h2>
+            </v-row>
+          </v-toolbar>
+          <div class="text-h6 pa-10 font-weight-regular">
+            <v-btn @click="padre()" class="justify-start">
+              <v-icon class="red--text">mdi-close</v-icon>
+              <div class="Montserrat-Regular text-start red--text">si</div>
+            </v-btn>
+          </div>
+        </v-card>
+      </v-dialog>
 
       <v-col cols="12" xs="12" sm="12" md="12" lg="6">
         <v-toolbar
@@ -75,7 +140,7 @@
             >
               Aún no ha seleccionado ningún expediente para englosar
             </div>
-
+            {{ seleccionados[1] }}
             <v-list-item v-for="item in seleccionados" :key="item.id">
               <v-list-item-icon>
                 <v-icon>mdi-file</v-icon>
@@ -90,12 +155,12 @@
                   v-text="item.extracto"
                 />
                 <v-row justify="start" class="my-1">
-                <v-btn @click="quitar(item)" class="justify-start">
-                  <v-icon class="red--text">mdi-close</v-icon>
-                  <div class="Montserrat-Regular text-start red--text">
-                    Quitar Selección
-                  </div>
-                </v-btn>
+                  <v-btn @click="quitar(item)" class="justify-start">
+                    <v-icon class="red--text">mdi-close</v-icon>
+                    <div class="Montserrat-Regular text-start red--text">
+                      Quitar Selección
+                    </div>
+                  </v-btn>
                 </v-row>
                 <v-divider class="my-2"></v-divider>
               </v-list-item-content>
@@ -150,17 +215,21 @@ export default {
       show: false,
       btn: false,
       dialog: false,
+      exp_padre: false,
+      confirmar: false,
+      padre_aux: [],
     };
   },
 
   computed: mapGetters(["get_consul_loading", "get_show_englose"]),
 
   watch: {
-      dialog (val) {
-        val && setTimeout(() => {
-          this.dialog = false
-        }, 1000)
-  },
+    dialog(val) {
+      val &&
+        setTimeout(() => {
+          this.dialog = false;
+        }, 1000);
+    },
   },
 
   methods: {
@@ -180,19 +249,39 @@ export default {
         exp_hijos: expediente_hijo,
       };
       this.englosar(expedientes_englose);
+      console.log();
 
       this.show = true;
+    },
+
+    padre_asignar(item) {
+      this.exp_padre = true;
+      this.padre_aux = item;
+    },
+
+    padre() {
+      this.seleccionados.splice(0, 0, this.padre_aux);
+      console.log(this.seleccionados);
     },
 
     seleccionar(item) {
       let bandera = this.seleccionados.filter(
         (e) => e.expediente_id === item.expediente_id
       );
+
       if (bandera.length === 0) {
-        this.seleccionados.push(item);
+          this.seleccionados.push(item);
       } else {
         this.dialog = true;
       }
+
+      //
+      /**for (var i = 1; i < this.seleccionados.length; i++) {
+        if (this.seleccionados[i].hijos == true) {
+          console.log(i)
+         // this.dialog = true;
+        }
+      }**/
     },
 
     quitar(item) {

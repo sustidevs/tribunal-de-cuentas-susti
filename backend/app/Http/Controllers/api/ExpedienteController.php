@@ -217,13 +217,14 @@ class ExpedienteController extends Controller
             }
             else
             {
-                $array = collect([]);
+                $array = collect();
                 foreach ($exp_hijos as $exp_hijo)
                 {
                     if($exp_hijo->hijos()->get()->count() > 0)
                     {
                         $array->push([
                             'nro_expediente'    => $exp_hijo->nro_expediente,
+                            'bandera'           => 1
                         ]);
                     }
                 }
@@ -512,6 +513,14 @@ class ExpedienteController extends Controller
         $bandeja = $request->bandeja;
         $user_id = Auth::user()->id;
         $listado_expedientes = Expediente::listadoExpedientes($user_id, $bandeja);
+        //ver optimizacion
+        if($bandeja == 3)
+        {
+            $listado_expedientes->map(function($e){ 
+                $e->hijos = Expediente::find($e->hijos)->hijos()->count() > 0;
+
+            });
+        }
         return response()->json($listado_expedientes,200);
     }
 
