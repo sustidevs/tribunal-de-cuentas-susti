@@ -264,6 +264,14 @@ class Expediente extends Model
         $areas_d = DB::table('areas')
                         ->select('id as area_id_destino', 'descripcion as area_descripcion_destino');
 
+        //devuelve los expedientes que son padres
+        $exp_padres = DB::table('expedientes')
+            ->join('expedientes as exp','exp.expediente_id','expedientes.id')
+            ->select('exp.expediente_id')
+            ->groupBy('exp.expediente_id');
+            //->get('exp.expediente_id');
+
+    
         //recupera el registro completo del historial del último movimiento del expediente
         $historial_ultimo_movimiento = DB::table('historiales')
                         ->select('expedientes.id as expediente_id',
@@ -289,7 +297,7 @@ class Expediente extends Model
                                  'historiales.hora as hora',
                                  'historiales.fecha as fecha',
                                  DB::raw("CONCAT(personas.nombre, ' ', personas.apellido) as nombre_apellido"),
-                                 'expedientes.id as hijos'
+                                 'padres.expediente_id as hijos'
                                  )
                         ->joinSub($id_ultimos_movimientos, 'ultimo_movimiento_expediente', function($join)
                         {
@@ -302,6 +310,10 @@ class Expediente extends Model
                         ->joinSub($areas_d, 'areasDeDestino', function($join)
                         {
                             $join->on('historiales.area_destino_id', "=", 'areasDeDestino.area_id_destino');
+                        })
+                        ->LeftJoinSub($exp_padres, 'padres', function($join)
+                        {
+                            $join->on('historiales.expediente_id', "=", 'padres.expediente_id');
                         })
                         ->join('expedientes', 'historiales.expediente_id', '=', 'expedientes.id')
                         ->join('prioridad_expedientes', 'expedientes.prioridad_id', '=', 'prioridad_expedientes.id')
