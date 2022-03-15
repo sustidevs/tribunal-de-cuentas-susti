@@ -513,14 +513,6 @@ class ExpedienteController extends Controller
         $bandeja = $request->bandeja;
         $user_id = Auth::user()->id;
         $listado_expedientes = Expediente::listadoExpedientes($user_id, $bandeja);
-        //ver optimizacion
-        if($bandeja == 3)
-        {
-            $listado_expedientes->map(function($e){ 
-                $e->hijos = Expediente::find($e->hijos)->hijos()->count() > 0;
-
-            });
-        }
         return response()->json($listado_expedientes,200);
     }
 
