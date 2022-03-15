@@ -267,6 +267,7 @@ class Expediente extends Model
         //recupera el registro completo del historial del último movimiento del expediente
         $historial_ultimo_movimiento = DB::table('historiales')
                         ->select('expedientes.id as expediente_id',
+                                'expedientes.expediente_id as expediente_padre',
                                  'prioridad_expedientes.descripcion as prioridad',
                                  'expedientes.nro_expediente as nro_expediente',
                                  'extractos.descripcion as extracto',
@@ -287,7 +288,9 @@ class Expediente extends Model
                                  'historiales.observacion as observacion_pase',
                                  'historiales.hora as hora',
                                  'historiales.fecha as fecha',
-                                 DB::raw("CONCAT(personas.nombre, ' ', personas.apellido) as nombre_apellido"))
+                                 DB::raw("CONCAT(personas.nombre, ' ', personas.apellido) as nombre_apellido"),
+                                 'expedientes.id as hijos'
+                                 )
                         ->joinSub($id_ultimos_movimientos, 'ultimo_movimiento_expediente', function($join)
                         {
                             $join->on('historiales.id', '=', 'ultimo_movimiento_expediente.id_movimiento');
@@ -318,7 +321,7 @@ class Expediente extends Model
                                                                 ->where('estado', 1)
                                                                 ->get();
                         }
-                        if ($bandeja == 3) {
+                        if ($bandeja == 3) {                            
                             return $historial_ultimo_movimiento ->where('area_destino_id', $user->area_id)
                                                                 ->where('user_id', $user->id)
                                                                 ->whereIn('estado', [5,3])
@@ -326,6 +329,7 @@ class Expediente extends Model
                                                                 ->orderBy('fecha', 'asc')
                                                                 ->orderBy('hora', 'asc')
                                                                 ->get();
+                            
                         }
                         if ($bandeja == 4) {
                             return $historial_ultimo_movimiento ->where('area_origen_id', $user->area_id)
