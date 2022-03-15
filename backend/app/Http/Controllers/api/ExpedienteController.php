@@ -676,5 +676,4 @@ class ExpedienteController extends Controller
         $areasAll = Area::all_areas();
         return response()->json([$motivoAll, $areasAll], 200);
     }
-
 }
