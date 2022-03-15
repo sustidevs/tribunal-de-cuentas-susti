@@ -28,60 +28,36 @@
           no-data-text="No tienes expedientes"
         >
           <template v-slot:item.action="{ item }">
-            <div v-if="item.hijos">
-              <v-btn
-                @click="padre_asignar(item)"
-                fab
-                small
-                color="#FACD89"
-                depressed
-              >
-                <v-icon>mdi-arrow-right-thick</v-icon>
-              </v-btn>
-              <p>tiene hijos</p>
-            </div>
-            <div v-else>
-              <p>no pe</p>
-              <v-btn
-                @click="seleccionar(item)"
-                fab
-                small
-                color="#FACD89"
-                depressed
-              >
-                <v-icon>mdi-arrow-right-thick</v-icon>
-              </v-btn>
-            </div>
-          </template>
+            <v-tooltip bottom>
+              <template v-slot:activator="{ on, attrs }">
+                <div v-if="item.hijos">
+                  <v-btn
+                    @click="padre_asignar(item)"
+                    fab
+                    small
+                    color="#FACD89"
+                    depressed
+                    v-bind="attrs"
+                    v-on="on"
+                  >
+                    <v-icon>mdi-arrow-right-thick</v-icon>
+                  </v-btn>
+                </div>
+                <div v-else>
+                  <v-btn
+                    @click="seleccionar(item)"
+                    fab
+                    small
+                    depressed
+                    color="#FACD89"
+                  >
+                    <v-icon>mdi-arrow-right-thick</v-icon>
+                  </v-btn>
+                </div>
+              </template>
+              <span>Posee exp acumulados</span>
+            </v-tooltip>
 
-          <v-dialog
-            v-model="dialog"
-            transition="dialog-top-transition"
-            max-width="600"
-          >
-            <v-card>
-              <v-toolbar color="#FACD89" dark>
-                <v-icon x-large>mdi-alert-circle</v-icon>
-                <v-row justify="center">
-                  <h2 class="white--text">¡Oops!</h2>
-                </v-row>
-              </v-toolbar>
-              <div class="text-h6 pa-10 font-weight-regular">
-                El expediente que seleccionaste ya se encuentra en uso!
-              </div>
-            </v-card>
-          </v-dialog>
-          <!-- prueba error englose 
-          <template v-slot:item.action="{ item }">
-            <v-btn
-              @click="seleccionar(item)"
-              fab
-              small
-              color="#FACD89"
-              depressed
-            >
-              <v-icon>mdi-arrow-right-thick</v-icon>
-            </v-btn>
             <v-dialog
               v-model="dialog"
               transition="dialog-top-transition"
@@ -95,16 +71,34 @@
                   </v-row>
                 </v-toolbar>
                 <div class="text-h6 pa-10 font-weight-regular">
-                  Asi no selecciones perrito!
+                  El expediente ya se encuentra seleccionado!
                 </div>
               </v-card>
             </v-dialog>
-          </template>-->
+
+            <v-dialog
+              v-model="dialog_ya_hay_padre"
+              transition="dialog-top-transition"
+              max-width="600"
+            >
+              <v-card>
+                <v-toolbar color="#FACD89" dark>
+                  <v-icon x-large>mdi-alert-circle</v-icon>
+                  <v-row justify="center">
+                    <h2 class="white--text">¡Oops!</h2>
+                  </v-row>
+                </v-toolbar>
+                <div class="text-h6 pa-10 font-weight-regular">
+                  No es posible acumular dos expedientes principales.
+                </div>
+              </v-card>
+            </v-dialog>
+          </template>
         </v-data-table>
       </v-col>
 
       <v-dialog
-        v-model="exp_padre"
+        v-model="dialog_posicion_padre"
         transition="dialog-top-transition"
         max-width="600"
       >
@@ -116,10 +110,39 @@
             </v-row>
           </v-toolbar>
           <div class="text-h6 pa-10 font-weight-regular">
-            <v-btn @click="padre()" class="justify-start">
-              <v-icon class="red--text">mdi-close</v-icon>
-              <div class="Montserrat-Regular text-start red--text">si</div>
-            </v-btn>
+            El expediente {{ padre_aux.nro_expediente }} ya tiene acumulado
+            otros expedientes. ¿Desea ubicarlo en la primera posición?
+
+            <v-row no-gutters justify="center" class="mt-6">
+              <v-col cols="12" sm="6" md="6" lg="6" class="py-6 px-sm-2">
+                <v-btn
+                  @click="padre()"
+                  class="pa-5 color Montserrat-SemiBold"
+                  height="55"
+                  elevation="0"
+                  color="#FACD89"
+                  block
+                >
+                  <v-icon class="mr-2">mdi-check-bold</v-icon>
+                  Confirmar
+                </v-btn>
+              </v-col>
+
+              <v-col cols="12" sm="6" md="6" lg="6" class="py-6 px-sm-2">
+                <v-btn
+                  outlined
+                  @click="close()"
+                  class="pa-5 Montserrat-SemiBold"
+                  height="55"
+                  elevation="0"
+                  color="#FACD89"
+                  block
+                >
+                  <v-icon class="mr-2"> mdi-close-thick</v-icon>
+                  Cancelar
+                </v-btn>
+              </v-col>
+            </v-row>
           </div>
         </v-card>
       </v-dialog>
@@ -140,9 +163,12 @@
             >
               Aún no ha seleccionado ningún expediente para englosar
             </div>
-            {{ seleccionados[1] }}
+
             <v-list-item v-for="item in seleccionados" :key="item.id">
-              <v-list-item-icon>
+              <v-list-item-icon v-if="seleccionados[0] === item">
+                <v-icon color="#FACD89">mdi-file</v-icon>
+              </v-list-item-icon>
+              <v-list-item-icon v-else>
                 <v-icon>mdi-file</v-icon>
               </v-list-item-icon>
               <v-list-item-content>
@@ -215,9 +241,11 @@ export default {
       show: false,
       btn: false,
       dialog: false,
+      dialog_posicion_padre: false,
       exp_padre: false,
       confirmar: false,
       padre_aux: [],
+      dialog_ya_hay_padre: false,
     };
   },
 
@@ -228,7 +256,13 @@ export default {
       val &&
         setTimeout(() => {
           this.dialog = false;
-        }, 1000);
+        }, 2000);
+    },
+    dialog_ya_hay_padre(valu) {
+      valu &&
+        setTimeout(() => {
+          this.dialog_ya_hay_padre = false;
+        }, 2000);
     },
   },
 
@@ -249,43 +283,44 @@ export default {
         exp_hijos: expediente_hijo,
       };
       this.englosar(expedientes_englose);
-      console.log();
-
       this.show = true;
     },
 
     padre_asignar(item) {
-      this.exp_padre = true;
-      this.padre_aux = item;
+      let bandera2 = this.seleccionados.filter((e) => e.hijos === item.hijos);
+
+      if (bandera2.length === 0) {
+        this.dialog_posicion_padre = true;
+        this.padre_aux = item;
+      } else {
+        this.dialog_ya_hay_padre = true;
+      }
     },
 
     padre() {
       this.seleccionados.splice(0, 0, this.padre_aux);
-      console.log(this.seleccionados);
+      this.dialog_posicion_padre = false;
     },
 
     seleccionar(item) {
       let bandera = this.seleccionados.filter(
         (e) => e.expediente_id === item.expediente_id
       );
+      console.log(bandera);
 
       if (bandera.length === 0) {
-          this.seleccionados.push(item);
+        this.seleccionados.push(item);
       } else {
         this.dialog = true;
       }
-
-      //
-      /**for (var i = 1; i < this.seleccionados.length; i++) {
-        if (this.seleccionados[i].hijos == true) {
-          console.log(i)
-         // this.dialog = true;
-        }
-      }**/
     },
 
     quitar(item) {
       this.seleccionados.splice(this.seleccionados.indexOf(item), 1);
+    },
+
+    close() {
+      this.dialog_posicion_padre = false;
     },
   },
 };
