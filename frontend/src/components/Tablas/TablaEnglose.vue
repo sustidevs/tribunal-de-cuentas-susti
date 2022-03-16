@@ -30,7 +30,7 @@
           <template v-slot:item.action="{ item }">
             <v-tooltip bottom>
               <template v-slot:activator="{ on, attrs }">
-                <div v-if="item.hijos">
+                <div v-if="item.hijos != null">
                   <v-btn
                     @click="padre_asignar(item)"
                     fab
@@ -163,7 +163,6 @@
             >
               Aún no ha seleccionado ningún expediente para englosar
             </div>
-
             <v-list-item v-for="item in seleccionados" :key="item.id">
               <v-list-item-icon v-if="seleccionados[0] === item">
                 <v-icon color="#FACD89">mdi-file</v-icon>
@@ -278,7 +277,6 @@ export default {
 
       let expedientes_englose = {
         fojas_aux: this.seleccionados[0].fojas,
-        user_id: this.$store.getters.getIdUser,
         exp_padre: this.seleccionados[0].expediente_id,
         exp_hijos: expediente_hijo,
       };
@@ -287,7 +285,7 @@ export default {
     },
 
     padre_asignar(item) {
-      let bandera2 = this.seleccionados.filter((e) => e.hijos === item.hijos);
+      let bandera2 = this.seleccionados.filter((e) => e.hijos != null);
 
       if (bandera2.length === 0) {
         this.dialog_posicion_padre = true;
@@ -306,8 +304,6 @@ export default {
       let bandera = this.seleccionados.filter(
         (e) => e.expediente_id === item.expediente_id
       );
-      console.log(bandera);
-
       if (bandera.length === 0) {
         this.seleccionados.push(item);
       } else {
